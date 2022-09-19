@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3820315928D8B2F4008FAD35 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315828D8B2F4008FAD35 /* MenuViewController.swift */; };
+		3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315A28D8B319008FAD35 /* MenuCustomCell.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
 		385C566C28D4A98C004AC34A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566B28D4A98C004AC34A /* SceneDelegate.swift */; };
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3820315828D8B2F4008FAD35 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		3820315A28D8B319008FAD35 /* MenuCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCustomCell.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385C566928D4A98C004AC34A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		385C566B28D4A98C004AC34A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,10 +63,12 @@
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
 				385C566B28D4A98C004AC34A /* SceneDelegate.swift */,
 				385C566D28D4A98C004AC34A /* SplashViewController.swift */,
+				3820315828D8B2F4008FAD35 /* MenuViewController.swift */,
 				385C566F28D4A98C004AC34A /* Main.storyboard */,
 				385C567228D4A991004AC34A /* Assets.xcassets */,
 				385C567428D4A991004AC34A /* LaunchScreen.storyboard */,
 				385C567728D4A991004AC34A /* Info.plist */,
+				3820315A28D8B319008FAD35 /* MenuCustomCell.swift */,
 			);
 			path = trainingtask;
 			sourceTree = "<group>";
@@ -141,6 +147,8 @@
 				385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */,
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
 				385C566C28D4A98C004AC34A /* SceneDelegate.swift in Sources */,
+				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
+				3820315928D8B2F4008FAD35 /* MenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
