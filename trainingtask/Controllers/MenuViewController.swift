@@ -74,8 +74,9 @@ extension MenuViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
-//        case 2:
-            //transition to new VC
+        case 2:
+            let secondVC = EmployeesViewController()
+            navigationController?.pushViewController(secondVC, animated: true)
         default:
             return
         }
