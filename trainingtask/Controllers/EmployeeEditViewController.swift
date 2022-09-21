@@ -8,6 +8,7 @@
 import UIKit
 
 class EmployeeEditViewController: UIViewController {
+    
     //MARK: - Private property
     
     private let surnameTextField = MyTextField()
@@ -63,5 +64,21 @@ class EmployeeEditViewController: UIViewController {
         nameTextField.placeholder = "Имя"
         patronymicTextField.placeholder = "Отчество"
         positionTextField.placeholder = "Должность"
+        
+        saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployee(_:)))
+        navigationItem.rightBarButtonItem = saveButton
+        
+        cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
+        navigationItem.leftBarButtonItem = cancelButton
+    }
+    
+    //MARK: - Targets
+    
+    @objc func saveEmployee(_ sender: UIBarButtonItem) {
+        
+    }
+    
+    @objc func cancel(_ sender: UIBarButtonItem) {
+        navigationController?.popViewController(animated: true)
     }
 }
