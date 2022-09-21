@@ -58,7 +58,8 @@ class EmployeesViewController: UIViewController {
     //MARK: - Targets
     
     @objc func addNewEmployee(_ sender: UIBarButtonItem) {
-        // transition to new VC
+        let vc = EmployeeEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
