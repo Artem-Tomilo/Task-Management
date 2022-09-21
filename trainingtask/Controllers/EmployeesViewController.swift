@@ -21,6 +21,10 @@ class EmployeesViewController: UIViewController {
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
     
+    static let path = try! FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
+    static let jsonPath = path.appendingPathComponent("employees.json")
+    private let decoder = JSONDecoder()
+    
     //MARK: - VC lifecycle
     
     override func viewDidLoad() {
@@ -33,6 +37,8 @@ class EmployeesViewController: UIViewController {
         self.title = "Сотрудники"
         view.backgroundColor = .white
         navigationController?.navigationBar.backgroundColor = .white
+        employeeArray = getEmployee()
+        tableView.reloadData()
     }
     
     //MARK: - Setup function
@@ -53,6 +59,18 @@ class EmployeesViewController: UIViewController {
         
         addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewEmployee(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
+    }
+    
+    func getEmployee() -> [Employee] {
+        var results = [Employee]()
+        if let data = try? Data(contentsOf: EmployeesViewController.jsonPath) {
+            do {
+                results = try decoder.decode([Employee].self, from: data)
+            } catch {
+                print("Error decoding item array: \(error.localizedDescription)")
+            }
+        }
+        return results
     }
     
     //MARK: - Targets

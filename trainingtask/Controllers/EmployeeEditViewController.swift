@@ -19,6 +19,8 @@ class EmployeeEditViewController: UIViewController {
     private var saveButton = UIBarButtonItem()
     private var cancelButton = UIBarButtonItem()
     
+    private var array = [Employee]()
+    
     //MARK: - VC lifecycle
     
     override func viewDidLoad() {
@@ -72,10 +74,37 @@ class EmployeeEditViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelButton
     }
     
+    func addNewEmployee(newEmployee: Employee) {
+        array.append(newEmployee)
+        saveEmployeetoFile(array: array)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func saveEmployeetoFile(array: [Employee]) {
+        let path = try! FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
+        let jsonPath = path.appendingPathComponent("employees.json")
+        
+        let encoder = JSONEncoder()
+        do {
+            let data = try encoder.encode(array)
+            try data.write(to: jsonPath, options: Data.WritingOptions.atomic)
+        } catch {
+            print("Error encoding item array: \(error.localizedDescription)")
+        }
+    }
+    
     //MARK: - Targets
     
     @objc func saveEmployee(_ sender: UIBarButtonItem) {
-        
+        if let surname = surnameTextField.text,
+           let name = nameTextField.text,
+           let patronymic = patronymicTextField.text,
+           let position = positionTextField.text {
+            
+            let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
+            addNewEmployee(newEmployee: employee)
+            
+        }
     }
     
     @objc func cancel(_ sender: UIBarButtonItem) {
