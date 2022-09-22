@@ -20,7 +20,7 @@ class EmployeesListViewController: UIViewController {
     private let refreshControl = UIRefreshControl()
     private static let newCellIdentifier = "NewCell"
     private var repository = EmployeeRepository()
-    private var employeeArray: [Employee] = []
+    fileprivate var employeeArray: [Employee] = []
     
     //MARK: - VC lifecycle
     
@@ -135,6 +135,51 @@ extension EmployeesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         35
+    }
+    
+    //MARK: - Delete employee
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { _, _, close in
+            let alert = UIAlertController(title: "Хотите удалить этого строку?", message: "", preferredStyle: .actionSheet)
+            let action = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+                self.employeeArray.remove(at: indexPath.row)
+                tableView.performBatchUpdates {
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
+                } completion: { _ in
+                    self.repository.saveEmployee(to: self.employeeArray)
+                    tableView.reloadData()
+                }
+            }
+            let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
+                self.dismiss(animated: true)
+            }
+            alert.addAction(action)
+            alert.addAction(secondAction)
+            self.present(alert, animated: true)
+        })
+        
+        //MARK: - Edit employee
+        
+        let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [self] _, _, close in
+            let alert = UIAlertController(title: "Хотите изменить строку?", message: "", preferredStyle: .actionSheet)
+            let action = UIAlertAction(title: "Изменить", style: .default) { _ in
+                let vc = EmployeeEditViewController()
+                self.navigationController?.pushViewController(vc, animated: true)
+                vc.delegate = self
+                vc.employeeToEdit = self.employeeArray[indexPath.row]
+            }
+            let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
+                self.dismiss(animated: true)
+            }
+            alert.addAction(action)
+            alert.addAction(secondAction)
+            self.present(alert, animated: true)
+        })
+        return UISwipeActionsConfiguration(actions: [
+            deleteCell,
+            editCell
+        ])
     }
 }
 
