@@ -33,7 +33,6 @@ class EmployeesCustomCell: UITableViewCell {
     }
     
     private func setup() {
-        
         background.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(background)
@@ -67,11 +66,11 @@ class EmployeesCustomCell: UITableViewCell {
             positionLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25),
         ])
         
-        background.backgroundColor = .systemGray4
+        background.backgroundColor = .systemGray2
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
-        background.backgroundColor = selected ? .green : .white
+        background.backgroundColor = selected ? .systemGreen : .white
     }
     
     var surnameText: String = "" {

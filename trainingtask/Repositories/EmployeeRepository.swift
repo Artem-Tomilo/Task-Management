@@ -15,7 +15,7 @@ class EmployeeRepository {
     private let encoder = JSONEncoder()
     private let decoder = JSONDecoder()
     
-    func saveEmployee(array: [Employee]) {
+    func saveEmployee(to array: [Employee]) {
         do {
             let data = try encoder.encode(array)
             try data.write(to: EmployeeRepository.jsonPath, options: Data.WritingOptions.atomic)
@@ -24,7 +24,7 @@ class EmployeeRepository {
         }
     }
     
-    func getEmployee() -> [Employee] {
+    func loadEmployees() -> [Employee] {
         var results = [Employee]()
         if let data = try? Data(contentsOf: EmployeeRepository.jsonPath) {
             do {

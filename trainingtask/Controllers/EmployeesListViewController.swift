@@ -32,10 +32,12 @@ class EmployeesListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = false
         self.title = "Сотрудники"
-        navigationController?.navigationBar.backgroundColor = .white
-        view.backgroundColor = .white
+        navigationController?.navigationBar.backgroundColor = .systemGray6
+        view.backgroundColor = .systemGray6
         
-        employeeArray = repository.getEmployee()
+        loadData {
+            self.tableView.reloadData()
+        }
     }
     
     //MARK: - Setup function
@@ -47,7 +49,7 @@ class EmployeesListViewController: UIViewController {
         tableView.register(EmployeesCustomCell.self, forCellReuseIdentifier: EmployeesListViewController.newCellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .systemGray6
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -57,6 +59,16 @@ class EmployeesListViewController: UIViewController {
         
         addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewEmployee(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
+        
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
+    }
+    
+    //MARK: - Load data
+    
+    private func loadData(_ completion: @escaping () -> Void) {
+        self.employeeArray = self.repository.loadEmployees()
+        completion()
     }
     
     //MARK: - ConfigureText
@@ -76,6 +88,13 @@ class EmployeesListViewController: UIViewController {
         let vc = EmployeeEditViewController()
         navigationController?.pushViewController(vc, animated: true)
         vc.delegate = self
+    }
+    
+    @objc func refresh(_ sender: UIRefreshControl) {
+        loadData {
+            sender.endRefreshing()
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -117,27 +136,6 @@ extension EmployeesListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         35
     }
-    
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [self] _, _, close in
-            let alert = UIAlertController(title: "Хотите изменить строку?", message: "", preferredStyle: .actionSheet)
-            let action = UIAlertAction(title: "Изменить", style: .default) { _ in
-                let vc = EmployeeEditViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
-                vc.delegate = self
-                vc.employeeToEdit = self.employeeArray[indexPath.row]
-            }
-            let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
-                self.dismiss(animated: true)
-            }
-            alert.addAction(action)
-            alert.addAction(secondAction)
-            self.present(alert, animated: true)
-        })
-        return UISwipeActionsConfiguration(actions: [
-            editCell
-        ])
-    }
 }
 
 //MARK: - EmployeeDataViewControllerDelegate
@@ -150,7 +148,7 @@ extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
     
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
         employeeArray.append(newEmployee)
-        repository.saveEmployee(array: self.employeeArray)
+        repository.saveEmployee(to: self.employeeArray)
         navigationController?.popViewController(animated: true)
     }
     
@@ -164,6 +162,6 @@ extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
             }
         }
         navigationController?.popViewController(animated: true)
-        repository.saveEmployee(array: self.employeeArray)
+        repository.saveEmployee(to: self.employeeArray)
     }
 }

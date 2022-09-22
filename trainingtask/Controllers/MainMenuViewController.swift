@@ -29,6 +29,7 @@ class MainMenuViewController: UIViewController {
         navigationController?.isNavigationBarHidden = true
         navigationController?.navigationBar.backgroundColor = .systemGray6
         view.backgroundColor = .systemGray4
+        tableView.backgroundColor = .systemGray6
     }
     
     //MARK: - Setup function
