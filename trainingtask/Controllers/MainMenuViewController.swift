@@ -1,5 +1,5 @@
 //
-//  MenuViewController.swift
+//  MainMenuViewController.swift
 //  trainingtask
 //
 //  Created by Артем Томило on 19.09.22.
@@ -7,16 +7,15 @@
 
 import UIKit
 
-class MenuViewController: UIViewController {
+class MainMenuViewController: UIViewController {
     
     //MARK: - Private property
     
-    private enum MenuList: String, CaseIterable {
+    private enum MainMenuList: String, CaseIterable {
         case Проекты, Задачи, Сотрудники, Настройки
     }
     
     private var tableView = UITableView()
-    
     private static let cellIdentifier = "Cell"
     
     //MARK: - VC lifecycle
@@ -28,8 +27,8 @@ class MenuViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
-        navigationController?.navigationBar.backgroundColor = .white
-        view.backgroundColor = .white
+        navigationController?.navigationBar.backgroundColor = .systemGray6
+        view.backgroundColor = .systemGray4
     }
     
     //MARK: - Setup function
@@ -37,13 +36,13 @@ class MenuViewController: UIViewController {
     private func setup() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(MenuCustomCell.self, forCellReuseIdentifier: MenuViewController.cellIdentifier)
+        tableView.register(MenuCustomCell.self, forCellReuseIdentifier: MainMenuViewController.cellIdentifier)
         
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 50),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 50),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
@@ -52,35 +51,37 @@ class MenuViewController: UIViewController {
 
 //MARK: - Extension TableView
 
-extension MenuViewController: UITableViewDelegate {
+extension MainMenuViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MenuList.allCases.count
+        MainMenuList.allCases.count
     }
 }
 
-extension MenuViewController: UITableViewDataSource {
+extension MainMenuViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MenuViewController.cellIdentifier, for: indexPath) as? MenuCustomCell else { return UITableViewCell() }
-        
-        cell.text = MenuList.allCases[indexPath.row].rawValue
-        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainMenuViewController.cellIdentifier, for: indexPath) as? MenuCustomCell else { return UITableViewCell() }
+        cell.text = MainMenuList.allCases[indexPath.row].rawValue
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 2:
-            let secondVC = EmployeesViewController()
+            let secondVC = EmployeesListViewController()
             navigationController?.pushViewController(secondVC, animated: true)
         default:
             return
         }
         
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.frame.size.height / CGFloat(MainMenuList.allCases.count)
     }
 }

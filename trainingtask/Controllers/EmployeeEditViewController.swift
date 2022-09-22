@@ -7,6 +7,12 @@
 
 import UIKit
 
+protocol EmployeeEditViewControllerDelegate: AnyObject {
+    func addEmployeeDidCancel(_ controller: EmployeeEditViewController)
+    func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee)
+    func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee)
+}
+
 class EmployeeEditViewController: UIViewController {
     
     //MARK: - Private property
@@ -19,7 +25,9 @@ class EmployeeEditViewController: UIViewController {
     private var saveButton = UIBarButtonItem()
     private var cancelButton = UIBarButtonItem()
     
-    private var array = [Employee]()
+    weak var delegate: EmployeeEditViewControllerDelegate?
+    
+    var employeeToEdit: Employee?
     
     //MARK: - VC lifecycle
     
@@ -33,7 +41,15 @@ class EmployeeEditViewController: UIViewController {
         navigationController?.navigationBar.backgroundColor = .systemGray6
         view.backgroundColor = .systemGray6
         
-        title = "Добавление сотрудника"
+        if let employeeToEdit = employeeToEdit {
+            title = "Редактирование сотрудника"
+            surnameTextField.text = employeeToEdit.surname
+            nameTextField.text = employeeToEdit.name
+            patronymicTextField.text = employeeToEdit.patronymic
+            positionTextField.text = employeeToEdit.position
+        } else {
+            title = "Добавление сотрудника"
+        }
     }
     
     //MARK: - Setup function
@@ -74,25 +90,6 @@ class EmployeeEditViewController: UIViewController {
         navigationItem.leftBarButtonItem = cancelButton
     }
     
-    func addNewEmployee(newEmployee: Employee) {
-        array.append(newEmployee)
-        saveEmployeetoFile(array: array)
-        navigationController?.popViewController(animated: true)
-    }
-    
-    func saveEmployeetoFile(array: [Employee]) {
-        let path = try! FileManager.default.url(for: .documentDirectory, in: .allDomainsMask, appropriateFor: nil, create: true)
-        let jsonPath = path.appendingPathComponent("employees.json")
-        
-        let encoder = JSONEncoder()
-        do {
-            let data = try encoder.encode(array)
-            try data.write(to: jsonPath, options: Data.WritingOptions.atomic)
-        } catch {
-            print("Error encoding item array: \(error.localizedDescription)")
-        }
-    }
-    
     //MARK: - Targets
     
     @objc func saveEmployee(_ sender: UIBarButtonItem) {
@@ -100,14 +97,20 @@ class EmployeeEditViewController: UIViewController {
            let name = nameTextField.text,
            let patronymic = patronymicTextField.text,
            let position = positionTextField.text {
-            
-            let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
-            addNewEmployee(newEmployee: employee)
-            
+            if var employee = employeeToEdit {
+                employee.surname = surname
+                employee.name = name
+                employee.patronymic = patronymic
+                employee.position = position
+                delegate?.editEmployee(self, newData: employee, previousData: employeeToEdit!)
+            } else {
+                let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
+                delegate?.addNewEmployee(self, newEmployee: employee)
+            }
         }
     }
     
     @objc func cancel(_ sender: UIBarButtonItem) {
-        navigationController?.popViewController(animated: true)
+        delegate?.addEmployeeDidCancel(self)
     }
 }

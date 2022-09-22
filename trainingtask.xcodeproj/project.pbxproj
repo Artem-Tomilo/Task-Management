@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3820315928D8B2F4008FAD35 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315828D8B2F4008FAD35 /* MenuViewController.swift */; };
+		3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315828D8B2F4008FAD35 /* MainMenuViewController.swift */; };
 		3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315A28D8B319008FAD35 /* MenuCustomCell.swift */; };
-		3820315D28D9EF74008FAD35 /* EmployeesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315C28D9EF74008FAD35 /* EmployeesViewController.swift */; };
+		3820315D28D9EF74008FAD35 /* EmployeesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */; };
 		3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315E28D9EF9F008FAD35 /* Employee.swift */; };
 		3820316128D9EFDF008FAD35 /* EmployeesCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316028D9EFDF008FAD35 /* EmployeesCustomCell.swift */; };
 		3820316328D9EFF7008FAD35 /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316228D9EFF7008FAD35 /* MyLabel.swift */; };
 		3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */; };
 		3820316E28DB4AF1008FAD35 /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316D28DB4AF1008FAD35 /* MyTextField.swift */; };
+		3820317028DB535E008FAD35 /* EmployeeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316F28DB535E008FAD35 /* EmployeeRepository.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
 		385C566C28D4A98C004AC34A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566B28D4A98C004AC34A /* SceneDelegate.swift */; };
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
@@ -24,14 +25,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3820315828D8B2F4008FAD35 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		3820315828D8B2F4008FAD35 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		3820315A28D8B319008FAD35 /* MenuCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCustomCell.swift; sourceTree = "<group>"; };
-		3820315C28D9EF74008FAD35 /* EmployeesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesViewController.swift; sourceTree = "<group>"; };
+		3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesListViewController.swift; sourceTree = "<group>"; };
 		3820315E28D9EF9F008FAD35 /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		3820316028D9EFDF008FAD35 /* EmployeesCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesCustomCell.swift; sourceTree = "<group>"; };
 		3820316228D9EFF7008FAD35 /* MyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewController.swift; sourceTree = "<group>"; };
 		3820316D28DB4AF1008FAD35 /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
+		3820316F28DB535E008FAD35 /* EmployeeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeRepository.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385C566928D4A98C004AC34A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		385C566B28D4A98C004AC34A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -57,8 +59,8 @@
 			isa = PBXGroup;
 			children = (
 				385C566D28D4A98C004AC34A /* SplashViewController.swift */,
-				3820315828D8B2F4008FAD35 /* MenuViewController.swift */,
-				3820315C28D9EF74008FAD35 /* EmployeesViewController.swift */,
+				3820315828D8B2F4008FAD35 /* MainMenuViewController.swift */,
+				3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */,
 				3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */,
 			);
 			path = Controllers;
@@ -83,6 +85,14 @@
 			path = "Custom Views";
 			sourceTree = "<group>";
 		};
+		3820317128DB5378008FAD35 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				3820316F28DB535E008FAD35 /* EmployeeRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 		385C565D28D4A98C004AC34A = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +115,7 @@
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
 				385C566B28D4A98C004AC34A /* SceneDelegate.swift */,
 				3820316528D9F0E1008FAD35 /* Model */,
+				3820317128DB5378008FAD35 /* Repositories */,
 				3820316428D9F0CE008FAD35 /* Controllers */,
 				3820316628D9F0EF008FAD35 /* Custom Views */,
 				385C566F28D4A98C004AC34A /* Main.storyboard */,
@@ -191,12 +202,13 @@
 				3820316328D9EFF7008FAD35 /* MyLabel.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeesCustomCell.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* MyTextField.swift in Sources */,
-				3820315D28D9EF74008FAD35 /* EmployeesViewController.swift in Sources */,
+				3820315D28D9EF74008FAD35 /* EmployeesListViewController.swift in Sources */,
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
+				3820317028DB535E008FAD35 /* EmployeeRepository.swift in Sources */,
 				385C566C28D4A98C004AC34A /* SceneDelegate.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
-				3820315928D8B2F4008FAD35 /* MenuViewController.swift in Sources */,
+				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

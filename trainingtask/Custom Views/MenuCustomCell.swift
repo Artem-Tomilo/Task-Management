@@ -34,6 +34,7 @@ class MenuCustomCell: UITableViewCell {
             label.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -20.0),
             label.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
         ])
+        backgroundColor = .systemGray6
     }
     
     var text: String = "" {

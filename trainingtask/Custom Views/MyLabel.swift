@@ -18,6 +18,7 @@ class MyLabel: UILabel {
         layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
         layer.borderWidth = 0.3
         font = UIFont.systemFont(ofSize: 14)
+        backgroundColor = .systemGray6
     }
     
     required init?(coder aDecoder: NSCoder) {
