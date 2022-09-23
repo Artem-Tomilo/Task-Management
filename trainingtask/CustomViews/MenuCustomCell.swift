@@ -8,6 +8,7 @@
 import UIKit
 
 class MenuCustomCell: UITableViewCell {
+    
     private let label = UILabel(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -34,7 +35,15 @@ class MenuCustomCell: UITableViewCell {
             label.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -20.0),
             label.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
         ])
-        backgroundColor = .systemGray6
+        backgroundColor = .white
+    }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        backgroundColor = highlighted ? .systemGreen : .white
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        backgroundColor = selected ? .systemRed : .white
     }
     
     var text: String = "" {

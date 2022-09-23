@@ -21,7 +21,7 @@ class EmployeeEditViewController: UIViewController {
     private let nameTextField = MyTextField()
     private let patronymicTextField = MyTextField()
     private let positionTextField = MyTextField()
-    
+    private var viewForIndicator = SpinnerView()
     private var saveButton = UIBarButtonItem()
     private var cancelButton = UIBarButtonItem()
     
@@ -36,25 +36,13 @@ class EmployeeEditViewController: UIViewController {
         setup()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.backgroundColor = .systemGray6
-        view.backgroundColor = .systemGray6
-        
-        if let employeeToEdit = employeeToEdit {
-            title = "Редактирование сотрудника"
-            surnameTextField.text = employeeToEdit.surname
-            nameTextField.text = employeeToEdit.name
-            patronymicTextField.text = employeeToEdit.patronymic
-            positionTextField.text = employeeToEdit.position
-        } else {
-            title = "Добавление сотрудника"
-        }
-    }
-    
     //MARK: - Setup function
     
     private func setup() {
+        navigationController?.isNavigationBarHidden = false
+        navigationController?.navigationBar.backgroundColor = .cyan
+        view.backgroundColor = .cyan
+        
         view.addSubview(surnameTextField)
         view.addSubview(nameTextField)
         view.addSubview(patronymicTextField)
@@ -83,11 +71,37 @@ class EmployeeEditViewController: UIViewController {
         patronymicTextField.placeholder = "Отчество"
         positionTextField.placeholder = "Должность"
         
+        if let employeeToEdit = employeeToEdit {
+            title = "Редактирование сотрудника"
+            surnameTextField.text = employeeToEdit.surname
+            nameTextField.text = employeeToEdit.name
+            patronymicTextField.text = employeeToEdit.patronymic
+            positionTextField.text = employeeToEdit.position
+        } else {
+            title = "Добавление сотрудника"
+        }
+        
         saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployee(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
         navigationItem.leftBarButtonItem = cancelButton
+    }
+    
+    func showSpinner(_ completion: @escaping () -> Void) {
+        viewForIndicator = SpinnerView(frame: self.view.bounds)
+        view.addSubview(viewForIndicator)
+        navigationController?.navigationBar.alpha = 0.3
+        
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
+            self.removeSpinner()
+            self.navigationController?.navigationBar.alpha = 1.0
+            completion()
+        }
+    }
+    
+    func removeSpinner() {
+        viewForIndicator.removeFromSuperview()
     }
     
     //MARK: - Targets
@@ -102,10 +116,14 @@ class EmployeeEditViewController: UIViewController {
                 employee.name = name
                 employee.patronymic = patronymic
                 employee.position = position
-                delegate?.editEmployee(self, newData: employee, previousData: employeeToEdit!)
+                showSpinner() {
+                    self.delegate?.editEmployee(self, newData: employee, previousData: self.employeeToEdit!)
+                }
             } else {
                 let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
-                delegate?.addNewEmployee(self, newEmployee: employee)
+                showSpinner() {
+                    self.delegate?.addNewEmployee(self, newEmployee: employee)
+                }
             }
         }
     }

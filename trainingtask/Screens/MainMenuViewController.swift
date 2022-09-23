@@ -27,9 +27,8 @@ class MainMenuViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
-        navigationController?.navigationBar.backgroundColor = .systemGray6
-        view.backgroundColor = .systemGray4
-        tableView.backgroundColor = .systemGray6
+        view.backgroundColor = .cyan
+        tableView.backgroundColor = .cyan
     }
     
     //MARK: - Setup function
@@ -73,12 +72,12 @@ extension MainMenuViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.row {
         case 2:
-            let secondVC = EmployeesListViewController()
-            navigationController?.pushViewController(secondVC, animated: true)
+            let builder = ModelBuilder()
+            let newVC = builder.createModule()
+            navigationController?.pushViewController(newVC, animated: true)
         default:
             return
         }
-        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

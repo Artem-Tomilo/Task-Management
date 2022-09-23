@@ -40,10 +40,14 @@ class SplashViewController: UIViewController {
             versionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
         ])
         
-        nameLabel.attributedText = NSAttributedString(string: "TrainingTask", attributes: [.font: UIFont.systemFont(ofSize: 25)])
+        let name = Bundle.main.infoDictionary?[kCFBundleNameKey as String] as? String
+        let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
+        guard let name = name,
+              let version = version else { return }
+        nameLabel.attributedText = NSAttributedString(string: name.capitalized, attributes: [.font: UIFont.systemFont(ofSize: 25)])
         nameLabel.textAlignment = .center
         
-        versionLabel.attributedText = NSAttributedString(string: "Version 1.0", attributes: [.font: UIFont.systemFont(ofSize: 20)])
+        versionLabel.attributedText = NSAttributedString(string: "Version: \(version)", attributes: [.font: UIFont.systemFont(ofSize: 20)])
         versionLabel.textAlignment = .center
     }
 }

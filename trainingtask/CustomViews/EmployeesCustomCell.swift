@@ -65,8 +65,7 @@ class EmployeesCustomCell: UITableViewCell {
             positionLabel.bottomAnchor.constraint(equalTo: background.bottomAnchor),
             positionLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25),
         ])
-        
-        background.backgroundColor = .systemGray2
+        background.backgroundColor = .lightGray
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

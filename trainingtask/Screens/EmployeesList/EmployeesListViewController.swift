@@ -19,23 +19,22 @@ class EmployeesListViewController: UIViewController {
     private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
     private static let newCellIdentifier = "NewCell"
-    private var repository = EmployeeRepository()
-    fileprivate var employeeArray: [Employee] = []
+    private var employeeArray: [Employee] = []
+    private var viewForIndicator = SpinnerView()
+    
+    var presenter: EmployeePresenterInputs?
     
     //MARK: - VC lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        showSpinner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        navigationController?.isNavigationBarHidden = false
-        self.title = "Сотрудники"
-        navigationController?.navigationBar.backgroundColor = .systemGray6
-        view.backgroundColor = .systemGray6
-        
         loadData {
+            self.navigationController?.navigationBar.backgroundColor = .cyan
             self.tableView.reloadData()
         }
     }
@@ -49,13 +48,19 @@ class EmployeesListViewController: UIViewController {
         tableView.register(EmployeesCustomCell.self, forCellReuseIdentifier: EmployeesListViewController.newCellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .systemGray6
+        tableView.backgroundColor = .cyan
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
+        
+        navigationController?.isNavigationBarHidden = false
+        self.title = "Сотрудники"
+        navigationController?.navigationBar.backgroundColor = .cyan
+        navigationController?.navigationBar.tintColor = .black
+        view.backgroundColor = .cyan
         
         addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewEmployee(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
@@ -67,8 +72,23 @@ class EmployeesListViewController: UIViewController {
     //MARK: - Load data
     
     private func loadData(_ completion: @escaping () -> Void) {
-        self.employeeArray = self.repository.loadEmployees()
+        self.employeeArray = self.presenter?.loadEmployees() ?? []
         completion()
+    }
+    
+    func showSpinner() {
+        viewForIndicator = SpinnerView(frame: self.view.bounds)
+        view.addSubview(viewForIndicator)
+        self.navigationController?.navigationBar.alpha = 0.3
+        
+        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
+            self.removeSpinner()
+            self.navigationController?.navigationBar.alpha = 1.0
+        }
+    }
+    
+    func removeSpinner() {
+        viewForIndicator.removeFromSuperview()
     }
     
     //MARK: - ConfigureText
@@ -147,8 +167,9 @@ extension EmployeesListViewController: UITableViewDataSource {
                 tableView.performBatchUpdates {
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                 } completion: { _ in
-                    self.repository.saveEmployee(to: self.employeeArray)
-                    tableView.reloadData()
+                    self.presenter?.saveEmployee(to: self.employeeArray)
+                    self.tableView.reloadData()
+                    self.showSpinner()
                 }
             }
             let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
@@ -183,7 +204,7 @@ extension EmployeesListViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - EmployeeDataViewControllerDelegate
+//MARK: - EmployeesListViewController
 
 extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
     
@@ -193,7 +214,7 @@ extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
     
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
         employeeArray.append(newEmployee)
-        repository.saveEmployee(to: self.employeeArray)
+        presenter?.saveEmployee(to: employeeArray)
         navigationController?.popViewController(animated: true)
     }
     
@@ -207,6 +228,6 @@ extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
             }
         }
         navigationController?.popViewController(animated: true)
-        repository.saveEmployee(to: self.employeeArray)
+        presenter?.saveEmployee(to: employeeArray)
     }
 }

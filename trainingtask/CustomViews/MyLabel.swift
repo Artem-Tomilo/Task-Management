@@ -8,14 +8,12 @@
 import UIKit
 
 class MyLabel: UILabel {
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         translatesAutoresizingMaskIntoConstraints = false
         textAlignment = .center
         textColor = .black
-        layer.borderColor = CGColor(red: 0, green: 0, blue: 0, alpha: 1)
+        layer.borderColor = UIColor.black.cgColor
         layer.borderWidth = 0.3
         font = UIFont.systemFont(ofSize: 14)
         numberOfLines = 0
