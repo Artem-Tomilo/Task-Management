@@ -19,10 +19,9 @@ class EmployeesListViewController: UIViewController {
     private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
     private static let newCellIdentifier = "NewCell"
+    var presenter: EmployeePresenterInputs!
     private var employeeArray: [Employee] = []
     private var viewForIndicator = SpinnerView()
-    
-    var presenter: EmployeePresenterInputs?
     
     //MARK: - VC lifecycle
     
@@ -34,7 +33,6 @@ class EmployeesListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         loadData {
-            self.navigationController?.navigationBar.backgroundColor = .cyan
             self.tableView.reloadData()
         }
     }
@@ -48,7 +46,7 @@ class EmployeesListViewController: UIViewController {
         tableView.register(EmployeesCustomCell.self, forCellReuseIdentifier: EmployeesListViewController.newCellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .cyan
+        tableView.backgroundColor = .white
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -58,9 +56,9 @@ class EmployeesListViewController: UIViewController {
         
         navigationController?.isNavigationBarHidden = false
         self.title = "Сотрудники"
-        navigationController?.navigationBar.backgroundColor = .cyan
+        navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .black
-        view.backgroundColor = .cyan
+        view.backgroundColor = .white
         
         addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewEmployee(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
@@ -204,7 +202,7 @@ extension EmployeesListViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - EmployeesListViewController
+//MARK: - EmployeeEditViewControllerDelegate
 
 extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
     

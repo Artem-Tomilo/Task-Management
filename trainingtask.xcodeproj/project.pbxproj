@@ -103,8 +103,8 @@
 		385A04A328DDC35400FD008F /* EmployeesList */ = {
 			isa = PBXGroup;
 			children = (
-				3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */,
 				385A04A428DDC3AC00FD008F /* EmployeePresenter.swift */,
+				3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */,
 			);
 			path = EmployeesList;
 			sourceTree = "<group>";

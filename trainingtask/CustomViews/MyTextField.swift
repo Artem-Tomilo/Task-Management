@@ -15,6 +15,8 @@ class MyTextField: UITextField {
         layer.borderWidth = 1
         layer.borderColor = UIColor.lightGray.cgColor
         borderStyle = .roundedRect
+        returnKeyType = .done
+        enablesReturnKeyAutomatically = true
     }
     
     required init?(coder aDecoder: NSCoder) {

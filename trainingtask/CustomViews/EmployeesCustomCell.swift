@@ -65,11 +65,24 @@ class EmployeesCustomCell: UITableViewCell {
             positionLabel.bottomAnchor.constraint(equalTo: background.bottomAnchor),
             positionLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.25),
         ])
-        background.backgroundColor = .lightGray
+        
+        background.backgroundColor = .systemRed
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
-        background.backgroundColor = selected ? .systemGreen : .white
+        if selected {
+            background.backgroundColor =  .gray
+            surnameLabel.textColor = .white
+            nameLabel.textColor = .white
+            patronymicLabel.textColor = .white
+            positionLabel.textColor = .white
+        } else {
+            background.backgroundColor =  .white
+            surnameLabel.textColor = .black
+            nameLabel.textColor = .black
+            patronymicLabel.textColor = .black
+            positionLabel.textColor = .black
+        }
     }
     
     var surnameText: String = "" {

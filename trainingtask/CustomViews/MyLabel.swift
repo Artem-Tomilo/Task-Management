@@ -15,8 +15,8 @@ class MyLabel: UILabel {
         textColor = .black
         layer.borderColor = UIColor.black.cgColor
         layer.borderWidth = 0.3
-        font = UIFont.systemFont(ofSize: 14)
         numberOfLines = 0
+        font = UIFont.boldSystemFont(ofSize: 14)
     }
     
     required init?(coder aDecoder: NSCoder) {

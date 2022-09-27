@@ -27,8 +27,9 @@ class MainMenuViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
-        view.backgroundColor = .cyan
-        tableView.backgroundColor = .cyan
+        navigationController?.navigationBar.backgroundColor = .white
+        view.backgroundColor = .white
+        tableView.backgroundColor = .systemRed
     }
     
     //MARK: - Setup function
@@ -78,6 +79,7 @@ extension MainMenuViewController: UITableViewDataSource {
         default:
             return
         }
+        
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

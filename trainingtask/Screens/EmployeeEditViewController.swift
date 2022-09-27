@@ -21,7 +21,9 @@ class EmployeeEditViewController: UIViewController {
     private let nameTextField = MyTextField()
     private let patronymicTextField = MyTextField()
     private let positionTextField = MyTextField()
+    
     private var viewForIndicator = SpinnerView()
+    
     private var saveButton = UIBarButtonItem()
     private var cancelButton = UIBarButtonItem()
     
@@ -36,17 +38,24 @@ class EmployeeEditViewController: UIViewController {
         setup()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        surnameTextField.becomeFirstResponder()
+    }
+    
     //MARK: - Setup function
     
     private func setup() {
-        navigationController?.isNavigationBarHidden = false
-        navigationController?.navigationBar.backgroundColor = .cyan
-        view.backgroundColor = .cyan
+        view.backgroundColor = .systemRed
         
         view.addSubview(surnameTextField)
         view.addSubview(nameTextField)
         view.addSubview(patronymicTextField)
         view.addSubview(positionTextField)
+        
+        surnameTextField.delegate = self
+        nameTextField.delegate = self
+        patronymicTextField.delegate = self
+        positionTextField.delegate = self
         
         NSLayoutConstraint.activate([
             surnameTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -86,6 +95,9 @@ class EmployeeEditViewController: UIViewController {
         
         cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
         navigationItem.leftBarButtonItem = cancelButton
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureTapped(_:)))
+        view.addGestureRecognizer(gesture)
     }
     
     func showSpinner(_ completion: @escaping () -> Void) {
@@ -130,5 +142,28 @@ class EmployeeEditViewController: UIViewController {
     
     @objc func cancel(_ sender: UIBarButtonItem) {
         delegate?.addEmployeeDidCancel(self)
+    }
+    
+    @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
+        guard sender.state == .ended else { return }
+        view.endEditing(false)
+    }
+}
+
+extension EmployeeEditViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case surnameTextField:
+            nameTextField.becomeFirstResponder()
+        case nameTextField:
+            patronymicTextField.becomeFirstResponder()
+        case patronymicTextField:
+            positionTextField.becomeFirstResponder()
+        case positionTextField:
+            positionTextField.resignFirstResponder()
+        default:
+            break
+        }
+        return true
     }
 }
