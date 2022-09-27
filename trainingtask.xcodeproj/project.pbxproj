@@ -19,8 +19,6 @@
 		385A04A528DDC3AD00FD008F /* EmployeePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A428DDC3AC00FD008F /* EmployeePresenter.swift */; };
 		385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A628DDC54400FD008F /* SpinnerView.swift */; };
 		385A04A928DDC5CF00FD008F /* ModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A828DDC5CF00FD008F /* ModelBuilder.swift */; };
-		385A04AD28DDE4DC00FD008F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385A04AC28DDE4DC00FD008F /* Main.storyboard */; };
-		385A04AF28DDE4E800FD008F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04AE28DDE4E800FD008F /* SceneDelegate.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
 		385C567328D4A991004AC34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 385C567228D4A991004AC34A /* Assets.xcassets */; };
@@ -42,8 +40,6 @@
 		385A04A428DDC3AC00FD008F /* EmployeePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePresenter.swift; sourceTree = "<group>"; };
 		385A04A628DDC54400FD008F /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		385A04A828DDC5CF00FD008F /* ModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBuilder.swift; sourceTree = "<group>"; };
-		385A04AC28DDE4DC00FD008F /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		385A04AE28DDE4E800FD008F /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385C566928D4A98C004AC34A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		385C566D28D4A98C004AC34A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
@@ -135,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
-				385A04AE28DDE4E800FD008F /* SceneDelegate.swift */,
 				3820316528D9F0E1008FAD35 /* Model */,
 				3820317128DB5378008FAD35 /* Repositories */,
 				3820316428D9F0CE008FAD35 /* Screens */,
@@ -143,7 +138,6 @@
 				385A04A828DDC5CF00FD008F /* ModelBuilder.swift */,
 				385C567228D4A991004AC34A /* Assets.xcassets */,
 				385C567428D4A991004AC34A /* LaunchScreen.storyboard */,
-				385A04AC28DDE4DC00FD008F /* Main.storyboard */,
 				385C567728D4A991004AC34A /* Info.plist */,
 			);
 			path = trainingtask;
@@ -207,7 +201,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				385A04AD28DDE4DC00FD008F /* Main.storyboard in Resources */,
 				385C567628D4A991004AC34A /* LaunchScreen.storyboard in Resources */,
 				385C567328D4A991004AC34A /* Assets.xcassets in Resources */,
 			);
@@ -225,7 +218,6 @@
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
 				3820316328D9EFF7008FAD35 /* MyLabel.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeesCustomCell.swift in Sources */,
-				385A04AF28DDE4E800FD008F /* SceneDelegate.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* MyTextField.swift in Sources */,
 				387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */,
 				385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */,
@@ -378,7 +370,6 @@
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = trainingtask/Info.plist;
-				INFOPLIST_KEY_NSMainNibFile = Main;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -406,7 +397,6 @@
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = trainingtask/Info.plist;
-				INFOPLIST_KEY_NSMainNibFile = Main;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
