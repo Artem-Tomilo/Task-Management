@@ -12,7 +12,20 @@ class MainMenuViewController: UIViewController {
     //MARK: - Private property
     
     private enum MainMenuList: String, CaseIterable {
-        case Проекты, Задачи, Сотрудники, Настройки
+        case Projects, Tasks, Employees, Settings
+        
+        var title: String {
+            switch self {
+            case .Projects:
+                return "Проекты"
+            case .Tasks:
+                return "Задачи"
+            case .Employees:
+                return "Сотрудники"
+            case .Settings:
+                return "Настройки"
+            }
+        }
     }
     
     private var tableView = UITableView()
@@ -66,7 +79,7 @@ extension MainMenuViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainMenuViewController.cellIdentifier, for: indexPath) as? MenuCustomCell else { return UITableViewCell() }
-        cell.text = MainMenuList.allCases[indexPath.row].rawValue
+        cell.text = MainMenuList.allCases[indexPath.row].title
         return cell
     }
     

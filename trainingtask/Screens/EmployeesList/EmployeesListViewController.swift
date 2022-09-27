@@ -12,7 +12,20 @@ class EmployeesListViewController: UIViewController {
     //MARK: - Private property
     
     private enum EmployeeMenu: String, CaseIterable {
-        case Фамилия, Имя, Отчество, Должность
+        case Surname, Name, Patronymic, Position
+        
+        var title: String {
+            switch self {
+            case .Surname:
+                return "Фамилия"
+            case .Name:
+                return "Имя"
+            case .Patronymic:
+                return "Отчество"
+            case .Position:
+                return "Должность"
+            }
+        }
     }
     
     private var tableView = UITableView()
@@ -140,10 +153,10 @@ extension EmployeesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = EmployeesCustomCell()
-        cell.surnameText = EmployeeMenu.Фамилия.rawValue
-        cell.nameText = EmployeeMenu.Имя.rawValue
-        cell.patronymicText = EmployeeMenu.Отчество.rawValue
-        cell.positionText = EmployeeMenu.Должность.rawValue
+        cell.surnameText = EmployeeMenu.Surname.title
+        cell.nameText = EmployeeMenu.Name.title
+        cell.patronymicText = EmployeeMenu.Patronymic.title
+        cell.positionText = EmployeeMenu.Position.title
         return cell
     }
     
