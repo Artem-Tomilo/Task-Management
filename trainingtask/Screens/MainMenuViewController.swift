@@ -76,6 +76,9 @@ extension MainMenuViewController: UITableViewDataSource {
             let builder = ModelBuilder()
             let newVC = builder.createModule()
             navigationController?.pushViewController(newVC, animated: true)
+        case 3:
+            let setting = SettingsViewController()
+            navigationController?.pushViewController(setting, animated: true)
         default:
             return
         }
