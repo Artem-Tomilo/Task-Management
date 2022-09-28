@@ -11,30 +11,14 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     
     //MARK: - Private property
     
-    private enum EmployeeMenu: String, CaseIterable {
-        case Surname, Name, Patronymic, Position
-        
-        var title: String {
-            switch self {
-            case .Surname:
-                return "Фамилия"
-            case .Name:
-                return "Имя"
-            case .Patronymic:
-                return "Отчество"
-            case .Position:
-                return "Должность"
-            }
-        }
-    }
-    
     private var tableView = UITableView()
     private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
     private static let newCellIdentifier = "NewCell"
-    var presenter: EmployeePresenterInputs!
     private var employeeArray: [Employee] = []
     private var viewForIndicator = SpinnerView()
+    
+    var presenter: EmployeePresenterInputs!
     
     //MARK: - VC lifecycle
     
