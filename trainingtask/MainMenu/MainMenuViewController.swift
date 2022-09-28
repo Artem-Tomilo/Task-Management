@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainMenuViewController: UIViewController {
+class MainMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     //MARK: - Private property
     
@@ -61,20 +61,15 @@ class MainMenuViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-}
-
-//MARK: - Extension TableView
-
-extension MainMenuViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MainMenuList.allCases.count
-    }
-}
-
-extension MainMenuViewController: UITableViewDataSource {
+    
+    //MARK: - TableView
     
     func numberOfSections(in tableView: UITableView) -> Int {
         1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        MainMenuList.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

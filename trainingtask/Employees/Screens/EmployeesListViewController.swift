@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EmployeesListViewController: UIViewController {
+class EmployeesListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
     
     //MARK: - Private property
     
@@ -113,32 +113,11 @@ class EmployeesListViewController: UIViewController {
         }
     }
     
-    //MARK: - Targets
+    //MARK: - TableView
     
-    @objc func addNewEmployee(_ sender: UIBarButtonItem) {
-        let vc = EmployeeEditViewController()
-        navigationController?.pushViewController(vc, animated: true)
-        vc.delegate = self
-    }
-    
-    @objc func refresh(_ sender: UIRefreshControl) {
-        loadData {
-            sender.endRefreshing()
-            self.tableView.reloadData()
-        }
-    }
-}
-
-//MARK: - Extension TableView
-
-extension EmployeesListViewController: UITableViewDelegate {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    private func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
     }
-}
-
-extension EmployeesListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return employeeArray.count
@@ -213,11 +192,8 @@ extension EmployeesListViewController: UITableViewDataSource {
             editCell
         ])
     }
-}
-
-//MARK: - EmployeeEditViewControllerDelegate
-
-extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
+    
+    //MARK: - EmployeeEditViewControllerDelegate functions
     
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController) {
         navigationController?.popViewController(animated: true)
@@ -240,5 +216,20 @@ extension EmployeesListViewController: EmployeeEditViewControllerDelegate {
         }
         navigationController?.popViewController(animated: true)
         presenter?.saveEmployee(to: employeeArray)
+    }
+    
+    //MARK: - Targets
+    
+    @objc func addNewEmployee(_ sender: UIBarButtonItem) {
+        let vc = EmployeeEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
+        vc.delegate = self
+    }
+    
+    @objc func refresh(_ sender: UIRefreshControl) {
+        loadData {
+            sender.endRefreshing()
+            self.tableView.reloadData()
+        }
     }
 }

@@ -13,7 +13,7 @@ protocol EmployeeEditViewControllerDelegate: AnyObject {
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee)
 }
 
-class EmployeeEditViewController: UIViewController {
+class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     //MARK: - Private property
     
@@ -148,9 +148,9 @@ class EmployeeEditViewController: UIViewController {
         guard sender.state == .ended else { return }
         view.endEditing(false)
     }
-}
-
-extension EmployeeEditViewController: UITextFieldDelegate {
+    
+    //MARK: - TextFieldDelegate
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case surnameTextField:
