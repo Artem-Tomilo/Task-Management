@@ -25,12 +25,13 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        showSpinner()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        showSpinner()
         loadData {
             self.tableView.reloadData()
+            self.removeSpinner()
         }
     }
     
@@ -74,16 +75,12 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     func showSpinner() {
         viewForIndicator = SpinnerView(frame: self.view.bounds)
         view.addSubview(viewForIndicator)
-        self.navigationController?.navigationBar.alpha = 0.3
-        
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
-            self.removeSpinner()
-            self.navigationController?.navigationBar.alpha = 1.0
-        }
+        navigationController?.navigationBar.alpha = 0.3
     }
     
     func removeSpinner() {
         viewForIndicator.removeFromSuperview()
+        navigationController?.navigationBar.alpha = 1.0
     }
     
     //MARK: - ConfigureText
@@ -139,11 +136,12 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
             let action = UIAlertAction(title: "Удалить", style: .destructive) { _ in
                 self.employeeArray.remove(at: indexPath.row)
                 tableView.performBatchUpdates {
+                    self.showSpinner()
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                 } completion: { _ in
                     self.presenter?.saveEmployee(to: self.employeeArray)
                     self.tableView.reloadData()
-                    self.showSpinner()
+                    self.removeSpinner()
                 }
             }
             let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
@@ -177,6 +175,21 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         ])
     }
     
+    //MARK: - Targets
+    
+    @objc func addNewEmployee(_ sender: UIBarButtonItem) {
+        let vc = EmployeeEditViewController()
+        navigationController?.pushViewController(vc, animated: true)
+        vc.delegate = self
+    }
+    
+    @objc func refresh(_ sender: UIRefreshControl) {
+        loadData {
+            sender.endRefreshing()
+            self.tableView.reloadData()
+        }
+    }
+    
     //MARK: - EmployeeEditViewControllerDelegate functions
     
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController) {
@@ -200,20 +213,5 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         }
         navigationController?.popViewController(animated: true)
         presenter?.saveEmployee(to: employeeArray)
-    }
-    
-    //MARK: - Targets
-    
-    @objc func addNewEmployee(_ sender: UIBarButtonItem) {
-        let vc = EmployeeEditViewController()
-        navigationController?.pushViewController(vc, animated: true)
-        vc.delegate = self
-    }
-    
-    @objc func refresh(_ sender: UIRefreshControl) {
-        loadData {
-            sender.endRefreshing()
-            self.tableView.reloadData()
-        }
     }
 }

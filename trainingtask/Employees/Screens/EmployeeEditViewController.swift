@@ -104,16 +104,12 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         viewForIndicator = SpinnerView(frame: self.view.bounds)
         view.addSubview(viewForIndicator)
         navigationController?.navigationBar.alpha = 0.3
-        
-        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { timer in
-            self.removeSpinner()
-            self.navigationController?.navigationBar.alpha = 1.0
-            completion()
-        }
+        completion()
     }
     
     func removeSpinner() {
         viewForIndicator.removeFromSuperview()
+        navigationController?.navigationBar.alpha = 1.0
     }
     
     //MARK: - Targets
@@ -130,11 +126,13 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
                 employee.position = position
                 showSpinner() {
                     self.delegate?.editEmployee(self, newData: employee, previousData: self.employeeToEdit!)
+                    self.removeSpinner()
                 }
             } else {
                 let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
                 showSpinner() {
                     self.delegate?.addNewEmployee(self, newEmployee: employee)
+                    self.removeSpinner()
                 }
             }
         }
