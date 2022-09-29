@@ -22,6 +22,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
         navigationController?.navigationBar.backgroundColor = .white
         view.backgroundColor = .white

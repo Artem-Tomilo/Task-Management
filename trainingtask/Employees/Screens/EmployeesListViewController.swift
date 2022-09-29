@@ -30,6 +30,7 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         showSpinner()
         loadData {
             self.tableView.reloadData()
