@@ -16,6 +16,8 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     private let refreshControl = UIRefreshControl()
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
+    lazy private var partialEmployeeArray: [Employee] = []
+    private var count = "0"
     private var viewForIndicator = SpinnerView()
     
     var presenter: EmployeePresenterInputs!
@@ -69,6 +71,21 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     
     private func loadData(_ completion: @escaping () -> Void) {
         self.employeeArray = self.presenter?.loadEmployees() ?? []
+        
+        if let settings = UserDefaults.standard.dictionary(forKey: SettingsPresenter.settingsKey) {
+            for (key, value) in settings {
+                switch key {
+                case "Records":
+                    count = value as? String ?? "0"
+                default:
+                    break
+                }
+            }
+        }
+        
+        if count != "0" && Int(count)! < employeeArray.count {
+            partialEmployeeArray = Array(employeeArray[0..<Int(count)!])
+        }
         completion()
     }
     
@@ -101,7 +118,11 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return employeeArray.count
+        if !partialEmployeeArray.isEmpty {
+            return partialEmployeeArray.count
+        } else {
+            return employeeArray.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -132,16 +153,23 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { _, _, close in
-            let alert = UIAlertController(title: "Хотите удалить этого строку?", message: "", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
             let action = UIAlertAction(title: "Удалить", style: .destructive) { _ in
-                self.employeeArray.remove(at: indexPath.row)
+                if self.partialEmployeeArray.isEmpty {
+                    self.employeeArray.remove(at: indexPath.row)
+                } else {
+                    self.employeeArray.remove(at: indexPath.row)
+                    self.partialEmployeeArray.remove(at: indexPath.row)
+                }
                 tableView.performBatchUpdates {
                     self.showSpinner()
                     tableView.deleteRows(at: [indexPath], with: .automatic)
                 } completion: { _ in
                     self.presenter?.saveEmployee(to: self.employeeArray)
-                    self.tableView.reloadData()
-                    self.removeSpinner()
+                    self.loadData{
+                        self.tableView.reloadData()
+                        self.removeSpinner()
+                    }
                 }
             }
             let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
@@ -155,7 +183,7 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         //MARK: - Edit employee
         
         let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [self] _, _, close in
-            let alert = UIAlertController(title: "Хотите изменить строку?", message: "", preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: "Хотите изменить этого сотрудника?", message: "", preferredStyle: .actionSheet)
             let action = UIAlertAction(title: "Изменить", style: .default) { _ in
                 let vc = EmployeeEditViewController()
                 self.navigationController?.pushViewController(vc, animated: true)

@@ -19,4 +19,11 @@ class ModelBuilder: Builder {
         view.presenter = presenter
         return view
     }
+    
+    func createSettings() -> UIViewController {
+        let view = SettingsViewController()
+        let presenter = SettingsPresenter(view: view)
+        view.presenter = presenter
+        return view
+    }
 }

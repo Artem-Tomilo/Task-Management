@@ -27,6 +27,8 @@
 		387AAD8128E31E47004BE734 /* SettingsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8028E31E47004BE734 /* SettingsLabel.swift */; };
 		387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8628E4338E004BE734 /* MainMenuList.swift */; };
 		387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8828E4345F004BE734 /* EmployeeMenu.swift */; };
+		387AAD8B28E467E5004BE734 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387AAD8A28E467E5004BE734 /* Settings.plist */; };
+		387AAD8D28E4D25D004BE734 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8C28E4D25D004BE734 /* SettingsPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +54,8 @@
 		387AAD8028E31E47004BE734 /* SettingsLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLabel.swift; sourceTree = "<group>"; };
 		387AAD8628E4338E004BE734 /* MainMenuList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuList.swift; sourceTree = "<group>"; };
 		387AAD8828E4345F004BE734 /* EmployeeMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeMenu.swift; sourceTree = "<group>"; };
+		387AAD8A28E467E5004BE734 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
+		387AAD8C28E4D25D004BE734 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +133,7 @@
 				385C567228D4A991004AC34A /* Assets.xcassets */,
 				385C567428D4A991004AC34A /* LaunchScreen.storyboard */,
 				385C567728D4A991004AC34A /* Info.plist */,
+				387AAD8A28E467E5004BE734 /* Settings.plist */,
 			);
 			path = trainingtask;
 			sourceTree = "<group>";
@@ -168,6 +173,7 @@
 			isa = PBXGroup;
 			children = (
 				387AAD7E28E30F70004BE734 /* SettingsViewController.swift */,
+				387AAD8C28E4D25D004BE734 /* SettingsPresenter.swift */,
 				387AAD8028E31E47004BE734 /* SettingsLabel.swift */,
 			);
 			path = Settings;
@@ -233,6 +239,7 @@
 			files = (
 				385C567628D4A991004AC34A /* LaunchScreen.storyboard in Resources */,
 				385C567328D4A991004AC34A /* Assets.xcassets in Resources */,
+				387AAD8B28E467E5004BE734 /* Settings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */,
+				387AAD8D28E4D25D004BE734 /* SettingsPresenter.swift in Sources */,
 				385A04A528DDC3AD00FD008F /* EmployeePresenter.swift in Sources */,
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
 				3820316328D9EFF7008FAD35 /* MyLabel.swift in Sources */,

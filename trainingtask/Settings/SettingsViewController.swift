@@ -7,18 +7,21 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController, UITextFieldDelegate, SettingsPresenterOutputs {
     
-    var urlLabel = SettingsLabel()
-    var urlTextField = MyTextField()
-    var maxRecordsLabel = SettingsLabel()
-    var maxRecordsTextField = MyTextField()
-    var daysLabel = SettingsLabel()
-    var daysTextField = MyTextField()
+    private var urlLabel = SettingsLabel()
+    private var urlTextField = MyTextField()
+    private var maxRecordsLabel = SettingsLabel()
+    private var maxRecordsTextField = MyTextField()
+    private var daysLabel = SettingsLabel()
+    private var daysTextField = MyTextField()
+    
+    var presenter: SettingsPresenterInputs!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        presenter.getData()
     }
     
     func setup() {
@@ -72,14 +75,33 @@ class SettingsViewController: UIViewController {
         maxRecordsTextField.placeholder = "Количество записей"
         daysTextField.placeholder = "Количество дней"
         
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployee(_:)))
+        maxRecordsTextField.delegate = self
+        daysTextField.delegate = self
+        
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSettings(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
         navigationItem.leftBarButtonItem = cancelButton
     }
     
-    @objc func saveEmployee(_ sender: UIBarButtonItem) {
+    func showSettings(url: String, records: String, days: String) {
+        urlTextField.text = url
+        maxRecordsTextField.text = records
+        daysTextField.text = days
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return string.allSatisfy {
+            $0.isNumber
+        }
+    }
+    
+    @objc func saveSettings(_ sender: UIBarButtonItem) {
+        presenter.urlTextChanged(urlTextField.text!)
+        presenter.recordsTextChanged(maxRecordsTextField.text!)
+        presenter.daysTextChanged(daysTextField.text!)
+        presenter.saveSettings()
         navigationController?.popViewController(animated: true)
     }
     
