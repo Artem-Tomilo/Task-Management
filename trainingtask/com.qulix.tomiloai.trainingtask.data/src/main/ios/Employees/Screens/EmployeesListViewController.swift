@@ -41,9 +41,14 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     //MARK: - Setup function
     
     private func setup() {
+        navigationController?.isNavigationBarHidden = false
+        self.title = "Сотрудники"
+        navigationController?.navigationBar.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .black
+        view.backgroundColor = .white
+        
         tableView.delegate = self
         tableView.dataSource = self
-        
         tableView.register(EmployeesCustomCell.self, forCellReuseIdentifier: EmployeesListViewController.newCellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,12 +59,6 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
-        
-        navigationController?.isNavigationBarHidden = false
-        self.title = "Сотрудники"
-        navigationController?.navigationBar.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = .black
-        view.backgroundColor = .white
         
         addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewEmployee(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
@@ -84,7 +83,7 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
             }
         }
         
-        if count != "0" && Int(count)! < employeeArray.count {
+        if count != "0" && Int(count)! <= employeeArray.count {
             partialEmployeeArray = Array(employeeArray[0..<Int(count)!])
         }
         completion()

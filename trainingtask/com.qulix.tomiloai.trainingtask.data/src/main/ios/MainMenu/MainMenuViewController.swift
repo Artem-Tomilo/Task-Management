@@ -24,9 +24,6 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
-        navigationController?.navigationBar.backgroundColor = .white
-        view.backgroundColor = .white
-        tableView.backgroundColor = .systemRed
     }
     
     //MARK: - Setup function
@@ -44,6 +41,8 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+        view.backgroundColor = .white
+        tableView.backgroundColor = .systemRed
     }
     
     //MARK: - TableView

@@ -123,17 +123,7 @@
 		385C566828D4A98C004AC34A /* trainingtask */ = {
 			isa = PBXGroup;
 			children = (
-				385C566928D4A98C004AC34A /* AppDelegate.swift */,
-				385C566D28D4A98C004AC34A /* SplashViewController.swift */,
-				387AAD8428E36C55004BE734 /* MainMenu */,
-				387AAD8228E36BB1004BE734 /* Employees */,
-				387AAD8528E36CAA004BE734 /* Settings */,
-				3820316628D9F0EF008FAD35 /* GlobalCustomViews */,
-				385A04A828DDC5CF00FD008F /* ModelBuilder.swift */,
-				385C567228D4A991004AC34A /* Assets.xcassets */,
-				385C567428D4A991004AC34A /* LaunchScreen.storyboard */,
-				385C567728D4A991004AC34A /* Info.plist */,
-				387AAD8A28E467E5004BE734 /* Settings.plist */,
+				389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.data */,
 			);
 			path = trainingtask;
 			sourceTree = "<group>";
@@ -177,6 +167,64 @@
 				387AAD8028E31E47004BE734 /* SettingsLabel.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		387AAD9428E6E51B004BE734 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				385C567228D4A991004AC34A /* Assets.xcassets */,
+				385C567428D4A991004AC34A /* LaunchScreen.storyboard */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		387AAD9528E6E531004BE734 /* SplashViewController */ = {
+			isa = PBXGroup;
+			children = (
+				385C566D28D4A98C004AC34A /* SplashViewController.swift */,
+			);
+			path = SplashViewController;
+			sourceTree = "<group>";
+		};
+		389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.data */ = {
+			isa = PBXGroup;
+			children = (
+				389A99F428E6EDD60093D975 /* src */,
+			);
+			path = com.qulix.tomiloai.trainingtask.data;
+			sourceTree = "<group>";
+		};
+		389A99F428E6EDD60093D975 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				389A99F528E6EDE20093D975 /* main */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		389A99F528E6EDE20093D975 /* main */ = {
+			isa = PBXGroup;
+			children = (
+				389A99F628E6EEAC0093D975 /* ios */,
+				387AAD9428E6E51B004BE734 /* resources */,
+				385C567728D4A991004AC34A /* Info.plist */,
+				387AAD8A28E467E5004BE734 /* Settings.plist */,
+			);
+			path = main;
+			sourceTree = "<group>";
+		};
+		389A99F628E6EEAC0093D975 /* ios */ = {
+			isa = PBXGroup;
+			children = (
+				385C566928D4A98C004AC34A /* AppDelegate.swift */,
+				385A04A828DDC5CF00FD008F /* ModelBuilder.swift */,
+				387AAD9528E6E531004BE734 /* SplashViewController */,
+				387AAD8428E36C55004BE734 /* MainMenu */,
+				387AAD8228E36BB1004BE734 /* Employees */,
+				387AAD8528E36CAA004BE734 /* Settings */,
+				3820316628D9F0EF008FAD35 /* GlobalCustomViews */,
+			);
+			path = ios;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -409,7 +457,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = trainingtask/Info.plist;
+				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.data/src/main/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -436,7 +484,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = trainingtask/Info.plist;
+				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.data/src/main/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
