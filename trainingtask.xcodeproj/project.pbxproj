@@ -21,6 +21,7 @@
 		385C567328D4A991004AC34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 385C567228D4A991004AC34A /* Assets.xcassets */; };
 		385C567628D4A991004AC34A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385C567428D4A991004AC34A /* LaunchScreen.storyboard */; };
 		3862A3B328E70BD700FE0872 /* StubServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3862A3B228E70BD700FE0872 /* StubServer.swift */; };
+		3862A3BF28EAE57A00FE0872 /* StubServerInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3862A3BE28EAE57A00FE0872 /* StubServerInterface.swift */; };
 		387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD7E28E30F70004BE734 /* SettingsViewController.swift */; };
 		387AAD8128E31E47004BE734 /* SettingsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8028E31E47004BE734 /* SettingsLabel.swift */; };
 		387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8628E4338E004BE734 /* MainMenuList.swift */; };
@@ -45,6 +46,7 @@
 		385C567528D4A991004AC34A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		385C567728D4A991004AC34A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3862A3B228E70BD700FE0872 /* StubServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubServer.swift; sourceTree = "<group>"; };
+		3862A3BE28EAE57A00FE0872 /* StubServerInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubServerInterface.swift; sourceTree = "<group>"; };
 		387AAD7E28E30F70004BE734 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		387AAD8028E31E47004BE734 /* SettingsLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLabel.swift; sourceTree = "<group>"; };
 		387AAD8628E4338E004BE734 /* MainMenuList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuList.swift; sourceTree = "<group>"; };
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				3862A3B228E70BD700FE0872 /* StubServer.swift */,
+				3862A3BE28EAE57A00FE0872 /* StubServerInterface.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -313,6 +316,7 @@
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
+				3862A3BF28EAE57A00FE0872 /* StubServerInterface.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,13 +7,6 @@
 
 import Foundation
 
-protocol StubServerInterface: AnyObject {
-    func addEmployees(employee: Employee)
-    func deleteEmployees(index: Int)
-    func editEmployees(index: Int, newData: Employee)
-    func getEmployees() -> [Employee]
-}
-
 class StubServer: StubServerInterface {
     
     private var employeesArray: [Employee] = []
