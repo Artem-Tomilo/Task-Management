@@ -9,8 +9,6 @@ import UIKit
 
 class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
     
-    //MARK: - Private property
-    
     private var tableView = UITableView()
     private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
@@ -23,8 +21,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private static let newCellIdentifier = "NewCell"
     
     var serverDelegate: StubServerInterface!
-    
-    //MARK: - VC lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,8 +40,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             self.tableView.reloadData()
         }
     }
-    
-    //MARK: - Setup function
     
     private func setup() {
         navigationController?.isNavigationBarHidden = false
@@ -74,8 +68,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
-    //MARK: - ConfigureText
-    
     func configureText(for cell: UITableViewCell, with employee: Employee) {
         if let cell = cell as? EmployeesCustomCell {
             cell.surnameText = employee.surname
@@ -84,8 +76,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             cell.positionText = employee.position
         }
     }
-    
-    //MARK: - Load data
     
     private func loadData(_ completion: @escaping () -> Void) {
         employeeArray = serverDelegate.getEmployees()
@@ -118,9 +108,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         viewForIndicator.removeFromSuperview()
         navigationController?.navigationBar.alpha = 1.0
     }
-    
-    
-    //MARK: - TableView
     
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
         1
@@ -159,8 +146,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         35
     }
     
-    //MARK: - Delete employee
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { _, _, close in
             let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
@@ -193,8 +178,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             self.present(alert, animated: true)
         })
         
-        //MARK: - Edit employee
-        
         let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [self] _, _, close in
             let alert = UIAlertController(title: "Хотите изменить этого сотрудника?", message: "", preferredStyle: .actionSheet)
             let action = UIAlertAction(title: "Изменить", style: .default) { _ in
@@ -216,8 +199,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         ])
     }
     
-    //MARK: - Targets
-    
     @objc func addNewEmployee(_ sender: UIBarButtonItem) {
         let vc = EmployeeEditViewController()
         vc.delegate = self
@@ -230,8 +211,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             self.tableView.reloadData()
         }
     }
-    
-    //MARK: - EmployeeEditViewControllerDelegate functions
     
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController) {
         navigationController?.popViewController(animated: true)

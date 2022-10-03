@@ -15,8 +15,6 @@ protocol EmployeeEditViewControllerDelegate: AnyObject {
 
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
-    //MARK: - Private property
-    
     private let surnameTextField = MyTextField()
     private let nameTextField = MyTextField()
     private let patronymicTextField = MyTextField()
@@ -31,8 +29,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     var employeeToEdit: Employee?
     
-    //MARK: - VC lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -42,8 +38,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         super.viewWillAppear(animated)
         surnameTextField.becomeFirstResponder()
     }
-    
-    //MARK: - Setup function
     
     private func setup() {
         view.backgroundColor = .systemRed
@@ -112,8 +106,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.alpha = 1.0
     }
     
-    //MARK: - Targets
-    
     @objc func saveEmployee(_ sender: UIBarButtonItem) {
         if let surname = surnameTextField.text,
            let name = nameTextField.text,
@@ -148,8 +140,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         guard sender.state == .ended else { return }
         view.endEditing(false)
     }
-    
-    //MARK: - TextFieldDelegate
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {

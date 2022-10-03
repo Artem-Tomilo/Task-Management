@@ -9,12 +9,8 @@ import UIKit
 
 class MainMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    //MARK: - Private property
-    
     private var tableView = UITableView()
     private static let cellIdentifier = "Cell"
-    
-    //MARK: - VC lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +21,6 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         super.viewWillAppear(animated)
         navigationController?.isNavigationBarHidden = true
     }
-    
-    //MARK: - Setup function
     
     private func setup() {
         tableView.delegate = self
@@ -44,8 +38,6 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         view.backgroundColor = .white
         tableView.backgroundColor = .systemRed
     }
-    
-    //MARK: - TableView
     
     func numberOfSections(in tableView: UITableView) -> Int {
         1
