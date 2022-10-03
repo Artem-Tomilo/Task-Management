@@ -101,11 +101,10 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(gesture)
     }
     
-    func showSpinner(_ completion: @escaping () -> Void) {
+    func showSpinner() {
         viewForIndicator = SpinnerView(frame: self.view.bounds)
         view.addSubview(viewForIndicator)
         navigationController?.navigationBar.alpha = 0.3
-        completion()
     }
     
     func removeSpinner() {
@@ -125,13 +124,15 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
                 employee.name = name
                 employee.patronymic = patronymic
                 employee.position = position
-                showSpinner() {
+                showSpinner()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                     self.delegate?.editEmployee(self, newData: employee, previousData: self.employeeToEdit!)
                     self.removeSpinner()
                 }
             } else {
                 let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
-                showSpinner() {
+                showSpinner()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                     self.delegate?.addNewEmployee(self, newEmployee: employee)
                     self.removeSpinner()
                 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController, UITextFieldDelegate, SettingsPresenterOutputs {
+class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     private var urlLabel = SettingsLabel()
     private var urlTextField = MyTextField()
@@ -16,12 +16,16 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, SettingsPre
     private var daysLabel = SettingsLabel()
     private var daysTextField = MyTextField()
     
-    var presenter: SettingsPresenterInputs!
+    private var urlText = ""
+    private var recordsText = ""
+    private var daysText = ""
+    private let userDefaults = UserDefaults.standard
+    static let settingsKey = "settings"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        presenter.getData()
+        getData()
     }
     
     func setup() {
@@ -85,10 +89,52 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, SettingsPre
         navigationItem.leftBarButtonItem = cancelButton
     }
     
+    func userSettingsExist() -> Bool {
+        if UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) != nil {
+            return true
+        }
+        return false
+    }
+    
+    func getData() {
+        if userSettingsExist() {
+            guard let settings = UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) else { return }
+            for (key, value) in settings {
+                switch key {
+                case "Url":
+                    urlText = value as! String
+                case "Records":
+                    recordsText = value as! String
+                case "Days":
+                    daysText = value as! String
+                default:
+                    break
+                }
+            }
+        } else {
+            guard let path = Bundle.main.path(forResource: "Settings", ofType: ".plist"),
+                  let dictionary = NSDictionary(contentsOfFile: path),
+                  let settingsDictionary = dictionary.object(forKey: "Settings") as? NSDictionary,
+                  let url = settingsDictionary.value(forKey: "Url") as? String,
+                  let records = settingsDictionary.value(forKey: "Records") as? Int,
+                  let days = settingsDictionary.value(forKey: "Days") as? Int else { return }
+            urlText = url
+            recordsText = String(records)
+            daysText = String(days)
+        }
+        showSettings(url: urlText, records: recordsText, days: daysText)
+    }
+    
     func showSettings(url: String, records: String, days: String) {
         urlTextField.text = url
         maxRecordsTextField.text = records
         daysTextField.text = days
+    }
+    
+    func saveSettings() {
+        var set = [String : Any]()
+        set = ["Url" : urlText, "Records" : recordsText, "Days" : daysText]
+        UserDefaults.standard.setValue(set, forKey: SettingsViewController.settingsKey)
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
@@ -98,10 +144,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate, SettingsPre
     }
     
     @objc func saveSettings(_ sender: UIBarButtonItem) {
-        presenter.urlTextChanged(urlTextField.text!)
-        presenter.recordsTextChanged(maxRecordsTextField.text!)
-        presenter.daysTextChanged(daysTextField.text!)
-        presenter.saveSettings()
+        urlText = urlTextField.text ?? ""
+        recordsText = maxRecordsTextField.text ?? "0"
+        daysText = daysTextField.text ?? "0"
+        saveSettings()
         navigationController?.popViewController(animated: true)
     }
     

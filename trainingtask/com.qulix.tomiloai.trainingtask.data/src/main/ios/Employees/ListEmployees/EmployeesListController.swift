@@ -1,5 +1,5 @@
 //
-//  EmployeesListViewController.swift
+//  EmployeesListController.swift
 //  trainingtask
 //
 //  Created by Артем Томило on 20.09.22.
@@ -7,34 +7,41 @@
 
 import UIKit
 
-class EmployeesListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
+class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
     
     //MARK: - Private property
     
     private var tableView = UITableView()
     private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
-    private static let newCellIdentifier = "NewCell"
-    private var employeeArray: [Employee] = []
-    lazy private var partialEmployeeArray: [Employee] = []
-    private var count = "0"
     private var viewForIndicator = SpinnerView()
     
-    var presenter: EmployeePresenterInputs!
+    private var employeeArray: [Employee]?
+    private lazy var partialEmployeeArray: [Employee] = []
+    private var count = 0
+    
+    private static let newCellIdentifier = "NewCell"
+    
+    var serverDelegate: StubServerInterface!
     
     //MARK: - VC lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        showSpinner()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            self.loadData {
+                self.tableView.reloadData()
+                self.removeSpinner()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        showSpinner()
         loadData {
             self.tableView.reloadData()
-            self.removeSpinner()
         }
     }
     
@@ -49,7 +56,7 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(EmployeesCustomCell.self, forCellReuseIdentifier: EmployeesListViewController.newCellIdentifier)
+        tableView.register(EmployeesCustomCell.self, forCellReuseIdentifier: EmployeesListController.newCellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .white
@@ -67,24 +74,36 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
+    //MARK: - ConfigureText
+    
+    func configureText(for cell: UITableViewCell, with employee: Employee) {
+        if let cell = cell as? EmployeesCustomCell {
+            cell.surnameText = employee.surname
+            cell.nameText = employee.name
+            cell.patronymicText = employee.patronymic
+            cell.positionText = employee.position
+        }
+    }
+    
     //MARK: - Load data
     
     private func loadData(_ completion: @escaping () -> Void) {
-        self.employeeArray = self.presenter?.loadEmployees() ?? []
+        employeeArray = serverDelegate.getEmployees()
         
-        if let settings = UserDefaults.standard.dictionary(forKey: SettingsPresenter.settingsKey) {
+        if let settings = UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) {
             for (key, value) in settings {
                 switch key {
                 case "Records":
-                    count = value as? String ?? "0"
+                    let value = value as? String ?? "0"
+                    count = Int(value) ?? 0
                 default:
                     break
                 }
             }
         }
         
-        if count != "0" && Int(count)! <= employeeArray.count {
-            partialEmployeeArray = Array(employeeArray[0..<Int(count)!])
+        if count != 0 && count <= employeeArray?.count ?? 0 {
+            partialEmployeeArray = Array(employeeArray?[0..<count] ?? [] )
         }
         completion()
     }
@@ -100,16 +119,6 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         navigationController?.navigationBar.alpha = 1.0
     }
     
-    //MARK: - ConfigureText
-    
-    func configureText(for cell: UITableViewCell, with employee: Employee) {
-        if let cell = cell as? EmployeesCustomCell {
-            cell.surnameText = employee.surname
-            cell.nameText = employee.name
-            cell.patronymicText = employee.patronymic
-            cell.positionText = employee.position
-        }
-    }
     
     //MARK: - TableView
     
@@ -121,14 +130,15 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         if !partialEmployeeArray.isEmpty {
             return partialEmployeeArray.count
         } else {
-            return employeeArray.count
+            return employeeArray?.count ?? 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListViewController.newCellIdentifier, for: indexPath) as? EmployeesCustomCell else { return UITableViewCell() }
-        let employee = employeeArray[indexPath.row]
-        configureText(for: cell, with: employee)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier, for: indexPath) as? EmployeesCustomCell else { return UITableViewCell() }
+        if let employee = employeeArray?[indexPath.row] {
+            configureText(for: cell, with: employee)
+        }
         return cell
     }
     
@@ -155,20 +165,23 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { _, _, close in
             let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
             let action = UIAlertAction(title: "Удалить", style: .destructive) { _ in
-                if self.partialEmployeeArray.isEmpty {
-                    self.employeeArray.remove(at: indexPath.row)
-                } else {
-                    self.employeeArray.remove(at: indexPath.row)
-                    self.partialEmployeeArray.remove(at: indexPath.row)
-                }
-                tableView.performBatchUpdates {
-                    self.showSpinner()
-                    tableView.deleteRows(at: [indexPath], with: .automatic)
-                } completion: { _ in
-                    self.presenter?.saveEmployee(to: self.employeeArray)
-                    self.loadData{
-                        self.tableView.reloadData()
-                        self.removeSpinner()
+                self.showSpinner()
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                    if self.partialEmployeeArray.isEmpty {
+                        self.serverDelegate.deleteEmployees(index: indexPath.row)
+                        self.employeeArray = self.serverDelegate.getEmployees()
+                    } else {
+                        self.serverDelegate.deleteEmployees(index: indexPath.row)
+                        self.employeeArray = self.serverDelegate.getEmployees()
+                        self.partialEmployeeArray.remove(at: indexPath.row)
+                    }
+                    tableView.performBatchUpdates {
+                        tableView.deleteRows(at: [indexPath], with: .automatic)
+                    } completion: { _ in
+                        self.loadData{
+                            self.tableView.reloadData()
+                            self.removeSpinner()
+                        }
                     }
                 }
             }
@@ -186,9 +199,9 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
             let alert = UIAlertController(title: "Хотите изменить этого сотрудника?", message: "", preferredStyle: .actionSheet)
             let action = UIAlertAction(title: "Изменить", style: .default) { _ in
                 let vc = EmployeeEditViewController()
-                self.navigationController?.pushViewController(vc, animated: true)
                 vc.delegate = self
-                vc.employeeToEdit = self.employeeArray[indexPath.row]
+                vc.employeeToEdit = self.employeeArray?[indexPath.row]
+                self.navigationController?.pushViewController(vc, animated: true)
             }
             let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
                 self.dismiss(animated: true)
@@ -207,8 +220,8 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     
     @objc func addNewEmployee(_ sender: UIBarButtonItem) {
         let vc = EmployeeEditViewController()
-        navigationController?.pushViewController(vc, animated: true)
         vc.delegate = self
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func refresh(_ sender: UIRefreshControl) {
@@ -225,21 +238,19 @@ class EmployeesListViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
-        employeeArray.append(newEmployee)
-        presenter?.saveEmployee(to: employeeArray)
+        serverDelegate.addEmployees(employee: newEmployee)
         navigationController?.popViewController(animated: true)
     }
     
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee) {
-        if let index = employeeArray.firstIndex(of: previousData) {
+        if let index = employeeArray?.firstIndex(of: previousData) {
             let indexPath = IndexPath(row: index, section: 0)
             if let cell = tableView.cellForRow(at: indexPath) as? EmployeesCustomCell {
-                employeeArray.remove(at: index)
-                employeeArray.insert(newData, at: index)
+                serverDelegate.editEmployees(index: index, newData: newData)
+                employeeArray = serverDelegate.getEmployees()
                 configureText(for: cell, with: newData)
             }
         }
         navigationController?.popViewController(animated: true)
-        presenter?.saveEmployee(to: employeeArray)
     }
 }

@@ -9,53 +9,47 @@
 /* Begin PBXBuildFile section */
 		3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315828D8B2F4008FAD35 /* MainMenuViewController.swift */; };
 		3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315A28D8B319008FAD35 /* MenuCustomCell.swift */; };
-		3820315D28D9EF74008FAD35 /* EmployeesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */; };
+		3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315C28D9EF74008FAD35 /* EmployeesListController.swift */; };
 		3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315E28D9EF9F008FAD35 /* Employee.swift */; };
 		3820316128D9EFDF008FAD35 /* EmployeesCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316028D9EFDF008FAD35 /* EmployeesCustomCell.swift */; };
 		3820316328D9EFF7008FAD35 /* MyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316228D9EFF7008FAD35 /* MyLabel.swift */; };
 		3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */; };
 		3820316E28DB4AF1008FAD35 /* MyTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316D28DB4AF1008FAD35 /* MyTextField.swift */; };
-		3820317028DB535E008FAD35 /* EmployeeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316F28DB535E008FAD35 /* EmployeeRepository.swift */; };
-		385A04A528DDC3AD00FD008F /* EmployeePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A428DDC3AC00FD008F /* EmployeePresenter.swift */; };
 		385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A628DDC54400FD008F /* SpinnerView.swift */; };
-		385A04A928DDC5CF00FD008F /* ModelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A828DDC5CF00FD008F /* ModelBuilder.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
 		385C567328D4A991004AC34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 385C567228D4A991004AC34A /* Assets.xcassets */; };
 		385C567628D4A991004AC34A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385C567428D4A991004AC34A /* LaunchScreen.storyboard */; };
+		3862A3B328E70BD700FE0872 /* StubServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3862A3B228E70BD700FE0872 /* StubServer.swift */; };
 		387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD7E28E30F70004BE734 /* SettingsViewController.swift */; };
 		387AAD8128E31E47004BE734 /* SettingsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8028E31E47004BE734 /* SettingsLabel.swift */; };
 		387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8628E4338E004BE734 /* MainMenuList.swift */; };
 		387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8828E4345F004BE734 /* EmployeeMenu.swift */; };
 		387AAD8B28E467E5004BE734 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387AAD8A28E467E5004BE734 /* Settings.plist */; };
-		387AAD8D28E4D25D004BE734 /* SettingsPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8C28E4D25D004BE734 /* SettingsPresenter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		3820315828D8B2F4008FAD35 /* MainMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuViewController.swift; sourceTree = "<group>"; };
 		3820315A28D8B319008FAD35 /* MenuCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCustomCell.swift; sourceTree = "<group>"; };
-		3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesListViewController.swift; sourceTree = "<group>"; };
+		3820315C28D9EF74008FAD35 /* EmployeesListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesListController.swift; sourceTree = "<group>"; };
 		3820315E28D9EF9F008FAD35 /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		3820316028D9EFDF008FAD35 /* EmployeesCustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesCustomCell.swift; sourceTree = "<group>"; };
 		3820316228D9EFF7008FAD35 /* MyLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyLabel.swift; sourceTree = "<group>"; };
 		3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewController.swift; sourceTree = "<group>"; };
 		3820316D28DB4AF1008FAD35 /* MyTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyTextField.swift; sourceTree = "<group>"; };
-		3820316F28DB535E008FAD35 /* EmployeeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeRepository.swift; sourceTree = "<group>"; };
-		385A04A428DDC3AC00FD008F /* EmployeePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePresenter.swift; sourceTree = "<group>"; };
 		385A04A628DDC54400FD008F /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
-		385A04A828DDC5CF00FD008F /* ModelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelBuilder.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385C566928D4A98C004AC34A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		385C566D28D4A98C004AC34A /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		385C567228D4A991004AC34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		385C567528D4A991004AC34A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		385C567728D4A991004AC34A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3862A3B228E70BD700FE0872 /* StubServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubServer.swift; sourceTree = "<group>"; };
 		387AAD7E28E30F70004BE734 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		387AAD8028E31E47004BE734 /* SettingsLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLabel.swift; sourceTree = "<group>"; };
 		387AAD8628E4338E004BE734 /* MainMenuList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuList.swift; sourceTree = "<group>"; };
 		387AAD8828E4345F004BE734 /* EmployeeMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeMenu.swift; sourceTree = "<group>"; };
 		387AAD8A28E467E5004BE734 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
-		387AAD8C28E4D25D004BE734 /* SettingsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPresenter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,20 +82,12 @@
 			path = GlobalCustomViews;
 			sourceTree = "<group>";
 		};
-		3820317128DB5378008FAD35 /* Repository */ = {
+		385A04A328DDC35400FD008F /* Server */ = {
 			isa = PBXGroup;
 			children = (
-				3820316F28DB535E008FAD35 /* EmployeeRepository.swift */,
+				3862A3B228E70BD700FE0872 /* StubServer.swift */,
 			);
-			path = Repository;
-			sourceTree = "<group>";
-		};
-		385A04A328DDC35400FD008F /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				385A04A428DDC3AC00FD008F /* EmployeePresenter.swift */,
-			);
-			path = Presenter;
+			path = Server;
 			sourceTree = "<group>";
 		};
 		385C565D28D4A98C004AC34A = {
@@ -128,25 +114,39 @@
 			path = trainingtask;
 			sourceTree = "<group>";
 		};
+		3862A3B628E72EEB00FE0872 /* EditEmployees */ = {
+			isa = PBXGroup;
+			children = (
+				3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */,
+			);
+			path = EditEmployees;
+			sourceTree = "<group>";
+		};
+		3862A3B728E72EFA00FE0872 /* ListEmployees */ = {
+			isa = PBXGroup;
+			children = (
+				3820315C28D9EF74008FAD35 /* EmployeesListController.swift */,
+			);
+			path = ListEmployees;
+			sourceTree = "<group>";
+		};
 		387AAD8228E36BB1004BE734 /* Employees */ = {
 			isa = PBXGroup;
 			children = (
 				3820316528D9F0E1008FAD35 /* Model */,
-				3820317128DB5378008FAD35 /* Repository */,
-				385A04A328DDC35400FD008F /* Presenter */,
-				387AAD8328E36C0C004BE734 /* Screens */,
-				3820316028D9EFDF008FAD35 /* EmployeesCustomCell.swift */,
+				3862A3B728E72EFA00FE0872 /* ListEmployees */,
+				3862A3B628E72EEB00FE0872 /* EditEmployees */,
+				387AAD8328E36C0C004BE734 /* CustomView */,
 			);
 			path = Employees;
 			sourceTree = "<group>";
 		};
-		387AAD8328E36C0C004BE734 /* Screens */ = {
+		387AAD8328E36C0C004BE734 /* CustomView */ = {
 			isa = PBXGroup;
 			children = (
-				3820315C28D9EF74008FAD35 /* EmployeesListViewController.swift */,
-				3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */,
+				3820316028D9EFDF008FAD35 /* EmployeesCustomCell.swift */,
 			);
-			path = Screens;
+			path = CustomView;
 			sourceTree = "<group>";
 		};
 		387AAD8428E36C55004BE734 /* MainMenu */ = {
@@ -163,7 +163,6 @@
 			isa = PBXGroup;
 			children = (
 				387AAD7E28E30F70004BE734 /* SettingsViewController.swift */,
-				387AAD8C28E4D25D004BE734 /* SettingsPresenter.swift */,
 				387AAD8028E31E47004BE734 /* SettingsLabel.swift */,
 			);
 			path = Settings;
@@ -217,7 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
-				385A04A828DDC5CF00FD008F /* ModelBuilder.swift */,
+				385A04A328DDC35400FD008F /* Server */,
 				387AAD9528E6E531004BE734 /* SplashViewController */,
 				387AAD8428E36C55004BE734 /* MainMenu */,
 				387AAD8228E36BB1004BE734 /* Employees */,
@@ -299,20 +298,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */,
-				387AAD8D28E4D25D004BE734 /* SettingsPresenter.swift in Sources */,
-				385A04A528DDC3AD00FD008F /* EmployeePresenter.swift in Sources */,
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
 				3820316328D9EFF7008FAD35 /* MyLabel.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeesCustomCell.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* MyTextField.swift in Sources */,
 				387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */,
 				385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */,
-				3820315D28D9EF74008FAD35 /* EmployeesListViewController.swift in Sources */,
+				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
 				387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */,
-				385A04A928DDC5CF00FD008F /* ModelBuilder.swift in Sources */,
+				3862A3B328E70BD700FE0872 /* StubServer.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
-				3820317028DB535E008FAD35 /* EmployeeRepository.swift in Sources */,
 				387AAD8128E31E47004BE734 /* SettingsLabel.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
