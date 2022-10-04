@@ -1,5 +1,5 @@
 //
-//  EmployeesCustomCell.swift
+//  EmployeeCustomCell.swift
 //  trainingtask
 //
 //  Created by Артем Томило on 20.09.22.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-class EmployeesCustomCell: UITableViewCell {
+class EmployeeCustomCell: UITableViewCell {
     
     private let background = UIView(frame: .zero)
-    private let surnameLabel = MyLabel(frame: .zero)
-    private let nameLabel = MyLabel(frame: .zero)
-    private let patronymicLabel = MyLabel(frame: .zero)
-    private let positionLabel = MyLabel(frame: .zero)
+    private let surnameLabel = EmployeeCustomCellLabel(frame: .zero)
+    private let nameLabel = EmployeeCustomCellLabel(frame: .zero)
+    private let patronymicLabel = EmployeeCustomCellLabel(frame: .zero)
+    private let positionLabel = EmployeeCustomCellLabel(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

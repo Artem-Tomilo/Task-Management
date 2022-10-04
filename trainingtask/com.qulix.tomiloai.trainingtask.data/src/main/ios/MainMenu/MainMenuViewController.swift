@@ -57,7 +57,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         switch indexPath.row {
         case 2:
             let newVC = EmployeesListController()
-            let server = StubServer()
+            let server = Server()
             newVC.serverDelegate = server
             navigationController?.pushViewController(newVC, animated: true)
         case 3:

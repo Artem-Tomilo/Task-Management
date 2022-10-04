@@ -15,10 +15,10 @@ protocol EmployeeEditViewControllerDelegate: AnyObject {
 
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
-    private let surnameTextField = MyTextField()
-    private let nameTextField = MyTextField()
-    private let patronymicTextField = MyTextField()
-    private let positionTextField = MyTextField()
+    private let surnameTextField = CustomTextField()
+    private let nameTextField = CustomTextField()
+    private let patronymicTextField = CustomTextField()
+    private let positionTextField = CustomTextField()
     
     private var viewForIndicator = SpinnerView()
     

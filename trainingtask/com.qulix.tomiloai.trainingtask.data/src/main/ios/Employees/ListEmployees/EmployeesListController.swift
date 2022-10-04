@@ -16,11 +16,11 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     private var employeeArray: [Employee]?
     private lazy var partialEmployeeArray: [Employee] = []
-    private var count = 0
+    private var maxRecordsCount = 0
     
     private static let newCellIdentifier = "NewCell"
     
-    var serverDelegate: StubServerInterface!
+    var serverDelegate: EmployeesListControllerDelegate!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +50,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(EmployeesCustomCell.self, forCellReuseIdentifier: EmployeesListController.newCellIdentifier)
+        tableView.register(EmployeeCustomCell.self, forCellReuseIdentifier: EmployeesListController.newCellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .white
@@ -69,7 +69,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     private func configureText(for cell: UITableViewCell, with employee: Employee) {
-        if let cell = cell as? EmployeesCustomCell {
+        if let cell = cell as? EmployeeCustomCell {
             cell.surnameText = employee.surname
             cell.nameText = employee.name
             cell.patronymicText = employee.patronymic
@@ -85,15 +85,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 switch key {
                 case "Records":
                     let value = value as? String ?? "0"
-                    count = Int(value) ?? 0
+                    maxRecordsCount = Int(value) ?? 0
                 default:
                     break
                 }
             }
         }
         
-        if count != 0 && count <= employeeArray?.count ?? 0 {
-            partialEmployeeArray = Array(employeeArray?[0..<count] ?? [] )
+        if maxRecordsCount != 0 && maxRecordsCount <= employeeArray?.count ?? 0 {
+            partialEmployeeArray = Array(employeeArray?[0..<maxRecordsCount] ?? [] )
         }
         completion()
     }
@@ -122,7 +122,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier, for: indexPath) as? EmployeesCustomCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier, for: indexPath) as? EmployeeCustomCell else { return UITableViewCell() }
         if let employee = employeeArray?[indexPath.row] {
             configureText(for: cell, with: employee)
         }
@@ -130,7 +130,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = EmployeesCustomCell()
+        let cell = EmployeeCustomCell()
         cell.surnameText = EmployeeMenu.Surname.title
         cell.nameText = EmployeeMenu.Name.title
         cell.patronymicText = EmployeeMenu.Patronymic.title
@@ -153,10 +153,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 self.showSpinner()
                 DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                     if self.partialEmployeeArray.isEmpty {
-                        self.serverDelegate.deleteEmployees(index: indexPath.row)
+                        self.serverDelegate.deleteEmployee(index: indexPath.row)
                         self.employeeArray = self.serverDelegate.getEmployees()
                     } else {
-                        self.serverDelegate.deleteEmployees(index: indexPath.row)
+                        self.serverDelegate.deleteEmployee(index: indexPath.row)
                         self.employeeArray = self.serverDelegate.getEmployees()
                         self.partialEmployeeArray.remove(at: indexPath.row)
                     }
@@ -217,15 +217,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
-        serverDelegate.addEmployees(employee: newEmployee)
+        serverDelegate.addEmployee(employee: newEmployee)
         navigationController?.popViewController(animated: true)
     }
     
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee) {
         if let index = employeeArray?.firstIndex(of: previousData) {
             let indexPath = IndexPath(row: index, section: 0)
-            if let cell = tableView.cellForRow(at: indexPath) as? EmployeesCustomCell {
-                serverDelegate.editEmployees(index: index, newData: newData)
+            if let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell {
+                serverDelegate.editEmployee(index: index, newData: newData)
                 employeeArray = serverDelegate.getEmployees()
                 configureText(for: cell, with: newData)
             }

@@ -10,11 +10,11 @@ import UIKit
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     private var urlLabel = SettingsLabel()
-    private var urlTextField = MyTextField()
+    private var urlTextField = CustomTextField()
     private var maxRecordsLabel = SettingsLabel()
-    private var maxRecordsTextField = MyTextField()
+    private var maxRecordsTextField = CustomTextField()
     private var daysLabel = SettingsLabel()
-    private var daysTextField = MyTextField()
+    private var daysTextField = CustomTextField()
     
     private var urlText = ""
     private var recordsText = ""

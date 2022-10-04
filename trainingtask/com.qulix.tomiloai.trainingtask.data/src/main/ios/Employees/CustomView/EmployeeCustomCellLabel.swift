@@ -1,5 +1,5 @@
 //
-//  MyLabel.swift
+//  EmployeeCustomCellLabel.swift
 //  trainingtask
 //
 //  Created by Артем Томило on 20.09.22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MyLabel: UILabel {
+class EmployeeCustomCellLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
