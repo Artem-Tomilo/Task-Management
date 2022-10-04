@@ -40,11 +40,13 @@ class MenuCustomCell: UITableViewCell {
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
         backgroundColor = selected ? .lightText : .systemRed
         label.textColor = selected ? .black : .white
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: true)
         backgroundColor = highlighted ? .lightText : .systemRed
         label.textColor = highlighted ? .black : .white
     }

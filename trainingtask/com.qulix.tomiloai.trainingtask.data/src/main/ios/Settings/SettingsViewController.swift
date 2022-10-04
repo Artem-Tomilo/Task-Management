@@ -28,7 +28,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         getData()
     }
     
-    func setup() {
+    private func setup() {
         navigationController?.isNavigationBarHidden = false
         self.title = "Настройки"
         navigationController?.navigationBar.backgroundColor = .white
@@ -89,14 +89,14 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         navigationItem.leftBarButtonItem = cancelButton
     }
     
-    func userSettingsExist() -> Bool {
+    private func userSettingsExist() -> Bool {
         if UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) != nil {
             return true
         }
         return false
     }
     
-    func getData() {
+    private func getData() {
         if userSettingsExist() {
             guard let settings = UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) else { return }
             for (key, value) in settings {
@@ -125,13 +125,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         showSettings(url: urlText, records: recordsText, days: daysText)
     }
     
-    func showSettings(url: String, records: String, days: String) {
+    private func showSettings(url: String, records: String, days: String) {
         urlTextField.text = url
         maxRecordsTextField.text = records
         daysTextField.text = days
     }
     
-    func saveSettings() {
+    private func saveSettings() {
         var set = [String : Any]()
         set = ["Url" : urlText, "Records" : recordsText, "Days" : daysText]
         UserDefaults.standard.setValue(set, forKey: SettingsViewController.settingsKey)

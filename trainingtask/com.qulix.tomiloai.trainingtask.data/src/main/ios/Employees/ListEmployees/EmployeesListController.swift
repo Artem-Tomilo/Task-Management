@@ -68,7 +68,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
-    func configureText(for cell: UITableViewCell, with employee: Employee) {
+    private func configureText(for cell: UITableViewCell, with employee: Employee) {
         if let cell = cell as? EmployeesCustomCell {
             cell.surnameText = employee.surname
             cell.nameText = employee.name
@@ -98,13 +98,13 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         completion()
     }
     
-    func showSpinner() {
+    private func showSpinner() {
         viewForIndicator = SpinnerView(frame: self.view.bounds)
         view.addSubview(viewForIndicator)
         navigationController?.navigationBar.alpha = 0.3
     }
     
-    func removeSpinner() {
+    private func removeSpinner() {
         viewForIndicator.removeFromSuperview()
         navigationController?.navigationBar.alpha = 1.0
     }

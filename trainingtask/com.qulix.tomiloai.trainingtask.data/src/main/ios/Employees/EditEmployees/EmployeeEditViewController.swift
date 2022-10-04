@@ -95,13 +95,13 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(gesture)
     }
     
-    func showSpinner() {
+    private func showSpinner() {
         viewForIndicator = SpinnerView(frame: self.view.bounds)
         view.addSubview(viewForIndicator)
         navigationController?.navigationBar.alpha = 0.3
     }
     
-    func removeSpinner() {
+    private func removeSpinner() {
         viewForIndicator.removeFromSuperview()
         navigationController?.navigationBar.alpha = 1.0
     }
