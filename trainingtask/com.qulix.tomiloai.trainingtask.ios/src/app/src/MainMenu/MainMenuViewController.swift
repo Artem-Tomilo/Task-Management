@@ -1,10 +1,3 @@
-//
-//  MainMenuViewController.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 19.09.22.
-//
-
 import UIKit
 
 class MainMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -57,7 +50,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         switch indexPath.row {
         case 2:
             let newVC = EmployeesListController()
-            let server = Server()
+            let server = Stub()
             newVC.serverDelegate = server
             navigationController?.pushViewController(newVC, animated: true)
         case 3:

@@ -1,10 +1,3 @@
-//
-//  EmployeeCustomCellLabel.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 20.09.22.
-//
-
 import UIKit
 
 class EmployeeCustomCellLabel: UILabel {

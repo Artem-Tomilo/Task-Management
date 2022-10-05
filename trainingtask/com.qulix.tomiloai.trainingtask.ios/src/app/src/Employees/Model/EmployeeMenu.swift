@@ -1,10 +1,3 @@
-//
-//  EmployeeMenu.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 28.09.22.
-//
-
 import UIKit
 
 enum EmployeeMenu: String, CaseIterable {

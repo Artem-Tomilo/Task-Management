@@ -20,8 +20,8 @@
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
 		385C567328D4A991004AC34A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 385C567228D4A991004AC34A /* Assets.xcassets */; };
 		385C567628D4A991004AC34A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 385C567428D4A991004AC34A /* LaunchScreen.storyboard */; };
-		3862A3B328E70BD700FE0872 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3862A3B228E70BD700FE0872 /* Server.swift */; };
-		3862A3BF28EAE57A00FE0872 /* EmployeesListControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3862A3BE28EAE57A00FE0872 /* EmployeesListControllerDelegate.swift */; };
+		3862A3B328E70BD700FE0872 /* Stub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3862A3B228E70BD700FE0872 /* Stub.swift */; };
+		3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3862A3BE28EAE57A00FE0872 /* Server.swift */; };
 		387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD7E28E30F70004BE734 /* SettingsViewController.swift */; };
 		387AAD8128E31E47004BE734 /* SettingsLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8028E31E47004BE734 /* SettingsLabel.swift */; };
 		387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8628E4338E004BE734 /* MainMenuList.swift */; };
@@ -45,8 +45,8 @@
 		385C567228D4A991004AC34A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		385C567528D4A991004AC34A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		385C567728D4A991004AC34A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3862A3B228E70BD700FE0872 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
-		3862A3BE28EAE57A00FE0872 /* EmployeesListControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesListControllerDelegate.swift; sourceTree = "<group>"; };
+		3862A3B228E70BD700FE0872 /* Stub.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stub.swift; sourceTree = "<group>"; };
+		3862A3BE28EAE57A00FE0872 /* Server.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Server.swift; sourceTree = "<group>"; };
 		387AAD7E28E30F70004BE734 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		387AAD8028E31E47004BE734 /* SettingsLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLabel.swift; sourceTree = "<group>"; };
 		387AAD8628E4338E004BE734 /* MainMenuList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuList.swift; sourceTree = "<group>"; };
@@ -86,8 +86,8 @@
 		385A04A328DDC35400FD008F /* Server */ = {
 			isa = PBXGroup;
 			children = (
-				3862A3B228E70BD700FE0872 /* Server.swift */,
-				3862A3BE28EAE57A00FE0872 /* EmployeesListControllerDelegate.swift */,
+				3862A3B228E70BD700FE0872 /* Stub.swift */,
+				3862A3BE28EAE57A00FE0872 /* Server.swift */,
 			);
 			path = Server;
 			sourceTree = "<group>";
@@ -111,7 +111,7 @@
 		385C566828D4A98C004AC34A /* trainingtask */ = {
 			isa = PBXGroup;
 			children = (
-				389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.data */,
+				389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.ios */,
 			);
 			path = trainingtask;
 			sourceTree = "<group>";
@@ -190,32 +190,32 @@
 			path = SplashViewController;
 			sourceTree = "<group>";
 		};
-		389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.data */ = {
+		389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.ios */ = {
 			isa = PBXGroup;
 			children = (
 				389A99F428E6EDD60093D975 /* src */,
 			);
-			path = com.qulix.tomiloai.trainingtask.data;
+			path = com.qulix.tomiloai.trainingtask.ios;
 			sourceTree = "<group>";
 		};
 		389A99F428E6EDD60093D975 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				389A99F528E6EDE20093D975 /* main */,
+				389A99F528E6EDE20093D975 /* app */,
 			);
 			path = src;
 			sourceTree = "<group>";
 		};
-		389A99F528E6EDE20093D975 /* main */ = {
+		389A99F528E6EDE20093D975 /* app */ = {
 			isa = PBXGroup;
 			children = (
-				389A99F628E6EEAC0093D975 /* ios */,
+				389A99F628E6EEAC0093D975 /* src */,
 				387AAD9428E6E51B004BE734 /* resources */,
 			);
-			path = main;
+			path = app;
 			sourceTree = "<group>";
 		};
-		389A99F628E6EEAC0093D975 /* ios */ = {
+		389A99F628E6EEAC0093D975 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
@@ -226,7 +226,7 @@
 				387AAD8528E36CAA004BE734 /* Settings */,
 				3820316628D9F0EF008FAD35 /* GlobalCustomViews */,
 			);
-			path = ios;
+			path = src;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -310,13 +310,13 @@
 				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
 				387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */,
-				3862A3B328E70BD700FE0872 /* Server.swift in Sources */,
+				3862A3B328E70BD700FE0872 /* Stub.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				387AAD8128E31E47004BE734 /* SettingsLabel.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
-				3862A3BF28EAE57A00FE0872 /* EmployeesListControllerDelegate.swift in Sources */,
+				3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -457,7 +457,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.data/src/main/resources/Info.plist;
+				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -484,7 +484,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.data/src/main/resources/Info.plist;
+				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

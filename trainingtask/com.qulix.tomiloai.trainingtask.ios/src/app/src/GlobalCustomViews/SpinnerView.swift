@@ -1,10 +1,3 @@
-//
-//  SpinnerView.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 23.09.22.
-//
-
 import UIKit
 
 class SpinnerView: UIView {

@@ -1,10 +1,3 @@
-//
-//  MenuCustomCell.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 19.09.22.
-//
-
 import UIKit
 
 class MenuCustomCell: UITableViewCell {

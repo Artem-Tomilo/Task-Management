@@ -1,10 +1,3 @@
-//
-//  SettingsViewController.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 27.09.22.
-//
-
 import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate {

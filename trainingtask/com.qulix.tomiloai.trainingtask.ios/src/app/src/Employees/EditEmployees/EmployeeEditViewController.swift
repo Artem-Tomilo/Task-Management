@@ -1,10 +1,3 @@
-//
-//  EmployeeEditViewController.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 21.09.22.
-//
-
 import UIKit
 
 protocol EmployeeEditViewControllerDelegate: AnyObject {
@@ -101,11 +94,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.alpha = 0.3
     }
     
-    private func removeSpinner() {
-        viewForIndicator.removeFromSuperview()
-        navigationController?.navigationBar.alpha = 1.0
-    }
-    
     @objc func saveEmployee(_ sender: UIBarButtonItem) {
         if let surname = surnameTextField.text,
            let name = nameTextField.text,
@@ -117,17 +105,11 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
                 employee.patronymic = patronymic
                 employee.position = position
                 showSpinner()
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                    self.delegate?.editEmployee(self, newData: employee, previousData: self.employeeToEdit!)
-                    self.removeSpinner()
-                }
+                delegate?.editEmployee(self, newData: employee, previousData: self.employeeToEdit!)
             } else {
                 let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
                 showSpinner()
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                    self.delegate?.addNewEmployee(self, newEmployee: employee)
-                    self.removeSpinner()
-                }
+                delegate?.addNewEmployee(self, newEmployee: employee)
             }
         }
     }

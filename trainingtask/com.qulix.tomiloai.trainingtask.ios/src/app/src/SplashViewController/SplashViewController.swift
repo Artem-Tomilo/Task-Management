@@ -1,10 +1,3 @@
-//
-//  SplashViewController.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 16.09.22.
-//
-
 import UIKit
 
 class SplashViewController: UIViewController {
