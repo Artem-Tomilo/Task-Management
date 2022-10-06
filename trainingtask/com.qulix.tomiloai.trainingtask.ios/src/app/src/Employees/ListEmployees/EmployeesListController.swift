@@ -9,11 +9,11 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     private var employeeArray: [Employee]?
     private lazy var partialEmployeeArray: [Employee] = []
-    private var maxRecordsCount = 0
     
     private static let newCellIdentifier = "NewCell"
     
     var serverDelegate: Server!
+    private var employeeController = EmployeeController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,24 +63,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    private func loadData(_ completion: @escaping () -> Void) {
+    func loadData(_ completion: @escaping () -> Void) {
         employeeArray = serverDelegate.getEmployees()
-        
-        if let settings = UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) {
-            for (key, value) in settings {
-                switch key {
-                case "Records":
-                    let value = value as? String ?? "0"
-                    maxRecordsCount = Int(value) ?? 0
-                default:
-                    break
-                }
-            }
-        }
-        
-        if maxRecordsCount != 0 && maxRecordsCount <= employeeArray?.count ?? 0 {
-            partialEmployeeArray = Array(employeeArray?[0..<maxRecordsCount] ?? [] )
-        }
+        partialEmployeeArray = employeeController.checkArray(employeeArray: employeeArray ?? [])
         completion()
     }
     
@@ -90,9 +75,28 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         navigationController?.navigationBar.alpha = 0.3
     }
     
-    private func removeSpinner() {
+    func removeSpinner() {
         viewForIndicator.removeFromSuperview()
         navigationController?.navigationBar.alpha = 1.0
+    }
+    
+    private func deleteEmployee(tableView: UITableView, indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
+        let employee = Employee(surname: cell.surnameText, name: cell.nameText, patronymic: cell.patronymicText, position: cell.positionText)
+        
+        guard employeeController.checkEmployeeInArray(employee: employee, employeeArray: employeeArray ?? []) else { return }
+        if partialEmployeeArray.isEmpty {
+            serverDelegate.deleteEmployee(employee: employee) {
+                self.employeeArray = self.serverDelegate.getEmployees()
+                self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
+            }
+        } else {
+            self.serverDelegate.deleteEmployee(employee: employee) {
+                self.employeeArray = self.serverDelegate.getEmployees()
+                self.partialEmployeeArray.remove(at: indexPath.row)
+                self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
+            }
+        }
     }
     
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -137,32 +141,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
             let action = UIAlertAction(title: "Удалить", style: .destructive) { _ in
                 self.showSpinner()
-                if self.partialEmployeeArray.isEmpty {
-                    self.serverDelegate.deleteEmployee(index: indexPath.row) {
-                        self.employeeArray = self.serverDelegate.getEmployees()
-                        tableView.performBatchUpdates {
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        } completion: { _ in
-                            self.loadData{
-                                self.tableView.reloadData()
-                                self.removeSpinner()
-                            }
-                        }
-                    }
-                } else {
-                    self.serverDelegate.deleteEmployee(index: indexPath.row) {
-                        self.employeeArray = self.serverDelegate.getEmployees()
-                        self.partialEmployeeArray.remove(at: indexPath.row)
-                        tableView.performBatchUpdates {
-                            tableView.deleteRows(at: [indexPath], with: .automatic)
-                        } completion: { _ in
-                            self.loadData{
-                                self.tableView.reloadData()
-                                self.removeSpinner()
-                            }
-                        }
-                    }
-                }
+                self.deleteEmployee(tableView: tableView, indexPath: indexPath)
             }
             let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
                 self.dismiss(animated: true)
@@ -218,15 +197,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee) {
-        if let index = employeeArray?.firstIndex(of: previousData) {
+        if employeeController.checkEmployeeInArray(employee: previousData, employeeArray: employeeArray ?? []) {
+            guard let index = employeeArray?.firstIndex(of: previousData) else { return }
             let indexPath = IndexPath(row: index, section: 0)
-            if let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell {
-                serverDelegate.editEmployee(index: index, newData: newData) {
-                    self.employeeArray = self.serverDelegate.getEmployees()
-                    self.configureText(for: cell, with: newData)
-                    self.removeSpinner()
-                    self.navigationController?.popViewController(animated: true)
-                }
+            guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
+            serverDelegate.editEmployee(employee: previousData, newData: newData) {
+                self.employeeArray = self.serverDelegate.getEmployees()
+                self.configureText(for: cell, with: newData)
+                self.removeSpinner()
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

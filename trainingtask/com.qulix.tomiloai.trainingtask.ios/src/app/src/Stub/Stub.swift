@@ -13,19 +13,23 @@ class Stub: Server {
         }
     }
     
-    func deleteEmployee(index: Int, _ completion: @escaping () -> Void) {
+    func deleteEmployee(employee: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
-            self.employeesArray.remove(at: index)
+            if let index = self.employeesArray.firstIndex(of: employee) {
+                self.employeesArray.remove(at: index)
+            }
             DispatchQueue.main.async {
                 completion()
             }
         }
     }
     
-    func editEmployee(index: Int, newData: Employee, _ completion: @escaping () -> Void) {
+    func editEmployee(employee: Employee, newData: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
-            self.employeesArray.remove(at: index)
-            self.employeesArray.insert(newData, at: index)
+            if let index = self.employeesArray.firstIndex(of: employee) {
+                self.employeesArray.remove(at: index)
+                self.employeesArray.insert(newData, at: index)
+            }
             DispatchQueue.main.async {
                 completion()
             }
