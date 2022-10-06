@@ -92,7 +92,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                     self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
                 }
             } catch {
-                print(error.localizedDescription)
+                DispatchQueue.global().async {
+                    print(error.localizedDescription)
+                }
             }
         } else {
             do {
@@ -102,7 +104,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                     self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
                 }
             } catch {
-                print(error.localizedDescription)
+                DispatchQueue.global().async {
+                    print(error.localizedDescription)
+                }
             }
         }
     }
@@ -204,7 +208,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 self.navigationController?.popViewController(animated: true)
             }
         } catch {
-            print(error.localizedDescription)
+            DispatchQueue.global().async {
+                print(error.localizedDescription)
+            }
         }
     }
     
@@ -221,7 +227,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                     self.navigationController?.popViewController(animated: true)
                 }
             } catch {
-                print(error.localizedDescription)
+                DispatchQueue.global().async {
+                    print(error.localizedDescription)
+                }
             }
         }
     }
