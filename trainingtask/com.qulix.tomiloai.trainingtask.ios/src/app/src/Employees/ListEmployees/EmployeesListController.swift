@@ -93,7 +93,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         } else {
             self.serverDelegate.deleteEmployee(employee: employee) {
                 self.employeeArray = self.serverDelegate.getEmployees()
-                self.partialEmployeeArray.remove(at: indexPath.row)
+                self.partialEmployeeArray.removeAll(where: { $0 == employee })
                 self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
             }
         }

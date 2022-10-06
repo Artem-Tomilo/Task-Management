@@ -15,9 +15,7 @@ class Stub: Server {
     
     func deleteEmployee(employee: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
-            if let index = self.employeesArray.firstIndex(of: employee) {
-                self.employeesArray.remove(at: index)
-            }
+            self.employeesArray.removeAll(where: { $0 == employee })
             DispatchQueue.main.async {
                 completion()
             }
@@ -27,7 +25,7 @@ class Stub: Server {
     func editEmployee(employee: Employee, newData: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
             if let index = self.employeesArray.firstIndex(of: employee) {
-                self.employeesArray.remove(at: index)
+                self.employeesArray.removeAll(where: { $0 == employee })
                 self.employeesArray.insert(newData, at: index)
             }
             DispatchQueue.main.async {
