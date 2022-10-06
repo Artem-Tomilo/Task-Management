@@ -86,15 +86,23 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         
         guard employeeController.checkEmployeeInArray(employee: employee, employeeArray: employeeArray ?? []) else { return }
         if partialEmployeeArray.isEmpty {
-            serverDelegate.deleteEmployee(employee: employee) {
-                self.employeeArray = self.serverDelegate.getEmployees()
-                self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
+            do {
+                try serverDelegate.deleteEmployee(employee: employee) {
+                    self.employeeArray = self.serverDelegate.getEmployees()
+                    self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
+                }
+            } catch {
+                print(error.localizedDescription)
             }
         } else {
-            self.serverDelegate.deleteEmployee(employee: employee) {
-                self.employeeArray = self.serverDelegate.getEmployees()
-                self.partialEmployeeArray.removeAll(where: { $0 == employee })
-                self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
+            do {
+                try serverDelegate.deleteEmployee(employee: employee) {
+                    self.employeeArray = self.serverDelegate.getEmployees()
+                    self.partialEmployeeArray.removeAll(where: { $0 == employee })
+                    self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
+                }
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }
@@ -190,9 +198,13 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
-        serverDelegate.addEmployee(employee: newEmployee) {
-            self.removeSpinner()
-            self.navigationController?.popViewController(animated: true)
+        do {
+            try serverDelegate.addEmployee(employee: newEmployee) {
+                self.removeSpinner()
+                self.navigationController?.popViewController(animated: true)
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -201,11 +213,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             guard let index = employeeArray?.firstIndex(of: previousData) else { return }
             let indexPath = IndexPath(row: index, section: 0)
             guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
-            serverDelegate.editEmployee(employee: previousData, newData: newData) {
-                self.employeeArray = self.serverDelegate.getEmployees()
-                self.configureText(for: cell, with: newData)
-                self.removeSpinner()
-                self.navigationController?.popViewController(animated: true)
+            do {
+                try serverDelegate.editEmployee(employee: previousData, newData: newData) {
+                    self.employeeArray = self.serverDelegate.getEmployees()
+                    self.configureText(for: cell, with: newData)
+                    self.removeSpinner()
+                    self.navigationController?.popViewController(animated: true)
+                }
+            } catch {
+                print(error.localizedDescription)
             }
         }
     }
