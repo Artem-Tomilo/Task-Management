@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ EmployeesListController - экран Список сотрудников, отображает tableView со всеми сотрудниками, хранящимися на сервере
+ */
+
 class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
     
     private var tableView = UITableView()
@@ -12,7 +16,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     private static let newCellIdentifier = "NewCell"
     
-    var serverDelegate: Server!
+    var serverDelegate: Server! // делегат, вызывающий методы обработки сотрудников на сервере
     private var employeeController = EmployeeController()
     
     override func viewDidLoad() {
@@ -54,6 +58,12 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
+    /*
+     Параметр cell - ячейка, в которой отображается сотрудник
+     
+     Параметр employee - сотрудник, хранящийся в этой ячейку, данными которого она и будет заполняться
+     */
+    
     private func configureText(for cell: UITableViewCell, with employee: Employee) {
         if let cell = cell as? EmployeeCustomCell {
             cell.surnameText = employee.surname
@@ -62,6 +72,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             cell.positionText = employee.position
         }
     }
+    
+    /*
+     Функция обновления данных, блок completion вызывается после передачи данных с сервера и как правило обновляет таблицу
+     */
     
     func loadData(_ completion: @escaping () -> Void) {
         employeeArray = serverDelegate.getEmployees()
@@ -79,6 +93,14 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         viewForIndicator.removeFromSuperview()
         navigationController?.navigationBar.alpha = 1.0
     }
+    
+    /*
+     Функция удаления сотрудника:
+     
+     параметр tableView - таблица, в которой будет находится ячейка с сотрудников
+     
+     параметр indexPath - IndexPath данной ячейки
+     */
     
     private func deleteEmployee(tableView: UITableView, indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
@@ -148,6 +170,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         35
     }
     
+    /*
+     Удаление и редактирование сотрудника происходит после свайпа влево
+     */
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { _, _, close in
             let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
@@ -184,11 +210,20 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         ])
     }
     
+    /*
+     addNewEmployee - target на кнопку добавления нового сотрудника:
+     переходит на экран Редактирование сотрудника
+     */
+    
     @objc func addNewEmployee(_ sender: UIBarButtonItem) {
         let vc = EmployeeEditViewController()
         vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    /*
+     refresh - таргет на обновление таблицы через UIRefreshControl
+     */
     
     @objc func refresh(_ sender: UIRefreshControl) {
         loadData {
@@ -197,9 +232,22 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    /*
+     addEmployeeDidCancel - метод протокола EmployeeEditViewControllerDelegate, который возвращает на экран Список сотрудников после нажатия кнопки Cancel
+     
+     Параметр controller - ViewController, на котором вызывается данный метод
+     */
+    
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController) {
         navigationController?.popViewController(animated: true)
     }
+    
+    /*
+     addNewEmployee - метод протокола EmployeeEditViewControllerDelegate, который добавляет нового сотрудника в массив на сервере, останавливает спиннер и возвращает на экран Список сотрудников
+     
+     Параметр newEmployee - новый сотрудник для добавления
+     Параметр controller - ViewController, на котором вызывается данный метод
+     */
     
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
         do {
@@ -213,6 +261,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             }
         }
     }
+    
+    /*
+     editEmployee - метод протокола EmployeeEditViewControllerDelegate, который изменяет данные сотрудника:
+     сначала происходит проверка нахождения сотрудника в массиве на сервере, потом происходит изменение его данных, остановка спиннера и возврат на экран Список сотрудников
+     
+     Параметр newData - данные сотрудника, после изменения
+     Параметр previousData - данные сотрудника до изменения
+     Параметр controller - ViewController, на котором вызывается данный метод
+     */
     
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee) {
         if employeeController.checkEmployeeInArray(employee: previousData, employeeArray: employeeArray ?? []) {

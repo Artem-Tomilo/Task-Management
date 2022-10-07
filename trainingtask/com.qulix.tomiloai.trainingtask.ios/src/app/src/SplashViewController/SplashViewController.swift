@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ SplashViewController является начальным экраном, держится 5 секунд и осуществляет переход на экран Главное меню
+ */
+
 class SplashViewController: UIViewController {
     
     private var nameLabel = UILabel()

@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ MenuCustomCell - кастомная ячейка для tableView экрана Главное меню
+ */
+
 class MenuCustomCell: UITableViewCell {
     private let label = UILabel(frame: .zero)
     

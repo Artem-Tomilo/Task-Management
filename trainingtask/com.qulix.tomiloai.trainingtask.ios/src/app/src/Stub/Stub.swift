@@ -1,8 +1,17 @@
 import Foundation
 
+/*
+ Класс Stub является стаб-реализацией интерфейса сервера
+ */
+
 class Stub: Server {
     
     private var employeesArray: [Employee] = []
+    
+    /*
+     Параметр employee - новый сотрудник для в массив и последующего сохранения
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     
     func addEmployee(employee: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
@@ -13,6 +22,11 @@ class Stub: Server {
         }
     }
     
+    /*
+     Параметр employee - сотрудник, которого необходимо удалить
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
+    
     func deleteEmployee(employee: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
             self.employeesArray.removeAll(where: { $0 == employee })
@@ -21,6 +35,12 @@ class Stub: Server {
             }
         }
     }
+    
+    /*
+     Параметр employee - сотрудник, которого необходимо отредактировать
+     Параметр newData - отредактированный сотрудник
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     
     func editEmployee(employee: Employee, newData: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
@@ -34,7 +54,7 @@ class Stub: Server {
         }
     }
     
-    func getEmployees() -> [Employee] {
+    func getEmployees() -> [Employee] {   // возвращаемое значение является массивом всех сотрудников, который хранится на сервере
         return employeesArray
     }
 }

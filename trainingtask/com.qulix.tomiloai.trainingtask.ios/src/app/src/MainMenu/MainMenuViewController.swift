@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ MainMenuViewController - экран Главное меню, отображает tableView с возможными вариантами перехода на другие экраны
+ */
+
 class MainMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private var tableView = UITableView()

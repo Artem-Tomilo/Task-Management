@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ SettingsCustomView - кастомное View для отображения на экране Настройки
+ */
+
 class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
     private let label: SettingsLabel
     private let textField: CustomTextField
@@ -35,17 +39,41 @@ class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
         ])
     }
     
+    /*
+     addLabelText - метод для задания текста лейблу
+     
+     Параметр text - задаваемый текст для лейбла
+     */
+    
     func addLabelText(text: String) {
         label.text = text
     }
+    
+    /*
+     addTextFieldPlaceholder - метод для задания текста плейсхолдеру textField'а
+     
+     Параметр text - задаваемый текст для плейсхолдера
+     */
     
     func addTextFieldPlaceholder(text: String) {
         textField.placeholder = text
     }
     
+    /*
+     setTextFieldText - метод для записи текста textField'а
+     
+     Параметр text - задаваемый текст
+     */
+    
     func setTextFieldText(text: String) {
         textField.text = text
     }
+    
+    /*
+     getTextFieldText - метод для проверки и получения текста textField'а
+     
+     Возвращаемое значение - сам текст
+     */
     
     func getTextFieldText() -> String {
         if let text = textField.text {
@@ -53,6 +81,10 @@ class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
         }
         return "No data"
     }
+    
+    /*
+     checkTextFieldForDelegate - метод для проверки текстфилда, если параметр flag == true, то в текстфилд можно вносить только цифры
+     */
     
     func checkTextFieldForDelegate(flag: Bool) {
         if flag {

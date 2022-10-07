@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ EmployeeCustomCell - кастомная ячейка для tableView экрана Список сотрудников
+ */
+
 class EmployeeCustomCell: UITableViewCell {
     
     private let background = UIView(frame: .zero)

@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ SettingsViewController - экран Настройки, который отображает либо дефолтные, либо пользовательские настройки
+ */
+
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     private var urlView = SettingsCustomView()
@@ -59,7 +63,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         navigationItem.leftBarButtonItem = cancelButton
     }
     
-    func loadSettings() {
+    /*
+     loadSettings - метод проверки и загрузки настроек приложения
+     
+     В случает возникновения ошибок производится их обработка
+     */
+    
+    private func loadSettings() {
         do {
             if userSettings.checkUserSettings() {
                 if let userSettings =  try userSettings.getUserSettings() {
@@ -75,11 +85,21 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         showSettings()
     }
     
+    /*
+     showSettings - метод для отображения настроек в соответствующих полях
+     */
+    
     private func showSettings() {
         urlView.setTextFieldText(text: settings?.url ?? "")
         recordsView.setTextFieldText(text: settings?.maxRecords ?? "0")
         daysView.setTextFieldText(text: settings?.maxDays ?? "0")
     }
+    
+    /*
+     таргет на кнопку Save - сохраняет пользовательские настройки и возвращает на экран Главное меню
+     
+     В случает возникновения ошибок производится их обработка
+     */
     
     @objc func saveSettings(_ sender: UIBarButtonItem) {
         do {
@@ -90,6 +110,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         }
         
     }
+    
+    /*
+     таргет на кнопку Cancel - возвращает на экран Главное меню
+     */
     
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)

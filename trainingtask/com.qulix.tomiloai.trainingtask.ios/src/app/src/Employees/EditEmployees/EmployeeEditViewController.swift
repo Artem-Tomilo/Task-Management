@@ -1,10 +1,18 @@
 import UIKit
 
+/*
+ Протокол EmployeeEditViewControllerDelegate - интерфейс для взаимодействия с экраном Список сотрудников
+ */
+
 protocol EmployeeEditViewControllerDelegate: AnyObject {
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController)
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee)
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee)
 }
+
+/*
+ EmployeeEditViewController - экран Редактирование сотрудника, отображает необходимые поля для введения нового, либо редактирования существующего сотрудника
+ */
 
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
@@ -20,7 +28,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     weak var delegate: EmployeeEditViewControllerDelegate?
     
-    var employeeToEdit: Employee?
+    var employeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,6 +102,11 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.alpha = 0.3
     }
     
+    /*
+     saveEmployee - таргет на кнопку Save:
+     сохраняет нового, либо отредактированного сотрудника, путем вызова необходимый методов через делегата и возвращает на экран Список сотрудников
+     */
+    
     @objc func saveEmployee(_ sender: UIBarButtonItem) {
         if let surname = surnameTextField.text,
            let name = nameTextField.text,
@@ -114,14 +127,26 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    /*
+     таргет на кнопку Cancel - возвращает на предыдущий экран
+     */
+    
     @objc func cancel(_ sender: UIBarButtonItem) {
         delegate?.addEmployeeDidCancel(self)
     }
+    
+    /*
+     таргет для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное простарнство на экране
+     */
     
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         view.endEditing(false)
     }
+    
+    /*
+     таргет для кнопки done на клавиатуре - переходит на следующий textField, если он последний в списке, то прячет клавиатуру
+     */
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {

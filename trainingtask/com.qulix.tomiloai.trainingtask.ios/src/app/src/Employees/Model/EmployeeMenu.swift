@@ -1,5 +1,11 @@
 import UIKit
 
+/*
+ EmployeeMenu - перечисления параметров сотрудника для отображения в tableView
+ 
+ title - задание русского текста для всех элементов перечисления
+ */
+
 enum EmployeeMenu: String, CaseIterable {
     case Surname, Name, Patronymic, Position
     

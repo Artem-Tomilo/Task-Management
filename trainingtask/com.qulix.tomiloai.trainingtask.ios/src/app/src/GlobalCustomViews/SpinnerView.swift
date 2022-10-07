@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ SpinnerView - кастомное View, отображающее спиннер при загрузке данных
+ */
+
 class SpinnerView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)

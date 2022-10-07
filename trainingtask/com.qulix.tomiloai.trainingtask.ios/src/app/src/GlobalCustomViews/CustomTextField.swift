@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ CustomTextField - кастомный текстФилд
+ */
+
 class CustomTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)

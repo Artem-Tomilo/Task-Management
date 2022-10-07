@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ SettingsLabel - кастомный label для экрана Настройки
+ */
+
 class SettingsLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)

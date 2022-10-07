@@ -1,8 +1,20 @@
 import Foundation
 
+/*
+ DefaultSettings - сервис для получения настроек по умолчанию
+ */
+
 class DefaultSettings {
     
     private var defaultsSettings: Settings?
+    
+    /*
+     getDefaultsSetiings - метод получения настроек по умолчанию
+     
+     Возвращаемое значение Settings? - настройки по умолчанию, которые будут отображаться на экране Настройки, значение опционально, т.к. оно может не прийти и возникнет ошибка
+     
+     Будет производиться обработка ошибочной ситуации в случае неполучения данных
+     */
     
     func getDefaultsSetiings() throws -> Settings? {
         if let path = Bundle.main.path(forResource: "Settings", ofType: ".plist"),

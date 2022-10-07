@@ -1,5 +1,9 @@
 import UIKit
 
+/*
+ EmployeeCustomCellLabel - кастомный Label, использующийся в кастомной ячейке EmployeeCustomCell
+ */
+
 class EmployeeCustomCellLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
