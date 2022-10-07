@@ -12,6 +12,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     private let userDefaults = UserDefaults.standard
     static let settingsKey = "settings"
     
+    private let defaultsSettings = DefaultSettings()
+    private var settings: Settings?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -68,6 +71,16 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         return false
     }
     
+    func getDefaultsSettings() {
+        do {
+            if let defaultsSettings = try defaultsSettings.getDefaultsSetiings() {
+                settings = defaultsSettings
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     private func getData() {
         if userSettingsExist() {
             guard let settings = UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) else { return }
@@ -102,9 +115,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func saveSettings() {
-        var set = [String : Any]()
+//        var set = [String : Any]()
 //        set = ["Url" : urlText, "Records" : recordsText, "Days" : daysText]
-        UserDefaults.standard.setValue(set, forKey: SettingsViewController.settingsKey)
+//        UserDefaults.standard.setValue(set, forKey: SettingsViewController.settingsKey)
     }
     
     @objc func saveSettings(_ sender: UIBarButtonItem) {
