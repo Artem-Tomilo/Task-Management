@@ -60,24 +60,35 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     func loadSettings() {
-        if let userSettings = userSettings.getUserSettings() {
-            settings = userSettings
-        } else {
-            let defaultsSettings = defaultsSettings.getDefaultsSetiings()
-            settings = defaultsSettings
+        do {
+            if userSettings.checkUserSettings() {
+                if let userSettings =  try userSettings.getUserSettings() {
+                    settings = userSettings
+                }
+            } else {
+                let defaultsSettings =  try defaultsSettings.getDefaultsSetiings()
+                settings = defaultsSettings
+            }
+        } catch {
+            print(error.localizedDescription)
         }
         showSettings()
     }
     
     private func showSettings() {
         urlView.setTextFieldText(text: settings?.url ?? "")
-        recordsView.setTextFieldText(text: settings?.maxRecords ?? "0123")
-        daysView.setTextFieldText(text: settings?.maxDays ?? "04321")
+        recordsView.setTextFieldText(text: settings?.maxRecords ?? "0")
+        daysView.setTextFieldText(text: settings?.maxDays ?? "0")
     }
     
     @objc func saveSettings(_ sender: UIBarButtonItem) {
-        userSettings.saveUserSettings(url: urlView.getTextFieldText(), records: recordsView.getTextFieldText(), days: daysView.getTextFieldText())
-        navigationController?.popViewController(animated: true)
+        do {
+            try userSettings.saveUserSettings(url: urlView.getTextFieldText(), records: recordsView.getTextFieldText(), days: daysView.getTextFieldText())
+            navigationController?.popViewController(animated: true)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
     }
     
     @objc func cancel(_ sender: UIBarButtonItem) {
