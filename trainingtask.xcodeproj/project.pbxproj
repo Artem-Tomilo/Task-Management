@@ -17,6 +17,7 @@
 		3820316E28DB4AF1008FAD35 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316D28DB4AF1008FAD35 /* CustomTextField.swift */; };
 		3824BF3828EEF0D40027149D /* EmployeeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3728EEF0D40027149D /* EmployeeController.swift */; };
 		3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3928EF7E7C0027149D /* Settings.swift */; };
+		3824BF3D28F00CE80027149D /* SettingsCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3C28F00CE80027149D /* SettingsCustomView.swift */; };
 		385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A628DDC54400FD008F /* SpinnerView.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
@@ -42,6 +43,7 @@
 		3820316D28DB4AF1008FAD35 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		3824BF3728EEF0D40027149D /* EmployeeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeController.swift; sourceTree = "<group>"; };
 		3824BF3928EF7E7C0027149D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		3824BF3C28F00CE80027149D /* SettingsCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCustomView.swift; sourceTree = "<group>"; };
 		385A04A628DDC54400FD008F /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385C566928D4A98C004AC34A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -180,6 +182,7 @@
 			children = (
 				3824BF3B28EF7E970027149D /* Model */,
 				387AAD7E28E30F70004BE734 /* SettingsViewController.swift */,
+				3824BF3C28F00CE80027149D /* SettingsCustomView.swift */,
 				387AAD8028E31E47004BE734 /* SettingsLabel.swift */,
 			);
 			path = Settings;
@@ -316,6 +319,7 @@
 			files = (
 				385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */,
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
+				3824BF3D28F00CE80027149D /* SettingsCustomView.swift in Sources */,
 				3820316328D9EFF7008FAD35 /* EmployeeCustomCellLabel.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeeCustomCell.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* CustomTextField.swift in Sources */,
