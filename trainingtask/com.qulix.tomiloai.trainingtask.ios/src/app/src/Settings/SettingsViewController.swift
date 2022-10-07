@@ -1,24 +1,19 @@
 import UIKit
 
 class SettingsViewController: UIViewController, UITextFieldDelegate {
-
+    
     private var urlView = SettingsCustomView()
     private var recordsView = SettingsCustomView()
     private var daysView = SettingsCustomView()
     
-    private var urlText = ""
-    private var recordsText = ""
-    private var daysText = ""
-    private let userDefaults = UserDefaults.standard
-    static let settingsKey = "settings"
-    
     private let defaultsSettings = DefaultSettings()
+    private let userSettings = UserSettings()
     private var settings: Settings?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        getData()
+        loadSettings()
     }
     
     private func setup() {
@@ -27,7 +22,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .black
         view.backgroundColor = .white
-
+        
         view.addSubview(urlView)
         view.addSubview(recordsView)
         view.addSubview(daysView)
@@ -59,72 +54,29 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSettings(_:)))
         navigationItem.rightBarButtonItem = saveButton
-
+        
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
         navigationItem.leftBarButtonItem = cancelButton
     }
     
-    private func userSettingsExist() -> Bool {
-        if UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) != nil {
-            return true
-        }
-        return false
-    }
-    
-    func getDefaultsSettings() {
-        do {
-            if let defaultsSettings = try defaultsSettings.getDefaultsSetiings() {
-                settings = defaultsSettings
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func getData() {
-        if userSettingsExist() {
-            guard let settings = UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) else { return }
-            for (key, value) in settings {
-                switch key {
-                case "Url":
-                    urlText = value as! String
-                case "Records":
-                    recordsText = value as! String
-                case "Days":
-                    daysText = value as! String
-                default:
-                    break
-                }
-            }
+    func loadSettings() {
+        if let userSettings = userSettings.getUserSettings() {
+            settings = userSettings
         } else {
-            guard let path = Bundle.main.path(forResource: "Settings", ofType: ".plist"),
-                  let dictionary = NSDictionary(contentsOfFile: path),
-                  let settingsDictionary = dictionary.object(forKey: "Settings") as? NSDictionary,
-                  let url = settingsDictionary.value(forKey: "Url") as? String,
-                  let records = settingsDictionary.value(forKey: "Records") as? Int,
-                  let days = settingsDictionary.value(forKey: "Days") as? Int else { return }
-            urlText = url
-            recordsText = String(records)
-            daysText = String(days)
+            let defaultsSettings = defaultsSettings.getDefaultsSetiings()
+            settings = defaultsSettings
         }
-        showSettings(url: urlText, records: recordsText, days: daysText)
+        showSettings()
     }
     
-    private func showSettings(url: String, records: String, days: String) {
-        
-    }
-    
-    private func saveSettings() {
-//        var set = [String : Any]()
-//        set = ["Url" : urlText, "Records" : recordsText, "Days" : daysText]
-//        UserDefaults.standard.setValue(set, forKey: SettingsViewController.settingsKey)
+    private func showSettings() {
+        urlView.setTextFieldText(text: settings?.url ?? "")
+        recordsView.setTextFieldText(text: settings?.maxRecords ?? "0123")
+        daysView.setTextFieldText(text: settings?.maxDays ?? "04321")
     }
     
     @objc func saveSettings(_ sender: UIBarButtonItem) {
-//        urlText = urlTextField.text ?? ""
-//        recordsText = maxRecordsTextField.text ?? "0"
-//        daysText = daysTextField.text ?? "0"
-        saveSettings()
+        userSettings.saveUserSettings(url: urlView.getTextFieldText(), records: recordsView.getTextFieldText(), days: daysView.getTextFieldText())
         navigationController?.popViewController(animated: true)
     }
     

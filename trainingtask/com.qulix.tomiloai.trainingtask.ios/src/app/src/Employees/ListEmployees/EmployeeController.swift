@@ -24,7 +24,7 @@ class EmployeeController {
     
     private func getMaxRecordsCount() -> Int {
         var count = 0
-        if let settings = UserDefaults.standard.dictionary(forKey: SettingsViewController.settingsKey) {
+        if let settings = UserDefaults.standard.dictionary(forKey: UserSettings.settingsKey) {
             for (key, value) in settings {
                 switch key {
                 case "Records":
