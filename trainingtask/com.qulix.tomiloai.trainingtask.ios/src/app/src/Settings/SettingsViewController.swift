@@ -3,7 +3,6 @@ import UIKit
 /*
  SettingsViewController - экран Настройки, который отображает либо дефолтные, либо пользовательские настройки
  */
-
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     private var urlView = SettingsCustomView()
@@ -45,14 +44,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             daysView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
         
-        urlView.addLabelText(text: "URL сервера")
-        recordsView.addLabelText(text: "Максимальное количество записей в списках")
-        daysView.addLabelText(text: "Количество дней по умолчанию между начальной и конечной датами в задаче")
-        
-        urlView.addTextFieldPlaceholder(text: "URL")
-        recordsView.addTextFieldPlaceholder(text: "Количество записей")
-        daysView.addTextFieldPlaceholder(text: "Количество дней")
-        
         recordsView.checkTextFieldForDelegate(flag: true)
         daysView.checkTextFieldForDelegate(flag: true)
         
@@ -68,7 +59,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      
      В случает возникновения ошибок производится их обработка
      */
-    
     private func loadSettings() {
         do {
             if userSettings.checkUserSettings() {
@@ -88,11 +78,10 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     /*
      showSettings - метод для отображения настроек в соответствующих полях
      */
-    
     private func showSettings() {
-        urlView.setTextFieldText(text: settings?.url ?? "")
-        recordsView.setTextFieldText(text: settings?.maxRecords ?? "0")
-        daysView.setTextFieldText(text: settings?.maxDays ?? "0")
+        urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings?.url ?? "")
+        recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: settings?.maxRecords ?? "0")
+        daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: settings?.maxDays ?? "0")
     }
     
     /*
@@ -100,21 +89,18 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      
      В случает возникновения ошибок производится их обработка
      */
-    
     @objc func saveSettings(_ sender: UIBarButtonItem) {
         do {
-            try userSettings.saveUserSettings(url: urlView.getTextFieldText(), records: recordsView.getTextFieldText(), days: daysView.getTextFieldText())
+            try userSettings.saveUserSettings(url: urlView.unbind(), records: recordsView.unbind(), days: daysView.unbind())
             navigationController?.popViewController(animated: true)
         } catch {
             print(error.localizedDescription)
         }
-        
     }
     
     /*
      таргет на кнопку Cancel - возвращает на экран Главное меню
      */
-    
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }

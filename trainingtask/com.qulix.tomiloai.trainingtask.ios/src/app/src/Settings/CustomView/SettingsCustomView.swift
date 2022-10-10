@@ -3,7 +3,6 @@ import UIKit
 /*
  SettingsCustomView - кастомное View для отображения на экране Настройки
  */
-
 class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
     private let label: SettingsLabel
     private let textField: CustomTextField
@@ -40,42 +39,25 @@ class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
     }
     
     /*
-     addLabelText - метод для задания текста лейблу
+     bind - метод для заполнения текущего view данными
      
-     Параметр text - задаваемый текст для лейбла
+     parametrs:
+     labelText - данные для текста лейбла
+     textFieldPlaceholder - данные для плейсхолдера textField
+     textFieldText - данные для текста textField
      */
-    
-    func addLabelText(text: String) {
-        label.text = text
+    func bind(labelText: String, textFieldPlaceholder: String, textFieldText: String) {
+        label.text = labelText
+        textField.placeholder = textFieldPlaceholder
+        textField.text = textFieldText
     }
-    
+
     /*
-     addTextFieldPlaceholder - метод для задания текста плейсхолдеру textField'а
-     
-     Параметр text - задаваемый текст для плейсхолдера
-     */
-    
-    func addTextFieldPlaceholder(text: String) {
-        textField.placeholder = text
-    }
-    
-    /*
-     setTextFieldText - метод для записи текста textField'а
-     
-     Параметр text - задаваемый текст
-     */
-    
-    func setTextFieldText(text: String) {
-        textField.text = text
-    }
-    
-    /*
-     getTextFieldText - метод для проверки и получения текста textField'а
+     unbind - метод для проверки и получения текста textField'а
      
      Возвращаемое значение - сам текст
      */
-    
-    func getTextFieldText() -> String {
+    func unbind() -> String {
         if let text = textField.text {
             return text
         }
@@ -85,7 +67,6 @@ class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
     /*
      checkTextFieldForDelegate - метод для проверки текстфилда, если параметр flag == true, то в текстфилд можно вносить только цифры
      */
-    
     func checkTextFieldForDelegate(flag: Bool) {
         if flag {
             textField.delegate = self
