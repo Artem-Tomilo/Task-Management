@@ -1,10 +1,9 @@
 import UIKit
 
 /*
- EmployeeCustomCellLabel - кастомный Label, использующийся в кастомной ячейке EmployeeCustomCell
+ EmployeeCellLabel - label, использующийся в ячейке EmployeeCell
  */
-
-class EmployeeCustomCellLabel: UILabel {
+class EmployeeCellLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false

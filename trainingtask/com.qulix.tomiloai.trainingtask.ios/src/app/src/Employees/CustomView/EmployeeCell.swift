@@ -1,16 +1,15 @@
 import UIKit
 
 /*
- EmployeeCustomCell - кастомная ячейка для tableView экрана Список сотрудников
+ EmployeeCell - ячейка для tableView экрана Список сотрудников
  */
-
-class EmployeeCustomCell: UITableViewCell {
+class EmployeeCell: UITableViewCell {
     
     private let background = UIView(frame: .zero)
-    private let surnameLabel = EmployeeCustomCellLabel(frame: .zero)
-    private let nameLabel = EmployeeCustomCellLabel(frame: .zero)
-    private let patronymicLabel = EmployeeCustomCellLabel(frame: .zero)
-    private let positionLabel = EmployeeCustomCellLabel(frame: .zero)
+    private let surnameLabel = EmployeeCellLabel(frame: .zero)
+    private let nameLabel = EmployeeCellLabel(frame: .zero)
+    private let patronymicLabel = EmployeeCellLabel(frame: .zero)
+    private let positionLabel = EmployeeCellLabel(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

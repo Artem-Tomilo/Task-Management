@@ -1,10 +1,9 @@
 import UIKit
 
 /*
- CustomTextField - кастомный текстФилд
+ BorderedTextField - кастомный TextField
  */
-
-class CustomTextField: UITextField {
+class BorderedTextField: UITextField {
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false

@@ -8,7 +8,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private var tableView = UITableView()
     private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
-    private var viewForIndicator = SpinnerView()
+    private var spinnerView = SpinnerView()
     
     private var employeeArray: [Employee]?
     private lazy var partialEmployeeArray: [Employee] = []
@@ -39,7 +39,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(EmployeeCustomCell.self, forCellReuseIdentifier: EmployeesListController.newCellIdentifier)
+        tableView.register(EmployeeCell.self, forCellReuseIdentifier: EmployeesListController.newCellIdentifier)
         view.addSubview(tableView)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .white
@@ -58,12 +58,12 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Параметр cell - ячейка, в которой отображается сотрудник
-     
-     Параметр employee - сотрудник, хранящийся в этой ячейку, данными которого она и будет заполняться
+     parameters:
+     cell - ячейка, в которой отображается сотрудник
+     employee - сотрудник, хранящийся в этой ячейку, данными которого она и будет заполняться
      */
-    private func configureText(for cell: UITableViewCell, with employee: Employee) {
-        if let cell = cell as? EmployeeCustomCell {
+    private func settingCellText(for cell: UITableViewCell, with employee: Employee) {
+        if let cell = cell as? EmployeeCell {
             cell.surnameText = employee.surname
             cell.nameText = employee.name
             cell.patronymicText = employee.patronymic
@@ -76,30 +76,30 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      */
     func loadData(_ completion: @escaping () -> Void) {
         employeeArray = serverDelegate.getEmployees()
-        partialEmployeeArray = employeeController.checkArray(employeeArray: employeeArray ?? [])
+        partialEmployeeArray = employeeController.checkArrayToDisplay(employeeArray: employeeArray ?? [])
         completion()
     }
     
     private func showSpinner() {
-        viewForIndicator = SpinnerView(frame: self.view.bounds)
-        view.addSubview(viewForIndicator)
+        spinnerView = SpinnerView(frame: self.view.bounds)
+        view.addSubview(spinnerView)
         navigationController?.navigationBar.alpha = 0.3
     }
     
     func removeSpinner() {
-        viewForIndicator.removeFromSuperview()
+        spinnerView.removeFromSuperview()
         navigationController?.navigationBar.alpha = 1.0
     }
     
     /*
-     Функция удаления сотрудника:
+     Метод удаления сотрудника:
      
-     параметр tableView - таблица, в которой будет находится ячейка с сотрудников
-     
-     параметр indexPath - IndexPath данной ячейки
+     parameters:
+     tableView - таблица, в которой будет находится ячейка с сотрудников
+     indexPath - IndexPath данной ячейки
      */
     private func deleteEmployee(tableView: UITableView, indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
+        guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCell else { return }
         let employee = Employee(surname: cell.surnameText, name: cell.nameText, patronymic: cell.patronymicText, position: cell.positionText)
         
         guard employeeController.checkEmployeeInArray(employee: employee, employeeArray: employeeArray ?? []) else { return }
@@ -142,15 +142,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier, for: indexPath) as? EmployeeCustomCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier, for: indexPath) as? EmployeeCell else { return UITableViewCell() }
         if let employee = employeeArray?[indexPath.row] {
-            configureText(for: cell, with: employee)
+            settingCellText(for: cell, with: employee)
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let cell = EmployeeCustomCell()
+        let cell = EmployeeCell()
         cell.surnameText = EmployeeMenu.Surname.title
         cell.nameText = EmployeeMenu.Name.title
         cell.patronymicText = EmployeeMenu.Patronymic.title
@@ -189,7 +189,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             let action = UIAlertAction(title: "Изменить", style: .default) { _ in
                 let vc = EmployeeEditViewController()
                 vc.delegate = self
-                vc.employeeToEdit = self.employeeArray?[indexPath.row]
+                vc.possibleEmployeeToEdit = self.employeeArray?[indexPath.row]
                 self.navigationController?.pushViewController(vc, animated: true)
             }
             let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
@@ -269,13 +269,13 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         if employeeController.checkEmployeeInArray(employee: previousData, employeeArray: employeeArray ?? []) {
             guard let index = employeeArray?.firstIndex(of: previousData) else { return }
             let indexPath = IndexPath(row: index, section: 0)
-            guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
+            guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCell else { return }
             do {
                 self.navigationController?.popViewController(animated: true)
                 self.showSpinner()
                 try serverDelegate.editEmployee(employee: previousData, newData: newData) {
                     self.employeeArray = self.serverDelegate.getEmployees()
-                    self.configureText(for: cell, with: newData)
+                    self.settingCellText(for: cell, with: newData)
                     self.removeSpinner()
                 }
             } catch {

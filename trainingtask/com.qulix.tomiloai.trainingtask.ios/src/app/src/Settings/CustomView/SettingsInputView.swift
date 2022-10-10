@@ -1,15 +1,15 @@
 import UIKit
 
 /*
- SettingsCustomView - кастомное View для отображения на экране Настройки
+ SettingsInputView - view для отображения на экране Настройки
  */
-class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
-    private let label: SettingsLabel
-    private let textField: CustomTextField
+class SettingsInputView: UIView, UITextFieldDelegate {
+    private let label: UILabel
+    private let textField: BorderedTextField
     
     override init(frame: CGRect) {
-        self.label = SettingsLabel()
-        self.textField = CustomTextField()
+        self.label = UILabel()
+        self.textField = BorderedTextField()
         
         super.init(frame: frame)
         setup()
@@ -36,6 +36,12 @@ class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
             textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
             textField.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.textColor = .white
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.numberOfLines = 0
+        label.backgroundColor = .systemRed
     }
     
     /*
@@ -51,7 +57,7 @@ class SettingsCustomView: UIView, UITextViewDelegate, UITextFieldDelegate {
         textField.placeholder = textFieldPlaceholder
         textField.text = textFieldText
     }
-
+    
     /*
      unbind - метод для проверки и получения текста textField'а
      

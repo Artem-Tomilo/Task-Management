@@ -5,28 +5,21 @@ import UIKit
  */
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
-    private let surnameTextField = CustomTextField()
-    private let nameTextField = CustomTextField()
-    private let patronymicTextField = CustomTextField()
-    private let positionTextField = CustomTextField()
-    
-    private var viewForIndicator = SpinnerView()
+    private let surnameTextField = BorderedTextField()
+    private let nameTextField = BorderedTextField()
+    private let patronymicTextField = BorderedTextField()
+    private let positionTextField = BorderedTextField()
     
     private var saveButton = UIBarButtonItem()
     private var cancelButton = UIBarButtonItem()
     
     weak var delegate: EmployeeEditViewControllerDelegate?
     
-    var employeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
+    var possibleEmployeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        surnameTextField.becomeFirstResponder()
     }
     
     private func setup() {
@@ -65,7 +58,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         patronymicTextField.placeholder = "Отчество"
         positionTextField.placeholder = "Должность"
         
-        if let employeeToEdit = employeeToEdit {
+        if let employeeToEdit = possibleEmployeeToEdit {
             title = "Редактирование сотрудника"
             surnameTextField.text = employeeToEdit.surname
             nameTextField.text = employeeToEdit.name
@@ -75,7 +68,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
             title = "Добавление сотрудника"
         }
         
-        saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployee(_:)))
+        saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
@@ -83,28 +76,37 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureTapped(_:)))
         view.addGestureRecognizer(gesture)
+        
+        surnameTextField.becomeFirstResponder()
     }
     
     /*
-     saveEmployee - таргет на кнопку Save:
-     сохраняет нового, либо отредактированного сотрудника, путем вызова необходимый методов через делегата и возвращает на экран Список сотрудников
+     saveEmployee - метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника
      */
-    @objc func saveEmployee(_ sender: UIBarButtonItem) {
+    func saveEmployee() {
         if let surname = surnameTextField.text,
            let name = nameTextField.text,
            let patronymic = patronymicTextField.text,
            let position = positionTextField.text {
-            if var employee = employeeToEdit {
+            if var employee = possibleEmployeeToEdit {
                 employee.surname = surname
                 employee.name = name
                 employee.patronymic = patronymic
                 employee.position = position
-                delegate?.editEmployee(self, newData: employee, previousData: self.employeeToEdit!)
+                delegate?.editEmployee(self, newData: employee, previousData: self.possibleEmployeeToEdit!)
             } else {
                 let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
                 delegate?.addNewEmployee(self, newEmployee: employee)
             }
         }
+    }
+    
+    /*
+     saveEmployeeButtonTapped - таргет на кнопку Save:
+     вызывает метод saveEmployee()
+     */
+    @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
+        saveEmployee()
     }
     
     /*
@@ -115,7 +117,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     таргет для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное простарнство на экране
+     таргет для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
      */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }

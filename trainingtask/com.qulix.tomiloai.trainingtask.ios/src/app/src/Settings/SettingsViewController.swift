@@ -5,11 +5,11 @@ import UIKit
  */
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
-    private var urlView = SettingsCustomView()
-    private var recordsView = SettingsCustomView()
-    private var daysView = SettingsCustomView()
+    private var urlView = SettingsInputView()
+    private var recordsView = SettingsInputView()
+    private var daysView = SettingsInputView()
     
-    private let defaultsSettings = DefaultSettings()
+    private let defaultSettings = DefaultSettings()
     private let userSettings = UserSettings()
     private var settings: Settings?
     
@@ -66,8 +66,8 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
                     settings = userSettings
                 }
             } else {
-                let defaultsSettings =  try defaultsSettings.getDefaultsSetiings()
-                settings = defaultsSettings
+                let defaultSettings =  try defaultSettings.getDefaultSettings()
+                settings = defaultSettings
             }
         } catch {
             print(error.localizedDescription)
