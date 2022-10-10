@@ -3,7 +3,6 @@ import UIKit
 /*
  EmployeesListController - экран Список сотрудников, отображает tableView со всеми сотрудниками, хранящимися на сервере
  */
-
 class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
     
     private var tableView = UITableView()
@@ -63,7 +62,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      
      Параметр employee - сотрудник, хранящийся в этой ячейку, данными которого она и будет заполняться
      */
-    
     private func configureText(for cell: UITableViewCell, with employee: Employee) {
         if let cell = cell as? EmployeeCustomCell {
             cell.surnameText = employee.surname
@@ -76,7 +74,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     /*
      Функция обновления данных, блок completion вызывается после передачи данных с сервера и как правило обновляет таблицу
      */
-    
     func loadData(_ completion: @escaping () -> Void) {
         employeeArray = serverDelegate.getEmployees()
         partialEmployeeArray = employeeController.checkArray(employeeArray: employeeArray ?? [])
@@ -101,7 +98,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      
      параметр indexPath - IndexPath данной ячейки
      */
-    
     private func deleteEmployee(tableView: UITableView, indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
         let employee = Employee(surname: cell.surnameText, name: cell.nameText, patronymic: cell.patronymicText, position: cell.positionText)
@@ -173,7 +169,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     /*
      Удаление и редактирование сотрудника происходит после свайпа влево
      */
-    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { _, _, close in
             let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
@@ -214,7 +209,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      addNewEmployee - target на кнопку добавления нового сотрудника:
      переходит на экран Редактирование сотрудника
      */
-    
     @objc func addNewEmployee(_ sender: UIBarButtonItem) {
         let vc = EmployeeEditViewController()
         vc.delegate = self
@@ -224,7 +218,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     /*
      refresh - таргет на обновление таблицы через UIRefreshControl
      */
-    
     @objc func refresh(_ sender: UIRefreshControl) {
         loadData {
             sender.endRefreshing()
@@ -237,7 +230,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      
      Параметр controller - ViewController, на котором вызывается данный метод
      */
-    
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController) {
         navigationController?.popViewController(animated: true)
     }
@@ -248,12 +240,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      Параметр newEmployee - новый сотрудник для добавления
      Параметр controller - ViewController, на котором вызывается данный метод
      */
-    
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
         do {
+            self.navigationController?.popViewController(animated: true)
+            self.showSpinner()
             try serverDelegate.addEmployee(employee: newEmployee) {
+                self.loadData {
+                    self.tableView.reloadData()
+                }
                 self.removeSpinner()
-                self.navigationController?.popViewController(animated: true)
             }
         } catch {
             DispatchQueue.global().async {
@@ -270,18 +265,18 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      Параметр previousData - данные сотрудника до изменения
      Параметр controller - ViewController, на котором вызывается данный метод
      */
-    
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee) {
         if employeeController.checkEmployeeInArray(employee: previousData, employeeArray: employeeArray ?? []) {
             guard let index = employeeArray?.firstIndex(of: previousData) else { return }
             let indexPath = IndexPath(row: index, section: 0)
             guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCustomCell else { return }
             do {
+                self.navigationController?.popViewController(animated: true)
+                self.showSpinner()
                 try serverDelegate.editEmployee(employee: previousData, newData: newData) {
                     self.employeeArray = self.serverDelegate.getEmployees()
                     self.configureText(for: cell, with: newData)
                     self.removeSpinner()
-                    self.navigationController?.popViewController(animated: true)
                 }
             } catch {
                 DispatchQueue.global().async {

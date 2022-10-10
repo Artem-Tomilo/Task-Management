@@ -85,17 +85,10 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(gesture)
     }
     
-    private func showSpinner() {
-        viewForIndicator = SpinnerView(frame: self.view.bounds)
-        view.addSubview(viewForIndicator)
-        navigationController?.navigationBar.alpha = 0.3
-    }
-    
     /*
      saveEmployee - таргет на кнопку Save:
      сохраняет нового, либо отредактированного сотрудника, путем вызова необходимый методов через делегата и возвращает на экран Список сотрудников
      */
-    
     @objc func saveEmployee(_ sender: UIBarButtonItem) {
         if let surname = surnameTextField.text,
            let name = nameTextField.text,
@@ -106,11 +99,9 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
                 employee.name = name
                 employee.patronymic = patronymic
                 employee.position = position
-                showSpinner()
                 delegate?.editEmployee(self, newData: employee, previousData: self.employeeToEdit!)
             } else {
                 let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
-                showSpinner()
                 delegate?.addNewEmployee(self, newEmployee: employee)
             }
         }
@@ -119,7 +110,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     /*
      таргет на кнопку Cancel - возвращает на предыдущий экран
      */
-    
     @objc func cancel(_ sender: UIBarButtonItem) {
         delegate?.addEmployeeDidCancel(self)
     }
@@ -127,7 +117,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     /*
      таргет для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное простарнство на экране
      */
-    
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         view.endEditing(false)
@@ -136,7 +125,6 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     /*
      таргет для кнопки done на клавиатуре - переходит на следующий textField, если он последний в списке, то прячет клавиатуру
      */
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case surnameTextField:
