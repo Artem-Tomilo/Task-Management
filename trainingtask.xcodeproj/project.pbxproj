@@ -20,6 +20,7 @@
 		3824BF3D28F00CE80027149D /* SettingsCustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3C28F00CE80027149D /* SettingsCustomView.swift */; };
 		3824BF3F28F01D520027149D /* DefaultSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3E28F01D520027149D /* DefaultSettings.swift */; };
 		3824BF4228F0257A0027149D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4128F0257A0027149D /* UserSettings.swift */; };
+		3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */; };
 		385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A628DDC54400FD008F /* SpinnerView.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
@@ -48,6 +49,7 @@
 		3824BF3C28F00CE80027149D /* SettingsCustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCustomView.swift; sourceTree = "<group>"; };
 		3824BF3E28F01D520027149D /* DefaultSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSettings.swift; sourceTree = "<group>"; };
 		3824BF4128F0257A0027149D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
+		3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		385A04A628DDC54400FD008F /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385C566928D4A98C004AC34A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */,
+				3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */,
 			);
 			path = EditEmployees;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
 				3824BF3D28F00CE80027149D /* SettingsCustomView.swift in Sources */,
 				3820316328D9EFF7008FAD35 /* EmployeeCustomCellLabel.swift in Sources */,
+				3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeeCustomCell.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* CustomTextField.swift in Sources */,
 				387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */,

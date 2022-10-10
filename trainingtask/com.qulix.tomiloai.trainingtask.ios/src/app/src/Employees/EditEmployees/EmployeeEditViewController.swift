@@ -1,19 +1,8 @@
 import UIKit
 
 /*
- Протокол EmployeeEditViewControllerDelegate - интерфейс для взаимодействия с экраном Список сотрудников
- */
-
-protocol EmployeeEditViewControllerDelegate: AnyObject {
-    func addEmployeeDidCancel(_ controller: EmployeeEditViewController)
-    func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee)
-    func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee)
-}
-
-/*
  EmployeeEditViewController - экран Редактирование сотрудника, отображает необходимые поля для введения нового, либо редактирования существующего сотрудника
  */
-
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     private let surnameTextField = CustomTextField()
