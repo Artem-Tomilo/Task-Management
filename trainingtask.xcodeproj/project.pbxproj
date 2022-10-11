@@ -17,7 +17,7 @@
 		3820316E28DB4AF1008FAD35 /* BorderedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */; };
 		3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3928EF7E7C0027149D /* Settings.swift */; };
 		3824BF3D28F00CE80027149D /* SettingsInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3C28F00CE80027149D /* SettingsInputView.swift */; };
-		3824BF3F28F01D520027149D /* DefaultSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3E28F01D520027149D /* DefaultSettings.swift */; };
+		3824BF3F28F01D520027149D /* getDefaultSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3E28F01D520027149D /* getDefaultSettingsService.swift */; };
 		3824BF4228F0257A0027149D /* UserSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4128F0257A0027149D /* UserSettings.swift */; };
 		3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */; };
 		3824BF4628F4A3260027149D /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4528F4A3250027149D /* SettingsManager.swift */; };
@@ -47,7 +47,7 @@
 		3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextField.swift; sourceTree = "<group>"; };
 		3824BF3928EF7E7C0027149D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		3824BF3C28F00CE80027149D /* SettingsInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInputView.swift; sourceTree = "<group>"; };
-		3824BF3E28F01D520027149D /* DefaultSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSettings.swift; sourceTree = "<group>"; };
+		3824BF3E28F01D520027149D /* getDefaultSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = getDefaultSettingsService.swift; sourceTree = "<group>"; };
 		3824BF4128F0257A0027149D /* UserSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettings.swift; sourceTree = "<group>"; };
 		3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3824BF4528F4A3250027149D /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
@@ -101,7 +101,7 @@
 			isa = PBXGroup;
 			children = (
 				3824BF3928EF7E7C0027149D /* Settings.swift */,
-				3824BF3E28F01D520027149D /* DefaultSettings.swift */,
+				3824BF3E28F01D520027149D /* getDefaultSettingsService.swift */,
 				3824BF4128F0257A0027149D /* UserSettings.swift */,
 			);
 			path = Model;
@@ -356,7 +356,7 @@
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				3824BF4A28F5AE100027149D /* EditEmployeeHelper.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
-				3824BF3F28F01D520027149D /* DefaultSettings.swift in Sources */,
+				3824BF3F28F01D520027149D /* getDefaultSettingsService.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
 				3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */,
 				3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */,

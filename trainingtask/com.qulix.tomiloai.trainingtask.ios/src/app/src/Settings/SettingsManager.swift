@@ -2,7 +2,7 @@ import Foundation
 
 class SettingsManager {
     
-    private let defaultSettings = DefaultSettings()
+    private let defaultSettings = getDefaultSettingsService()
     private let userSettings = UserSettings()
     private var settings: Settings?
     
