@@ -83,7 +83,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     /*
      saveEmployee - метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника
      */
-    func saveEmployee() {
+    private func saveEmployee() {
         if let surname = surnameTextField.text,
            let name = nameTextField.text,
            let patronymic = patronymicTextField.text,
@@ -95,7 +95,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
                 employee.position = position
                 delegate?.editEmployee(self, newData: employee, previousData: self.possibleEmployeeToEdit!)
             } else {
-                let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
+                let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position, id: delegate?.idCounter ?? 0)
                 delegate?.addNewEmployee(self, newEmployee: employee)
             }
         }

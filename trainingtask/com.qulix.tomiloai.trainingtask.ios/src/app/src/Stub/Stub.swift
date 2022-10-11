@@ -3,16 +3,14 @@ import Foundation
 /*
  Класс Stub является стаб-реализацией интерфейса сервера
  */
-
 class Stub: Server {
     
     private var employeesArray: [Employee] = []
     
     /*
-     Параметр employee - новый сотрудник для в массив и последующего сохранения
+     Параметр employee - новый сотрудник для добавления в массив и последующего сохранения
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    
     func addEmployee(employee: Employee, _ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
             self.employeesArray.append(employee)
@@ -23,13 +21,15 @@ class Stub: Server {
     }
     
     /*
-     Параметр employee - сотрудник, которого необходимо удалить
+     Метод удаления сотрудника из массива
+     
+     parameters:
+     id - уникальный id сотрудника, которого необходимо удалить
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    
-    func deleteEmployee(employee: Employee, _ completion: @escaping () -> Void) {
+    func deleteEmployee(with id: Int, _ completion: @escaping () -> Void) throws {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
-            self.employeesArray.removeAll(where: { $0 == employee })
+            self.employeesArray.removeAll(where: { $0.id == id })
             DispatchQueue.main.async {
                 completion()
             }
@@ -37,15 +37,18 @@ class Stub: Server {
     }
     
     /*
-     Параметр employee - сотрудник, которого необходимо отредактировать
-     Параметр newData - отредактированный сотрудник
+     Метод редактирования сотрудника в массиве
+     
+     parameters:
+     id - уникальный id сотрудника, которого необходимо отредактировать
+     newData - отредактированные данные сотрудника
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    
-    func editEmployee(employee: Employee, newData: Employee, _ completion: @escaping () -> Void) {
+    func editEmployee(with id: Int, newData: Employee, _ completion: @escaping () -> Void) throws {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+            guard let employee = self.employeesArray.first(where: { $0.id == id }) else { return }
             if let index = self.employeesArray.firstIndex(of: employee) {
-                self.employeesArray.removeAll(where: { $0 == employee })
+                self.employeesArray.removeAll(where: { $0.id == id })
                 self.employeesArray.insert(newData, at: index)
             }
             DispatchQueue.main.async {

@@ -15,6 +15,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     private static let newCellIdentifier = "NewCell"
     
+    var idCounter = 0 // счетчик, присваивающий уникальный id создаваемому сотруднику
     var serverDelegate: Server! // делегат, вызывающий методы обработки сотрудников на сервере
     private var employeeController = EmployeeController()
     
@@ -99,13 +100,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      indexPath - IndexPath данной ячейки
      */
     private func deleteEmployee(tableView: UITableView, indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCell else { return }
-        let employee = Employee(surname: cell.surnameText, name: cell.nameText, patronymic: cell.patronymicText, position: cell.positionText)
-        
-        guard employeeController.checkEmployeeInArray(employee: employee, employeeArray: employeeArray ?? []) else { return }
+        guard let employee = employeeArray?[indexPath.row] else { return }
         if partialEmployeeArray.isEmpty {
             do {
-                try serverDelegate.deleteEmployee(employee: employee) {
+                try serverDelegate.deleteEmployee(with: employee.id) {
                     self.employeeArray = self.serverDelegate.getEmployees()
                     self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
                 }
@@ -116,9 +114,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             }
         } else {
             do {
-                try serverDelegate.deleteEmployee(employee: employee) {
+                try serverDelegate.deleteEmployee(with: employee.id) {
                     self.employeeArray = self.serverDelegate.getEmployees()
-                    self.partialEmployeeArray.removeAll(where: { $0 == employee })
+                    self.partialEmployeeArray.removeAll(where: { $0.id == employee.id })
                     self.employeeController.reloadTableView(tableView: tableView, indexPath: indexPath, vc: self)
                 }
             } catch {
@@ -244,6 +242,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         do {
             self.navigationController?.popViewController(animated: true)
             self.showSpinner()
+            idCounter += 1
             try serverDelegate.addEmployee(employee: newEmployee) {
                 self.loadData {
                     self.tableView.reloadData()
@@ -261,9 +260,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      editEmployee - метод протокола EmployeeEditViewControllerDelegate, который изменяет данные сотрудника:
      сначала происходит проверка нахождения сотрудника в массиве на сервере, потом происходит изменение его данных, остановка спиннера и возврат на экран Список сотрудников
      
-     Параметр newData - данные сотрудника, после изменения
-     Параметр previousData - данные сотрудника до изменения
-     Параметр controller - ViewController, на котором вызывается данный метод
+     parameters:
+     newData - данные сотрудника, после изменения
+     previousData - данные сотрудника до изменения
+     controller - ViewController, на котором вызывается данный метод
      */
     func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee) {
         if employeeController.checkEmployeeInArray(employee: previousData, employeeArray: employeeArray ?? []) {
@@ -273,7 +273,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             do {
                 self.navigationController?.popViewController(animated: true)
                 self.showSpinner()
-                try serverDelegate.editEmployee(employee: previousData, newData: newData) {
+                try serverDelegate.editEmployee(with: previousData.id, newData: newData) {
                     self.employeeArray = self.serverDelegate.getEmployees()
                     self.settingCellText(for: cell, with: newData)
                     self.tableView.reloadData()
