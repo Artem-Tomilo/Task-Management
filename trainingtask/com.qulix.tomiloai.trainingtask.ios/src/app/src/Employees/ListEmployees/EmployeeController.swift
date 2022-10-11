@@ -41,18 +41,23 @@ class EmployeeController {
      getMaxRecordsCount - получение значения максимального количетсва записей из настроек приложения
      */
     private func getMaxRecordsCount() -> Int {
+//        if let settings = UserDefaults.standard.dictionary(forKey: UserSettings.settingsKey) {
+//            for (key, value) in settings {
+//                switch key {
+//                case "Records":
+//                    let value = value as? String ?? "0"
+//                    count = Int(value) ?? 0
+//                    return count
+//                default:
+//                    break
+//                }
+//            }
+//        }
+        let settingsManager = SettingsManager()
         var count = 0
-        if let settings = UserDefaults.standard.dictionary(forKey: UserSettings.settingsKey) {
-            for (key, value) in settings {
-                switch key {
-                case "Records":
-                    let value = value as? String ?? "0"
-                    count = Int(value) ?? 0
-                    return count
-                default:
-                    break
-                }
-            }
+        if let settings = settingsManager.getSettings() {
+            count = Int(settings.maxRecords) ?? 0
+            return count
         }
         return 0
     }

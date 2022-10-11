@@ -9,14 +9,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     private var recordsView = SettingsInputView()
     private var daysView = SettingsInputView()
     
-    private let defaultSettings = DefaultSettings()
-    private let userSettings = UserSettings()
     private var settings: Settings?
+    private var settingsManager = SettingsManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        loadSettings()
+        displaySettings()
     }
     
     private func setup() {
@@ -55,47 +54,30 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     loadSettings - метод проверки и загрузки настроек приложения
-     
-     В случает возникновения ошибок производится их обработка
+     displaySettings - метод для отображения настроек в соответствующих полях
      */
-    private func loadSettings() {
-        do {
-            if userSettings.checkUserSettings() {
-                if let userSettings =  try userSettings.getUserSettings() {
-                    settings = userSettings
-                }
-            } else {
-                let defaultSettings =  try defaultSettings.getDefaultSettings()
-                settings = defaultSettings
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-        showSettings()
-    }
-    
-    /*
-     showSettings - метод для отображения настроек в соответствующих полях
-     */
-    private func showSettings() {
+    private func displaySettings() {
+        settings = settingsManager.getSettings()
+        
         urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings?.url ?? "")
         recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: settings?.maxRecords ?? "0")
         daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: settings?.maxDays ?? "0")
     }
     
     /*
-     таргет на кнопку Save - сохраняет пользовательские настройки и возвращает на экран Главное меню
-     
-     В случает возникновения ошибок производится их обработка
+     saveSettings - метод сохранения пользовательских настроек
+     */
+    private func saveSettings() {
+        let newSettings = Settings(url: urlView.unbind(), maxRecords: recordsView.unbind(), maxDays: daysView.unbind())
+        try? settingsManager.saveUserSettings(settings: newSettings)
+    }
+    
+    /*
+     таргет на кнопку Save - вызывает метод сохранения пользовательских настроек и возвращает на экран Главное меню
      */
     @objc func saveSettings(_ sender: UIBarButtonItem) {
-        do {
-            try userSettings.saveUserSettings(url: urlView.unbind(), records: recordsView.unbind(), days: daysView.unbind())
-            navigationController?.popViewController(animated: true)
-        } catch {
-            print(error.localizedDescription)
-        }
+        saveSettings()
+        navigationController?.popViewController(animated: true)
     }
     
     /*

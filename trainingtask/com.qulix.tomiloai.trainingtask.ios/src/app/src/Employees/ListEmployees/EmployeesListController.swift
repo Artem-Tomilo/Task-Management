@@ -276,6 +276,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 try serverDelegate.editEmployee(employee: previousData, newData: newData) {
                     self.employeeArray = self.serverDelegate.getEmployees()
                     self.settingCellText(for: cell, with: newData)
+                    self.tableView.reloadData()
                     self.removeSpinner()
                 }
             } catch {
