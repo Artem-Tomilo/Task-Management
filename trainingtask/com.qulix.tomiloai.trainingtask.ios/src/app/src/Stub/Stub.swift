@@ -8,15 +8,30 @@ class Stub: Server {
     private var employeesArray: [Employee] = []
     
     /*
+     метод создает макет для асинхронного вызова нужных методов
+     
+     parameters:
+     firstCompletion - completion блок, в котором вызывается выбранный метод
+     secondCompletion - completion блок, в который переносится completion из вызываемого метода для его вызова на главном потоке
+     */
+    private func layoutForAsynchronousMethodCalls(firstCompletion: @escaping () -> Void, secondCompletion: @escaping () -> Void) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+            firstCompletion()
+            DispatchQueue.main.async {
+                secondCompletion()
+            }
+        }
+    }
+    
+    /*
      Параметр employee - новый сотрудник для добавления в массив и последующего сохранения
      completion - отдельный блок, который будет выполняться на главном потоке
      */
     func addEmployee(employee: Employee, _ completion: @escaping () -> Void) {
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+        layoutForAsynchronousMethodCalls() {
             self.employeesArray.append(employee)
-            DispatchQueue.main.async {
-                completion()
-            }
+        } secondCompletion: {
+            completion()
         }
     }
     
@@ -28,11 +43,10 @@ class Stub: Server {
      completion - отдельный блок, который будет выполняться на главном потоке
      */
     func deleteEmployee(with id: Int, _ completion: @escaping () -> Void) throws {
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+        layoutForAsynchronousMethodCalls() {
             self.employeesArray.removeAll(where: { $0.id == id })
-            DispatchQueue.main.async {
-                completion()
-            }
+        } secondCompletion: {
+            completion()
         }
     }
     
@@ -45,15 +59,14 @@ class Stub: Server {
      completion - отдельный блок, который будет выполняться на главном потоке
      */
     func editEmployee(with id: Int, newData: Employee, _ completion: @escaping () -> Void) throws {
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+        layoutForAsynchronousMethodCalls() {
             guard let employee = self.employeesArray.first(where: { $0.id == id }) else { return }
             if let index = self.employeesArray.firstIndex(of: employee) {
                 self.employeesArray.removeAll(where: { $0.id == id })
                 self.employeesArray.insert(newData, at: index)
             }
-            DispatchQueue.main.async {
-                completion()
-            }
+        } secondCompletion: {
+            completion()
         }
     }
     
