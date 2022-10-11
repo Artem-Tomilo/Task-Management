@@ -1,11 +1,10 @@
 import Foundation
 
 /*
- UserSettings - сервис для получения и сохранения настроек пользователя
+ UserSettingsService - сервис для получения и сохранения настроек пользователя
  */
-class UserSettings {
+class UserSettingsService {
     
-    private var userSettings: Settings?
     private var (url, records, days) = ("","","")
     static let settingsKey = "settings" // константа, в которой хранится ключ для UserDefauls, отвечающий за настройки
     
@@ -15,7 +14,7 @@ class UserSettings {
      Возращает значение типа Settings? с сохраненными пользовательскими настройками, в случае возникновения ошибок будет производиться их обработка
      */
     func getUserSettings() throws -> Settings? {
-        guard let settings = UserDefaults.standard.dictionary(forKey: UserSettings.settingsKey) else { return nil }
+        guard let settings = UserDefaults.standard.dictionary(forKey: UserSettingsService.settingsKey) else { return nil }
         for (key, value) in settings {
             switch key {
             case "Url":
@@ -28,7 +27,19 @@ class UserSettings {
                 break
             }
         }
-        userSettings = Settings(url: url, maxRecords: String(records), maxDays: String(days))
+        let userSettings = Settings(url: url, maxRecords: String(records), maxDays: String(days))
         return userSettings
+    }
+    
+    /*
+     saveUserSettings - метод для сохранения пользовательских настроек в UserDefaults
+     
+     parameter:
+     settings - объект типа Settings
+     */
+    func saveUserSettings(settings: Settings) throws {
+        var set = [String : Any]()
+        set = ["Url" : settings.url, "Records" : settings.maxRecords, "Days" : settings.maxDays]
+        UserDefaults.standard.setValue(set, forKey: UserSettingsService.settingsKey)
     }
 }

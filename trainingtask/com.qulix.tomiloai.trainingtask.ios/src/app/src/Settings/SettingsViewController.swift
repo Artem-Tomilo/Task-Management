@@ -68,8 +68,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      saveSettings - метод сохранения пользовательских настроек
      */
     private func saveSettings() {
+        let userSettingsService = UserSettingsService()
         let newSettings = Settings(url: urlView.unbind(), maxRecords: recordsView.unbind(), maxDays: daysView.unbind())
-        try? settingsManager.saveUserSettings(settings: newSettings)
+        try? userSettingsService.saveUserSettings(settings: newSettings)
     }
     
     /*

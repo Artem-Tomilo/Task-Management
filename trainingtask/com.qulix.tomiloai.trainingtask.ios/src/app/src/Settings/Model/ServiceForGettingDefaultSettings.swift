@@ -1,9 +1,9 @@
 import Foundation
 
 /*
- getDefaultSettingsService - сервис для получения настроек по умолчанию
+ ServiceForGettingDefaultSettings - сервис для получения настроек по умолчанию
  */
-class getDefaultSettingsService {
+class ServiceForGettingDefaultSettings {
 
     /*
      getDefaultSettings - метод получения настроек по умолчанию

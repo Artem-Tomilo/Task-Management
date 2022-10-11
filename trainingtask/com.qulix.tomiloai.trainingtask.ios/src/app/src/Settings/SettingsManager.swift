@@ -2,8 +2,8 @@ import Foundation
 
 class SettingsManager {
     
-    private let defaultSettings = getDefaultSettingsService()
-    private let userSettings = UserSettings()
+    private let defaultSettings = ServiceForGettingDefaultSettings()
+    private let userSettings = UserSettingsService()
     private var settings: Settings?
     
     /*
@@ -22,18 +22,6 @@ class SettingsManager {
         } catch {
             print(error.localizedDescription)
         }
-    }
-    
-    /*
-     saveUserSettings - метод для сохранения пользовательских настроек в UserDefaults
-     
-     parameter:
-     settings - объект типа Settings
-     */
-    func saveUserSettings(settings: Settings) throws {
-        var set = [String : Any]()
-        set = ["Url" : settings.url, "Records" : settings.maxRecords, "Days" : settings.maxDays]
-        UserDefaults.standard.setValue(set, forKey: UserSettings.settingsKey)
     }
     
     func getSettings() -> Settings? {
