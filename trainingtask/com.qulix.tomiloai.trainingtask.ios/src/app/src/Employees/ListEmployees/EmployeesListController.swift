@@ -76,11 +76,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private func getMaxRecordsCountFromSettings() -> Int {
         let settingsManager = SettingsManager()
         var count = 0
-        if let settings = settingsManager.getSettings() {
-            count = Int(settings.maxRecords) ?? 0
-            return count
-        }
-        return 0
+        let settings = settingsManager.getSettings()
+        count = Int(settings.maxRecords) ?? 0
+        return count
     }
     
     /*
