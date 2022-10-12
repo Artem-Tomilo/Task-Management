@@ -9,7 +9,6 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     private var recordsView = SettingsInputView()
     private var daysView = SettingsInputView()
     
-    private var settings: Settings?
     private var settingsManager = SettingsManager()
     
     override func viewDidLoad() {
@@ -57,20 +56,19 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      displaySettings - метод для отображения настроек в соответствующих полях
      */
     private func displaySettings() {
-        settings = settingsManager.getSettings()
+        let settings = settingsManager.getSettings()
         
-        urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings?.url ?? "")
-        recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: settings?.maxRecords ?? "0")
-        daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: settings?.maxDays ?? "0")
+        urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings.url)
+        recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: settings.maxRecords)
+        daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: settings.maxDays)
     }
     
     /*
      saveSettings - метод сохранения пользовательских настроек
      */
     private func saveSettings() {
-        let userSettingsService = UserSettingsService()
         let newSettings = Settings(url: urlView.unbind(), maxRecords: recordsView.unbind(), maxDays: daysView.unbind())
-        try? userSettingsService.saveUserSettings(settings: newSettings)
+        try? settingsManager.saveUserSettings(settings: newSettings)
     }
     
     /*
