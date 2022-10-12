@@ -9,8 +9,17 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     private var recordsView = SettingsInputView()
     private var daysView = SettingsInputView()
     
-    private var settingsManager = SettingsManager()
+    let settingsManager: SettingsManager
     
+    init(settingsManager: SettingsManager) {
+        self.settingsManager = settingsManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+                   
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -59,15 +68,15 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         let settings = settingsManager.getSettings()
         
         urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings.url)
-        recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: settings.maxRecords)
-        daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: settings.maxDays)
+        recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: String(settings.maxRecords))
+        daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: String(settings.maxDays))
     }
     
     /*
      saveSettings - метод сохранения пользовательских настроек
      */
     private func saveSettings() {
-        let newSettings = Settings(url: urlView.unbind(), maxRecords: recordsView.unbind(), maxDays: daysView.unbind())
+        let newSettings = Settings(url: urlView.unbind(), maxRecords: Int(recordsView.unbind()) ?? 0, maxDays: Int(daysView.unbind()) ?? 0)
         try? settingsManager.saveUserSettings(settings: newSettings)
     }
     

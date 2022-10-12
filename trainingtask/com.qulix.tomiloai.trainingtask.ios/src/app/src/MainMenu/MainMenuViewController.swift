@@ -51,14 +51,15 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let settingsManager = SettingsManager()
         switch indexPath.row {
         case 2:
-            let newVC = EmployeesListController()
+            let newVC = EmployeesListController(settingsManager: settingsManager)
             let server = Stub()
             newVC.serverDelegate = server
             navigationController?.pushViewController(newVC, animated: true)
         case 3:
-            let settings = SettingsViewController()
+            let settings = SettingsViewController(settingsManager: settingsManager)
             navigationController?.pushViewController(settings, animated: true)
         default:
             return

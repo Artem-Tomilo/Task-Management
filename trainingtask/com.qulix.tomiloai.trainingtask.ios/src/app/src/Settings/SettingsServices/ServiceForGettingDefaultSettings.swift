@@ -4,7 +4,7 @@ import Foundation
  ServiceForGettingDefaultSettings - сервис для получения настроек по умолчанию
  */
 class ServiceForGettingDefaultSettings {
-
+    
     /*
      getDefaultSettings - метод получения настроек по умолчанию
      
@@ -18,9 +18,9 @@ class ServiceForGettingDefaultSettings {
            let url = settingsDictionary.value(forKey: "Url") as? String,
            let records = settingsDictionary.value(forKey: "Records") as? Int,
            let days = settingsDictionary.value(forKey: "Days") as? Int {
-            let defaultSettings = Settings(url: url, maxRecords: String(records), maxDays: String(days))
+            let defaultSettings = Settings(url: url, maxRecords: records, maxDays: days)
             return defaultSettings
         }
-        return Settings(url: "", maxRecords: "0", maxDays: "0")
+        return Settings(url: "", maxRecords: 0, maxDays: 0)
     }
 }

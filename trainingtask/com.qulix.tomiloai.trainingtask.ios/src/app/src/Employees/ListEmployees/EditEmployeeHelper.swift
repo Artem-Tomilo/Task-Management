@@ -41,7 +41,9 @@ class EditEmployeeHelper {
         try vc?.serverDelegate.editEmployee(with: previousData.id, newData: newData) {
             self.vc?.employeeArray = self.vc?.serverDelegate.getEmployees()
             self.vc?.settingCellText(for: cell, with: newData)
-            tableView.reloadData()
+            self.vc?.loadData {
+                tableView.reloadData()
+            }
             self.vc?.removeSpinner()
         }
     }

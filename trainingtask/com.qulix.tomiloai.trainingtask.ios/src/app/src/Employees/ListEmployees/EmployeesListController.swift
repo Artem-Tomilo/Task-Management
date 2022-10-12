@@ -16,6 +16,16 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     var idCounter = 0 // счетчик, присваивающий уникальный id создаваемому сотруднику
     var serverDelegate: Server! // делегат, вызывающий методы обработки сотрудников на сервере
+    let settingsManager: SettingsManager
+    
+    init(settingsManager: SettingsManager) {
+        self.settingsManager = settingsManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,9 +82,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         let settingsManager = SettingsManager()
-        var count = 0
-        let settings = settingsManager.getSettings()
-        count = Int(settings.maxRecords) ?? 0
+        let count = settingsManager.getSettings().maxRecords
         return count
     }
     

@@ -11,7 +11,7 @@ class SettingsStorage {
      метод для выгрузки сохраненных настроек
      */
     func loadSettings() -> Settings {
-        return settings!
+        return settings
     }
     
     /*

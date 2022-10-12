@@ -5,7 +5,7 @@ import Foundation
  */
 class UserSettingsService {
     
-    private var (url, records, days) = ("","","")
+    private var (url, records, days) = ("",0,0)
     static let settingsKey = "settings" // константа, в которой хранится ключ для UserDefauls, отвечающий за настройки
     
     /*
@@ -20,14 +20,14 @@ class UserSettingsService {
             case "Url":
                 url = value as! String
             case "Records":
-                records = value as! String
+                records = value as! Int
             case "Days":
-                days = value as! String
+                days = value as! Int
             default:
                 break
             }
         }
-        let userSettings = Settings(url: url, maxRecords: String(records), maxDays: String(days))
+        let userSettings = Settings(url: url, maxRecords: records, maxDays: days)
         return userSettings
     }
     
