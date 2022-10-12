@@ -39,6 +39,6 @@ class SettingsManager {
      Метод сохранения пользовательских настроек
      */
     func saveUserSettings(settings: Settings) throws {
-        userSettingsService.saveUserSettings(settings: settings)
+        try userSettingsService.saveUserSettings(settings: settings)
     }
 }

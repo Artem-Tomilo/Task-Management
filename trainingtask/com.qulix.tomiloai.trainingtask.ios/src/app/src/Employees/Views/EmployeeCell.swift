@@ -20,14 +20,6 @@ class EmployeeCell: UITableViewCell {
         fatalError()
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        surnameText = ""
-        nameText = ""
-        patronymicText = ""
-        positionText = ""
-    }
-    
     private func setup() {
         background.translatesAutoresizingMaskIntoConstraints = false
         
@@ -65,6 +57,22 @@ class EmployeeCell: UITableViewCell {
         background.backgroundColor = .systemRed
     }
     
+    /*
+     Метод присвоения текста лейблам
+     
+     parameters:
+     surnameText - текст для surnameLabel
+     nameText - текст для nameLabel
+     patronymicText - текст для patronymicLabel
+     positionText - текст для positionLabel
+     */
+    func bindText(surnameText: String, nameText: String, patronymicText: String, positionText: String) {
+        surnameLabel.text = surnameText
+        nameLabel.text = nameText
+        patronymicLabel.text = patronymicText
+        positionLabel.text = positionText
+    }
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
@@ -79,30 +87,6 @@ class EmployeeCell: UITableViewCell {
             nameLabel.textColor = .black
             patronymicLabel.textColor = .black
             positionLabel.textColor = .black
-        }
-    }
-    
-    var surnameText: String = "" {
-        didSet {
-            surnameLabel.text = surnameText
-        }
-    }
-    
-    var nameText: String = "" {
-        didSet {
-            nameLabel.text = nameText
-        }
-    }
-    
-    var patronymicText: String = "" {
-        didSet {
-            patronymicLabel.text = patronymicText
-        }
-    }
-    
-    var positionText: String = "" {
-        didSet {
-            positionLabel.text = positionText
         }
     }
 }

@@ -63,10 +63,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      */
     func settingCellText(for cell: UITableViewCell, with employee: Employee) {
         if let cell = cell as? EmployeeCell {
-            cell.surnameText = employee.surname
-            cell.nameText = employee.name
-            cell.patronymicText = employee.patronymic
-            cell.positionText = employee.position
+            cell.bindText(surnameText: employee.surname, nameText: employee.name, patronymicText: employee.patronymic, positionText: employee.position)
         }
     }
     
@@ -158,10 +155,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = EmployeeCell()
-        cell.surnameText = EmployeeMenu.Surname.title
-        cell.nameText = EmployeeMenu.Name.title
-        cell.patronymicText = EmployeeMenu.Patronymic.title
-        cell.positionText = EmployeeMenu.Position.title
+        cell.bindText(surnameText: EmployeeMenu.Surname.title, nameText: EmployeeMenu.Name.title, patronymicText: EmployeeMenu.Patronymic.title, positionText: EmployeeMenu.Position.title)
         return cell
     }
     
