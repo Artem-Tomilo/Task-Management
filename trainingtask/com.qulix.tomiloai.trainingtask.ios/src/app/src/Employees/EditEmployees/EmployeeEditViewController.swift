@@ -93,7 +93,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
                 employee.name = name
                 employee.patronymic = patronymic
                 employee.position = position
-                delegate?.editEmployee(self, newData: employee, previousData: self.possibleEmployeeToEdit!)
+                delegate?.editEmployee(self, editedEmployee: employee)
             } else {
                 let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position, id: delegate?.idCounter ?? 0)
                 delegate?.addNewEmployee(self, newEmployee: employee)

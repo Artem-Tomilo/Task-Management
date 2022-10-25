@@ -21,8 +21,6 @@
 		3824BF4228F0257A0027149D /* UserSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4128F0257A0027149D /* UserSettingsService.swift */; };
 		3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */; };
 		3824BF4628F4A3260027149D /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4528F4A3250027149D /* SettingsManager.swift */; };
-		3824BF4828F597130027149D /* DeleteEmployeeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4728F597130027149D /* DeleteEmployeeHelper.swift */; };
-		3824BF4A28F5AE100027149D /* EditEmployeeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4928F5AE100027149D /* EditEmployeeHelper.swift */; };
 		3824BF4C28F5EDC50027149D /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4B28F5EDC50027149D /* SettingsStorage.swift */; };
 		385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A628DDC54400FD008F /* SpinnerView.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
@@ -52,8 +50,6 @@
 		3824BF4128F0257A0027149D /* UserSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsService.swift; sourceTree = "<group>"; };
 		3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3824BF4528F4A3250027149D /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
-		3824BF4728F597130027149D /* DeleteEmployeeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteEmployeeHelper.swift; sourceTree = "<group>"; };
-		3824BF4928F5AE100027149D /* EditEmployeeHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmployeeHelper.swift; sourceTree = "<group>"; };
 		3824BF4B28F5EDC50027149D /* SettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStorage.swift; sourceTree = "<group>"; };
 		385A04A628DDC54400FD008F /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,8 +168,6 @@
 			isa = PBXGroup;
 			children = (
 				3820315C28D9EF74008FAD35 /* EmployeesListController.swift */,
-				3824BF4728F597130027149D /* DeleteEmployeeHelper.swift */,
-				3824BF4928F5AE100027149D /* EditEmployeeHelper.swift */,
 			);
 			path = ListEmployees;
 			sourceTree = "<group>";
@@ -356,7 +350,6 @@
 				3820316128D9EFDF008FAD35 /* EmployeeCell.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* BorderedTextField.swift in Sources */,
 				3824BF4628F4A3260027149D /* SettingsManager.swift in Sources */,
-				3824BF4828F597130027149D /* DeleteEmployeeHelper.swift in Sources */,
 				387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */,
 				385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */,
 				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
@@ -365,7 +358,6 @@
 				3862A3B328E70BD700FE0872 /* Stub.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
-				3824BF4A28F5AE100027149D /* EditEmployeeHelper.swift in Sources */,
 				3824BF4C28F5EDC50027149D /* SettingsStorage.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				3824BF3F28F01D520027149D /* ServiceForGettingDefaultSettings.swift in Sources */,

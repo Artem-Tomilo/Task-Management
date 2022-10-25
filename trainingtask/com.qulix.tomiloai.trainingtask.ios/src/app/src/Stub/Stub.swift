@@ -8,29 +8,29 @@ class Stub: Server {
     private var employeesArray: [Employee] = []
     
     /*
-     метод создает макет для асинхронного вызова нужных методов
+     Метод создает макет для асинхронного вызова нужных методов
      
      parameters:
-     firstCompletion - completion блок, в котором вызывается выбранный метод
-     secondCompletion - completion блок, в который переносится completion из вызываемого метода для его вызова на главном потоке
+     completion - completion блок, который вызывается на главном потоке
      */
-    private func layoutForAsynchronousMethodCalls(firstCompletion: @escaping () -> Void, secondCompletion: @escaping () -> Void) {
+    private func delay(_ completion: @escaping () -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
-            firstCompletion()
             DispatchQueue.main.async {
-                secondCompletion()
+                completion()
             }
         }
     }
     
     /*
-     Параметр employee - новый сотрудник для добавления в массив и последующего сохранения
+     Метод добавления нового сотрудника в массив
+     
+     parameters:
+     employee - новый сотрудник для добавления в массив и последующего сохранения
      completion - отдельный блок, который будет выполняться на главном потоке
      */
     func addEmployee(employee: Employee, _ completion: @escaping () -> Void) {
-        layoutForAsynchronousMethodCalls() {
-            self.employeesArray.append(employee)
-        } secondCompletion: {
+        employeesArray.append(employee)
+        delay {
             completion()
         }
     }
@@ -42,10 +42,9 @@ class Stub: Server {
      id - уникальный id сотрудника, которого необходимо удалить
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    func deleteEmployee(with id: Int, _ completion: @escaping () -> Void) throws {
-        layoutForAsynchronousMethodCalls() {
-            self.employeesArray.removeAll(where: { $0.id == id })
-        } secondCompletion: {
+    func deleteEmployee(id: Int, _ completion: @escaping () -> Void) throws {
+        employeesArray.removeAll(where: { $0.id == id })
+        delay {
             completion()
         }
     }
@@ -55,22 +54,31 @@ class Stub: Server {
      
      parameters:
      id - уникальный id сотрудника, которого необходимо отредактировать
-     newData - отредактированные данные сотрудника
+     editedEmployee - отредактированные данные сотрудника
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    func editEmployee(with id: Int, newData: Employee, _ completion: @escaping () -> Void) throws {
-        layoutForAsynchronousMethodCalls() {
-            guard let employee = self.employeesArray.first(where: { $0.id == id }) else { return }
-            if let index = self.employeesArray.firstIndex(of: employee) {
-                self.employeesArray.removeAll(where: { $0.id == id })
-                self.employeesArray.insert(newData, at: index)
-            }
-        } secondCompletion: {
+    func editEmployee(id: Int, editedEmployee: Employee, _ completion: @escaping () -> Void) throws {
+        guard let employee = self.employeesArray.first(where: { $0.id == id }) else { return }
+        if let index = self.employeesArray.firstIndex(of: employee) {
+            self.employeesArray.removeAll(where: { $0.id == id })
+            self.employeesArray.insert(editedEmployee, at: index)
+        }
+        delay {
             completion()
         }
     }
     
-    func getEmployees() -> [Employee] {   // возвращаемое значение является массивом всех сотрудников, который хранится на сервере
-        return employeesArray
+    /*
+     Метод отправления массива сотрудников
+     
+     parameters:
+     completion - блок, в котором передается массив сотрудников
+     */
+    func getEmployees(_ completion: @escaping ([Employee]) -> Void) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+            DispatchQueue.main.async {
+                completion(self.employeesArray)
+            }
+        }
     }
 }

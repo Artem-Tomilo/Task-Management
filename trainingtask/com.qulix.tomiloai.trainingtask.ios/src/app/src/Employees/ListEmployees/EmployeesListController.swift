@@ -10,13 +10,13 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private let refreshControl = UIRefreshControl()
     private var spinnerView = SpinnerView()
     
-    var employeeArray: [Employee]?
+    private var employeeArray: [Employee] = []
     
     private static let newCellIdentifier = "NewCell"
     
     var idCounter = 0 // счетчик, присваивающий уникальный id создаваемому сотруднику
     var serverDelegate: Server! // делегат, вызывающий методы обработки сотрудников на сервере
-    let settingsManager: SettingsManager
+    private let settingsManager: SettingsManager
     
     init(settingsManager: SettingsManager) {
         self.settingsManager = settingsManager
@@ -30,13 +30,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        loadData {
-            self.tableView.reloadData()
-        }
+        loadData()
     }
     
     private func setup() {
@@ -59,7 +53,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
         
-        addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewEmployee(_:)))
+        addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditEmployeeViewController(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
         
         tableView.refreshControl = refreshControl
@@ -71,7 +65,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      cell - ячейка, в которой отображается сотрудник
      employee - сотрудник, хранящийся в этой ячейке, данными которого она будет заполняться
      */
-    func settingCellText(for cell: UITableViewCell, with employee: Employee) {
+    private func settingCellText(for cell: UITableViewCell, with employee: Employee) {
         if let cell = cell as? EmployeeCell {
             cell.bindText(surnameText: employee.surname, nameText: employee.name, patronymicText: employee.patronymic, positionText: employee.position)
         }
@@ -81,83 +75,59 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      getMaxRecordsCount - получение значения максимального количетсва записей из настроек приложения
      */
     private func getMaxRecordsCountFromSettings() -> Int {
-        let settingsManager = SettingsManager()
         let count = settingsManager.getSettings().maxRecords
         return count
     }
     
     /*
-     Функция загрузки данных - происходит сравнение кол-ва объектов в массиве с сервера с максимальным кол-вом записей из настроек, по результату сравнения массив employeeArray заполняется нужным кол-вом элементов
-     блок completion вызывается после передачи данных с сервера и как правило обновляет таблицу
+     Метод загрузки данных - происходит запуск спиннера и вызов метода делегата: в completion блоке вызывается метод привязки данных и скрытие спиннера
      */
-    func loadData(_ completion: @escaping () -> Void) {
-        let array = serverDelegate.getEmployees()
-        if getMaxRecordsCountFromSettings() != 0 && getMaxRecordsCountFromSettings() <= array.count {
-            employeeArray = Array(array[0..<getMaxRecordsCountFromSettings()])
-        } else {
-            employeeArray = serverDelegate.getEmployees()
+    private func loadData() {
+        showSpinner()
+        serverDelegate.getEmployees { employees in
+            if self.getMaxRecordsCountFromSettings() != 0 {
+                self.bind(Array(employees.prefix(self.getMaxRecordsCountFromSettings())))
+            } else {
+                self.bind(employees)
+            }
+            self.hideSpinner()
         }
-        completion()
     }
     
-    func showSpinner() {
+    /*
+     Метод привязки данных - приходящие данные с сервера сохраняются в массив и происходит обновление таблицы
+     
+     parameters:
+     employees - приходящий массив данных с сервера
+     */
+    private func bind(_ employees: [Employee]) {
+        employeeArray = employees
+        self.tableView.reloadData()
+    }
+    
+    private func showSpinner() {
         spinnerView = SpinnerView(frame: self.view.bounds)
         view.addSubview(spinnerView)
         navigationController?.navigationBar.alpha = 0.3
     }
     
-    func removeSpinner() {
+    private func hideSpinner() {
         spinnerView.removeFromSuperview()
         navigationController?.navigationBar.alpha = 1.0
     }
     
-    /*
-     Метод удаления ячейки из tableView с последующим обновлением
-     */
-    func reloadTableView(tableView: UITableView, indexPath: IndexPath) {
-        tableView.performBatchUpdates {
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-        } completion: { _ in
-            self.loadData() {
-                tableView.reloadData()
-            }
-        }
-    }
-    
-    /*
-     вызов метода добавления нового сотрудника на сервере, путем обращения к делегату, с последующим обновлением tableView, а также обработкой спиннера
-     
-     parameters:
-     employee - добавляемый сотрудник
-     */
-    private func callServerDelegateAddNewEmployeeFunction(employee: Employee) throws {
-        self.showSpinner()
-        idCounter += 1
-        try serverDelegate.addEmployee(employee: employee) {
-            self.loadData {
-                self.tableView.reloadData()
-            }
-            self.removeSpinner()
-        }
-    }
-    
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
-        1
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let array = serverDelegate.getEmployees()
-        if employeeArray?.count ?? 0 < array.count {
-            return employeeArray?.count ?? 0
-        }
-        return array.count
+        return employeeArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier, for: indexPath) as? EmployeeCell else { return UITableViewCell() }
-        if let employee = employeeArray?[indexPath.row] {
-            settingCellText(for: cell, with: employee)
-        }
+        let employee = employeeArray[indexPath.row]
+        settingCellText(for: cell, with: employee)
         return cell
     }
     
@@ -179,34 +149,24 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      Удаление и редактирование сотрудника происходит после свайпа влево
      */
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let helper = DeleteEmployeeHelper(vc: self)
-        let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { _, _, close in
-            let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
-            let action = UIAlertAction(title: "Удалить", style: .destructive) { _ in
-                helper.deleteEmployee(tableView: tableView, indexPath: indexPath)
+        let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
+            guard let self = self else { return }
+            do {
+                let employee = try self.getEmployee(indexPath)
+                self.showDeleteEmployeeAlert(employee)
+            } catch {
+                // асинхронная обработка ошибки
             }
-            let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
-                self.dismiss(animated: true)
-            }
-            alert.addAction(action)
-            alert.addAction(secondAction)
-            self.present(alert, animated: true)
         })
         
-        let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [self] _, _, close in
-            let alert = UIAlertController(title: "Хотите изменить этого сотрудника?", message: "", preferredStyle: .actionSheet)
-            let action = UIAlertAction(title: "Изменить", style: .default) { _ in
-                let vc = EmployeeEditViewController()
-                vc.delegate = self
-                vc.possibleEmployeeToEdit = self.employeeArray?[indexPath.row]
-                self.navigationController?.pushViewController(vc, animated: true)
+        let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [weak self] _, _, close in
+            guard let self = self else { return }
+            do {
+                let employee = try self.getEmployee(indexPath)
+                self.showEditEmployeeAlert(employee)
+            } catch {
+                // асинхронная обработка ошибки
             }
-            let secondAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
-                self.dismiss(animated: true)
-            }
-            alert.addAction(action)
-            alert.addAction(secondAction)
-            self.present(alert, animated: true)
         })
         return UISwipeActionsConfiguration(actions: [
             deleteCell,
@@ -215,23 +175,101 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
+     Метод получения текущего сотрудника
+     
+     parameters: indexPath сотрудника
+     Возвращаемое значение - сотрудник
+     */
+    private func getEmployee(_ indexPath: IndexPath) throws -> Employee {
+        if employeeArray.count > indexPath.row {
+            return employeeArray[indexPath.row]
+        }
+        else {
+            throw NSError(domain: "", code: 0, userInfo: [:])
+        }
+    }
+    
+    private func handleError(_ error: Error) {
+        // logger.log(error)
+        // Alert.show(errorMessage)
+    }
+    
+    /*
+     Метод вызова алерта для редактирования сотрудника и перехода на экран Редактирование сотрудника
+     
+     parameters:
+     employee - передаваемый сотрудник для редактирования
+     */
+    private func showEditEmployeeAlert(_ employee: Employee) {
+        let alert = UIAlertController(title: "Хотите изменить этого сотрудника?", message: "", preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: "Изменить", style: .default) { [weak self] _ in
+            self?.showEditEmployeeViewController(employee)
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+        alert.addAction(editAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+    
+    /*
+     Метод вызова алерта для удаления сотрудника и последующего вызова метода удаления сотрудника
+     
+     parameters:
+     employee - передаваемый сотрудник для удаления
+     */
+    private func showDeleteEmployeeAlert(_ employee: Employee) {
+        let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            self?.deleteEmployee(employee: employee)
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+    
+    /*
+     Метод перехода на экран Редактирование сотрудника
+     */
+    private func showEditEmployeeViewController(_ employee: Employee?) {
+        let viewController = EmployeeEditViewController()
+        viewController.delegate = self
+        if employee != nil {
+            viewController.possibleEmployeeToEdit = employee
+        }
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    /*
+     Метод удаления сотрудника - вызывает метод делагата для удаления сотрудника с сервера, после обновляет данные
+     
+     parameters:
+     employee - сотрудник для удаления
+     */
+    private func deleteEmployee(employee: Employee) {
+        do {
+            try serverDelegate.deleteEmployee(id: employee.id) {
+                self.loadData()
+            }
+        } catch {
+            // асинхронная обработка ошибки
+        }
+    }
+    
+    /*
      addNewEmployee - target на кнопку добавления нового сотрудника:
      переходит на экран Редактирование сотрудника
      */
-    @objc func addNewEmployee(_ sender: UIBarButtonItem) {
-        let vc = EmployeeEditViewController()
-        vc.delegate = self
-        self.navigationController?.pushViewController(vc, animated: true)
+    @objc func moveToEditEmployeeViewController(_ sender: UIBarButtonItem) {
+        showEditEmployeeViewController(nil)
     }
     
     /*
      refresh - таргет на обновление таблицы через UIRefreshControl
      */
     @objc func refresh(_ sender: UIRefreshControl) {
-        loadData {
-            sender.endRefreshing()
-            self.tableView.reloadData()
-        }
+        loadData()
+        sender.endRefreshing()
     }
     
     /*
@@ -244,39 +282,36 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     addNewEmployee - метод протокола EmployeeEditViewControllerDelegate, который добавляет нового сотрудника в массив на сервере, останавливает спиннер и возвращает на экран Список сотрудников
+     addNewEmployee - метод протокола EmployeeEditViewControllerDelegate, который добавляет нового сотрудника в массив на сервере и возвращает на экран Список сотрудников
      
-     Параметр newEmployee - новый сотрудник для добавления
      Параметр controller - ViewController, на котором вызывается данный метод
+     Параметр newEmployee - новый сотрудник для добавления
      */
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
         do {
             self.navigationController?.popViewController(animated: true)
-            try callServerDelegateAddNewEmployeeFunction(employee: newEmployee)
+            idCounter += 1
+            try serverDelegate.addEmployee(employee: newEmployee) {
+                self.loadData()
+            }
         } catch {
             // асинхронная обработка ошибки
         }
     }
     
     /*
-     editEmployee - метод протокола EmployeeEditViewControllerDelegate, который изменяет данные сотрудника:
-     сначала происходит проверка нахождения сотрудника в массиве на сервере, потом происходит изменение его данных, остановка спиннера и возврат на экран Список сотрудников
+     editEmployee - метод протокола EmployeeEditViewControllerDelegate, который изменяет данные сотрудника
      
      parameters:
-     newData - данные сотрудника, после изменения
-     previousData - данные сотрудника до изменения
      controller - ViewController, на котором вызывается данный метод
+     editedEmployee - изменяемый сотрудник
      */
-    func editEmployee(_ controller: EmployeeEditViewController, newData: Employee, previousData: Employee) {
-        let editHelper = EditEmployeeHelper(vc: self)
-        guard editHelper.checkEmployeeInArray(employee: previousData, employeeArray: employeeArray ?? []) == true,
-              let index = employeeArray?.firstIndex(of: previousData) else { return }
-        let indexPath = IndexPath(row: index, section: 0)
-        guard let cell = tableView.cellForRow(at: indexPath) as? EmployeeCell else { return }
-        
+    func editEmployee(_ controller: EmployeeEditViewController, editedEmployee: Employee) {
         do {
             self.navigationController?.popViewController(animated: true)
-            try editHelper.callServerDelegateEditFunction(newData: newData, previousData: previousData, cell: cell, tableView: tableView)
+            try serverDelegate.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) {
+                self.loadData()
+            }
         } catch {
             // асинхронная обработка ошибки
         }
