@@ -51,21 +51,25 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let settingsManager = SettingsManager()
-        switch indexPath.row {
-        case 2:
-            let newVC = EmployeesListController(settingsManager: settingsManager)
-            let server = Stub()
-            newVC.serverDelegate = server
-            navigationController?.pushViewController(newVC, animated: true)
-        case 3:
-            let settings = SettingsViewController(settingsManager: settingsManager)
-            navigationController?.pushViewController(settings, animated: true)
-        default:
-            return
+        do {
+            let settingsManager = try SettingsManager()
+            switch indexPath.row {
+            case 2:
+                let employeesListController = EmployeesListController(settingsManager: settingsManager)
+                let stub = Stub()
+                employeesListController.serverDelegate = stub
+                navigationController?.pushViewController(employeesListController, animated: true)
+            case 3:
+                let settingsViewController = SettingsViewController(settingsManager: settingsManager)
+                navigationController?.pushViewController(settingsViewController, animated: true)
+            default:
+                return
+            }
+            
+            tableView.deselectRow(at: indexPath, animated: true)
+        } catch {
+            //error
         }
-        
-        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

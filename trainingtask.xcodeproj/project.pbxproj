@@ -17,11 +17,10 @@
 		3820316E28DB4AF1008FAD35 /* BorderedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */; };
 		3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3928EF7E7C0027149D /* Settings.swift */; };
 		3824BF3D28F00CE80027149D /* SettingsInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3C28F00CE80027149D /* SettingsInputView.swift */; };
-		3824BF3F28F01D520027149D /* ServiceForGettingDefaultSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3E28F01D520027149D /* ServiceForGettingDefaultSettings.swift */; };
-		3824BF4228F0257A0027149D /* UserSettingsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4128F0257A0027149D /* UserSettingsService.swift */; };
+		3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3E28F01D520027149D /* DefaultSettingsStorage.swift */; };
+		3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4128F0257A0027149D /* SettingsStorage.swift */; };
 		3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */; };
 		3824BF4628F4A3260027149D /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4528F4A3250027149D /* SettingsManager.swift */; };
-		3824BF4C28F5EDC50027149D /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4B28F5EDC50027149D /* SettingsStorage.swift */; };
 		385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A628DDC54400FD008F /* SpinnerView.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
 		385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566D28D4A98C004AC34A /* SplashViewController.swift */; };
@@ -46,11 +45,10 @@
 		3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextField.swift; sourceTree = "<group>"; };
 		3824BF3928EF7E7C0027149D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		3824BF3C28F00CE80027149D /* SettingsInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInputView.swift; sourceTree = "<group>"; };
-		3824BF3E28F01D520027149D /* ServiceForGettingDefaultSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceForGettingDefaultSettings.swift; sourceTree = "<group>"; };
-		3824BF4128F0257A0027149D /* UserSettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsService.swift; sourceTree = "<group>"; };
+		3824BF3E28F01D520027149D /* DefaultSettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSettingsStorage.swift; sourceTree = "<group>"; };
+		3824BF4128F0257A0027149D /* SettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStorage.swift; sourceTree = "<group>"; };
 		3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3824BF4528F4A3250027149D /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
-		3824BF4B28F5EDC50027149D /* SettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStorage.swift; sourceTree = "<group>"; };
 		385A04A628DDC54400FD008F /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		385C566928D4A98C004AC34A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -114,9 +112,8 @@
 		3824BF4D28F5F22B0027149D /* SettingsServices */ = {
 			isa = PBXGroup;
 			children = (
-				3824BF3E28F01D520027149D /* ServiceForGettingDefaultSettings.swift */,
-				3824BF4128F0257A0027149D /* UserSettingsService.swift */,
-				3824BF4B28F5EDC50027149D /* SettingsStorage.swift */,
+				3824BF3E28F01D520027149D /* DefaultSettingsStorage.swift */,
+				3824BF4128F0257A0027149D /* SettingsStorage.swift */,
 				3824BF4528F4A3250027149D /* SettingsManager.swift */,
 			);
 			path = SettingsServices;
@@ -358,13 +355,12 @@
 				3862A3B328E70BD700FE0872 /* Stub.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
-				3824BF4C28F5EDC50027149D /* SettingsStorage.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
-				3824BF3F28F01D520027149D /* ServiceForGettingDefaultSettings.swift in Sources */,
+				3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
 				3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */,
 				3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */,
-				3824BF4228F0257A0027149D /* UserSettingsService.swift in Sources */,
+				3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

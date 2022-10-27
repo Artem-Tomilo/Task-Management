@@ -1,17 +1,17 @@
 import Foundation
 
 /*
- ServiceForGettingDefaultSettings - сервис для получения настроек по умолчанию
+ DefaultSettingsStorage - сервис для получения настроек по умолчанию
  */
-class ServiceForGettingDefaultSettings {
+class DefaultSettingsStorage {
     
     /*
-     getDefaultSettings - метод получения настроек по умолчанию
+     getSettings - метод получения настроек по умолчанию
      
      Возвращаемое значение Settings - настройки по умолчанию
      Будет производиться обработка ошибочной ситуации в случае неполучения данных
      */
-    func getDefaultSettings() throws -> Settings {
+    func getSettings() throws -> Settings {
         if let path = Bundle.main.path(forResource: "Settings", ofType: ".plist"),
            let dictionary = NSDictionary(contentsOfFile: path),
            let settingsDictionary = dictionary.object(forKey: "Settings") as? NSDictionary,

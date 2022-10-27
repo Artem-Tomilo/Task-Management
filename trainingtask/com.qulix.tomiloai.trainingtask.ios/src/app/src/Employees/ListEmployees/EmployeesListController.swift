@@ -75,7 +75,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      getMaxRecordsCount - получение значения максимального количетсва записей из настроек приложения
      */
     private func getMaxRecordsCountFromSettings() -> Int {
-        let count = settingsManager.getSettings().maxRecords
+        guard let count = try? settingsManager.getSettings().maxRecords else { return 0 }
         return count
     }
     

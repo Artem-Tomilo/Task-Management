@@ -65,11 +65,15 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      displaySettings - метод для отображения настроек в соответствующих полях
      */
     private func displaySettings() {
-        let settings = settingsManager.getSettings()
-        
-        urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings.url)
-        recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: String(settings.maxRecords))
-        daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: String(settings.maxDays))
+        do {
+            let settings = try settingsManager.getSettings()
+            
+            urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings.url)
+            recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: String(settings.maxRecords))
+            daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: String(settings.maxDays))
+        } catch {
+            // error
+        }
     }
     
     /*
