@@ -21,6 +21,15 @@
 		3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4128F0257A0027149D /* SettingsStorage.swift */; };
 		3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */; };
 		3824BF4628F4A3260027149D /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4528F4A3250027149D /* SettingsManager.swift */; };
+		383A563A2935045400682FFB /* 5.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56312935045300682FFB /* 5.png */; };
+		383A563B2935045400682FFB /* 4.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56322935045400682FFB /* 4.png */; };
+		383A563C2935045400682FFB /* 6.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56332935045400682FFB /* 6.png */; };
+		383A563D2935045400682FFB /* 7.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56342935045400682FFB /* 7.png */; };
+		383A563E2935045400682FFB /* 2.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56352935045400682FFB /* 2.png */; };
+		383A563F2935045400682FFB /* 9.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56362935045400682FFB /* 9.png */; };
+		383A56402935045400682FFB /* 8.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56372935045400682FFB /* 8.png */; };
+		383A56412935045400682FFB /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56382935045400682FFB /* 1.png */; };
+		383A56422935045400682FFB /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 383A56392935045400682FFB /* 3.png */; };
 		384FB718290A820B0040FE50 /* EmployeeEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 384FB717290A820B0040FE50 /* EmployeeEditView.swift */; };
 		385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385A04A628DDC54400FD008F /* SpinnerView.swift */; };
 		385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 385C566928D4A98C004AC34A /* AppDelegate.swift */; };
@@ -50,6 +59,15 @@
 		3824BF4128F0257A0027149D /* SettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStorage.swift; sourceTree = "<group>"; };
 		3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		3824BF4528F4A3250027149D /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
+		383A56312935045300682FFB /* 5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 5.png; sourceTree = "<group>"; };
+		383A56322935045400682FFB /* 4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 4.png; sourceTree = "<group>"; };
+		383A56332935045400682FFB /* 6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6.png; sourceTree = "<group>"; };
+		383A56342935045400682FFB /* 7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7.png; sourceTree = "<group>"; };
+		383A56352935045400682FFB /* 2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 2.png; sourceTree = "<group>"; };
+		383A56362935045400682FFB /* 9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 9.png; sourceTree = "<group>"; };
+		383A56372935045400682FFB /* 8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 8.png; sourceTree = "<group>"; };
+		383A56382935045400682FFB /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		383A56392935045400682FFB /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
 		384FB717290A820B0040FE50 /* EmployeeEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditView.swift; sourceTree = "<group>"; };
 		385A04A628DDC54400FD008F /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		385C566628D4A98C004AC34A /* trainingtask.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = trainingtask.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -119,6 +137,22 @@
 				3824BF4528F4A3250027149D /* SettingsManager.swift */,
 			);
 			path = SettingsServices;
+			sourceTree = "<group>";
+		};
+		383A56432935046A00682FFB /* screens */ = {
+			isa = PBXGroup;
+			children = (
+				383A56382935045400682FFB /* 1.png */,
+				383A56352935045400682FFB /* 2.png */,
+				383A56392935045400682FFB /* 3.png */,
+				383A56322935045400682FFB /* 4.png */,
+				383A56312935045300682FFB /* 5.png */,
+				383A56332935045400682FFB /* 6.png */,
+				383A56342935045400682FFB /* 7.png */,
+				383A56372935045400682FFB /* 8.png */,
+				383A56362935045400682FFB /* 9.png */,
+			);
+			path = screens;
 			sourceTree = "<group>";
 		};
 		385A04A328DDC35400FD008F /* Stub */ = {
@@ -216,6 +250,7 @@
 		387AAD9428E6E51B004BE734 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				383A56432935046A00682FFB /* screens */,
 				385C567228D4A991004AC34A /* Assets.xcassets */,
 				385C567428D4A991004AC34A /* LaunchScreen.storyboard */,
 				385C567728D4A991004AC34A /* Info.plist */,
@@ -329,8 +364,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				383A56412935045400682FFB /* 1.png in Resources */,
+				383A56402935045400682FFB /* 8.png in Resources */,
+				383A563C2935045400682FFB /* 6.png in Resources */,
+				383A56422935045400682FFB /* 3.png in Resources */,
 				385C567628D4A991004AC34A /* LaunchScreen.storyboard in Resources */,
+				383A563E2935045400682FFB /* 2.png in Resources */,
+				383A563F2935045400682FFB /* 9.png in Resources */,
+				383A563A2935045400682FFB /* 5.png in Resources */,
+				383A563D2935045400682FFB /* 7.png in Resources */,
 				385C567328D4A991004AC34A /* Assets.xcassets in Resources */,
+				383A563B2935045400682FFB /* 4.png in Resources */,
 				387AAD8B28E467E5004BE734 /* Settings.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
