@@ -15,3 +15,27 @@
 - Минимальная поддерживаемая версии iOS: 11.0
 - Среда разработки: Xcode 13.1
 - Язык разработки: Swift 5
+
+## Реализация:
+####
+Splash экран и экран Главное меню:
+
+<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/1.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/2.png" width="300">
+
+Экран Настройки:
+
+<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/3.png" width="300">
+
+## Созданиe, редактирование и удаление сотрудника.
+####
+Экран Сотрудники (отображается spinnerView для имитация ожидания ответа от сервера):
+
+<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/4.png" width="300">
+
+Экран Добавление сотрудника:
+
+<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/5.png" width="300">
+
+Есть возможность отредактировать или удалить сотрудника свайпом влево, при изменеии переход на экран Редактирование сотрудника:
+
+<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/6.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/7.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/8.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/9.png" width="300">
