@@ -28,7 +28,7 @@ Splash экран и экран Главное меню:
 
 ## Созданиe, редактирование и удаление сотрудника.
 ####
-Экран Сотрудники (отображается spinnerView для имитация ожидания ответа от сервера):
+Экран Сотрудники (отображается spinnerView для имитации ожидания ответа от сервера):
 
 <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/4.png" width="300">
 
@@ -36,6 +36,6 @@ Splash экран и экран Главное меню:
 
 <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/5.png" width="300">
 
-Есть возможность отредактировать или удалить сотрудника свайпом влево, при изменеии переход на экран Редактирование сотрудника:
+Есть возможность отредактировать или удалить сотрудника свайпом влево, при изменеии переход на экран Редактирование сотрудника с заполненными данными:
 
-<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/6.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/7.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/8.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/9.png" width="300">
+<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/6.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/7.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/8.png" width="300">
