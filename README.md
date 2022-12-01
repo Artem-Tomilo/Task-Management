@@ -1,7 +1,5 @@
 # trainingtask
 
-___
-
 ## Приложение для управления задачами.
 
 ### Основной испльзуемый стек: UIKit, Navigation Controller, UITableView, custom views+tableViewCells. 
