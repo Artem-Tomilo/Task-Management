@@ -41,6 +41,9 @@
 		38EF1A6C2935F79D00EB5F8E /* 6.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A642935F79D00EB5F8E /* 6.png */; };
 		38EF1A6D2935F79D00EB5F8E /* 8.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A652935F79D00EB5F8E /* 8.png */; };
 		38EF1A6E2935F79D00EB5F8E /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A662935F79D00EB5F8E /* 1.png */; };
+		38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A7229435CDD00EB5F8E /* Project.swift */; };
+		38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */; };
+		38EF1B5129436A3700EB5F8E /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B5029436A3700EB5F8E /* ProjectCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -80,6 +83,9 @@
 		38EF1A642935F79D00EB5F8E /* 6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 6.png; sourceTree = "<group>"; };
 		38EF1A652935F79D00EB5F8E /* 8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 8.png; sourceTree = "<group>"; };
 		38EF1A662935F79D00EB5F8E /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		38EF1A7229435CDD00EB5F8E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
+		38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListViewController.swift; sourceTree = "<group>"; };
+		38EF1B5029436A3700EB5F8E /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -273,10 +279,37 @@
 				387AAD9528E6E531004BE734 /* SplashViewController */,
 				387AAD8428E36C55004BE734 /* MainMenu */,
 				387AAD8228E36BB1004BE734 /* Employees */,
+				38EF1A7129435CC600EB5F8E /* Projects */,
 				387AAD8528E36CAA004BE734 /* Settings */,
 				3820316628D9F0EF008FAD35 /* GlobalCustomViews */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		38EF1A7129435CC600EB5F8E /* Projects */ = {
+			isa = PBXGroup;
+			children = (
+				38EF1B4C2943666F00EB5F8E /* Model */,
+				38EF1B4D2943668200EB5F8E /* ListProjects */,
+				38EF1B5029436A3700EB5F8E /* ProjectCell.swift */,
+			);
+			path = Projects;
+			sourceTree = "<group>";
+		};
+		38EF1B4C2943666F00EB5F8E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				38EF1A7229435CDD00EB5F8E /* Project.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		38EF1B4D2943668200EB5F8E /* ListProjects */ = {
+			isa = PBXGroup;
+			children = (
+				38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */,
+			);
+			path = ListProjects;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -373,14 +406,17 @@
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
 				387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */,
 				3862A3B328E70BD700FE0872 /* Stub.swift in Sources */,
+				38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
+				38EF1B5129436A3700EB5F8E /* ProjectCell.swift in Sources */,
 				3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */,
 				3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */,
 				3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */,
+				38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,7 +557,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/Info.plist;
+				INFOPLIST_FILE = trainingtask/res/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -548,7 +584,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = JPN4ML425P;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/Info.plist;
+				INFOPLIST_FILE = trainingtask/res/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

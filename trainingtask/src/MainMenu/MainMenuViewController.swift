@@ -54,6 +54,9 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         do {
             let settingsManager = try SettingsManager()
             switch indexPath.row {
+            case 0:
+                let projectsListViewController = ProjectsListViewController(settingsManager: settingsManager)
+                navigationController?.pushViewController(projectsListViewController, animated: true)
             case 2:
                 let employeesListController = EmployeesListController(settingsManager: settingsManager)
                 let stub = Stub()
