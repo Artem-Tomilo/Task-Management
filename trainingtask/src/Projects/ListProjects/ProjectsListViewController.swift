@@ -50,6 +50,13 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
+        
+        let addNewProjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditProjectViewController(_:)))
+        navigationItem.rightBarButtonItem = addNewProjectButton
+    }
+    
+    @objc func moveToEditProjectViewController(_ sender: UIBarButtonItem) {
+        showEditProjectViewController(nil)
     }
     
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -70,6 +77,50 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         100
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
+            guard let self = self else { return }
+            self.showDeleteEmployeeAlert(self.projectsArray[indexPath.row])
+        })
+        
+        let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [weak self] _, _, close in
+            guard let self = self else { return }
+            self.showEditEmployeeAlert(self.projectsArray[indexPath.row])
+        })
+        return UISwipeActionsConfiguration(actions: [
+            deleteCell,
+            editCell
+        ])
+    }
+    
+    private func showEditEmployeeAlert(_ project: Project) {
+        let alert = UIAlertController(title: "Хотите изменить этот проект?", message: "", preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: "Изменить", style: .default) { [weak self] _ in
+            self?.showEditProjectViewController(project)
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+        alert.addAction(editAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+    
+    private func showDeleteEmployeeAlert(_ project: Project) {
+        let alert = UIAlertController(title: "Хотите удалить этот проект?", message: "", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+    
+    private func showEditProjectViewController(_ project: Project?) {
+        let viewController = EditProjectViewController()
+        viewController.possibleProjectToEdit = project
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
 }
