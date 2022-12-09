@@ -6,6 +6,36 @@ import Foundation
 class Stub: Server {
     
     private var employeesArray: [Employee] = []
+    private var projectsArray: [Project] = []
+    
+    init() {
+        createProjects()
+        createEmployees()
+    }
+    
+    private func createProjects() {
+        let projectsNames = ["GYM", "English", "Prostore", "BMW"]
+        let descriptions = ["Тренажерный зал", "Английский язык", "Магазин", "Авто"]
+        
+        for i in 0..<4 {
+            let project = Project(name: projectsNames[i], description: descriptions[i])
+            projectsArray.append(project)
+        }
+    }
+    
+    private func createEmployees() {
+        let lastNames = ["Томило", "Свиридов", "Котов", "Бобров"]
+        let firstNames = ["Артем", "Сергей", "Максим", "Виталий"]
+        let patronymics = ["Игоревич", "Александрович", "Владимирович", "Юрьевич"]
+        let postiton = ["разработчик", "директор", "бухгалтер", "охранник"]
+        var id = 0
+        
+        for i in 0..<4 {
+            let employee = Employee(surname: lastNames[i], name: firstNames[i], patronymic: patronymics[i], position: postiton[i], id: id)
+            id += 1
+            employeesArray.append(employee)
+        }
+    }
     
     /*
      Метод создает макет для асинхронного вызова нужных методов
@@ -78,6 +108,39 @@ class Stub: Server {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
             DispatchQueue.main.async {
                 completion(self.employeesArray)
+            }
+        }
+    }
+    
+    func addProject(project: Project, _ completion: @escaping () -> Void) {
+        projectsArray.append(project)
+        delay {
+            completion()
+        }
+    }
+    
+    func deleteProject(id: Int, _ completion: @escaping () -> Void) throws {
+        projectsArray.removeAll(where: { $0.id == id })
+        delay {
+            completion()
+        }
+    }
+    
+    func editProject(id: Int, editedProject: Project, _ completion: @escaping () -> Void) throws {
+        guard let project = self.projectsArray.first(where: { $0.id == id }) else { return }
+        if let index = self.projectsArray.firstIndex(of: project) {
+            self.projectsArray.removeAll(where: { $0.id == id })
+            self.projectsArray.insert(editedProject, at: index)
+        }
+        delay {
+            completion()
+        }
+    }
+    
+    func getProjects(_ completion: @escaping ([Project]) -> Void) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+            DispatchQueue.main.async {
+                completion(self.projectsArray)
             }
         }
     }

@@ -49,7 +49,7 @@ class ProjectEditViewController: UIViewController {
     private func createNewProject() {
         let (name, description) = projectEditView.unbind()
         let newProject = Project(name: name, description: description)
-        delegate?.addNewProject(self, newProjecr: newProject)
+        delegate?.addNewProject(self, newProject: newProject)
     }
     
     private func saveProject() {

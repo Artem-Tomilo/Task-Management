@@ -9,6 +9,6 @@ import Foundation
 
 protocol ProjectEditViewControllerDelegate: AnyObject {
     func addProjectDidCancel(_ controller: ProjectEditViewController)
-    func addNewProject(_ controller: ProjectEditViewController, newProjecr: Project)
+    func addNewProject(_ controller: ProjectEditViewController, newProject: Project)
     func editProject(_ controller: ProjectEditViewController, editedProject: Project)
 }

@@ -31,9 +31,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        let p = Project(name: "Project", description: "Description")
-        projectsArray.append(p)
-        tableView.reloadData()
+        loadData()
     }
     
     private func setup() {
@@ -75,15 +73,15 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     }
     
     private func loadData() {
-//        showSpinner()
-//        serverDelegate.getEmployees { projects in
-//            if self.getMaxRecordsCountFromSettings() != 0 {
-//                self.bind(Array(projects.prefix(self.getMaxRecordsCountFromSettings())))
-//            } else {
-//                self.bind(projects)
-//            }
-//            self.hideSpinner()
-//        }
+        showSpinner()
+        serverDelegate.getProjects() { projects in
+            if self.getMaxRecordsCountFromSettings() != 0 {
+                self.bind(Array(projects.prefix(self.getMaxRecordsCountFromSettings())))
+            } else {
+                self.bind(projects)
+            }
+            self.hideSpinner()
+        }
     }
     
     private func bind(_ projects: [Project]) {
@@ -152,12 +150,22 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     private func showDeleteEmployeeAlert(_ project: Project) {
         let alert = UIAlertController(title: "Хотите удалить этот проект?", message: "", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
-            
+            self?.deleteProject(project: project)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         self.present(alert, animated: true)
+    }
+    
+    private func deleteProject(project: Project) {
+        do {
+            try serverDelegate.deleteProject(id: project.id) {
+                self.loadData()
+            }
+        } catch {
+            // асинхронная обработка ошибки
+        }
     }
     
     private func showEditProjectViewController(_ project: Project?) {
@@ -182,15 +190,26 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
         navigationController?.popViewController(animated: true)
     }
     
-    func addNewProject(_ controller: ProjectEditViewController, newProjecr: Project) {
-        self.navigationController?.popViewController(animated: true)
-        projectsArray.append(newProjecr)
-        self.loadData()
+    func addNewProject(_ controller: ProjectEditViewController, newProject: Project) {
+        do {
+            self.navigationController?.popViewController(animated: true)
+            try serverDelegate.addProject(project: newProject) {
+                self.loadData()
+            }
+        } catch {
+            // асинхронная обработка ошибки
+        }
     }
     
     func editProject(_ controller: ProjectEditViewController, editedProject: Project) {
-        self.navigationController?.popViewController(animated: true)
-        self.loadData()
+        do {
+            self.navigationController?.popViewController(animated: true)
+            try serverDelegate.editProject(id: editedProject.id, editedProject: editedProject) {
+                self.loadData()
+            }
+        } catch {
+            // асинхронная обработка ошибки
+        }
     }
     
 }
