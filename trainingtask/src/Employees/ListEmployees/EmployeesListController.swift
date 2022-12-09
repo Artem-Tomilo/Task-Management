@@ -9,17 +9,16 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
     private var spinnerView = SpinnerView()
-    
+    private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
     
-    private static let newCellIdentifier = "NewCell"
-    
     var idCounter = 0 // счетчик, присваивающий уникальный id создаваемому сотруднику
-    var serverDelegate: Server! // делегат, вызывающий методы обработки сотрудников на сервере
+    private var serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
     private let settingsManager: SettingsManager
     
-    init(settingsManager: SettingsManager) {
+    init(settingsManager: SettingsManager, serverDelegate: Server) {
         self.settingsManager = settingsManager
+        self.serverDelegate = serverDelegate
         super.init(nibName: nil, bundle: nil)
     }
     

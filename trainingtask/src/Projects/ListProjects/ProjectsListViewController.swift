@@ -7,15 +7,20 @@
 
 import UIKit
 
-class ProjectsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ProjectsListViewController: UIViewController, ProjectEditViewControllerDelegate, UITableViewDelegate, UITableViewDataSource {
     
-    private let settingsManager: SettingsManager
     private var tableView = UITableView()
+    private let refreshControl = UIRefreshControl()
+    private var spinnerView = SpinnerView()
     private static let projectCellIdentifier = "NewCell"
     private var projectsArray: [Project] = []
     
-    init(settingsManager: SettingsManager) {
+    private var serverDelegate: Server
+    private let settingsManager: SettingsManager
+    
+    init(settingsManager: SettingsManager, serverDelegate: Server) {
         self.settingsManager = settingsManager
+        self.serverDelegate = serverDelegate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,10 +58,48 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         
         let addNewProjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditProjectViewController(_:)))
         navigationItem.rightBarButtonItem = addNewProjectButton
+        
+        tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
-    @objc func moveToEditProjectViewController(_ sender: UIBarButtonItem) {
-        showEditProjectViewController(nil)
+    private func settingCellText(for cell: UITableViewCell, with project: Project) {
+        if let cell = cell as? ProjectCell {
+            cell.bindText(nameText: project.name, descriptionText: project.description)
+        }
+    }
+    
+    private func getMaxRecordsCountFromSettings() -> Int {
+        guard let count = try? settingsManager.getSettings().maxRecords else { return 0 }
+        return count
+    }
+    
+    private func loadData() {
+//        showSpinner()
+//        serverDelegate.getEmployees { projects in
+//            if self.getMaxRecordsCountFromSettings() != 0 {
+//                self.bind(Array(projects.prefix(self.getMaxRecordsCountFromSettings())))
+//            } else {
+//                self.bind(projects)
+//            }
+//            self.hideSpinner()
+//        }
+    }
+    
+    private func bind(_ projects: [Project]) {
+        projectsArray = projects
+        self.tableView.reloadData()
+    }
+    
+    private func showSpinner() {
+        spinnerView = SpinnerView(frame: self.view.bounds)
+        view.addSubview(spinnerView)
+        navigationController?.navigationBar.alpha = 0.3
+    }
+    
+    private func hideSpinner() {
+        spinnerView.removeFromSuperview()
+        navigationController?.navigationBar.alpha = 1.0
     }
     
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -71,7 +114,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ProjectsListViewController.projectCellIdentifier, for: indexPath) as? ProjectCell else { return UITableViewCell() }
         let project = projectsArray[indexPath.row]
         cell.bindText(nameText: project.name, descriptionText: project.description)
-//        settingCellText(for: cell, with: project)
+        settingCellText(for: cell, with: project)
         return cell
     }
     
@@ -118,9 +161,36 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     private func showEditProjectViewController(_ project: Project?) {
-        let viewController = EditProjectViewController()
-        viewController.possibleProjectToEdit = project
+        let viewController = ProjectEditViewController()
+        if project != nil {
+            viewController.possibleProjectToEdit = project
+        }
+        viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @objc func moveToEditProjectViewController(_ sender: UIBarButtonItem) {
+        showEditProjectViewController(nil)
+    }
+    
+    @objc func refresh(_ sender: UIRefreshControl) {
+        loadData()
+        sender.endRefreshing()
+    }
+    
+    func addProjectDidCancel(_ controller: ProjectEditViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func addNewProject(_ controller: ProjectEditViewController, newProjecr: Project) {
+        self.navigationController?.popViewController(animated: true)
+        projectsArray.append(newProjecr)
+        self.loadData()
+    }
+    
+    func editProject(_ controller: ProjectEditViewController, editedProject: Project) {
+        self.navigationController?.popViewController(animated: true)
+        self.loadData()
     }
     
 }

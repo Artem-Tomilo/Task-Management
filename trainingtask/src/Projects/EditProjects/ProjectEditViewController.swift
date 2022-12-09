@@ -1,5 +1,5 @@
 //
-//  EditProjectViewController.swift
+//  ProjectEditViewController.swift
 //  trainingtask
 //
 //  Created by Артем Томило on 9.12.22.
@@ -7,10 +7,11 @@
 
 import UIKit
 
-class EditProjectViewController: UIViewController {
+class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
     var possibleProjectToEdit: Project?
+    weak var delegate: ProjectEditViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,12 +46,34 @@ class EditProjectViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     
+    private func createNewProject() {
+        let (name, description) = projectEditView.unbind()
+        let newProject = Project(name: name, description: description)
+        delegate?.addNewProject(self, newProjecr: newProject)
+    }
+    
+    private func saveProject() {
+        if let editedProject = possibleProjectToEdit {
+            editingProject(editedProject: editedProject)
+        } else {
+            createNewProject()
+        }
+    }
+
+    private func editingProject(editedProject: Project) {
+        let (name, description) = projectEditView.unbind()
+        var project = editedProject
+        project.name = name
+        project.description = description
+        delegate?.editProject(self, editedProject: project)
+    }
+    
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
-        
+        saveProject()
     }
     
     @objc func cancel(_ sender: UIBarButtonItem) {
-        
+        delegate?.addProjectDidCancel(self)
     }
     
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {

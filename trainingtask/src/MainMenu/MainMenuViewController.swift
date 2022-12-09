@@ -53,14 +53,13 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         do {
             let settingsManager = try SettingsManager()
+            let stub = Stub()
             switch indexPath.row {
             case 0:
-                let projectsListViewController = ProjectsListViewController(settingsManager: settingsManager)
+                let projectsListViewController = ProjectsListViewController(settingsManager: settingsManager, serverDelegate: stub)
                 navigationController?.pushViewController(projectsListViewController, animated: true)
             case 2:
-                let employeesListController = EmployeesListController(settingsManager: settingsManager)
-                let stub = Stub()
-                employeesListController.serverDelegate = stub
+                let employeesListController = EmployeesListController(settingsManager: settingsManager, serverDelegate: stub)
                 navigationController?.pushViewController(employeesListController, animated: true)
             case 3:
                 let settingsViewController = SettingsViewController(settingsManager: settingsManager)
