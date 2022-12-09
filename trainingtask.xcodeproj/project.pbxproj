@@ -180,7 +180,8 @@
 		385C566828D4A98C004AC34A /* trainingtask */ = {
 			isa = PBXGroup;
 			children = (
-				389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.ios */,
+				389A99F628E6EEAC0093D975 /* src */,
+				387AAD9428E6E51B004BE734 /* res */,
 			);
 			path = trainingtask;
 			sourceTree = "<group>";
@@ -262,31 +263,6 @@
 				385C566D28D4A98C004AC34A /* SplashViewController.swift */,
 			);
 			path = SplashViewController;
-			sourceTree = "<group>";
-		};
-		389A99F328E6EDCC0093D975 /* com.qulix.tomiloai.trainingtask.ios */ = {
-			isa = PBXGroup;
-			children = (
-				389A99F428E6EDD60093D975 /* src */,
-			);
-			path = com.qulix.tomiloai.trainingtask.ios;
-			sourceTree = "<group>";
-		};
-		389A99F428E6EDD60093D975 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				389A99F528E6EDE20093D975 /* app */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
-		389A99F528E6EDE20093D975 /* app */ = {
-			isa = PBXGroup;
-			children = (
-				389A99F628E6EEAC0093D975 /* src */,
-				387AAD9428E6E51B004BE734 /* res */,
-			);
-			path = app;
 			sourceTree = "<group>";
 		};
 		389A99F628E6EEAC0093D975 /* src */ = {
