@@ -8,6 +8,18 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     
     private var tableView = UITableView()
     private static let cellIdentifier = "Cell"
+    private let settingsManager: SettingsManager
+    private let stub: Stub
+    
+    init(settingsManager: SettingsManager, stub: Stub) {
+        self.settingsManager = settingsManager
+        self.stub = stub
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,27 +63,21 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        do {
-            let settingsManager = try SettingsManager()
-            let stub = Stub()
-            switch indexPath.row {
-            case 0:
-                let projectsListViewController = ProjectsListViewController(settingsManager: settingsManager, serverDelegate: stub)
-                navigationController?.pushViewController(projectsListViewController, animated: true)
-            case 2:
-                let employeesListController = EmployeesListController(settingsManager: settingsManager, serverDelegate: stub)
-                navigationController?.pushViewController(employeesListController, animated: true)
-            case 3:
-                let settingsViewController = SettingsViewController(settingsManager: settingsManager)
-                navigationController?.pushViewController(settingsViewController, animated: true)
-            default:
-                return
-            }
-            
-            tableView.deselectRow(at: indexPath, animated: true)
-        } catch {
-            //error
+        switch indexPath.row {
+        case 0:
+            let projectsListViewController = ProjectsListViewController(settingsManager: settingsManager, serverDelegate: stub)
+            navigationController?.pushViewController(projectsListViewController, animated: true)
+        case 2:
+            let employeesListController = EmployeesListController(settingsManager: settingsManager, serverDelegate: stub)
+            navigationController?.pushViewController(employeesListController, animated: true)
+        case 3:
+            let settingsViewController = SettingsViewController(settingsManager: settingsManager)
+            navigationController?.pushViewController(settingsViewController, animated: true)
+        default:
+            return
         }
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

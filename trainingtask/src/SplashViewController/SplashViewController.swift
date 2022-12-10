@@ -8,6 +8,18 @@ class SplashViewController: UIViewController {
     
     private var nameLabel = UILabel()
     private var versionLabel = UILabel()
+    private let settingsManager: SettingsManager
+    private let stub: Stub
+    
+    init(settingsManager: SettingsManager, stub: Stub) {
+        self.settingsManager = settingsManager
+        self.stub = stub
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,7 +27,7 @@ class SplashViewController: UIViewController {
         
         let delay = DispatchTime.now() + 5
         DispatchQueue.main.asyncAfter(deadline: delay) {
-            let vc = MainMenuViewController()
+            let vc = MainMenuViewController(settingsManager: self.settingsManager, stub: self.stub)
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }

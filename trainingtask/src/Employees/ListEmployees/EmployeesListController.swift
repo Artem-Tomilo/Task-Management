@@ -12,7 +12,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
     
-//    var idCounter = 0 // счетчик, присваивающий уникальный id создаваемому сотруднику
     private var serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
     private let settingsManager: SettingsManager
     
