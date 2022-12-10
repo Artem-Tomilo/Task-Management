@@ -28,11 +28,9 @@ class Stub: Server {
         let firstNames = ["Артем", "Сергей", "Максим", "Виталий"]
         let patronymics = ["Игоревич", "Александрович", "Владимирович", "Юрьевич"]
         let postiton = ["разработчик", "директор", "бухгалтер", "охранник"]
-        var id = 0
         
         for i in 0..<4 {
-            let employee = Employee(surname: lastNames[i], name: firstNames[i], patronymic: patronymics[i], position: postiton[i], id: id)
-            id += 1
+            let employee = Employee(surname: lastNames[i], name: firstNames[i], patronymic: patronymics[i], position: postiton[i])
             employeesArray.append(employee)
         }
     }

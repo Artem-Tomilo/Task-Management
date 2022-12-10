@@ -11,4 +11,14 @@ struct Employee: Codable, Equatable {
     var patronymic: String
     var position: String
     var id: Int
+    private static var idCounter = 0
+    
+    init(surname: String, name: String, patronymic: String, position: String) {
+        self.surname = surname
+        self.name = name
+        self.patronymic = patronymic
+        self.position = position
+        self.id = Employee.idCounter
+        Employee.idCounter += 1
+    }
 }

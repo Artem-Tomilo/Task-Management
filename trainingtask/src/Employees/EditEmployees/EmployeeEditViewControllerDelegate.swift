@@ -7,5 +7,4 @@ protocol EmployeeEditViewControllerDelegate: AnyObject {
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController)
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee)
     func editEmployee(_ controller: EmployeeEditViewController, editedEmployee: Employee)
-    var idCounter: Int { get }
 }

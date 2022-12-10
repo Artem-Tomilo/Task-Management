@@ -78,7 +78,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      */
     private func createNewEmployee() {
         let (surname, name, patronymic, position) = employeeEditView.unbind()
-        let newEmployee = Employee(surname: surname, name: name, patronymic: patronymic, position: position, id: delegate?.idCounter ?? 0)
+        let newEmployee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
         delegate?.addNewEmployee(self, newEmployee: newEmployee)
     }
     

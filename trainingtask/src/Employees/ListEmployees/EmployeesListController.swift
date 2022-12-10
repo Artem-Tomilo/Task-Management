@@ -12,7 +12,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
     
-    var idCounter = 0 // счетчик, присваивающий уникальный id создаваемому сотруднику
+//    var idCounter = 0 // счетчик, присваивающий уникальный id создаваемому сотруднику
     private var serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
     private let settingsManager: SettingsManager
     
@@ -289,7 +289,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
         do {
             self.navigationController?.popViewController(animated: true)
-            idCounter += 1
             try serverDelegate.addEmployee(employee: newEmployee) {
                 self.loadData()
             }
