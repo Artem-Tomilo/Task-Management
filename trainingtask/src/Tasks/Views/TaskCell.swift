@@ -38,12 +38,12 @@ class TaskCell: UITableViewCell {
             background.heightAnchor.constraint(equalTo: contentView.heightAnchor),
             background.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             
-            nameLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor),
+            nameLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 10),
             nameLabel.topAnchor.constraint(equalTo: background.topAnchor),
             nameLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -50),
             nameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
             
-            projectLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor),
+            projectLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 10),
             projectLabel.bottomAnchor.constraint(equalTo: background.bottomAnchor),
             projectLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -50),
             projectLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
@@ -56,6 +56,8 @@ class TaskCell: UITableViewCell {
         
         background.backgroundColor = .clear
         image.contentMode = .scaleAspectFit
+        nameLabel.font = UIFont.systemFont(ofSize: 18)
+        projectLabel.alpha = 0.7
     }
     
     func bindText(nameText: String, projectText: String) {

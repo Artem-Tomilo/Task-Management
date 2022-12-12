@@ -158,6 +158,13 @@ class Stub: Server {
         }
     }
     
+    func deleteTask(id: Int, _ completion: @escaping () -> Void) throws {
+        tasksArray.removeAll(where: { $0.id == id })
+        delay {
+            completion()
+        }
+    }
+    
     func getTasks(_ completion: @escaping ([Task]) -> Void) {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
             DispatchQueue.main.async {

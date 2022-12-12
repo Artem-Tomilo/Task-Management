@@ -25,8 +25,7 @@ class ProjectEditViewController: UIViewController {
         NSLayoutConstraint.activate([
             projectEditView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             projectEditView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            projectEditView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            projectEditView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            projectEditView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15)
         ])
         
         if let projectToEdit = possibleProjectToEdit {
@@ -80,5 +79,4 @@ class ProjectEditViewController: UIViewController {
         guard sender.state == .ended else { return }
         view.endEditing(false)
     }
-    
 }

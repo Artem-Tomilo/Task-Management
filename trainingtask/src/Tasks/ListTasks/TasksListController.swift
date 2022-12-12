@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TasksListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TasksListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TaskEditViewControllerDelegate {
     
     private var tableView = UITableView()
     private let refreshControl = UIRefreshControl()
@@ -100,14 +100,6 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         navigationController?.navigationBar.alpha = 1.0
     }
     
-    @objc func moveToEditTaskViewController(_ sender: UIBarButtonItem) {
-        
-    }
-    
-    @objc func refresh(_ sender: UIRefreshControl) {
-        sender.endRefreshing()
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -127,5 +119,89 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         75
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
+            guard let self = self else { return }
+            do {
+                let task = try self.getTask(indexPath)
+                self.showDeleteTaskAlert(task)
+            } catch {
+                // асинхронная обработка ошибки
+            }
+        })
+        
+        let editCell = UIContextualAction(style: .normal, title: "Изменить", handler: { [weak self] _, _, close in
+            guard let self = self else { return }
+            do {
+                let task = try self.getTask(indexPath)
+                self.showEditTaskAlert(task)
+            } catch {
+                // асинхронная обработка ошибки
+            }
+        })
+        return UISwipeActionsConfiguration(actions: [
+            deleteCell,
+            editCell
+        ])
+    }
+    
+    private func getTask(_ indexPath: IndexPath) throws -> Task {
+        if tasksArray.count > indexPath.row {
+            return tasksArray[indexPath.row]
+        }
+        else {
+            throw NSError(domain: "", code: 0, userInfo: [:])
+        }
+    }
+    
+    private func showEditTaskAlert(_ task: Task) {
+        let alert = UIAlertController(title: "Хотите изменить эту задачу?", message: "", preferredStyle: .actionSheet)
+        let editAction = UIAlertAction(title: "Изменить", style: .default) { [weak self] _ in
+            self?.showEditTaskViewController(task)
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+        alert.addAction(editAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+    
+    private func showDeleteTaskAlert(_ task: Task) {
+        let alert = UIAlertController(title: "Хотите удалить эту задачу?", message: "", preferredStyle: .actionSheet)
+        let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            self?.deleteTask(task: task)
+        }
+        let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+    
+    private func deleteTask(task: Task) {
+        do {
+            try serverDelegate.deleteTask(id: task.id) {
+                self.loadData()
+            }
+        } catch {
+            // асинхронная обработка ошибки
+        }
+    }
+    
+    private func showEditTaskViewController(_ task: Task?) {
+        let viewController = TaskEditViewController()
+        if task != nil {
+            viewController.possibleTaskToEdit = task
+        }
+        viewController.delegate = self
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    @objc func moveToEditTaskViewController(_ sender: UIBarButtonItem) {
+        showEditTaskViewController(nil)
+    }
+    
+    @objc func refresh(_ sender: UIRefreshControl) {
+        sender.endRefreshing()
     }
 }
