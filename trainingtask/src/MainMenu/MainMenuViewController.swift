@@ -67,6 +67,9 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         case 0:
             let projectsListViewController = ProjectsListViewController(settingsManager: settingsManager, serverDelegate: stub)
             navigationController?.pushViewController(projectsListViewController, animated: true)
+        case 1:
+            let tasksListViewController = TasksListViewController(settingsManager: settingsManager, serverDelegate: stub)
+            navigationController?.pushViewController(tasksListViewController, animated: true)
         case 2:
             let employeesListController = EmployeesListController(settingsManager: settingsManager, serverDelegate: stub)
             navigationController?.pushViewController(employeesListController, animated: true)

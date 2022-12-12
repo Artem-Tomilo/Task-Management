@@ -7,10 +7,12 @@ class Stub: Server {
     
     private var employeesArray: [Employee] = []
     private var projectsArray: [Project] = []
+    private var tasksArray: [Task] = []
     
     init() {
         createProjects()
         createEmployees()
+        createTasks()
     }
     
     private func createProjects() {
@@ -32,6 +34,19 @@ class Stub: Server {
         for i in 0..<4 {
             let employee = Employee(surname: lastNames[i], name: firstNames[i], patronymic: patronymics[i], position: postiton[i])
             employeesArray.append(employee)
+        }
+    }
+    
+    private func createTasks() {
+        let tasks = ["Становая тяга", "Бег", "Выучить новые слова", "Повторить правило", "Купить продукты", "Купить воды", "Заправить авто", "Помыть машина"]
+        var count = 0
+        
+        for i in 0..<4 {
+            for _ in 0..<2 {
+                let task = Task(name: tasks[count], project: projectsArray[i], employee: employeesArray[i], status: TaskStatus.notStarted, requiredNumberOfHours: 3, startDate: Date(), endDate: Date())
+                tasksArray.append(task)
+                count += 1
+            }
         }
     }
     
@@ -139,6 +154,14 @@ class Stub: Server {
         DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
             DispatchQueue.main.async {
                 completion(self.projectsArray)
+            }
+        }
+    }
+    
+    func getTasks(_ completion: @escaping ([Task]) -> Void) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+            DispatchQueue.main.async {
+                completion(self.tasksArray)
             }
         }
     }
