@@ -48,18 +48,23 @@ class TaskCell: UITableViewCell {
             projectLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -50),
             projectLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
             
-            image.trailingAnchor.constraint(equalTo: background.trailingAnchor),
-            image.bottomAnchor.constraint(equalTo: background.bottomAnchor),
-            image.topAnchor.constraint(equalTo: background.topAnchor),
-            image.leadingAnchor.constraint(equalTo: nameLabel.trailingAnchor)
+            image.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -10),
+            image.widthAnchor.constraint(equalToConstant: 40),
+            image.heightAnchor.constraint(equalToConstant: 40),
+            image.centerYAnchor.constraint(equalTo: background.centerYAnchor),
         ])
         
         background.backgroundColor = .clear
+        image.contentMode = .scaleAspectFit
     }
     
     func bindText(nameText: String, projectText: String) {
         nameLabel.text = nameText
         projectLabel.text = projectText
+    }
+    
+    func changeImage(status: TaskStatus) {
+        image.image = status.imageView
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -73,9 +78,5 @@ class TaskCell: UITableViewCell {
             nameLabel.textColor = .black
             projectLabel.textColor = .black
         }
-    }
-    
-    func changeImage() {
-        
     }
 }

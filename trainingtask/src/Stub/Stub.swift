@@ -43,7 +43,7 @@ class Stub: Server {
         
         for i in 0..<4 {
             for _ in 0..<2 {
-                let task = Task(name: tasks[count], project: projectsArray[i], employee: employeesArray[i], status: TaskStatus.notStarted, requiredNumberOfHours: 3, startDate: Date(), endDate: Date())
+                let task = Task(name: tasks[count], project: projectsArray[i], employee: employeesArray[i], status: TaskStatus.allCases[i], requiredNumberOfHours: 3, startDate: Date(), endDate: Date())
                 tasksArray.append(task)
                 count += 1
             }

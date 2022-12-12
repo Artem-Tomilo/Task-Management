@@ -22,4 +22,17 @@ enum TaskStatus: String, CaseIterable {
             return "Отложена"
         }
     }
+    
+    var imageView: UIImage {
+        switch self {
+        case .notStarted:
+            return UIImage(named: "notStarted")!
+        case .inProgress:
+            return UIImage(named: "inProgress")!
+        case .completed:
+            return UIImage(named: "completed")!
+        case .postponed:
+            return UIImage(named: "postponed")!
+        }
+    }
 }
