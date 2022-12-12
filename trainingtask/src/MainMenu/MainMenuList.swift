@@ -7,17 +7,17 @@ import UIKit
  */
 
 enum MainMenuList: String, CaseIterable {
-    case Projects, Tasks, Employees, Settings
+    case projects, tasks, employees, settings
     
     var title: String {
         switch self {
-        case .Projects:
+        case .projects:
             return "Проекты"
-        case .Tasks:
+        case .tasks:
             return "Задачи"
-        case .Employees:
+        case .employees:
             return "Сотрудники"
-        case .Settings:
+        case .settings:
             return "Настройки"
         }
     }

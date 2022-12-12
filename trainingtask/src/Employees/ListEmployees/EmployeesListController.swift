@@ -131,7 +131,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = EmployeeCell()
-        cell.bindText(surnameText: EmployeeMenu.Surname.title, nameText: EmployeeMenu.Name.title, patronymicText: EmployeeMenu.Patronymic.title, positionText: EmployeeMenu.Position.title)
+        cell.bindText(surnameText: EmployeeMenu.surname.title, nameText: EmployeeMenu.name.title, patronymicText: EmployeeMenu.patronymic.title, positionText: EmployeeMenu.position.title)
         return cell
     }
     

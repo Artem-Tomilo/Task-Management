@@ -47,6 +47,8 @@
 		38EF1B53294376E000EB5F8E /* ProjectEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B52294376E000EB5F8E /* ProjectEditViewController.swift */; };
 		38EF1B55294378F800EB5F8E /* ProjectEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B54294378F800EB5F8E /* ProjectEditView.swift */; };
 		38EF1B592943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B582943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift */; };
+		38EF1C2F29473CAF00EB5F8E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C2E29473CAF00EB5F8E /* Task.swift */; };
+		38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C312947435100EB5F8E /* TaskStatus.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +94,8 @@
 		38EF1B52294376E000EB5F8E /* ProjectEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditViewController.swift; sourceTree = "<group>"; };
 		38EF1B54294378F800EB5F8E /* ProjectEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditView.swift; sourceTree = "<group>"; };
 		38EF1B582943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditViewControllerDelegate.swift; sourceTree = "<group>"; };
+		38EF1C2E29473CAF00EB5F8E /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		38EF1C312947435100EB5F8E /* TaskStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStatus.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -286,6 +290,7 @@
 				387AAD8428E36C55004BE734 /* MainMenu */,
 				387AAD8228E36BB1004BE734 /* Employees */,
 				38EF1A7129435CC600EB5F8E /* Projects */,
+				38EF1C2C2944E61700EB5F8E /* Tasks */,
 				387AAD8528E36CAA004BE734 /* Settings */,
 				3820316628D9F0EF008FAD35 /* GlobalCustomViews */,
 			);
@@ -335,6 +340,23 @@
 				38EF1B582943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift */,
 			);
 			path = EditProjects;
+			sourceTree = "<group>";
+		};
+		38EF1C2C2944E61700EB5F8E /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				38EF1C2D2944E62F00EB5F8E /* Model */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		38EF1C2D2944E62F00EB5F8E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				38EF1C2E29473CAF00EB5F8E /* Task.swift */,
+				38EF1C312947435100EB5F8E /* TaskStatus.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -435,9 +457,11 @@
 				3862A3B328E70BD700FE0872 /* Stub.swift in Sources */,
 				38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
+				38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */,
+				38EF1C2F29473CAF00EB5F8E /* Task.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
 				38EF1B5129436A3700EB5F8E /* ProjectCell.swift in Sources */,
 				3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */,

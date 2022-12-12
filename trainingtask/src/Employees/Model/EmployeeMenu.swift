@@ -7,17 +7,17 @@ import UIKit
  */
 
 enum EmployeeMenu: String, CaseIterable {
-    case Surname, Name, Patronymic, Position
+    case surname, name, patronymic, position
     
     var title: String {
         switch self {
-        case .Surname:
+        case .surname:
             return "Фамилия"
-        case .Name:
+        case .name:
             return "Имя"
-        case .Patronymic:
+        case .patronymic:
             return "Отчество"
-        case .Position:
+        case .position:
             return "Должность"
         }
     }
