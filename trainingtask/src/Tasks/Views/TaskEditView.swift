@@ -7,26 +7,26 @@
 
 import UIKit
 
-class TaskEditView: UIView, UITextFieldDelegate {
-    private let nameTextField: BorderedTextField
-    private let projectTextField: BorderedTextField
-    private let employeeTextField: BorderedTextField
-    private let statusTextField: BorderedTextField
-    private let requiredNumberOfHoursTextField: BorderedTextField
-    private let startDateTextField: BorderedTextField
-    private let endDateTextField: BorderedTextField
+class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
+    private let nameTextField = BorderedTextField()
+    private let projectTextField = BorderedTextField()
+    private let employeeTextField = BorderedTextField()
+    private let statusTextField = BorderedTextField()
+    private let requiredNumberOfHoursTextField = BorderedTextField()
+    private let startDateTextField = BorderedTextField()
+    private let endDateTextField = BorderedTextField()
+    
+    private let picker = TaskPickerView()
+    private var active = BorderedTextField()
+    
+    var project = false
+    var employee = false
+    var status = false
     
     override init(frame: CGRect) {
-        self.nameTextField = BorderedTextField()
-        self.projectTextField = BorderedTextField()
-        self.employeeTextField = BorderedTextField()
-        self.statusTextField = BorderedTextField()
-        self.requiredNumberOfHoursTextField = BorderedTextField()
-        self.startDateTextField = BorderedTextField()
-        self.endDateTextField = BorderedTextField()
-        
         super.init(frame: frame)
         setup()
+        initTapGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -93,38 +93,84 @@ class TaskEditView: UIView, UITextFieldDelegate {
         nameTextField.becomeFirstResponder()
     }
     
-    func bind(nameTextFieldText: String, projectTextFieldText: String/*, employeeTextFieldText: String, statusTextFieldText: String,                  requiredNumberOfHoursTextFieldText: String, startDateTextFieldText: String, endDateTextFieldText: String*/) {
-        nameTextField.text = nameTextFieldText
-        projectTextField.text = projectTextFieldText
+    private func initTapGesture() {
+        let projectGesture = UITapGestureRecognizer(target: self, action: #selector(projectTapped(_:)))
+        projectTextField.addGestureRecognizer(projectGesture)
+        projectTextField.isUserInteractionEnabled = true
+        
+        let employeeGesture = UITapGestureRecognizer(target: self, action: #selector(employeeTapped(_:)))
+        employeeTextField.addGestureRecognizer(employeeGesture)
+        employeeTextField.isUserInteractionEnabled = true
+        
+        let statusGesture = UITapGestureRecognizer(target: self, action: #selector(statusTapped(_:)))
+        statusTextField.addGestureRecognizer(statusGesture)
+        statusTextField.isUserInteractionEnabled = true
     }
     
-//    func unbind() -> (String, String) {
-//        if let name = nameTextField.text,
-//           let description = descriptionTextField.text {
-//            return (name, description)
-//        }
-//        return ("No data", "No data")
-//    }
+    func bind(task: Task) {
+        nameTextField.text = task.name
+        projectTextField.text = task.project.name
+        employeeTextField.text = "\(task.employee.surname) \(task.employee.name) \(task.employee.patronymic)"
+        statusTextField.text = task.status.title
+        requiredNumberOfHoursTextField.text = String(task.requiredNumberOfHours)
+    }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        switch textField {
-        case nameTextField:
-            projectTextField.becomeFirstResponder()
-        case projectTextField:
-            employeeTextField.becomeFirstResponder()
-        case employeeTextField:
-            statusTextField.becomeFirstResponder()
-        case statusTextField:
-            requiredNumberOfHoursTextField.becomeFirstResponder()
-        case requiredNumberOfHoursTextField:
-            startDateTextField.becomeFirstResponder()
-        case startDateTextField:
-            endDateTextField.becomeFirstResponder()
-        case endDateTextField:
-            endDateTextField.resignFirstResponder()
-        default:
-            break
-        }
+    func showPicker(textField: BorderedTextField , data: [AnyObject]) {
+        picker.dataPicker = data
+//        picker.showPicker(textField: textField)
+    }
+    
+    @objc func projectTapped(_ sender: UITapGestureRecognizer) {
+        project = true
+        active = projectTextField
+//        picker.showPicker(textField: projectTextField)
+        projectTextField.becomeFirstResponder()
+        project = false
+    }
+    
+    @objc func employeeTapped(_ sender: UITapGestureRecognizer) {
+//        picker.showPicker(textField: employeeTextField)
+        employeeTextField.becomeFirstResponder()
+    }
+    
+    @objc func statusTapped(_ sender: UITapGestureRecognizer) {
+//        picker.showPicker(textField: statusTextField)
+        statusTextField.becomeFirstResponder()
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+    
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        switch textField {
+//        case nameTextField:
+////            picker.showPicker(textField: projectTextField)
+//            activeTextField = checkActiveTextField(textField: nameTextField)
+//            projectTextField.becomeFirstResponder()
+//        case projectTextField:
+////            picker.showPicker(textField: employeeTextField)
+//            activeTextField = checkActiveTextField(textField: projectTextField)
+//            employeeTextField.becomeFirstResponder()
+//        case employeeTextField:
+////            picker.showPicker(textField: statusTextField)
+//            activeTextField = checkActiveTextField(textField: employeeTextField)
+//            statusTextField.becomeFirstResponder()
+//        case statusTextField:
+//            activeTextField = checkActiveTextField(textField: statusTextField)
+//            requiredNumberOfHoursTextField.becomeFirstResponder()
+//        case requiredNumberOfHoursTextField:
+//            activeTextField = checkActiveTextField(textField: requiredNumberOfHoursTextField)
+//            startDateTextField.becomeFirstResponder()
+//        case startDateTextField:
+//            activeTextField = checkActiveTextField(textField: startDateTextField)
+//            endDateTextField.becomeFirstResponder()
+//        case endDateTextField:
+//            activeTextField = checkActiveTextField(textField: endDateTextField)
+//            endDateTextField.resignFirstResponder()
+//        default:
+//            break
+//        }
+//        return true
+//    }
 }
