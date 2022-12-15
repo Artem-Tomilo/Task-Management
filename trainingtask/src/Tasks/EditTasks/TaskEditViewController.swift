@@ -7,30 +7,23 @@
 
 import UIKit
 
-class TaskEditViewController: UIViewController {
+class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     
     private let taskEditView = TaskEditView()
     var possibleTaskToEdit: Task?
+    
     weak var delegate: TaskEditViewControllerDelegate?
-//    weak var serverDelegate: Server?
-//    private let picker = TaskPickerView()
-//
-//    private var projects: [Project] = []
-//    private var employees: [Employee] = []
-//    private var status = TaskStatus.allCases
+    weak var serverDelegate: Server?
+
+    private var projects: [Project] = []
+    private var employees: [Employee] = []
+    private var status = TaskStatus.allCases
+    private var data = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
     }
-    
-//    func bindData() {
-//        if taskEditView.project {
-//            serverDelegate?.getProjects({ projects in
-//                self.projects = projects
-//            })
-//        }
-//    }
     
     private func setup() {
         view.backgroundColor = .systemRed
@@ -49,6 +42,7 @@ class TaskEditViewController: UIViewController {
         } else {
             title = "Добавление задачи"
         }
+        taskEditView.delegate = self
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
@@ -58,9 +52,51 @@ class TaskEditViewController: UIViewController {
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureTapped(_:)))
         view.addGestureRecognizer(gesture)
+        
+        getProjects()
+        getEmployees()
+    }
+    
+    private func getProjects() {
+        serverDelegate?.getProjects({ [weak self] projects in
+            guard let self = self else { return }
+            self.projects = projects
+        })
+    }
+    
+    private func getEmployees() {
+        serverDelegate?.getEmployees({ [weak self] employees in
+            guard let self = self else { return }
+            self.employees = employees
+        })
+    }
+    
+    private func setDataFromProjects() {
+        data.removeAll()
+        for i in projects {
+            data.append(i.name)
+        }
+    }
+    
+    private func setDataFromEmployees() {
+        data.removeAll()
+        for i in employees {
+            data.append(i.surname + " " + i.name + " " + i.patronymic)
+        }
+    }
+    
+    private func setDataFromStatus() {
+        data.removeAll()
+        for i in TaskStatus.allCases {
+            data.append(i.title)
+        }
     }
     
     private func createNewTask() {
+        
+    }
+
+    private func editingTask(editedTask: Task) {
         
     }
     
@@ -70,10 +106,6 @@ class TaskEditViewController: UIViewController {
         } else {
             createNewTask()
         }
-    }
-
-    private func editingTask(editedTask: Task) {
-        
     }
     
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
@@ -87,5 +119,20 @@ class TaskEditViewController: UIViewController {
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         view.endEditing(false)
+    }
+    
+    func bindData() -> [String] {
+        if taskEditView.isProjectTextField {
+            setDataFromProjects()
+        }
+
+        if taskEditView.isEmployeeTextField {
+            setDataFromEmployees()
+        }
+
+        if taskEditView.isStatusTextField {
+            setDataFromStatus()
+        }
+        return data
     }
 }

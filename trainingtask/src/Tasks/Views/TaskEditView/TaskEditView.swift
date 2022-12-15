@@ -15,13 +15,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let requiredNumberOfHoursTextField = BorderedTextField()
     private let startDateTextField = BorderedTextField()
     private let endDateTextField = BorderedTextField()
+    lazy var picker = TaskPickerView()
     
-    private let picker = TaskPickerView()
-    private var active = BorderedTextField()
+    weak var delegate: TaskEditViewDelegate?
     
-    var project = false
-    var employee = false
-    var status = false
+    var isProjectTextField = false
+    var isEmployeeTextField = false
+    var isStatusTextField = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -115,62 +115,60 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         requiredNumberOfHoursTextField.text = String(task.requiredNumberOfHours)
     }
     
-    func showPicker(textField: BorderedTextField , data: [AnyObject]) {
-        picker.dataPicker = data
-//        picker.showPicker(textField: textField)
+    private func showPickerView(textField: BorderedTextField) {
+        let data = delegate?.bindData()
+        if let data {
+            picker.showPicker(textField: textField, data: data)
+            textField.becomeFirstResponder()
+        }
     }
     
     @objc func projectTapped(_ sender: UITapGestureRecognizer) {
-        project = true
-        active = projectTextField
-//        picker.showPicker(textField: projectTextField)
-        projectTextField.becomeFirstResponder()
-        project = false
+        isProjectTextField = true
+        showPickerView(textField: projectTextField)
+        isProjectTextField = false
     }
     
     @objc func employeeTapped(_ sender: UITapGestureRecognizer) {
-//        picker.showPicker(textField: employeeTextField)
-        employeeTextField.becomeFirstResponder()
+        isEmployeeTextField = true
+        showPickerView(textField: employeeTextField)
+        isEmployeeTextField = false
     }
     
     @objc func statusTapped(_ sender: UITapGestureRecognizer) {
-//        picker.showPicker(textField: statusTextField)
-        statusTextField.becomeFirstResponder()
+        isStatusTextField = true
+        showPickerView(textField: statusTextField)
+        isStatusTextField = false
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        switch textField {
-//        case nameTextField:
-////            picker.showPicker(textField: projectTextField)
-//            activeTextField = checkActiveTextField(textField: nameTextField)
-//            projectTextField.becomeFirstResponder()
-//        case projectTextField:
-////            picker.showPicker(textField: employeeTextField)
-//            activeTextField = checkActiveTextField(textField: projectTextField)
-//            employeeTextField.becomeFirstResponder()
-//        case employeeTextField:
-////            picker.showPicker(textField: statusTextField)
-//            activeTextField = checkActiveTextField(textField: employeeTextField)
-//            statusTextField.becomeFirstResponder()
-//        case statusTextField:
-//            activeTextField = checkActiveTextField(textField: statusTextField)
-//            requiredNumberOfHoursTextField.becomeFirstResponder()
-//        case requiredNumberOfHoursTextField:
-//            activeTextField = checkActiveTextField(textField: requiredNumberOfHoursTextField)
-//            startDateTextField.becomeFirstResponder()
-//        case startDateTextField:
-//            activeTextField = checkActiveTextField(textField: startDateTextField)
-//            endDateTextField.becomeFirstResponder()
-//        case endDateTextField:
-//            activeTextField = checkActiveTextField(textField: endDateTextField)
-//            endDateTextField.resignFirstResponder()
-//        default:
-//            break
-//        }
-//        return true
-//    }
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switch textField {
+        case nameTextField:
+            isProjectTextField = true
+            showPickerView(textField: projectTextField)
+            isProjectTextField = false
+            projectTextField.becomeFirstResponder()
+        case projectTextField:
+            showPickerView(textField: employeeTextField)
+            employeeTextField.becomeFirstResponder()
+        case employeeTextField:
+            showPickerView(textField: statusTextField)
+            statusTextField.becomeFirstResponder()
+        case statusTextField:
+            requiredNumberOfHoursTextField.becomeFirstResponder()
+        case requiredNumberOfHoursTextField:
+            startDateTextField.becomeFirstResponder()
+        case startDateTextField:
+            endDateTextField.becomeFirstResponder()
+        case endDateTextField:
+            endDateTextField.resignFirstResponder()
+        default:
+            break
+        }
+        return true
+    }
 }

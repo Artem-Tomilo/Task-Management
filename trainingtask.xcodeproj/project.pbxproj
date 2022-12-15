@@ -55,6 +55,7 @@
 		38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */; };
 		38EF1C402947C75200EB5F8E /* TaskEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C3F2947C75200EB5F8E /* TaskEditViewControllerDelegate.swift */; };
 		38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */; };
+		38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,6 +109,7 @@
 		38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditView.swift; sourceTree = "<group>"; };
 		38EF1C3F2947C75200EB5F8E /* TaskEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPickerView.swift; sourceTree = "<group>"; };
+		38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -378,7 +380,7 @@
 			isa = PBXGroup;
 			children = (
 				38EF1C34294751EF00EB5F8E /* TaskCell.swift */,
-				38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */,
+				38EF1C47294A885700EB5F8E /* TaskEditView */,
 				38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */,
 			);
 			path = Views;
@@ -399,6 +401,15 @@
 				38EF1C3F2947C75200EB5F8E /* TaskEditViewControllerDelegate.swift */,
 			);
 			path = EditTasks;
+			sourceTree = "<group>";
+		};
+		38EF1C47294A885700EB5F8E /* TaskEditView */ = {
+			isa = PBXGroup;
+			children = (
+				38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */,
+				38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */,
+			);
+			path = TaskEditView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -504,6 +515,7 @@
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
+				38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */,
 				3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */,

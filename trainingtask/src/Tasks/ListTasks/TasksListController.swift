@@ -194,6 +194,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
             viewController.possibleTaskToEdit = task
         }
         viewController.delegate = self
+        viewController.serverDelegate = serverDelegate
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
