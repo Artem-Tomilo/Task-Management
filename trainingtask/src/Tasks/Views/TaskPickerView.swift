@@ -53,6 +53,7 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
         textField.inputView = pickerView
         textField.delegate = self
         self.textField = textField
+        self.textField.tintColor = .clear
     }
     
     @objc func doneButtonTapped(_ sender: UIBarButtonItem) {

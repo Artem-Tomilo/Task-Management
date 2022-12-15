@@ -15,6 +15,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let requiredNumberOfHoursTextField = BorderedTextField()
     private let startDateTextField = BorderedTextField()
     private let endDateTextField = BorderedTextField()
+    private let datePicker = TaskDatePicker()
     lazy var picker = TaskPickerView()
     
     weak var delegate: TaskEditViewDelegate?
@@ -105,6 +106,14 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         let statusGesture = UITapGestureRecognizer(target: self, action: #selector(statusTapped(_:)))
         statusTextField.addGestureRecognizer(statusGesture)
         statusTextField.isUserInteractionEnabled = true
+        
+        let startDateGesture = UITapGestureRecognizer(target: self, action: #selector(startDateTapped(_:)))
+        startDateTextField.addGestureRecognizer(startDateGesture)
+        startDateTextField.isUserInteractionEnabled = true
+        
+        let endDateGesture = UITapGestureRecognizer(target: self, action: #selector(endDateTapped(_:)))
+        endDateTextField.addGestureRecognizer(endDateGesture)
+        endDateTextField.isUserInteractionEnabled = true
     }
     
     func bind(task: Task) {
@@ -123,6 +132,10 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
+    private func showDatePicker(textField: BorderedTextField) {
+        datePicker.showDatePicker(textField: textField)
+    }
+    
     @objc func projectTapped(_ sender: UITapGestureRecognizer) {
         isProjectTextField = true
         showPickerView(textField: projectTextField)
@@ -139,6 +152,14 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         isStatusTextField = true
         showPickerView(textField: statusTextField)
         isStatusTextField = false
+    }
+    
+    @objc func startDateTapped(_ sender: UITapGestureRecognizer) {
+        showDatePicker(textField: startDateTextField)
+    }
+    
+    @objc func endDateTapped(_ sender: UITapGestureRecognizer) {
+        showDatePicker(textField: endDateTextField)
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

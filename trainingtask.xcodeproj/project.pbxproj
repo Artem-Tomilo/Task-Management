@@ -56,6 +56,7 @@
 		38EF1C402947C75200EB5F8E /* TaskEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C3F2947C75200EB5F8E /* TaskEditViewControllerDelegate.swift */; };
 		38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */; };
 		38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */; };
+		38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		38EF1C3F2947C75200EB5F8E /* TaskEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPickerView.swift; sourceTree = "<group>"; };
 		38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewDelegate.swift; sourceTree = "<group>"; };
+		38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDatePicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -382,6 +384,7 @@
 				38EF1C34294751EF00EB5F8E /* TaskCell.swift */,
 				38EF1C47294A885700EB5F8E /* TaskEditView */,
 				38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */,
+				38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -507,6 +510,7 @@
 				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
 				38EF1B55294378F800EB5F8E /* ProjectEditView.swift in Sources */,
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
+				38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */,
 				387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */,
 				38EF1B592943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift in Sources */,
 				38EF1C382947550800EB5F8E /* TasksListController.swift in Sources */,
