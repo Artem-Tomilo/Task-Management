@@ -24,8 +24,7 @@ class TaskDatePicker: UIDatePicker {
     
     private func setupDatePicker() {
         datePicker.datePickerMode = .date
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
-        datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
+//        datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         let size = toolbar.sizeThatFits(CGSize(width: bounds.width, height: 0))
         toolbar.frame.size = size
@@ -36,16 +35,21 @@ class TaskDatePicker: UIDatePicker {
     }
     
     private func getDataFromPicker() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        textField.text = formatter.string(from: datePicker.date)
+        let datePickerDate = getStringFromDate(date: datePicker.date)
+        textField.text = datePickerDate
     }
     
-    private func defaultDate() {
-        let date = Date()
+    func getStringFromDate(date: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
-        textField.text = formatter.string(from: date)
+        let stringDate = formatter.string(from: date)
+        return stringDate
+    }
+    
+    func currentDate() -> String {
+        let date = Date()
+        let stringDate = getStringFromDate(date: date)
+        return stringDate
     }
     
     func showDatePicker(textField: BorderedTextField) {
@@ -57,17 +61,11 @@ class TaskDatePicker: UIDatePicker {
     }
     
     @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
+        getDataFromPicker()
         textField.endEditing(false)
     }
     
     @objc func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        if textField.text == "" {
-            defaultDate()
-        }
         textField.endEditing(false)
-    }
-    
-    @objc func dateChanged(_ sender: UIBarButtonItem) {
-        getDataFromPicker()
     }
 }
