@@ -12,6 +12,7 @@ class TaskDatePicker: UIDatePicker {
     private let datePicker = UIDatePicker()
     private let toolbar = UIToolbar()
     private var textField = BorderedTextField()
+    private let dateFormatter = TaskDateFormatter()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -35,21 +36,8 @@ class TaskDatePicker: UIDatePicker {
     }
     
     private func getDataFromPicker() {
-        let datePickerDate = getStringFromDate(date: datePicker.date)
-        textField.text = datePickerDate
-    }
-    
-    func getStringFromDate(date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let stringDate = formatter.string(from: date)
-        return stringDate
-    }
-    
-    func currentDate() -> String {
-        let date = Date()
-        let stringDate = getStringFromDate(date: date)
-        return stringDate
+        let stringDatePickerDate = dateFormatter.string(from: datePicker.date)
+        textField.text = stringDatePickerDate
     }
     
     func showDatePicker(textField: BorderedTextField) {

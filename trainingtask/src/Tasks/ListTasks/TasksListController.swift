@@ -189,12 +189,11 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     private func showEditTaskViewController(_ task: Task?) {
-        let viewController = TaskEditViewController()
+        let viewController = TaskEditViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
         if task != nil {
             viewController.possibleTaskToEdit = task
         }
         viewController.delegate = self
-        viewController.serverDelegate = serverDelegate
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

@@ -57,6 +57,7 @@
 		38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */; };
 		38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */; };
 		38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */; };
+		38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -112,6 +113,7 @@
 		38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPickerView.swift; sourceTree = "<group>"; };
 		38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewDelegate.swift; sourceTree = "<group>"; };
 		38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDatePicker.swift; sourceTree = "<group>"; };
+		38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDateFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -381,10 +383,10 @@
 		38EF1C33294751E000EB5F8E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				38EF1C34294751EF00EB5F8E /* TaskCell.swift */,
 				38EF1C47294A885700EB5F8E /* TaskEditView */,
 				38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */,
 				38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */,
+				38EF1C34294751EF00EB5F8E /* TaskCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -402,6 +404,7 @@
 			children = (
 				38EF1C3B2947BCF900EB5F8E /* TaskEditViewController.swift */,
 				38EF1C3F2947C75200EB5F8E /* TaskEditViewControllerDelegate.swift */,
+				38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */,
 			);
 			path = EditTasks;
 			sourceTree = "<group>";
@@ -533,6 +536,7 @@
 				3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */,
 				38EF1B53294376E000EB5F8E /* ProjectEditViewController.swift in Sources */,
 				38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */,
+				38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

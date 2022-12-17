@@ -10,18 +10,29 @@ import UIKit
 class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     
     private let taskEditView = TaskEditView()
-    var possibleTaskToEdit: Task?
-    
-    weak var delegate: TaskEditViewControllerDelegate?
-    weak var serverDelegate: Server?
-
     private var projects: [Project] = []
     private var employees: [Employee] = []
     private var status = TaskStatus.allCases
     private var data = [String]()
+    var possibleTaskToEdit: Task?
+    
+    weak var delegate: TaskEditViewControllerDelegate?
+    private let serverDelegate: Server
+    private let settingsManager: SettingsManager
+    
+    init(settingsManager: SettingsManager, serverDelegate: Server) {
+        self.settingsManager = settingsManager
+        self.serverDelegate = serverDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        taskEditView.delegate = self
         setup()
     }
     
@@ -40,9 +51,11 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             title = "Редактирование задачи"
             taskEditView.bind(task: taskToEdit)
         } else {
+            let numbersOfDays = getNumberOfDaysBetweenDates()
+            taskEditView.bindEndDateTextField(days: numbersOfDays)
             title = "Добавление задачи"
         }
-        taskEditView.delegate = self
+        
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
@@ -58,14 +71,14 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     }
     
     private func getProjects() {
-        serverDelegate?.getProjects({ [weak self] projects in
+        serverDelegate.getProjects({ [weak self] projects in
             guard let self = self else { return }
             self.projects = projects
         })
     }
     
     private func getEmployees() {
-        serverDelegate?.getEmployees({ [weak self] employees in
+        serverDelegate.getEmployees({ [weak self] employees in
             guard let self = self else { return }
             self.employees = employees
         })
@@ -90,6 +103,11 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         for i in TaskStatus.allCases {
             data.append(i.title)
         }
+    }
+    
+    private func getNumberOfDaysBetweenDates() -> Int {
+        guard let count = try? settingsManager.getSettings().maxDays else { return 0 }
+        return count
     }
     
     private func createNewTask() {

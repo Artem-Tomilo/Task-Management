@@ -17,6 +17,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let endDateTextField = BorderedTextField()
     private let datePicker = TaskDatePicker()
     lazy var picker = TaskPickerView()
+    private let dateFormatter = TaskDateFormatter()
     
     weak var delegate: TaskEditViewDelegate?
     
@@ -93,7 +94,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         
         nameTextField.becomeFirstResponder()
         requiredNumberOfHoursTextField.keyboardType = .numberPad
-        startDateTextField.text = datePicker.currentDate()
+        startDateTextField.text = currentDate()
     }
     
     private func initTapGesture() {
@@ -124,8 +125,21 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         employeeTextField.text = "\(task.employee.surname) \(task.employee.name) \(task.employee.patronymic)"
         statusTextField.text = task.status.title
         requiredNumberOfHoursTextField.text = String(task.requiredNumberOfHours)
-        startDateTextField.text = datePicker.getStringFromDate(date: task.startDate)
-        endDateTextField.text = datePicker.getStringFromDate(date: task.endDate)
+        startDateTextField.text = dateFormatter.string(from: task.startDate)
+        endDateTextField.text = dateFormatter.string(from: task.endDate)
+    }
+    
+    func bindEndDateTextField(days: Int) {
+        let date = Date()
+        let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
+        let stringDate = dateFormatter.string(from: endDate)
+        endDateTextField.text = stringDate
+    }
+    
+    private func currentDate() -> String {
+        let date = Date()
+        let stringDate = dateFormatter.string(from: date)
+        return stringDate
     }
     
     private func showPickerView(textField: BorderedTextField) {
@@ -167,6 +181,15 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     }
     
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        if textField == requiredNumberOfHoursTextField {
+            return string.allSatisfy {
+                $0.isNumber
+            }
+        }
         return true
     }
     
