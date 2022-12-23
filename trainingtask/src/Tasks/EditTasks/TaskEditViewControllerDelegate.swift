@@ -8,5 +8,7 @@
 import Foundation
 
 protocol TaskEditViewControllerDelegate: AnyObject {
-    
+    func addTaskDidCancel(_ controller: TaskEditViewController)
+    func addNewTask(_ controller: TaskEditViewController, newTask: Task)
+    func editTask(_ controller: TaskEditViewController, editedTask: Task)
 }

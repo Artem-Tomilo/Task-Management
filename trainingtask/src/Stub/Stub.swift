@@ -158,8 +158,26 @@ class Stub: Server {
         }
     }
     
+    func addTask(task: Task, _ completion: @escaping () -> Void) {
+        tasksArray.append(task)
+        delay {
+            completion()
+        }
+    }
+    
     func deleteTask(id: Int, _ completion: @escaping () -> Void) throws {
         tasksArray.removeAll(where: { $0.id == id })
+        delay {
+            completion()
+        }
+    }
+    
+    func editTask(id: Int, editedTask: Task, _ completion: @escaping () -> Void) throws {
+        guard let task = self.tasksArray.first(where: { $0.id == id }) else { return }
+        if let index = self.tasksArray.firstIndex(of: task) {
+            self.tasksArray.removeAll(where: { $0.id == id })
+            self.tasksArray.insert(editedTask, at: index)
+        }
         delay {
             completion()
         }

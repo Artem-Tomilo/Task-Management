@@ -230,5 +230,4 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
             // асинхронная обработка ошибки
         }
     }
-    
 }

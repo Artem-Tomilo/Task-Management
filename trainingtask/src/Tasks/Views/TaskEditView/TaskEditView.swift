@@ -129,6 +129,62 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.text = dateFormatter.string(from: task.endDate)
     }
     
+    func unbindName() -> String? {
+        if let name = nameTextField.text,
+           nameTextField.text != "" {
+            return name
+        }
+        return nil
+    }
+    
+    func unbindProject() -> String? {
+        if let project = projectTextField.text,
+           projectTextField.text != "" {
+            return project
+        }
+        return nil
+    }
+    
+    func unbindEmployee() -> String? {
+        if let employee = employeeTextField.text,
+           employeeTextField.text != "" {
+            return employee
+        }
+        return nil
+    }
+    
+    func unbindStatus() -> String? {
+        if let status = statusTextField.text,
+           statusTextField.text != "" {
+            return status
+        }
+        return nil
+    }
+    
+    func unbindHours() -> String? {
+        if let hours = requiredNumberOfHoursTextField.text,
+           requiredNumberOfHoursTextField.text != "" {
+            return hours
+        }
+        return nil
+    }
+    
+    func unbindStartDate() -> String? {
+        if let startDate = startDateTextField.text,
+           startDateTextField.text != "" {
+            return startDate
+        }
+        return nil
+    }
+    
+    func unbindEndDate() -> String? {
+        if let endDate = endDateTextField.text,
+           endDateTextField.text != "" {
+            return endDate
+        }
+        return nil
+    }
+    
     func bindEndDateTextField(days: Int) {
         let date = Date()
         let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)

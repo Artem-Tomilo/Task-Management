@@ -204,4 +204,30 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     @objc func refresh(_ sender: UIRefreshControl) {
         sender.endRefreshing()
     }
+    
+    func addTaskDidCancel(_ controller: TaskEditViewController) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func addNewTask(_ controller: TaskEditViewController, newTask: Task) {
+        do {
+            self.navigationController?.popViewController(animated: true)
+            try serverDelegate.addTask(task: newTask) {
+                self.loadData()
+            }
+        } catch {
+            // асинхронная обработка ошибки
+        }
+    }
+    
+    func editTask(_ controller: TaskEditViewController, editedTask: Task) {
+        do {
+            self.navigationController?.popViewController(animated: true)
+            try serverDelegate.editTask(id: editedTask.id, editedTask: editedTask) {
+                self.loadData()
+            }
+        } catch {
+            // асинхронная обработка ошибки
+        }
+    }
 }

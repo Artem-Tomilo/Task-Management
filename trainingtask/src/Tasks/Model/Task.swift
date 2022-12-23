@@ -8,13 +8,13 @@
 import UIKit
 
 struct Task: Equatable {
-    let name: String
-    let project: Project
-    let employee: Employee
-    let status: TaskStatus
-    let requiredNumberOfHours: Int
-    let startDate: Date
-    let endDate: Date
+    var name: String
+    var project: Project
+    var employee: Employee
+    var status: TaskStatus
+    var requiredNumberOfHours: Int
+    var startDate: Date
+    var endDate: Date
     let id: Int
     private static var idCounter = 0
     
