@@ -9,4 +9,5 @@ import Foundation
 
 protocol TaskEditViewDelegate: AnyObject {
     func bindData() -> [String]
+    var isProjectTextFieldClosed: Bool { get set }
 }

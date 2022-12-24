@@ -16,4 +16,5 @@ protocol Server: AnyObject {
     func deleteTask(id: Int, _ completion: @escaping () -> Void) throws
     func editTask(id: Int, editedTask: Task, _ completion: @escaping () -> Void) throws
     func getTasks(_ completion: @escaping ([Task]) -> Void)
+    func getTasksFor(project: Project, _ completion: @escaping ([Task]) -> Void)
 }

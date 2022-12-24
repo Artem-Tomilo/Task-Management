@@ -15,6 +15,8 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private static let taskCellIdentifier = "TaskCell"
     private var tasksArray: [Task] = []
     
+    var project: Project?
+    
     private var serverDelegate: Server
     private let settingsManager: SettingsManager
     
@@ -74,13 +76,26 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func loadData() {
         showSpinner()
-        serverDelegate.getTasks() { tasks in
-            if self.getMaxRecordsCountFromSettings() != 0 {
-                self.bind(Array(tasks.prefix(self.getMaxRecordsCountFromSettings())))
-            } else {
-                self.bind(tasks)
+        if let project {
+            serverDelegate.getTasksFor(project: project) { [weak self] tasks in
+                guard let self else { return }
+                if self.getMaxRecordsCountFromSettings() != 0 {
+                    self.bind(Array(tasks.prefix(self.getMaxRecordsCountFromSettings())))
+                } else {
+                    self.bind(tasks)
+                }
+                self.hideSpinner()
             }
-            self.hideSpinner()
+        } else {
+            serverDelegate.getTasks() { [weak self] tasks in
+                guard let self else { return }
+                if self.getMaxRecordsCountFromSettings() != 0 {
+                    self.bind(Array(tasks.prefix(self.getMaxRecordsCountFromSettings())))
+                } else {
+                    self.bind(tasks)
+                }
+                self.hideSpinner()
+            }
         }
     }
     
@@ -190,6 +205,11 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func showEditTaskViewController(_ task: Task?) {
         let viewController = TaskEditViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
+        if project != nil {
+            viewController.isProjectTextFieldClosed = true
+        } else {
+            viewController.isProjectTextFieldClosed = false
+        }
         if task != nil {
             viewController.possibleTaskToEdit = task
         }

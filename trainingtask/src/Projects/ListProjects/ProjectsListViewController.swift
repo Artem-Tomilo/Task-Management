@@ -120,6 +120,11 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
         100
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let project = projectsArray[indexPath.row]
+        showTaskViewController(project)
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
             guard let self = self else { return }
@@ -193,6 +198,12 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
             viewController.possibleProjectToEdit = project
         }
         viewController.delegate = self
+        self.navigationController?.pushViewController(viewController, animated: true)
+    }
+    
+    private func showTaskViewController(_ project: Project?) {
+        let viewController = TasksListViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
+        viewController.project = project
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

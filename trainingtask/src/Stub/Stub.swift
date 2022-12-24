@@ -190,4 +190,14 @@ class Stub: Server {
             }
         }
     }
+    
+    func getTasksFor(project: Project, _ completion: @escaping ([Task]) -> Void) {
+        var tasksForProject = [Task]()
+        if let project = projectsArray.first(where: { $0 == project }) {
+            tasksForProject = self.tasksArray.filter({ $0.project == project })
+        }
+        delay {
+            completion(tasksForProject)
+        }
+    }
 }

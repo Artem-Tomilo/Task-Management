@@ -16,6 +16,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private var data = [String]()
     private let dateFormatter = TaskDateFormatter()
     var possibleTaskToEdit: Task?
+    var isProjectTextFieldClosed = Bool()
     
     weak var delegate: TaskEditViewControllerDelegate?
     private let serverDelegate: Server
@@ -33,7 +34,6 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        taskEditView.delegate = self
         setup()
     }
     
@@ -56,7 +56,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             taskEditView.bindEndDateTextField(days: numbersOfDays)
             title = "Добавление задачи"
         }
-        
+        taskEditView.delegate = self
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
