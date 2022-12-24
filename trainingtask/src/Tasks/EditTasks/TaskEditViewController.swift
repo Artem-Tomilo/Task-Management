@@ -112,26 +112,27 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     }
     
     private func createNewTask() {
-        if let name = taskEditView.unbindName(),
-           let project = taskEditView.unbindProject(),
-           let employee = taskEditView.unbindEmployee(),
-           let status = taskEditView.unbindStatus(),
-           let hours = taskEditView.unbindHours(),
-           let startDate = taskEditView.unbindStartDate(),
-           let endDate = taskEditView.unbindEndDate() {
-            let taskProject = projects.first(where: { $0.name == project })
-            let taskEmployee = employees.first(where: { $0.fullName == employee })
-            let taskStatus = TaskStatus.allCases.first(where: { $0.title == status })
-            let hours = Int(hours)
-            let startDate = dateFormatter.date(from: startDate)
-            let endDate = dateFormatter.date(from: endDate)
-            
-            let task = Task(name: name, project: taskProject!, employee: taskEmployee!, status: taskStatus!, requiredNumberOfHours: hours!, startDate: startDate!, endDate: endDate!)
+        if let task = checkValues() {
             delegate?.addNewTask(self, newTask: task)
         }
     }
 
     private func editingTask(editedTask: Task) {
+        if let task = checkValues() {
+            var newTask = editedTask
+            newTask.name = task.name
+            newTask.project = task.project
+            newTask.employee = task.employee
+            newTask.status = task.status
+            newTask.requiredNumberOfHours = task.requiredNumberOfHours
+            newTask.startDate = task.startDate
+            newTask.endDate = task.endDate
+            
+            delegate?.editTask(self, editedTask: newTask)
+        }
+    }
+    
+    private func checkValues() -> Task? {
         if let name = taskEditView.unbindName(),
            let project = taskEditView.unbindProject(),
            let employee = taskEditView.unbindEmployee(),
@@ -139,24 +140,18 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
            let hours = taskEditView.unbindHours(),
            let startDate = taskEditView.unbindStartDate(),
            let endDate = taskEditView.unbindEndDate() {
-            let taskProject = projects.first(where: { $0.name == project })
-            let taskEmployee = employees.first(where: { $0.fullName == employee })
-            let taskStatus = TaskStatus.allCases.first(where: { $0.title == status })
-            let hours = Int(hours)
-            let startDate = dateFormatter.date(from: startDate)
-            let endDate = dateFormatter.date(from: endDate)
-            
-            var task = editedTask
-            task.name = name
-            task.project = taskProject!
-            task.employee = taskEmployee!
-            task.status = taskStatus!
-            task.requiredNumberOfHours = hours!
-            task.startDate = startDate!
-            task.endDate = endDate!
-            
-            delegate?.editTask(self, editedTask: task)
+            if let taskProject = projects.first(where: { $0.name == project }),
+               let taskEmployee = employees.first(where: { $0.fullName == employee }),
+               let taskStatus = TaskStatus.allCases.first(where: { $0.title == status }),
+               let hours = Int(hours),
+               let startDate = dateFormatter.date(from: startDate),
+               let endDate = dateFormatter.date(from: endDate) {
+                
+                let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+                return task
+            }
         }
+        return nil
     }
     
     private func saveTask() {

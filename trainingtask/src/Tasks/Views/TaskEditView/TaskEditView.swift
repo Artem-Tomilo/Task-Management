@@ -129,60 +129,48 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.text = dateFormatter.string(from: task.endDate)
     }
     
-    func unbindName() -> String? {
-        if let name = nameTextField.text,
-           nameTextField.text != "" {
-            return name
+    private func checkValue(in textField: BorderedTextField) -> String {
+        let text = textField.text
+        if let text,
+            text != "" {
+            return text
         }
-        return nil
+        return "No data"
+    }
+    
+    func unbindName() -> String? {
+        let name = checkValue(in: nameTextField)
+        return name
     }
     
     func unbindProject() -> String? {
-        if let project = projectTextField.text,
-           projectTextField.text != "" {
-            return project
-        }
-        return nil
+        let project = checkValue(in: projectTextField)
+        return project
     }
     
     func unbindEmployee() -> String? {
-        if let employee = employeeTextField.text,
-           employeeTextField.text != "" {
-            return employee
-        }
-        return nil
+        let employee = checkValue(in: employeeTextField)
+        return employee
     }
     
     func unbindStatus() -> String? {
-        if let status = statusTextField.text,
-           statusTextField.text != "" {
-            return status
-        }
-        return nil
+        let status = checkValue(in: statusTextField)
+        return status
     }
     
     func unbindHours() -> String? {
-        if let hours = requiredNumberOfHoursTextField.text,
-           requiredNumberOfHoursTextField.text != "" {
-            return hours
-        }
-        return nil
+        let hours = checkValue(in: requiredNumberOfHoursTextField)
+        return hours
     }
     
     func unbindStartDate() -> String? {
-        if let startDate = startDateTextField.text,
-           startDateTextField.text != "" {
-            return startDate
-        }
-        return nil
+        let startDate = checkValue(in: startDateTextField)
+        return startDate
     }
     
     func unbindEndDate() -> String? {
-        if let endDate = endDateTextField.text,
-           endDateTextField.text != "" {
-            return endDate
-        }
-        return nil
+        let endDate = checkValue(in: endDateTextField)
+        return endDate
     }
     
     func bindEndDateTextField(days: Int) {
