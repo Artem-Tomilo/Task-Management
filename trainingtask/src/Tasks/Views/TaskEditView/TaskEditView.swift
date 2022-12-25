@@ -92,7 +92,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         startDateTextField.placeholder = "Дата начала"
         endDateTextField.placeholder = "Дата окончания"
         
-        nameTextField.becomeFirstResponder()
         requiredNumberOfHoursTextField.keyboardType = .numberPad
         startDateTextField.text = currentDate()
     }
@@ -178,6 +177,14 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
         let stringDate = dateFormatter.string(from: endDate)
         endDateTextField.text = stringDate
+    }
+    
+    func initFirstResponder() {
+        nameTextField.becomeFirstResponder()
+    }
+    
+    func blockProjectTextField() {
+        projectTextField.isUserInteractionEnabled = false
     }
     
     private func currentDate() -> String {

@@ -37,6 +37,11 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         setup()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        taskEditView.initFirstResponder()
+    }
+    
     private func setup() {
         view.backgroundColor = .systemRed
         view.addSubview(taskEditView)
@@ -69,6 +74,10 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         
         getProjects()
         getEmployees()
+        
+        if isProjectTextFieldClosed {
+            taskEditView.blockProjectTextField()
+        }
     }
     
     private func getProjects() {
