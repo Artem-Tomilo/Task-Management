@@ -24,22 +24,22 @@
 ####
 Splash экран и экран Главное меню:
 
-<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/1.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/2.png" width="300">
+<img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/1.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/2.png" width="300">
 
 Экран Настройки:
 
-<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/3.png" width="300">
+<img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/3.png" width="300">
 
 ## Созданиe, редактирование и удаление сотрудника.
 ####
 Экран Сотрудники (отображается spinnerView для имитации ожидания ответа от сервера):
 
-<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/4.png" width="300">
+<img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/4.png" width="300">
 
 Экран Добавление сотрудника:
 
-<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/5.png" width="300">
+<img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/5.png" width="300">
 
 Есть возможность отредактировать или удалить сотрудника свайпом влево, при изменеии переход на экран Редактирование сотрудника с заполненными данными:
 
-<img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/6.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/7.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-project/blob/main/trainingtask/com.qulix.tomiloai.trainingtask.ios/src/app/res/screens/8.png" width="300">
+<img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/6.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/7.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/8.png" width="300">
