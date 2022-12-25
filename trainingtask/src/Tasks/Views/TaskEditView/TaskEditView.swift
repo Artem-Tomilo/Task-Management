@@ -128,6 +128,10 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.text = dateFormatter.string(from: task.endDate)
     }
     
+    func bindProjectTextFieldBy(project: Project) {
+        projectTextField.text = project.name
+    }
+    
     private func checkValue(in textField: BorderedTextField) -> String {
         let text = textField.text
         if let text,

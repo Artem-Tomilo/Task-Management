@@ -196,6 +196,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         let viewController = TaskEditViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
         if project != nil {
             viewController.isProjectTextFieldShouldBeDisabled = true
+            viewController.project = project
         }
         if task != nil {
             viewController.possibleTaskToEdit = task

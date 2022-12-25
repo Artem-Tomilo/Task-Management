@@ -16,6 +16,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private var data = [String]()
     private let dateFormatter = TaskDateFormatter()
     var possibleTaskToEdit: Task?
+    var project: Project?
     var isProjectTextFieldShouldBeDisabled = Bool()
     
     weak var delegate: TaskEditViewControllerDelegate?
@@ -61,6 +62,15 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             taskEditView.bindEndDateTextField(days: numbersOfDays)
             title = "Добавление задачи"
         }
+        
+        if isProjectTextFieldShouldBeDisabled {
+            taskEditView.blockProjectTextField()
+        }
+        
+        if let project {
+            taskEditView.bindProjectTextFieldBy(project: project)
+        }
+        
         taskEditView.delegate = self
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
@@ -74,10 +84,6 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         
         getProjects()
         getEmployees()
-        
-        if isProjectTextFieldShouldBeDisabled {
-            taskEditView.blockProjectTextField()
-        }
     }
     
     private func getProjects() {
