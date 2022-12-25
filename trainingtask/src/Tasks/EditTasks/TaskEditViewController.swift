@@ -16,7 +16,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private var data = [String]()
     private let dateFormatter = TaskDateFormatter()
     var possibleTaskToEdit: Task?
-    var isProjectTextFieldClosed = Bool()
+    var isProjectTextFieldShouldBeDisabled = Bool()
     
     weak var delegate: TaskEditViewControllerDelegate?
     private let serverDelegate: Server
@@ -75,7 +75,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         getProjects()
         getEmployees()
         
-        if isProjectTextFieldClosed {
+        if isProjectTextFieldShouldBeDisabled {
             taskEditView.blockProjectTextField()
         }
     }

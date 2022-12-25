@@ -206,9 +206,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private func showEditTaskViewController(_ task: Task?) {
         let viewController = TaskEditViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
         if project != nil {
-            viewController.isProjectTextFieldClosed = true
-        } else {
-            viewController.isProjectTextFieldClosed = false
+            viewController.isProjectTextFieldShouldBeDisabled = true
         }
         if task != nil {
             viewController.possibleTaskToEdit = task

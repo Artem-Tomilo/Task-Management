@@ -123,6 +123,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let project = projectsArray[indexPath.row]
         showTaskViewController(project)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

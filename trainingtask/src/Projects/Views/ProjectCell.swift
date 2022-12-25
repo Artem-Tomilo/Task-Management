@@ -64,9 +64,9 @@ class ProjectCell: UITableViewCell {
         descriptionLabel.text = descriptionText
     }
     
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-        if selected {
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        super.setHighlighted(highlighted, animated: animated)
+        if highlighted {
             background.backgroundColor =  .gray
             nameLabel.textColor = .white
             descriptionLabel.textColor = .white
