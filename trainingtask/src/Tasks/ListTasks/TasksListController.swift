@@ -75,7 +75,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     private func loadData() {
-        showSpinner()
+        spinnerView.showSpinner(viewController: self)
         if let project {
             serverDelegate.getTasksFor(project: project) { [weak self] tasks in
                 guard let self else { return }
@@ -84,7 +84,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 } else {
                     self.bind(tasks)
                 }
-                self.hideSpinner()
+                self.spinnerView.hideSpinner(from: self)
             }
         } else {
             serverDelegate.getTasks() { [weak self] tasks in
@@ -94,7 +94,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 } else {
                     self.bind(tasks)
                 }
-                self.hideSpinner()
+                self.spinnerView.hideSpinner(from: self)
             }
         }
     }
@@ -102,17 +102,6 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private func bind(_ tasks: [Task]) {
         tasksArray = tasks
         self.tableView.reloadData()
-    }
-    
-    private func showSpinner() {
-        spinnerView = SpinnerView(frame: self.view.bounds)
-        view.addSubview(spinnerView)
-        navigationController?.navigationBar.alpha = 0.3
-    }
-    
-    private func hideSpinner() {
-        spinnerView.removeFromSuperview()
-        navigationController?.navigationBar.alpha = 1.0
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -220,6 +209,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     @objc func refresh(_ sender: UIRefreshControl) {
+        tableView.reloadData()
         sender.endRefreshing()
     }
     

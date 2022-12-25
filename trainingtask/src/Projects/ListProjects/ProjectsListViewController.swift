@@ -73,31 +73,21 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     }
     
     private func loadData() {
-        showSpinner()
-        serverDelegate.getProjects() { projects in
+        spinnerView.showSpinner(viewController: self)
+        serverDelegate.getProjects() { [weak self] projects in
+            guard let self else { return }
             if self.getMaxRecordsCountFromSettings() != 0 {
                 self.bind(Array(projects.prefix(self.getMaxRecordsCountFromSettings())))
             } else {
                 self.bind(projects)
             }
-            self.hideSpinner()
+            self.spinnerView.hideSpinner(from: self)
         }
     }
     
     private func bind(_ projects: [Project]) {
         projectsArray = projects
         self.tableView.reloadData()
-    }
-    
-    private func showSpinner() {
-        spinnerView = SpinnerView(frame: self.view.bounds)
-        view.addSubview(spinnerView)
-        navigationController?.navigationBar.alpha = 0.3
-    }
-    
-    private func hideSpinner() {
-        spinnerView.removeFromSuperview()
-        navigationController?.navigationBar.alpha = 1.0
     }
     
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -213,7 +203,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     }
     
     @objc func refresh(_ sender: UIRefreshControl) {
-        loadData()
+        tableView.reloadData()
         sender.endRefreshing()
     }
     

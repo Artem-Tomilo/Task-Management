@@ -81,14 +81,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      Метод загрузки данных - происходит запуск спиннера и вызов метода делегата: в completion блоке вызывается метод привязки данных и скрытие спиннера
      */
     private func loadData() {
-        showSpinner()
-        serverDelegate.getEmployees { employees in
+        spinnerView.showSpinner(viewController: self)
+        serverDelegate.getEmployees { [weak self] employees in
+            guard let self else { return }
             if self.getMaxRecordsCountFromSettings() != 0 {
                 self.bind(Array(employees.prefix(self.getMaxRecordsCountFromSettings())))
             } else {
                 self.bind(employees)
             }
-            self.hideSpinner()
+            self.spinnerView.hideSpinner(from: self)
         }
     }
     
@@ -101,17 +102,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private func bind(_ employees: [Employee]) {
         employeeArray = employees
         self.tableView.reloadData()
-    }
-    
-    private func showSpinner() {
-        spinnerView = SpinnerView(frame: self.view.bounds)
-        view.addSubview(spinnerView)
-        navigationController?.navigationBar.alpha = 0.3
-    }
-    
-    private func hideSpinner() {
-        spinnerView.removeFromSuperview()
-        navigationController?.navigationBar.alpha = 1.0
     }
     
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -266,7 +256,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      refresh - таргет на обновление таблицы через UIRefreshControl
      */
     @objc func refresh(_ sender: UIRefreshControl) {
-        loadData()
+        tableView.reloadData()
         sender.endRefreshing()
     }
     
