@@ -191,7 +191,8 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private func showEditEmployeeAlert(_ employee: Employee) {
         let alert = UIAlertController(title: "Хотите изменить этого сотрудника?", message: "", preferredStyle: .actionSheet)
         let editAction = UIAlertAction(title: "Изменить", style: .default) { [weak self] _ in
-            self?.showEditEmployeeViewController(employee)
+            guard let self else { return }
+            self.showEditEmployeeViewController(employee)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(editAction)
@@ -208,7 +209,8 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private func showDeleteEmployeeAlert(_ employee: Employee) {
         let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
-            self?.deleteEmployee(employee: employee)
+            guard let self else { return }
+            self.deleteEmployee(employee: employee)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(deleteAction)

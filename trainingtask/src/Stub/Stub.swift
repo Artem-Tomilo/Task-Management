@@ -56,8 +56,8 @@ class Stub: Server {
      parameters:
      completion - completion блок, который вызывается на главном потоке
      */
-    private func delay(_ completion: @escaping () -> Void) {
-        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(1)) {
+    private func delay(in sec: Int, _ completion: @escaping () -> Void) {
+        DispatchQueue.global(qos: .background).asyncAfter(deadline: .now() + .seconds(sec)) {
             DispatchQueue.main.async {
                 completion()
             }
@@ -73,7 +73,7 @@ class Stub: Server {
      */
     func addEmployee(employee: Employee, _ completion: @escaping () -> Void) {
         employeesArray.append(employee)
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
@@ -87,7 +87,7 @@ class Stub: Server {
      */
     func deleteEmployee(id: Int, _ completion: @escaping () -> Void) throws {
         employeesArray.removeAll(where: { $0.id == id })
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
@@ -106,7 +106,7 @@ class Stub: Server {
             self.employeesArray.removeAll(where: { $0.id == id })
             self.employeesArray.insert(editedEmployee, at: index)
         }
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
@@ -127,14 +127,14 @@ class Stub: Server {
     
     func addProject(project: Project, _ completion: @escaping () -> Void) {
         projectsArray.append(project)
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
     
     func deleteProject(id: Int, _ completion: @escaping () -> Void) throws {
         projectsArray.removeAll(where: { $0.id == id })
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
@@ -145,7 +145,7 @@ class Stub: Server {
             self.projectsArray.removeAll(where: { $0.id == id })
             self.projectsArray.insert(editedProject, at: index)
         }
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
@@ -160,14 +160,14 @@ class Stub: Server {
     
     func addTask(task: Task, _ completion: @escaping () -> Void) {
         tasksArray.append(task)
-        delay {
+        delay(in: 10) {
             completion()
         }
     }
     
     func deleteTask(id: Int, _ completion: @escaping () -> Void) throws {
         tasksArray.removeAll(where: { $0.id == id })
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
@@ -178,7 +178,7 @@ class Stub: Server {
             self.tasksArray.removeAll(where: { $0.id == id })
             self.tasksArray.insert(editedTask, at: index)
         }
-        delay {
+        delay(in: 0) {
             completion()
         }
     }
@@ -196,7 +196,7 @@ class Stub: Server {
         if let project = projectsArray.first(where: { $0 == project }) {
             tasksForProject = self.tasksArray.filter({ $0.project == project })
         }
-        delay {
+        delay(in: 1) {
             completion(tasksForProject)
         }
     }

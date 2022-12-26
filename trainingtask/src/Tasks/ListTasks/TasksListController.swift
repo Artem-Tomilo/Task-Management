@@ -163,7 +163,8 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private func showEditTaskAlert(_ task: Task) {
         let alert = UIAlertController(title: "Хотите изменить эту задачу?", message: "", preferredStyle: .actionSheet)
         let editAction = UIAlertAction(title: "Изменить", style: .default) { [weak self] _ in
-            self?.showEditTaskViewController(task)
+            guard let self else { return }
+            self.showEditTaskViewController(task)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(editAction)
@@ -174,7 +175,8 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private func showDeleteTaskAlert(_ task: Task) {
         let alert = UIAlertController(title: "Хотите удалить эту задачу?", message: "", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
-            self?.deleteTask(task: task)
+            guard let self else { return }
+            self.deleteTask(task: task)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(deleteAction)

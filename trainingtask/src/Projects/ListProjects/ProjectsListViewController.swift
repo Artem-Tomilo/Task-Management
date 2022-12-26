@@ -154,7 +154,8 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     private func showEditProjectAlert(_ project: Project) {
         let alert = UIAlertController(title: "Хотите изменить этот проект?", message: "", preferredStyle: .actionSheet)
         let editAction = UIAlertAction(title: "Изменить", style: .default) { [weak self] _ in
-            self?.showEditProjectViewController(project)
+            guard let self else { return }
+            self.showEditProjectViewController(project)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(editAction)
@@ -165,7 +166,8 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     private func showDeleteProjectAlert(_ project: Project) {
         let alert = UIAlertController(title: "Хотите удалить этот проект?", message: "", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
-            self?.deleteProject(project: project)
+            guard let self else { return }
+            self.deleteProject(project: project)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(deleteAction)
