@@ -10,8 +10,9 @@ import UIKit
 class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
-    var possibleProjectToEdit: Project?
+    private let alertController = ShowAlertController()
     weak var delegate: ProjectEditViewControllerDelegate?
+    var possibleProjectToEdit: Project?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,27 +46,62 @@ class ProjectEditViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     
+    private func bindDataFromView() -> Project {
+        let name = projectEditView.unbindProjectName()
+        let description = projectEditView.unbindProjectDescription()
+        
+        let project = Project(name: name, description: description)
+        return project
+    }
+    
+    private func editingProject(editedProject: Project) {
+        let bindedProject = bindDataFromView()
+        
+        var project = editedProject
+        project.name = bindedProject.name
+        project.description = bindedProject.description
+        delegate?.editProject(self, editedProject: project)
+    }
+    
     private func createNewProject() {
-        let (name, description) = projectEditView.unbind()
-        let newProject = Project(name: name, description: description)
+        let newProject = bindDataFromView()
         delegate?.addNewProject(self, newProject: newProject)
     }
     
-    private func saveProject() {
-        if let editedProject = possibleProjectToEdit {
-            editingProject(editedProject: editedProject)
-        } else {
-            createNewProject()
+    private func validationOfEnteredData() throws {
+        guard projectEditView.unbindProjectName() != "" else{
+            throw ProjectEditingErrors.noName
+        }
+        guard projectEditView.unbindProjectDescription() != "" else{
+            throw ProjectEditingErrors.noDescription
         }
     }
-
-    private func editingProject(editedProject: Project) {
-        let (name, description) = projectEditView.unbind()
-        var project = editedProject
-        project.name = name
-        project.description = description
-        delegate?.editProject(self, editedProject: project)
+    
+    private func handleError(error: Error) {
+        let projectError = error as! ProjectEditingErrors
+        switch projectError {
+        case ProjectEditingErrors.noName:
+            alertController.showAlertController(message: projectError.message, viewController: self)
+        case ProjectEditingErrors.noDescription:
+            alertController.showAlertController(message: projectError.message, viewController: self)
+        }
     }
+    
+    private func saveProject() {
+        do {
+            try validationOfEnteredData()
+            if let editedProject = possibleProjectToEdit {
+                editingProject(editedProject: editedProject)
+            } else {
+                createNewProject()
+            }
+        }
+        catch let error {
+            handleError(error: error)
+        }
+    }
+    
+    
     
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
         saveProject()

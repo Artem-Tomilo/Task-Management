@@ -54,12 +54,18 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         descriptionTextField.text = descriptionTextFieldText
     }
     
-    func unbind() -> (String, String) {
-        if let name = nameTextField.text,
-           let description = descriptionTextField.text {
-            return (name, description)
+    func unbindProjectName() -> String {
+        if let name = nameTextField.text {
+            return name
         }
-        return ("No data", "No data")
+        return ""
+    }
+    
+    func unbindProjectDescription() -> String {
+        if let description = descriptionTextField.text {
+            return description
+        }
+        return ""
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

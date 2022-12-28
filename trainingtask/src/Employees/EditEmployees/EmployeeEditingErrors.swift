@@ -1,5 +1,5 @@
 //
-//  EditEmployeeErrors.swift
+//  EmployeeEditingErrors.swift
 //  trainingtask
 //
 //  Created by Артем Томило on 28.12.22.
