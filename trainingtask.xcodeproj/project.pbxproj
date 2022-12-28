@@ -58,6 +58,8 @@
 		38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */; };
 		38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */; };
 		38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */; };
+		38EF1C4F295C2E7400EB5F8E /* ShowAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4E295C2E7400EB5F8E /* ShowAlertController.swift */; };
+		38EF1C51295C305000EB5F8E /* EditEmployeeErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C50295C305000EB5F8E /* EditEmployeeErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -114,6 +116,8 @@
 		38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewDelegate.swift; sourceTree = "<group>"; };
 		38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDatePicker.swift; sourceTree = "<group>"; };
 		38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDateFormatter.swift; sourceTree = "<group>"; };
+		38EF1C4E295C2E7400EB5F8E /* ShowAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowAlertController.swift; sourceTree = "<group>"; };
+		38EF1C50295C305000EB5F8E /* EditEmployeeErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditEmployeeErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -225,6 +229,7 @@
 			children = (
 				3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */,
 				3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */,
+				38EF1C50295C305000EB5F8E /* EditEmployeeErrors.swift */,
 			);
 			path = EditEmployees;
 			sourceTree = "<group>";
@@ -303,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
+				38EF1C4E295C2E7400EB5F8E /* ShowAlertController.swift */,
 				385A04A328DDC35400FD008F /* Stub */,
 				387AAD9528E6E531004BE734 /* SplashViewController */,
 				387AAD8428E36C55004BE734 /* MainMenu */,
@@ -497,10 +503,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38EF1C51295C305000EB5F8E /* EditEmployeeErrors.swift in Sources */,
 				385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */,
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
 				3824BF3D28F00CE80027149D /* SettingsInputView.swift in Sources */,
 				3820316328D9EFF7008FAD35 /* EmployeeCellLabel.swift in Sources */,
+				38EF1C4F295C2E7400EB5F8E /* ShowAlertController.swift in Sources */,
 				3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeeCell.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* BorderedTextField.swift in Sources */,

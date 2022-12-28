@@ -84,14 +84,32 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      
      Возвращаемые значения - текста всех textField'ов
      */
-    func unbind() -> (String, String, String, String) {
-        if let surname = surnameTextField.text,
-           let name = nameTextField.text,
-           let patronymic = patronymicTextField.text,
-           let position = positionTextField.text {
-            return (surname, name, patronymic, position)
+    func unbindSurname() -> String {
+        if let surname = surnameTextField.text {
+            return surname
         }
-        return ("No data", "No data", "No data", "No data")
+        return ""
+    }
+    
+    func unbindName() -> String {
+        if let surname = nameTextField.text {
+            return surname
+        }
+        return ""
+    }
+    
+    func unbindPatronymic() -> String {
+        if let surname = patronymicTextField.text {
+            return surname
+        }
+        return ""
+    }
+    
+    func unbindPosition() -> String {
+        if let surname = positionTextField.text {
+            return surname
+        }
+        return ""
     }
     
     /*

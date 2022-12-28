@@ -8,6 +8,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     private let employeeEditView = EmployeeEditView()
     private var saveButton = UIBarButtonItem()
     private var cancelButton = UIBarButtonItem()
+    private let alertController = ShowAlertController()
     
     weak var delegate: EmployeeEditViewControllerDelegate?
     
@@ -45,15 +46,14 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(gesture)
     }
     
-    /*
-     saveEmployee - метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника
-     */
-    private func saveEmployee() {
-        if let editedEmployee = possibleEmployeeToEdit {
-            editingEmployee(editedEmployee: editedEmployee)
-        } else {
-            createNewEmployee()
-        }
+    private func bindDataFromView() -> Employee {
+        let surname = employeeEditView.unbindSurname()
+        let name = employeeEditView.unbindName()
+        let patronymic = employeeEditView.unbindPatronymic()
+        let position = employeeEditView.unbindPosition()
+        
+        let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
+        return employee
     }
     
     /*
@@ -63,12 +63,13 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      editedEmployee - редактируемый сотрудник
      */
     private func editingEmployee(editedEmployee: Employee) {
-        let (surname, name, patronymic, position) = employeeEditView.unbind()
+        let bindedEmployee = bindDataFromView()
+        
         var employee = editedEmployee
-        employee.surname = surname
-        employee.name = name
-        employee.patronymic = patronymic
-        employee.position = position
+        employee.surname = bindedEmployee.surname
+        employee.name = bindedEmployee.name
+        employee.patronymic = bindedEmployee.patronymic
+        employee.position = bindedEmployee.position
         delegate?.editEmployee(self, editedEmployee: employee)
     }
     
@@ -76,9 +77,54 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      createNewEmployee - метод, который создает нового сотрудника
      */
     private func createNewEmployee() {
-        let (surname, name, patronymic, position) = employeeEditView.unbind()
-        let newEmployee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
-        delegate?.addNewEmployee(self, newEmployee: newEmployee)
+        let employee = bindDataFromView()
+        delegate?.addNewEmployee(self, newEmployee: employee)
+    }
+    
+    private func validationOfEnteredData() throws {
+        guard employeeEditView.unbindSurname() != "" else{
+            throw EmployeeEditingErrors.noSurname
+        }
+        guard employeeEditView.unbindName() != "" else{
+            throw EmployeeEditingErrors.noName
+        }
+        guard employeeEditView.unbindPatronymic() != "" else{
+            throw EmployeeEditingErrors.noPatronymic
+        }
+        guard employeeEditView.unbindPosition() != "" else{
+            throw EmployeeEditingErrors.noPostition
+        }
+    }
+    
+    private func handleError(error: Error) {
+        let employeeError = error as! EmployeeEditingErrors
+        switch employeeError {
+        case EmployeeEditingErrors.noSurname:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
+        case EmployeeEditingErrors.noName:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
+        case EmployeeEditingErrors.noPatronymic:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
+        case EmployeeEditingErrors.noPostition:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
+        }
+    }
+    
+    /*
+     saveEmployee - метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника
+     */
+    private func saveEmployee() {
+        do {
+            try validationOfEnteredData()
+            if let editedEmployee = possibleEmployeeToEdit {
+                editingEmployee(editedEmployee: editedEmployee)
+            } else {
+                createNewEmployee()
+            }
+        }
+        catch let error {
+            handleError(error: error)
+        }
     }
     
     /*
