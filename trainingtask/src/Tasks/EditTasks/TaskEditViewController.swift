@@ -15,6 +15,8 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private var status = TaskStatus.allCases
     private var data = [String]()
     private let dateFormatter = TaskDateFormatter()
+    private let alertController = ShowAlertController()
+    
     var possibleTaskToEdit: Task?
     var project: Project?
     var isProjectTextFieldShouldBeDisabled = Bool()
@@ -126,14 +128,31 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         return count
     }
     
-    private func createNewTask() {
-        if let task = checkValues() {
-            delegate?.addNewTask(self, newTask: task)
+    private func bindingAndCheckingValues() -> Task? {
+        let name = taskEditView.unbindName()
+        let project = taskEditView.unbindProject()
+        let employee = taskEditView.unbindEmployee()
+        let status = taskEditView.unbindStatus()
+        let hours = taskEditView.unbindHours()
+        let startDate = taskEditView.unbindStartDate()
+        let endDate = taskEditView.unbindEndDate()
+        
+        if let taskProject = projects.first(where: { $0.name == project }),
+           let taskEmployee = employees.first(where: { $0.fullName == employee }),
+           let taskStatus = TaskStatus.allCases.first(where: { $0.title == status }),
+           let hours = Int(hours),
+           let startDate = dateFormatter.date(from: startDate),
+           let endDate = dateFormatter.date(from: endDate) {
+            
+            let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+            return task
+            
         }
+        return nil
     }
-
+    
     private func editingTask(editedTask: Task) {
-        if let task = checkValues() {
+        if let task = bindingAndCheckingValues() {
             var newTask = editedTask
             newTask.name = task.name
             newTask.project = task.project
@@ -147,33 +166,72 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
-    private func checkValues() -> Task? {
-        if let name = taskEditView.unbindName(),
-           let project = taskEditView.unbindProject(),
-           let employee = taskEditView.unbindEmployee(),
-           let status = taskEditView.unbindStatus(),
-           let hours = taskEditView.unbindHours(),
-           let startDate = taskEditView.unbindStartDate(),
-           let endDate = taskEditView.unbindEndDate() {
-            if let taskProject = projects.first(where: { $0.name == project }),
-               let taskEmployee = employees.first(where: { $0.fullName == employee }),
-               let taskStatus = TaskStatus.allCases.first(where: { $0.title == status }),
-               let hours = Int(hours),
-               let startDate = dateFormatter.date(from: startDate),
-               let endDate = dateFormatter.date(from: endDate) {
-                
-                let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
-                return task
-            }
+    private func createNewTask() {
+        if let task = bindingAndCheckingValues() {
+            delegate?.addNewTask(self, newTask: task)
         }
-        return nil
+    }
+    
+    private func validationOfEnteredData() throws {
+        guard taskEditView.unbindName() != "" else {
+            throw TaskEditingErrors.noName
+        }
+        guard taskEditView.unbindProject() != "" else {
+            throw TaskEditingErrors.noProject
+        }
+        guard taskEditView.unbindEmployee() != "" else {
+            throw TaskEditingErrors.noEmployee
+        }
+        guard taskEditView.unbindStatus() != "" else {
+            throw TaskEditingErrors.noStatus
+        }
+        guard taskEditView.unbindHours() != "" else {
+            throw TaskEditingErrors.noRequiredNumberOfHours
+        }
+        guard taskEditView.unbindHours() != "0" else {
+            throw TaskEditingErrors.wrongHours
+        }
+        guard taskEditView.unbindStartDate() != "" else {
+            throw TaskEditingErrors.noStartDate
+        }
+        guard taskEditView.unbindEndDate() != "" else {
+            throw TaskEditingErrors.noEndDate
+        }
+    }
+    
+    private func handleError(error: Error) {
+        let taskError = error as! TaskEditingErrors
+        switch taskError {
+        case TaskEditingErrors.noName:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case TaskEditingErrors.noProject:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case TaskEditingErrors.noEmployee:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case TaskEditingErrors.noStatus:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case TaskEditingErrors.noRequiredNumberOfHours:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case TaskEditingErrors.wrongHours:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case TaskEditingErrors.noStartDate:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case TaskEditingErrors.noEndDate:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        }
     }
     
     private func saveTask() {
-        if let editedTask = possibleTaskToEdit {
-            editingTask(editedTask: editedTask)
-        } else {
-            createNewTask()
+        do {
+            try validationOfEnteredData()
+            if let editedTask = possibleTaskToEdit {
+                editingTask(editedTask: editedTask)
+            } else {
+                createNewTask()
+            }
+        }
+        catch let error {
+            handleError(error: error)
         }
     }
     
@@ -194,11 +252,11 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         if taskEditView.isProjectTextField {
             setDataFromProjects()
         }
-
+        
         if taskEditView.isEmployeeTextField {
             setDataFromEmployees()
         }
-
+        
         if taskEditView.isStatusTextField {
             setDataFromStatus()
         }

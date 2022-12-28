@@ -134,44 +134,43 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     private func checkValue(in textField: BorderedTextField) -> String {
         let text = textField.text
-        if let text,
-            text != "" {
+        if let text  {
             return text
         }
-        return "No data"
+        return ""
     }
     
-    func unbindName() -> String? {
+    func unbindName() -> String {
         let name = checkValue(in: nameTextField)
         return name
     }
     
-    func unbindProject() -> String? {
+    func unbindProject() -> String {
         let project = checkValue(in: projectTextField)
         return project
     }
     
-    func unbindEmployee() -> String? {
+    func unbindEmployee() -> String {
         let employee = checkValue(in: employeeTextField)
         return employee
     }
     
-    func unbindStatus() -> String? {
+    func unbindStatus() -> String {
         let status = checkValue(in: statusTextField)
         return status
     }
     
-    func unbindHours() -> String? {
+    func unbindHours() -> String {
         let hours = checkValue(in: requiredNumberOfHoursTextField)
         return hours
     }
     
-    func unbindStartDate() -> String? {
+    func unbindStartDate() -> String {
         let startDate = checkValue(in: startDateTextField)
         return startDate
     }
     
-    func unbindEndDate() -> String? {
+    func unbindEndDate() -> String {
         let endDate = checkValue(in: endDateTextField)
         return endDate
     }
