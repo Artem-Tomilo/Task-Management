@@ -24,7 +24,7 @@ class TaskCell: UITableViewCell {
     
     private func setup() {
         background.translatesAutoresizingMaskIntoConstraints = false
-            contentView.addSubview(background)
+        contentView.addSubview(background)
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         projectLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -67,6 +67,10 @@ class TaskCell: UITableViewCell {
     
     func changeImage(status: TaskStatus) {
         image.image = status.imageView
+    }
+    
+    func hideProjectLabel() {
+        projectLabel.isHidden = true
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

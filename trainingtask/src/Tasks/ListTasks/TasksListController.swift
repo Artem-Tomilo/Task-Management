@@ -114,6 +114,9 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: TasksListViewController.taskCellIdentifier, for: indexPath) as? TaskCell else { return UITableViewCell() }
+        if project != nil {
+            cell.hideProjectLabel()
+        }
         let task = tasksArray[indexPath.row]
         cell.bindText(nameText: task.name, projectText: task.project.name)
         cell.changeImage(status: task.status)
