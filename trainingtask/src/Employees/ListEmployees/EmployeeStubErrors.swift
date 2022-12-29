@@ -8,12 +8,14 @@
 import Foundation
 
 enum EmployeeStubErrors: Error {
-    case noSuchEmployee, editEmployeeFailed, deleteEmployeeFailed
+    case noSuchEmployee, addEmployeeFailed, editEmployeeFailed, deleteEmployeeFailed
     
     var message: String {
         switch self {
         case .noSuchEmployee:
             return "Не удалось получить сотрудника"
+        case .addEmployeeFailed:
+            return "Не удалось добавить сотрудника"
         case .editEmployeeFailed:
             return "Не удалось отредактировать сотрудника"
         case .deleteEmployeeFailed:

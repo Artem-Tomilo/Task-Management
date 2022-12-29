@@ -14,6 +14,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     private var spinnerView = SpinnerView()
     private static let projectCellIdentifier = "NewCell"
     private var projectsArray: [Project] = []
+    private let alertController = Alert()
     
     private var serverDelegate: Server
     private let settingsManager: SettingsManager
@@ -147,8 +148,23 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
             return projectsArray[indexPath.row]
         }
         else {
-            throw NSError(domain: "", code: 0, userInfo: [:])
+            throw ProjectStubErrors.noSuchProject
         }
+    }
+    
+    private func handleError(_ error: Error) {
+        let projectError = error as! ProjectStubErrors
+        switch projectError {
+        case .noSuchProject:
+            alertController.showAlertController(message: projectError.message, viewController: self)
+        case.addProjectFailed:
+            alertController.showAlertController(message: projectError.message, viewController: self)
+        case .editProjectFailed:
+            alertController.showAlertController(message: projectError.message, viewController: self)
+        case .deleteProjectFailed:
+            alertController.showAlertController(message: projectError.message, viewController: self)
+        }
+        
     }
     
     private func showEditProjectAlert(_ project: Project) {
@@ -181,7 +197,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
     
@@ -220,7 +236,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
     
@@ -231,7 +247,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
 }

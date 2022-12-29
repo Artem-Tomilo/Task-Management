@@ -63,6 +63,7 @@
 		38EF1C53295C3E8E00EB5F8E /* ProjectEditingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C52295C3E8E00EB5F8E /* ProjectEditingErrors.swift */; };
 		38EF1C55295C434300EB5F8E /* TaskEditingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C54295C434300EB5F8E /* TaskEditingErrors.swift */; };
 		38EF1C57295C880C00EB5F8E /* EmployeeStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */; };
+		38EF1C5B295E2CCF00EB5F8E /* ProjectStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -124,6 +125,7 @@
 		38EF1C52295C3E8E00EB5F8E /* ProjectEditingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditingErrors.swift; sourceTree = "<group>"; };
 		38EF1C54295C434300EB5F8E /* TaskEditingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditingErrors.swift; sourceTree = "<group>"; };
 		38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeStubErrors.swift; sourceTree = "<group>"; };
+		38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStubErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -351,6 +353,7 @@
 			isa = PBXGroup;
 			children = (
 				38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */,
+				38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */,
 			);
 			path = ListProjects;
 			sourceTree = "<group>";
@@ -550,6 +553,7 @@
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
 				38EF1B5129436A3700EB5F8E /* ProjectCell.swift in Sources */,
 				3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */,
+				38EF1C5B295E2CCF00EB5F8E /* ProjectStubErrors.swift in Sources */,
 				3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */,
 				38EF1C35294751EF00EB5F8E /* TaskCell.swift in Sources */,
 				3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */,

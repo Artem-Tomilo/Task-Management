@@ -99,13 +99,13 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     private func handleError(error: Error) {
         let employeeError = error as! EmployeeEditingErrors
         switch employeeError {
-        case EmployeeEditingErrors.noSurname:
+        case .noSurname:
             alertController.showAlertController(message: employeeError.message, viewController: self)
-        case EmployeeEditingErrors.noName:
+        case .noName:
             alertController.showAlertController(message: employeeError.message, viewController: self)
-        case EmployeeEditingErrors.noPatronymic:
+        case .noPatronymic:
             alertController.showAlertController(message: employeeError.message, viewController: self)
-        case EmployeeEditingErrors.noPostition:
+        case .noPostition:
             alertController.showAlertController(message: employeeError.message, viewController: self)
         }
     }

@@ -183,6 +183,8 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         switch employeeError {
         case .noSuchEmployee:
             alertController.showAlertController(message: employeeError.message, viewController: self)
+        case .addEmployeeFailed:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
         case .editEmployeeFailed:
             alertController.showAlertController(message: employeeError.message, viewController: self)
         case .deleteEmployeeFailed:
@@ -293,7 +295,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
     
