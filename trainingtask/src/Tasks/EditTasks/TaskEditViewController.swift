@@ -15,7 +15,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private var status = TaskStatus.allCases
     private var data = [String]()
     private let dateFormatter = TaskDateFormatter()
-    private let alertController = ShowAlertController()
+    private let alertController = Alert()
     
     var possibleTaskToEdit: Task?
     var project: Project?
@@ -230,7 +230,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
                 createNewTask()
             }
         }
-        catch let error {
+        catch {
             handleError(error: error)
         }
     }

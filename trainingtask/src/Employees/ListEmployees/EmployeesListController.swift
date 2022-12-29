@@ -11,6 +11,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private var spinnerView = SpinnerView()
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
+    private let alertController = Alert()
     
     private var serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
     private let settingsManager: SettingsManager
@@ -143,7 +144,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 let employee = try self.getEmployee(indexPath)
                 self.showDeleteEmployeeAlert(employee)
             } catch {
-                // асинхронная обработка ошибки
+                self.handleError(error)
             }
         })
         
@@ -153,7 +154,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 let employee = try self.getEmployee(indexPath)
                 self.showEditEmployeeAlert(employee)
             } catch {
-                // асинхронная обработка ошибки
+                self.handleError(error)
             }
         })
         return UISwipeActionsConfiguration(actions: [
@@ -173,13 +174,21 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             return employeeArray[indexPath.row]
         }
         else {
-            throw NSError(domain: "", code: 0, userInfo: [:])
+            throw EmployeeStubErrors.noSuchEmployee
         }
     }
     
     private func handleError(_ error: Error) {
-        // logger.log(error)
-        // Alert.show(errorMessage)
+        let employeeError = error as! EmployeeStubErrors
+        switch employeeError {
+        case .noSuchEmployee:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
+        case .editEmployeeFailed:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
+        case .deleteEmployeeFailed:
+            alertController.showAlertController(message: employeeError.message, viewController: self)
+        }
+        
     }
     
     /*
@@ -242,7 +251,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
     
@@ -302,7 +311,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
 }

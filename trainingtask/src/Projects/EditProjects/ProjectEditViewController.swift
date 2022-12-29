@@ -10,7 +10,7 @@ import UIKit
 class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
-    private let alertController = ShowAlertController()
+    private let alertController = Alert()
     weak var delegate: ProjectEditViewControllerDelegate?
     var possibleProjectToEdit: Project?
     
@@ -69,10 +69,10 @@ class ProjectEditViewController: UIViewController {
     }
     
     private func validationOfEnteredData() throws {
-        guard projectEditView.unbindProjectName() != "" else{
+        guard projectEditView.unbindProjectName() != "" else {
             throw ProjectEditingErrors.noName
         }
-        guard projectEditView.unbindProjectDescription() != "" else{
+        guard projectEditView.unbindProjectDescription() != "" else {
             throw ProjectEditingErrors.noDescription
         }
     }
@@ -96,7 +96,7 @@ class ProjectEditViewController: UIViewController {
                 createNewProject()
             }
         }
-        catch let error {
+        catch {
             handleError(error: error)
         }
     }

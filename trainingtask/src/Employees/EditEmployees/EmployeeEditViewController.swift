@@ -8,7 +8,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     private let employeeEditView = EmployeeEditView()
     private var saveButton = UIBarButtonItem()
     private var cancelButton = UIBarButtonItem()
-    private let alertController = ShowAlertController()
+    private let alertController = Alert()
     
     weak var delegate: EmployeeEditViewControllerDelegate?
     
@@ -82,16 +82,16 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     private func validationOfEnteredData() throws {
-        guard employeeEditView.unbindSurname() != "" else{
+        guard employeeEditView.unbindSurname() != "" else {
             throw EmployeeEditingErrors.noSurname
         }
-        guard employeeEditView.unbindName() != "" else{
+        guard employeeEditView.unbindName() != "" else {
             throw EmployeeEditingErrors.noName
         }
-        guard employeeEditView.unbindPatronymic() != "" else{
+        guard employeeEditView.unbindPatronymic() != "" else {
             throw EmployeeEditingErrors.noPatronymic
         }
-        guard employeeEditView.unbindPosition() != "" else{
+        guard employeeEditView.unbindPosition() != "" else {
             throw EmployeeEditingErrors.noPostition
         }
     }
@@ -122,7 +122,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
                 createNewEmployee()
             }
         }
-        catch let error {
+        catch {
             handleError(error: error)
         }
     }

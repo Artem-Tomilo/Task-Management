@@ -86,7 +86,10 @@ class Stub: Server {
      completion - отдельный блок, который будет выполняться на главном потоке
      */
     func deleteEmployee(id: Int, _ completion: @escaping () -> Void) throws {
-        employeesArray.removeAll(where: { $0.id == id })
+        guard let employee = self.employeesArray.first(where: { $0.id == id }) else {
+            throw EmployeeStubErrors.deleteEmployeeFailed
+        }
+        employeesArray.removeAll(where: { $0 == employee })
         delay() {
             completion()
         }
@@ -101,10 +104,14 @@ class Stub: Server {
      completion - отдельный блок, который будет выполняться на главном потоке
      */
     func editEmployee(id: Int, editedEmployee: Employee, _ completion: @escaping () -> Void) throws {
-        guard let employee = self.employeesArray.first(where: { $0.id == id }) else { return }
+        guard let employee = self.employeesArray.first(where: { $0.id == id }) else {
+            throw EmployeeStubErrors.editEmployeeFailed
+        }
         if let index = self.employeesArray.firstIndex(of: employee) {
             self.employeesArray.removeAll(where: { $0.id == id })
             self.employeesArray.insert(editedEmployee, at: index)
+        } else {
+            throw EmployeeStubErrors.noSuchEmployee
         }
         delay() {
             completion()
