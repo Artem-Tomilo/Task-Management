@@ -64,6 +64,7 @@
 		38EF1C55295C434300EB5F8E /* TaskEditingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C54295C434300EB5F8E /* TaskEditingErrors.swift */; };
 		38EF1C57295C880C00EB5F8E /* EmployeeStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */; };
 		38EF1C5B295E2CCF00EB5F8E /* ProjectStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */; };
+		38EF1C5D295F186E00EB5F8E /* TaskStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,6 +127,7 @@
 		38EF1C54295C434300EB5F8E /* TaskEditingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditingErrors.swift; sourceTree = "<group>"; };
 		38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeStubErrors.swift; sourceTree = "<group>"; };
 		38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStubErrors.swift; sourceTree = "<group>"; };
+		38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStubErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -412,6 +414,7 @@
 			isa = PBXGroup;
 			children = (
 				38EF1C372947550700EB5F8E /* TasksListController.swift */,
+				38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */,
 			);
 			path = ListTasks;
 			sourceTree = "<group>";
@@ -559,6 +562,7 @@
 				3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */,
 				38EF1B53294376E000EB5F8E /* ProjectEditViewController.swift in Sources */,
 				38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */,
+				38EF1C5D295F186E00EB5F8E /* TaskStubErrors.swift in Sources */,
 				38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */,
 				38EF1C53295C3E8E00EB5F8E /* ProjectEditingErrors.swift in Sources */,
 			);

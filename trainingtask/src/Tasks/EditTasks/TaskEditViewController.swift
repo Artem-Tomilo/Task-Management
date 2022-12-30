@@ -19,7 +19,6 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     
     var possibleTaskToEdit: Task?
     var project: Project?
-    var isProjectTextFieldShouldBeDisabled = Bool()
     
     weak var delegate: TaskEditViewControllerDelegate?
     private let serverDelegate: Server
@@ -65,12 +64,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             title = "Добавление задачи"
         }
         
-        if isProjectTextFieldShouldBeDisabled {
-            taskEditView.blockProjectTextField()
-        }
-        
         if let project {
             taskEditView.bindProjectTextFieldBy(project: project)
+            taskEditView.blockProjectTextField()
         }
         
         taskEditView.delegate = self
@@ -146,7 +142,6 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             
             let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
             return task
-            
         }
         return nil
     }

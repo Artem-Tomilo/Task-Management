@@ -14,6 +14,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private var spinnerView = SpinnerView()
     private static let taskCellIdentifier = "TaskCell"
     private var tasksArray: [Task] = []
+    private let alertController = Alert()
     
     var project: Project?
     
@@ -76,32 +77,37 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
-        if let project {
-            serverDelegate.getTasksFor(project: project) { [weak self] tasks in
-                guard let self else { return }
-                if self.getMaxRecordsCountFromSettings() != 0 {
-                    self.bind(Array(tasks.prefix(self.getMaxRecordsCountFromSettings())))
-                } else {
-                    self.bind(tasks)
+        do {
+            if let project {
+                try serverDelegate.getTasksFor(project: project) { [weak self] tasks in
+                    guard let self else { return }
+                    self.bindTasksAccordingRecordsCounts(tasks)
+                    self.spinnerView.hideSpinner(from: self)
                 }
-                self.spinnerView.hideSpinner(from: self)
-            }
-        } else {
-            serverDelegate.getTasks() { [weak self] tasks in
-                guard let self else { return }
-                if self.getMaxRecordsCountFromSettings() != 0 {
-                    self.bind(Array(tasks.prefix(self.getMaxRecordsCountFromSettings())))
-                } else {
-                    self.bind(tasks)
+            } else {
+                serverDelegate.getTasks() { [weak self] tasks in
+                    guard let self else { return }
+                    self.bindTasksAccordingRecordsCounts(tasks)
+                    self.spinnerView.hideSpinner(from: self)
                 }
-                self.spinnerView.hideSpinner(from: self)
             }
+        } catch {
+            self.spinnerView.hideSpinner(from: self)
+            handleError(error)
         }
     }
     
     private func bind(_ tasks: [Task]) {
         tasksArray = tasks
         self.tableView.reloadData()
+    }
+    
+    private func bindTasksAccordingRecordsCounts(_ tasks: [Task]) {
+        if self.getMaxRecordsCountFromSettings() != 0 {
+            self.bind(Array(tasks.prefix(self.getMaxRecordsCountFromSettings())))
+        } else {
+            self.bind(tasks)
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -135,7 +141,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 let task = try self.getTask(indexPath)
                 self.showDeleteTaskAlert(task)
             } catch {
-                // асинхронная обработка ошибки
+                self.handleError(error)
             }
         })
         
@@ -145,7 +151,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 let task = try self.getTask(indexPath)
                 self.showEditTaskAlert(task)
             } catch {
-                // асинхронная обработка ошибки
+                self.handleError(error)
             }
         })
         return UISwipeActionsConfiguration(actions: [
@@ -159,7 +165,23 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
             return tasksArray[indexPath.row]
         }
         else {
-            throw NSError(domain: "", code: 0, userInfo: [:])
+            throw TaskStubErrors.noSuchTask
+        }
+    }
+    
+    private func handleError(_ error: Error) {
+        let taskError = error as! TaskStubErrors
+        switch taskError {
+        case .noSuchTask:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case.addTaskFailed:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case .editTaskFailed:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case .deleteTaskFailed:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case .noTaskList:
+            alertController.showAlertController(message: taskError.message, viewController: self)
         }
     }
     
@@ -193,14 +215,13 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
     
     private func showEditTaskViewController(_ task: Task?) {
         let viewController = TaskEditViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
         if project != nil {
-            viewController.isProjectTextFieldShouldBeDisabled = true
             viewController.project = project
         }
         if task != nil {
@@ -230,7 +251,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
     
@@ -241,7 +262,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.loadData()
             }
         } catch {
-            // асинхронная обработка ошибки
+            handleError(error)
         }
     }
 }

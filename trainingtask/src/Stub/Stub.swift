@@ -145,7 +145,7 @@ class Stub: Server {
     
     func deleteProject(id: Int, _ completion: @escaping () -> Void) throws {
         guard let project = self.projectsArray.first(where: { $0.id == id }) else {
-            throw ProjectStubErrors.noSuchProject
+            throw ProjectStubErrors.deleteProjectFailed
         }
         projectsArray.removeAll(where: { $0 == project })
         delay() {
@@ -174,25 +174,35 @@ class Stub: Server {
         }
     }
     
-    func addTask(task: Task, _ completion: @escaping () -> Void) {
+    func addTask(task: Task, _ completion: @escaping () -> Void) throws {
         tasksArray.append(task)
+        guard tasksArray.contains(where: { $0 == task }) else {
+            throw TaskStubErrors.addTaskFailed
+        }
         delay() {
             completion()
         }
     }
     
     func deleteTask(id: Int, _ completion: @escaping () -> Void) throws {
-        tasksArray.removeAll(where: { $0.id == id })
+        guard let task = self.tasksArray.first(where: { $0.id == id }) else {
+            throw TaskStubErrors.deleteTaskFailed
+        }
+        tasksArray.removeAll(where: { $0 == task })
         delay() {
             completion()
         }
     }
     
     func editTask(id: Int, editedTask: Task, _ completion: @escaping () -> Void) throws {
-        guard let task = self.tasksArray.first(where: { $0.id == id }) else { return }
+        guard let task = self.tasksArray.first(where: { $0.id == id }) else {
+            throw TaskStubErrors.editTaskFailed
+        }
         if let index = self.tasksArray.firstIndex(of: task) {
             self.tasksArray.removeAll(where: { $0.id == id })
             self.tasksArray.insert(editedTask, at: index)
+        } else {
+            throw TaskStubErrors.noSuchTask
         }
         delay() {
             completion()
@@ -205,10 +215,12 @@ class Stub: Server {
         }
     }
     
-    func getTasksFor(project: Project, _ completion: @escaping ([Task]) -> Void) {
+    func getTasksFor(project: Project, _ completion: @escaping ([Task]) -> Void) throws {
         var tasksForProject = [Task]()
         if let project = projectsArray.first(where: { $0 == project }) {
             tasksForProject = self.tasksArray.filter({ $0.project == project })
+        } else {
+            throw TaskStubErrors.noTaskList
         }
         delay() {
             completion(tasksForProject)

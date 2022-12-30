@@ -124,7 +124,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
                 let project = try self.getProject(indexPath)
                 self.showDeleteProjectAlert(project)
             } catch {
-                // асинхронная обработка ошибки
+                self.handleError(error)
             }
         })
         
@@ -134,7 +134,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
                 let project = try self.getProject(indexPath)
                 self.showEditProjectAlert(project)
             } catch {
-                // асинхронная обработка ошибки
+                self.handleError(error)
             }
         })
         return UISwipeActionsConfiguration(actions: [
@@ -164,7 +164,6 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
         case .deleteProjectFailed:
             alertController.showAlertController(message: projectError.message, viewController: self)
         }
-        
     }
     
     private func showEditProjectAlert(_ project: Project) {

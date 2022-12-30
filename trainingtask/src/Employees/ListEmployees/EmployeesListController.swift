@@ -190,7 +190,6 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         case .deleteEmployeeFailed:
             alertController.showAlertController(message: employeeError.message, viewController: self)
         }
-        
     }
     
     /*
