@@ -37,6 +37,8 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        getProjects()
+        getEmployees()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -79,9 +81,6 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureTapped(_:)))
         view.addGestureRecognizer(gesture)
-        
-        getProjects()
-        getEmployees()
     }
     
     private func getProjects() {
@@ -124,49 +123,6 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         return count
     }
     
-    private func bindingAndCheckingValues() -> Task? {
-        let name = taskEditView.unbindName()
-        let project = taskEditView.unbindProject()
-        let employee = taskEditView.unbindEmployee()
-        let status = taskEditView.unbindStatus()
-        let hours = taskEditView.unbindHours()
-        let startDate = taskEditView.unbindStartDate()
-        let endDate = taskEditView.unbindEndDate()
-        
-        if let taskProject = projects.first(where: { $0.name == project }),
-           let taskEmployee = employees.first(where: { $0.fullName == employee }),
-           let taskStatus = TaskStatus.allCases.first(where: { $0.title == status }),
-           let hours = Int(hours),
-           let startDate = dateFormatter.date(from: startDate),
-           let endDate = dateFormatter.date(from: endDate) {
-            
-            let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
-            return task
-        }
-        return nil
-    }
-    
-    private func editingTask(editedTask: Task) {
-        if let task = bindingAndCheckingValues() {
-            var newTask = editedTask
-            newTask.name = task.name
-            newTask.project = task.project
-            newTask.employee = task.employee
-            newTask.status = task.status
-            newTask.requiredNumberOfHours = task.requiredNumberOfHours
-            newTask.startDate = task.startDate
-            newTask.endDate = task.endDate
-            
-            delegate?.editTask(self, editedTask: newTask)
-        }
-    }
-    
-    private func createNewTask() {
-        if let task = bindingAndCheckingValues() {
-            delegate?.addNewTask(self, newTask: task)
-        }
-    }
-    
     private func validationOfEnteredData() throws {
         guard taskEditView.unbindName() != "" else {
             throw TaskEditingErrors.noName
@@ -194,6 +150,75 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    private func bindingAndCheckingValues() throws -> Task? {
+        do {
+            try validationOfEnteredData()
+            let name = taskEditView.unbindName()
+            let project = taskEditView.unbindProject()
+            let employee = taskEditView.unbindEmployee()
+            let status = taskEditView.unbindStatus()
+            let hours = taskEditView.unbindHours()
+            let startDate = taskEditView.unbindStartDate()
+            let endDate = taskEditView.unbindEndDate()
+            
+            guard let taskProject = projects.first(where: { $0.name == project }) else {
+                throw ProjectStubErrors.noSuchProject
+            }
+            guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
+                throw EmployeeStubErrors.noSuchEmployee
+            }
+            guard let taskStatus = TaskStatus.allCases.first(where: { $0.title == status }) else {
+                throw TaskEditingErrors.noSuchStatus
+            }
+            guard let hours = Int(hours) else {
+                throw TaskEditingErrors.wrongHours
+            }
+            guard let startDate = dateFormatter.date(from: startDate) else {
+                throw TaskEditingErrors.wrongStartDate
+            }
+            guard let endDate = dateFormatter.date(from: endDate) else {
+                throw TaskEditingErrors.wrongEndDate
+            }
+            
+            let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+            return task
+        } catch {
+            handleError(error: error)
+        }
+        return nil
+    }
+    
+    private func editingTask(editedTask: Task) {
+        do {
+            if let task = try bindingAndCheckingValues() {
+                var newTask = editedTask
+                newTask.name = task.name
+                newTask.project = task.project
+                newTask.employee = task.employee
+                newTask.status = task.status
+                newTask.requiredNumberOfHours = task.requiredNumberOfHours
+                newTask.startDate = task.startDate
+                newTask.endDate = task.endDate
+                
+                delegate?.editTask(self, editedTask: newTask)
+            }
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    private func createNewTask() {
+        do {
+            if let task = try bindingAndCheckingValues() {
+                delegate?.addNewTask(self, newTask: task)
+            }
+        } catch {
+            handleError(error: error)
+        }
+    }
+    
+    
+    
     private func handleError(error: Error) {
         let taskError = error as! TaskEditingErrors
         switch taskError {
@@ -213,20 +238,20 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             alertController.showAlertController(message: taskError.message, viewController: self)
         case .noEndDate:
             alertController.showAlertController(message: taskError.message, viewController: self)
+        case .noSuchStatus:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case .wrongStartDate:
+            alertController.showAlertController(message: taskError.message, viewController: self)
+        case .wrongEndDate:
+            alertController.showAlertController(message: taskError.message, viewController: self)
         }
     }
     
     private func saveTask() {
-        do {
-            try validationOfEnteredData()
-            if let editedTask = possibleTaskToEdit {
-                editingTask(editedTask: editedTask)
-            } else {
-                createNewTask()
-            }
-        }
-        catch {
-            handleError(error: error)
+        if let editedTask = possibleTaskToEdit {
+            editingTask(editedTask: editedTask)
+        } else {
+            createNewTask()
         }
     }
     

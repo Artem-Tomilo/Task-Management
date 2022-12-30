@@ -8,7 +8,7 @@
 import Foundation
 
 enum TaskEditingErrors: Error {
-    case noName, noProject, noEmployee, noStatus, noRequiredNumberOfHours, wrongHours, noStartDate, noEndDate
+    case noName, noProject, noEmployee, noStatus, noRequiredNumberOfHours, wrongHours, noStartDate, noEndDate, noSuchStatus, wrongStartDate, wrongEndDate
     
     var message: String {
         switch self {
@@ -23,11 +23,17 @@ enum TaskEditingErrors: Error {
         case .noRequiredNumberOfHours:
             return "Введите количество часов для выполнения задачи"
         case .wrongHours:
-            return "Количество часов не может быть равным 0"
+            return "Введено некорректное количество часов"
         case .noStartDate:
             return "Выберите начальную дату"
         case .noEndDate:
             return "Выберите конечную дату"
+        case .noSuchStatus:
+            return "Не удалось выбрать статус"
+        case .wrongStartDate:
+            return "Некоректный ввод начальной даты"
+        case .wrongEndDate:
+            return "Некоректный ввод конечной даты"
         }
     }
 }
