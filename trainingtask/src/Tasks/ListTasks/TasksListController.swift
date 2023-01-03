@@ -171,18 +171,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     private func handleError(_ error: Error) {
         let taskError = error as! TaskStubErrors
-        switch taskError {
-        case .noSuchTask:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case.addTaskFailed:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .editTaskFailed:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .deleteTaskFailed:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noTaskList:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        }
+        alertController.showAlertController(message: taskError.message, viewController: self)
     }
     
     private func showEditTaskAlert(_ task: Task) {

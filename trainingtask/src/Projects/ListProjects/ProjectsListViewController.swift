@@ -154,16 +154,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     
     private func handleError(_ error: Error) {
         let projectError = error as! ProjectStubErrors
-        switch projectError {
-        case .noSuchProject:
-            alertController.showAlertController(message: projectError.message, viewController: self)
-        case.addProjectFailed:
-            alertController.showAlertController(message: projectError.message, viewController: self)
-        case .editProjectFailed:
-            alertController.showAlertController(message: projectError.message, viewController: self)
-        case .deleteProjectFailed:
-            alertController.showAlertController(message: projectError.message, viewController: self)
-        }
+        alertController.showAlertController(message: projectError.message, viewController: self)
     }
     
     private func showEditProjectAlert(_ project: Project) {

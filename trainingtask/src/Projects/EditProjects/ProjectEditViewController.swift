@@ -79,12 +79,7 @@ class ProjectEditViewController: UIViewController {
     
     private func handleError(error: Error) {
         let projectError = error as! ProjectEditingErrors
-        switch projectError {
-        case .noName:
-            alertController.showAlertController(message: projectError.message, viewController: self)
-        case .noDescription:
-            alertController.showAlertController(message: projectError.message, viewController: self)
-        }
+        alertController.showAlertController(message: projectError.message, viewController: self)
     }
     
     private func saveProject() {

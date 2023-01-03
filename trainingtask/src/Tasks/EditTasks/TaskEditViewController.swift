@@ -221,30 +221,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     
     private func handleError(error: Error) {
         let taskError = error as! TaskEditingErrors
-        switch taskError {
-        case .noName:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noProject:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noEmployee:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noStatus:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noRequiredNumberOfHours:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .wrongHours:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noStartDate:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noEndDate:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .noSuchStatus:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .wrongStartDate:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        case .wrongEndDate:
-            alertController.showAlertController(message: taskError.message, viewController: self)
-        }
+        alertController.showAlertController(message: taskError.message, viewController: self)
     }
     
     private func saveTask() {

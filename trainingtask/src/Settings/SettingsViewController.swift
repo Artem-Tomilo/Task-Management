@@ -91,14 +91,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     private func handleError(_ error: Error) {
         let settingsError = error as! SettingsErrors
-        switch settingsError {
-        case .noDefaultSettings:
-            alertController.showAlertController(message: settingsError.message, viewController: self)
-        case .noUserSettings:
-            alertController.showAlertController(message: settingsError.message, viewController: self)
-        case .saveUserSettingsError:
-            alertController.showAlertController(message: settingsError.message, viewController: self)
-        }
+        alertController.showAlertController(message: settingsError.message, viewController: self)
     }
     
     /*

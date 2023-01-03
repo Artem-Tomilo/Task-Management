@@ -180,16 +180,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     private func handleError(_ error: Error) {
         let employeeError = error as! EmployeeStubErrors
-        switch employeeError {
-        case .noSuchEmployee:
-            alertController.showAlertController(message: employeeError.message, viewController: self)
-        case .addEmployeeFailed:
-            alertController.showAlertController(message: employeeError.message, viewController: self)
-        case .editEmployeeFailed:
-            alertController.showAlertController(message: employeeError.message, viewController: self)
-        case .deleteEmployeeFailed:
-            alertController.showAlertController(message: employeeError.message, viewController: self)
-        }
+        alertController.showAlertController(message: employeeError.message, viewController: self)
     }
     
     /*
