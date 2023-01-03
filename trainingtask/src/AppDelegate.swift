@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = navVC
             window?.makeKeyAndVisible()
         } catch {
-            print(error)
+            fatalError(error.localizedDescription)
         }
         return true
     }

@@ -65,6 +65,7 @@
 		38EF1C57295C880C00EB5F8E /* EmployeeStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */; };
 		38EF1C5B295E2CCF00EB5F8E /* ProjectStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */; };
 		38EF1C5D295F186E00EB5F8E /* TaskStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */; };
+		38EF1C5F29648CF500EB5F8E /* SettingsErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5E29648CF500EB5F8E /* SettingsErrors.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -128,6 +129,7 @@
 		38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeStubErrors.swift; sourceTree = "<group>"; };
 		38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStubErrors.swift; sourceTree = "<group>"; };
 		38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStubErrors.swift; sourceTree = "<group>"; };
+		38EF1C5E29648CF500EB5F8E /* SettingsErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				3824BF3928EF7E7C0027149D /* Settings.swift */,
+				38EF1C5E29648CF500EB5F8E /* SettingsErrors.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -547,6 +550,7 @@
 				38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */,
+				38EF1C5F29648CF500EB5F8E /* SettingsErrors.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				38EF1C57295C880C00EB5F8E /* EmployeeStubErrors.swift in Sources */,
 				38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */,

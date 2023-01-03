@@ -8,6 +8,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     private var urlView = SettingsInputView()
     private var recordsView = SettingsInputView()
     private var daysView = SettingsInputView()
+    private let alertController = Alert()
     
     let settingsManager: SettingsManager
     
@@ -72,7 +73,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
             recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: String(settings.maxRecords))
             daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: String(settings.maxDays))
         } catch {
-            // error
+            handleError(error)
         }
     }
     
@@ -81,7 +82,23 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      */
     private func saveSettings() {
         let newSettings = Settings(url: urlView.unbind(), maxRecords: Int(recordsView.unbind()) ?? 0, maxDays: Int(daysView.unbind()) ?? 0)
-        try? settingsManager.saveUserSettings(settings: newSettings)
+        do {
+            try settingsManager.saveUserSettings(settings: newSettings)
+        } catch {
+            handleError(error)
+        }
+    }
+    
+    private func handleError(_ error: Error) {
+        let settingsError = error as! SettingsErrors
+        switch settingsError {
+        case .noDefaultSettings:
+            alertController.showAlertController(message: settingsError.message, viewController: self)
+        case .noUserSettings:
+            alertController.showAlertController(message: settingsError.message, viewController: self)
+        case .saveUserSettingsError:
+            alertController.showAlertController(message: settingsError.message, viewController: self)
+        }
     }
     
     /*

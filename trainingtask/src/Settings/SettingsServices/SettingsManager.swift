@@ -30,7 +30,10 @@ class SettingsManager {
      Метод получения сохранных настроек из settingsStorage
      */
     func getSettings() throws -> Settings {
-        return try loadSettings()
+        guard let settings = try settingsStorage.getUserSettings() else {
+            throw SettingsErrors.noUserSettings
+        }
+        return settings
     }
     
     /*

@@ -14,7 +14,9 @@ class SettingsStorage {
      Возращает значение типа Settings? с сохраненными пользовательскими настройками, в случае возникновения ошибок будет производиться их обработка
      */
     func getUserSettings() throws -> Settings? {
-        guard let data = userDefaults.object(forKey: SettingsStorage.settingsKey) as? Data else { return nil }
+        guard let data = userDefaults.object(forKey: SettingsStorage.settingsKey) as? Data else {
+            throw SettingsErrors.noUserSettings
+        }
         let settings = try JSONDecoder().decode(Settings.self, from: data)
         return settings
     }
@@ -26,7 +28,9 @@ class SettingsStorage {
      settings - объект типа Settings
      */
     func saveUserSettings(settings: Settings) throws {
-        guard let data = try? JSONEncoder().encode(settings) else { return }
+        guard let data = try? JSONEncoder().encode(settings) else {
+            throw SettingsErrors.saveUserSettingsError
+        }
         userDefaults.set(data, forKey: SettingsStorage.settingsKey)
     }
 }
