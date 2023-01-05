@@ -13,6 +13,7 @@ class TaskDatePicker: UIDatePicker {
     private let toolbar = UIToolbar()
     private var textField = BorderedTextField()
     private let dateFormatter = TaskDateFormatter()
+    private var keyboardIsActive = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -30,9 +31,9 @@ class TaskDatePicker: UIDatePicker {
         let size = toolbar.sizeThatFits(CGSize(width: bounds.width, height: 0))
         toolbar.frame.size = size
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed(_:)))
-        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelButtonPressed(_:)))
+        let keyboardButton = UIBarButtonItem(title: "Keyboard", style: .done, target: self, action: #selector(keyboardButtonPressed(_:)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        toolbar.setItems([cancelButton, flexSpace, doneButton], animated: false)
+        toolbar.setItems([keyboardButton, flexSpace, doneButton], animated: false)
     }
     
     private func getDataFromPicker() {
@@ -48,12 +49,25 @@ class TaskDatePicker: UIDatePicker {
         self.textField = textField
     }
     
+    private func changeInputView() {
+        textField.resignFirstResponder()
+        textField.text?.removeAll()
+        if !keyboardIsActive {
+            textField.inputView = nil
+            keyboardIsActive = true
+        } else {
+            textField.inputView = datePicker
+            keyboardIsActive = false
+        }
+        textField.becomeFirstResponder()
+    }
+    
     @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
         getDataFromPicker()
         textField.endEditing(false)
     }
     
-    @objc func cancelButtonPressed(_ sender: UIBarButtonItem) {
-        textField.endEditing(false)
+    @objc func keyboardButtonPressed(_ sender: UIBarButtonItem) {
+        changeInputView()
     }
 }

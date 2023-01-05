@@ -238,11 +238,39 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         return true
     }
     
+    private func formatPhoneNumber(number: String) -> String {
+        
+        let cleanPhoneNumber = number.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+        
+        let mask = "XXXX-XX-XX"
+        
+        var result = ""
+        
+        var index = cleanPhoneNumber.startIndex
+        
+        for ch in mask where index < cleanPhoneNumber.endIndex {
+            if ch == "X" {
+                result.append(cleanPhoneNumber[index])
+                index = cleanPhoneNumber.index(after: index)
+            } else {
+                result.append(ch)
+            }
+        }
+        return result
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == requiredNumberOfHoursTextField {
             return string.allSatisfy {
                 $0.isNumber
             }
+        }
+        
+        if textField == startDateTextField || textField == endDateTextField {
+            guard let text = textField.text else { return false }
+            let newString = (text as NSString).replacingCharacters(in: range, with: string)
+            textField.text = formatPhoneNumber(number: newString)
+            return false
         }
         return true
     }
