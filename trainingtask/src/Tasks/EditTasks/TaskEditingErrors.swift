@@ -8,7 +8,7 @@
 import Foundation
 
 enum TaskEditingErrors: Error {
-    case noName, noProject, noEmployee, noStatus, noRequiredNumberOfHours, wrongHours, noStartDate, noEndDate, noSuchStatus, wrongStartDate, wrongEndDate
+    case noName, noProject, noEmployee, noStatus, noRequiredNumberOfHours, wrongHours, noStartDate, noEndDate, noSuchStatus, wrongStartDate, wrongEndDate, startDateGreaterEndDate
     
     var message: String {
         switch self {
@@ -34,6 +34,8 @@ enum TaskEditingErrors: Error {
             return "Некоректный ввод начальной даты"
         case .wrongEndDate:
             return "Некоректный ввод конечной даты"
+        case .startDateGreaterEndDate:
+            return "Начальная дата не должна быть больше конечной даты"
         }
     }
 }

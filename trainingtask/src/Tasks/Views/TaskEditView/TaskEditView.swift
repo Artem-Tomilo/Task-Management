@@ -8,6 +8,8 @@
 import UIKit
 
 class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
+    private let scrollView = UIScrollView()
+    private let stackView = UIStackView()
     private let nameTextField = BorderedTextField()
     private let projectTextField = BorderedTextField()
     private let employeeTextField = BorderedTextField()
@@ -27,7 +29,8 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        setupScrollView()
+        addingAndSetupSubviews()
         initTapGesture()
     }
     
@@ -35,46 +38,41 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
-        addSubview(nameTextField)
-        addSubview(projectTextField)
-        addSubview(employeeTextField)
-        addSubview(statusTextField)
-        addSubview(requiredNumberOfHoursTextField)
-        addSubview(startDateTextField)
-        addSubview(endDateTextField)
+    private func setupScrollView() {
+        addSubview(scrollView)
+        scrollView.addSubview(stackView)
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let margins = layoutMarginsGuide
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: margins.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: margins.bottomAnchor),
+            
+            stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
+        stackView.axis = .vertical
+        stackView.spacing = 50
+        scrollView.showsVerticalScrollIndicator = false
+    }
+    
+    private func addingAndSetupSubviews() {
+        stackView.addArrangedSubview(nameTextField)
+        stackView.addArrangedSubview(projectTextField)
+        stackView.addArrangedSubview(employeeTextField)
+        stackView.addArrangedSubview(statusTextField)
+        stackView.addArrangedSubview(requiredNumberOfHoursTextField)
+        stackView.addArrangedSubview(startDateTextField)
+        stackView.addArrangedSubview(endDateTextField)
         
         translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            nameTextField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            nameTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            nameTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            projectTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 50),
-            projectTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            projectTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            employeeTextField.topAnchor.constraint(equalTo: projectTextField.bottomAnchor, constant: 50),
-            employeeTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            employeeTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            statusTextField.topAnchor.constraint(equalTo: employeeTextField.bottomAnchor, constant: 50),
-            statusTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            statusTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            requiredNumberOfHoursTextField.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 50),
-            requiredNumberOfHoursTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            requiredNumberOfHoursTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            startDateTextField.topAnchor.constraint(equalTo: requiredNumberOfHoursTextField.bottomAnchor, constant: 50),
-            startDateTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            startDateTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            
-            endDateTextField.topAnchor.constraint(equalTo: startDateTextField.bottomAnchor, constant: 50),
-            endDateTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            endDateTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-        ])
         
         nameTextField.delegate = self
         projectTextField.delegate = self
@@ -93,7 +91,11 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.placeholder = "Дата окончания"
         
         requiredNumberOfHoursTextField.keyboardType = .numberPad
+        startDateTextField.keyboardType = .numberPad
+        endDateTextField.keyboardType = .numberPad
         startDateTextField.text = currentDate()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
     private func initTapGesture() {
@@ -118,10 +120,14 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.isUserInteractionEnabled = true
     }
     
+    func initFirstResponder() {
+        nameTextField.becomeFirstResponder()
+    }
+    
     func bind(task: Task) {
         nameTextField.text = task.name
         projectTextField.text = task.project.name
-        employeeTextField.text = "\(task.employee.surname) \(task.employee.name) \(task.employee.patronymic)"
+        employeeTextField.text = task.employee.fullName
         statusTextField.text = task.status.title
         requiredNumberOfHoursTextField.text = String(task.requiredNumberOfHours)
         startDateTextField.text = dateFormatter.string(from: task.startDate)
@@ -130,6 +136,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     func bindProjectTextFieldBy(project: Project) {
         projectTextField.text = project.name
+    }
+    
+    func bindEndDateTextField(days: Int) {
+        let date = Date()
+        let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
+        let stringDate = dateFormatter.string(from: endDate)
+        endDateTextField.text = stringDate
     }
     
     private func checkValue(in textField: BorderedTextField) -> String {
@@ -173,17 +186,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     func unbindEndDate() -> String {
         let endDate = checkValue(in: endDateTextField)
         return endDate
-    }
-    
-    func bindEndDateTextField(days: Int) {
-        let date = Date()
-        let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
-        let stringDate = dateFormatter.string(from: endDate)
-        endDateTextField.text = stringDate
-    }
-    
-    func initFirstResponder() {
-        nameTextField.becomeFirstResponder()
     }
     
     func blockProjectTextField() {
@@ -234,24 +236,26 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         showDatePicker(textField: endDateTextField)
     }
     
+    @objc func keyboardFrame(_ notification: NSNotification) {
+        let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey]! as! CGRect
+        let keyboardSize = frame.height - keyboardFrame.minY
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize + 80, right: 0)
+    }
+    
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
-    private func formatPhoneNumber(number: String) -> String {
-        
-        let cleanPhoneNumber = number.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-        
+    private func formatDate(date: String) -> String {
+        let cleanDate = date.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         let mask = "XXXX-XX-XX"
-        
         var result = ""
+        var index = cleanDate.startIndex
         
-        var index = cleanPhoneNumber.startIndex
-        
-        for ch in mask where index < cleanPhoneNumber.endIndex {
+        for ch in mask where index < cleanDate.endIndex {
             if ch == "X" {
-                result.append(cleanPhoneNumber[index])
-                index = cleanPhoneNumber.index(after: index)
+                result.append(cleanDate[index])
+                index = cleanDate.index(after: index)
             } else {
                 result.append(ch)
             }
@@ -269,36 +273,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         if textField == startDateTextField || textField == endDateTextField {
             guard let text = textField.text else { return false }
             let newString = (text as NSString).replacingCharacters(in: range, with: string)
-            textField.text = formatPhoneNumber(number: newString)
+            textField.text = formatDate(date: newString)
             return false
         }
         return true
     }
-    
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        switch textField {
-//        case nameTextField:
-//            isProjectTextField = true
-//            showPickerView(textField: projectTextField)
-//            isProjectTextField = false
-//            projectTextField.becomeFirstResponder()
-//        case projectTextField:
-//            showPickerView(textField: employeeTextField)
-//            employeeTextField.becomeFirstResponder()
-//        case employeeTextField:
-//            showPickerView(textField: statusTextField)
-//            statusTextField.becomeFirstResponder()
-//        case statusTextField:
-//            requiredNumberOfHoursTextField.becomeFirstResponder()
-//        case requiredNumberOfHoursTextField:
-//            startDateTextField.becomeFirstResponder()
-//        case startDateTextField:
-//            endDateTextField.becomeFirstResponder()
-//        case endDateTextField:
-//            endDateTextField.resignFirstResponder()
-//        default:
-//            break
-//        }
-//        return true
-//    }
 }

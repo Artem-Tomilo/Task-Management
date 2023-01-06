@@ -13,6 +13,7 @@ class TaskDatePicker: UIDatePicker {
     private let toolbar = UIToolbar()
     private var textField = BorderedTextField()
     private let dateFormatter = TaskDateFormatter()
+    private var keyboardButton = UIBarButtonItem()
     private var keyboardIsActive = false
     
     override init(frame: CGRect) {
@@ -26,19 +27,21 @@ class TaskDatePicker: UIDatePicker {
     
     private func setupDatePicker() {
         datePicker.datePickerMode = .date
-//        datePicker.translatesAutoresizingMaskIntoConstraints = false
+        datePicker.translatesAutoresizingMaskIntoConstraints = false
         
         let size = toolbar.sizeThatFits(CGSize(width: bounds.width, height: 0))
         toolbar.frame.size = size
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed(_:)))
-        let keyboardButton = UIBarButtonItem(title: "Keyboard", style: .done, target: self, action: #selector(keyboardButtonPressed(_:)))
+        keyboardButton = UIBarButtonItem(title: "Keyboard", style: .done, target: self, action: #selector(keyboardButtonPressed(_:)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbar.setItems([keyboardButton, flexSpace, doneButton], animated: false)
     }
     
     private func getDataFromPicker() {
-        let stringDatePickerDate = dateFormatter.string(from: datePicker.date)
-        textField.text = stringDatePickerDate
+        if !keyboardIsActive {
+            let stringDatePickerDate = dateFormatter.string(from: datePicker.date)
+            textField.text = stringDatePickerDate
+        }
     }
     
     func showDatePicker(textField: BorderedTextField) {
@@ -54,10 +57,13 @@ class TaskDatePicker: UIDatePicker {
         textField.text?.removeAll()
         if !keyboardIsActive {
             textField.inputView = nil
+            textField.placeholder = "yyyy-MM-dd"
             keyboardIsActive = true
+            keyboardButton.title = "Сalendar"
         } else {
             textField.inputView = datePicker
             keyboardIsActive = false
+            keyboardButton.title = "Keyboard"
         }
         textField.becomeFirstResponder()
     }

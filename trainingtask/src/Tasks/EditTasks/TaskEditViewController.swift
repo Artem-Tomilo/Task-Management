@@ -179,6 +179,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             guard let endDate = dateFormatter.date(from: endDate) else {
                 throw TaskEditingErrors.wrongEndDate
             }
+            guard startDate <= endDate else {
+                throw TaskEditingErrors.startDateGreaterEndDate
+            }
             
             let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
             return task
