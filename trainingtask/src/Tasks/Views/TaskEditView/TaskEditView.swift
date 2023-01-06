@@ -8,6 +8,7 @@
 import UIKit
 
 class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
+    
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
     private let nameTextField = BorderedTextField()

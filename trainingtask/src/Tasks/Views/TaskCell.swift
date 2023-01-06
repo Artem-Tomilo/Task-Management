@@ -8,6 +8,7 @@
 import UIKit
 
 class TaskCell: UITableViewCell {
+    
     private let background = UIView(frame: .zero)
     private let nameLabel = UILabel(frame: .zero)
     private let projectLabel = UILabel(frame: .zero)

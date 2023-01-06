@@ -36,7 +36,7 @@ class ProjectEditViewController: UIViewController {
             title = "Добавление проекта"
         }
         
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveProjectButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
@@ -96,9 +96,7 @@ class ProjectEditViewController: UIViewController {
         }
     }
     
-    
-    
-    @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
+    @objc func saveProjectButtonTapped(_ sender: UIBarButtonItem) {
         saveProject()
     }
     

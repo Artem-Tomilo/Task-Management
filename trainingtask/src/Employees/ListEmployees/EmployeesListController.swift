@@ -6,7 +6,6 @@ import UIKit
 class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
     
     private var tableView = UITableView()
-    private var addNewEmployeeButton = UIBarButtonItem()
     private let refreshControl = UIRefreshControl()
     private var spinnerView = SpinnerView()
     private static let newCellIdentifier = "NewCell"
@@ -52,7 +51,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
         
-        addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditEmployeeViewController(_:)))
+        let addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditEmployeeViewController(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
         
         tableView.refreshControl = refreshControl

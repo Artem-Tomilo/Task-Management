@@ -6,12 +6,8 @@ import UIKit
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     private let employeeEditView = EmployeeEditView()
-    private var saveButton = UIBarButtonItem()
-    private var cancelButton = UIBarButtonItem()
     private let alertController = Alert()
-    
     weak var delegate: EmployeeEditViewControllerDelegate?
-    
     var possibleEmployeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
     
     override func viewDidLoad() {
@@ -36,10 +32,10 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
             title = "Добавление сотрудника"
         }
         
-        saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
-        cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
+        let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
         navigationItem.leftBarButtonItem = cancelButton
         
         let gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureTapped(_:)))

@@ -155,6 +155,7 @@
 		3820316628D9F0EF008FAD35 /* GlobalCustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				38EF1C4E295C2E7400EB5F8E /* Alert.swift */,
 				3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */,
 				385A04A628DDC54400FD008F /* SpinnerView.swift */,
 			);
@@ -322,7 +323,6 @@
 			isa = PBXGroup;
 			children = (
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
-				38EF1C4E295C2E7400EB5F8E /* Alert.swift */,
 				385A04A328DDC35400FD008F /* Stub */,
 				387AAD9528E6E531004BE734 /* SplashViewController */,
 				387AAD8428E36C55004BE734 /* MainMenu */,

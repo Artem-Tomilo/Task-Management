@@ -57,8 +57,8 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
         
-        let addNewProjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditTaskViewController(_:)))
-        navigationItem.rightBarButtonItem = addNewProjectButton
+        let addNewTaskButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditTaskViewController(_:)))
+        navigationItem.rightBarButtonItem = addNewTaskButton
         
         tableView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
