@@ -1,11 +1,11 @@
-//
-//  StubErrors.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 29.12.22.
-//
-
 import Foundation
+
+/*
+ ProjectStubErrors - перечисление возможных ошибок для экрана Список проектов
+ 
+ parameters:
+ message - текст ошибки, показывающийся в алерте
+ */
 
 enum ProjectStubErrors: Error {
     case noSuchProject, addProjectFailed, editProjectFailed, deleteProjectFailed

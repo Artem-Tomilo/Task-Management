@@ -1,11 +1,9 @@
-//
-//  Project.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 9.12.22.
-//
-
 import Foundation
+
+/*
+ Структура проекта, содержащая поля для заполнения:
+ Название, описание, также содержит уникальный id, который заполняется при создании
+ */
 
 struct Project: Codable, Equatable {
     var name: String

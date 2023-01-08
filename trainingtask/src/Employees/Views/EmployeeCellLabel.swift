@@ -3,6 +3,7 @@ import UIKit
 /*
  EmployeeCellLabel - label, использующийся в ячейке EmployeeCell
  */
+
 class EmployeeCellLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)

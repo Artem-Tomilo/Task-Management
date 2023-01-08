@@ -3,6 +3,7 @@ import Foundation
 /*
  Класс Stub является стаб-реализацией интерфейса сервера
  */
+
 class Stub: Server {
     
     private var employeesArray: [Employee] = []
@@ -51,7 +52,7 @@ class Stub: Server {
     }
     
     /*
-     Метод создает макет для асинхронного вызова нужных методов
+     Метод создает требуемую задержку в 1 сек на глобальном потоке и переходит на главный поток
      
      parameters:
      completion - completion блок, который вызывается на главном потоке
@@ -122,7 +123,7 @@ class Stub: Server {
     }
     
     /*
-     Метод отправления массива сотрудников
+     Метод получения массива сотрудников с сервера
      
      parameters:
      completion - блок, в котором передается массив сотрудников
@@ -133,6 +134,13 @@ class Stub: Server {
         }
     }
     
+    /*
+     Метод добавления нового проекта в массив
+     
+     parameters:
+     project - новый проект для добавления в массив и последующего сохранения
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     func addProject(project: Project, _ completion: @escaping () -> Void) throws {
         projectsArray.append(project)
         guard projectsArray.contains(where: { $0 == project }) else {
@@ -143,6 +151,13 @@ class Stub: Server {
         }
     }
     
+    /*
+     Метод удаления проекта из массива
+     
+     parameters:
+     id - уникальный id проекта, который необходимо удалить
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     func deleteProject(id: Int, _ completion: @escaping () -> Void) throws {
         guard let project = self.projectsArray.first(where: { $0.id == id }) else {
             throw ProjectStubErrors.deleteProjectFailed
@@ -153,6 +168,14 @@ class Stub: Server {
         }
     }
     
+    /*
+     Метод редактирования проекта в массиве
+     
+     parameters:
+     id - уникальный id проекта, который необходимо отредактировать
+     editedProject - отредактированные данные проекта
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     func editProject(id: Int, editedProject: Project, _ completion: @escaping () -> Void) throws {
         guard let project = self.projectsArray.first(where: { $0.id == id }) else {
             throw ProjectStubErrors.editProjectFailed
@@ -168,12 +191,25 @@ class Stub: Server {
         }
     }
     
+    /*
+     Метод получения массива проектов с сервера
+     
+     parameters:
+     completion - блок, в котором передается массив проектов
+     */
     func getProjects(_ completion: @escaping ([Project]) -> Void) {
         delay() {
             completion(self.projectsArray)
         }
     }
     
+    /*
+     Метод добавления новой задачи в массив
+     
+     parameters:
+     task - новая задача для добавления в массив и последующего сохранения
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     func addTask(task: Task, _ completion: @escaping () -> Void) throws {
         tasksArray.append(task)
         guard tasksArray.contains(where: { $0 == task }) else {
@@ -184,6 +220,13 @@ class Stub: Server {
         }
     }
     
+    /*
+     Метод удаления задачи из массива
+     
+     parameters:
+     id - уникальный id задачи, которую необходимо удалить
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     func deleteTask(id: Int, _ completion: @escaping () -> Void) throws {
         guard let task = self.tasksArray.first(where: { $0.id == id }) else {
             throw TaskStubErrors.deleteTaskFailed
@@ -194,6 +237,14 @@ class Stub: Server {
         }
     }
     
+    /*
+     Метод редактирования задачи в массиве
+     
+     parameters:
+     id - уникальный id задачи, которую необходимо отредактировать
+     editedTask - отредактированные данные задачи
+     completion - отдельный блок, который будет выполняться на главном потоке
+     */
     func editTask(id: Int, editedTask: Task, _ completion: @escaping () -> Void) throws {
         guard let task = self.tasksArray.first(where: { $0.id == id }) else {
             throw TaskStubErrors.editTaskFailed
@@ -209,12 +260,25 @@ class Stub: Server {
         }
     }
     
+    /*
+     Метод получения массива задач с сервера
+     
+     parameters:
+     completion - блок, в котором передается массив задач
+     */
     func getTasks(_ completion: @escaping ([Task]) -> Void) {
         delay() {
             completion(self.tasksArray)
         }
     }
     
+    /*
+     Метод получения массива задач для определенного проекта с сервера
+     
+     parameters:
+     project - проект, для которого необходимо получить задачи
+     completion - блок, в котором передается массив задач
+     */
     func getTasksFor(project: Project, _ completion: @escaping ([Task]) -> Void) throws {
         var tasksForProject = [Task]()
         if let project = projectsArray.first(where: { $0 == project }) {

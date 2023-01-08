@@ -1,11 +1,8 @@
-//
-//  TaskDatePicker.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 15.12.22.
-//
-
 import UIKit
+
+/*
+ TaskDatePicker - класс наследник UIDatePicker с дополнительными свойствами и методами
+ */
 
 class TaskDatePicker: UIDatePicker {
     
@@ -37,6 +34,9 @@ class TaskDatePicker: UIDatePicker {
         toolbar.setItems([keyboardButton, flexSpace, doneButton], animated: false)
     }
     
+    /*
+     Метод получения данных из DatePicker и прявязки их в textField
+     */
     private func getDataFromPicker() {
         if !keyboardIsActive {
             let stringDatePickerDate = dateFormatter.string(from: datePicker.date)
@@ -44,6 +44,12 @@ class TaskDatePicker: UIDatePicker {
         }
     }
     
+    /*
+     Метод отображения datePicker
+     
+     parameters:
+     textField - textField, который вызывает этот метод
+     */
     func showDatePicker(textField: BorderedTextField) {
         textField.inputAccessoryView = toolbar
         textField.inputView = datePicker
@@ -52,6 +58,9 @@ class TaskDatePicker: UIDatePicker {
         self.textField = textField
     }
     
+    /*
+     Метод смены клавиатуры на календарь и обратно для ввода даты
+     */
     private func changeInputView() {
         textField.resignFirstResponder()
         textField.text?.removeAll()
@@ -68,11 +77,17 @@ class TaskDatePicker: UIDatePicker {
         textField.becomeFirstResponder()
     }
     
+    /*
+     Target на кнопку Done - вызывает привязку данных для textField
+     */
     @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
         getDataFromPicker()
         textField.endEditing(false)
     }
     
+    /*
+     Target на кнопку Keyboard - вызывает смену вводимого поля
+     */
     @objc func keyboardButtonPressed(_ sender: UIBarButtonItem) {
         changeInputView()
     }

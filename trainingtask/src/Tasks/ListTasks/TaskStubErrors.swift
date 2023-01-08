@@ -1,11 +1,11 @@
-//
-//  TaskStubErrors.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 30.12.22.
-//
-
 import Foundation
+
+/*
+ TaskStubErrors - перечисление возможных ошибок для экрана Список задач
+ 
+ parameters:
+ message - текст ошибки, показывающийся в алерте
+ */
 
 enum TaskStubErrors: Error {
     case noSuchTask, addTaskFailed, editTaskFailed, deleteTaskFailed, noTaskList

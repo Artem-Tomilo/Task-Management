@@ -1,11 +1,8 @@
-//
-//  ProjectEditViewControllerDelegate.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 9.12.22.
-//
-
 import Foundation
+
+/*
+ Протокол ProjectEditViewControllerDelegate - интерфейс для взаимодействия с экраном Список проектов
+ */
 
 protocol ProjectEditViewControllerDelegate: AnyObject {
     func addProjectDidCancel(_ controller: ProjectEditViewController)

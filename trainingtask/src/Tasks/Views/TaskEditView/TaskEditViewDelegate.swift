@@ -1,11 +1,8 @@
-//
-//  TaskEditViewDelegate.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 15.12.22.
-//
-
 import Foundation
+
+/*
+ Протокол TaskEditViewDelegate - интерфейс для взаимодействия с TaskEditView
+ */
 
 protocol TaskEditViewDelegate: AnyObject {
     func bindData() -> [String]

@@ -3,6 +3,7 @@ import UIKit
 /*
  SettingsViewController - экран Настройки, который отображает либо дефолтные, либо пользовательские настройки
  */
+
 class SettingsViewController: UIViewController, UITextFieldDelegate {
     
     private var urlView = SettingsInputView()
@@ -10,7 +11,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     private var daysView = SettingsInputView()
     private let alertController = Alert()
     
-    let settingsManager: SettingsManager
+    private let settingsManager: SettingsManager
     
     init(settingsManager: SettingsManager) {
         self.settingsManager = settingsManager
@@ -20,7 +21,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-                   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
@@ -63,7 +64,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     displaySettings - метод для отображения настроек в соответствующих полях
+     Метод для отображения настроек в соответствующих полях, в случае обнаружения ошибок будет производиться их обработка
      */
     private func displaySettings() {
         do {
@@ -78,7 +79,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     saveSettings - метод сохранения пользовательских настроек
+     Метод сохранения пользовательских настроек, в случае обнаружения ошибок будет производиться их обработка
      */
     private func saveSettings() {
         let newSettings = Settings(url: urlView.unbind(), maxRecords: Int(recordsView.unbind()) ?? 0, maxDays: Int(daysView.unbind()) ?? 0)
@@ -89,13 +90,19 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    /*
+     Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
+     
+     parameters:
+     error - обрабатываемая ошибка
+     */
     private func handleError(_ error: Error) {
         let settingsError = error as! SettingsErrors
         alertController.showAlertController(message: settingsError.message, viewController: self)
     }
     
     /*
-     таргет на кнопку Save - вызывает метод сохранения пользовательских настроек и возвращает на экран Главное меню
+     Target на кнопку Save - вызывает метод сохранения пользовательских настроек и возвращает на экран Главное меню
      */
     @objc func saveSettings(_ sender: UIBarButtonItem) {
         saveSettings()
@@ -103,7 +110,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     таргет на кнопку Cancel - возвращает на экран Главное меню
+     Target на кнопку Cancel - возвращает на экран Главное меню
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)

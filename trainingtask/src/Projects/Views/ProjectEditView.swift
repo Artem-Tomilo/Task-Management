@@ -1,11 +1,8 @@
-//
-//  ProjectEditView.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 9.12.22.
-//
-
 import UIKit
+
+/*
+ ProjectEditView - view для отображения на экране Редактирование проекта
+ */
 
 class ProjectEditView: UIView, UITextFieldDelegate {
     
@@ -49,11 +46,23 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         nameTextField.becomeFirstResponder()
     }
     
+    /*
+     Метод для заполнения текущего view данными
+     
+     parametrs:
+     nameTextFieldText - данные для текста nameTextField
+     descriptionTextFieldText - данные для текста descriptionTextField
+     */
     func bind(nameTextFieldText: String, descriptionTextFieldText: String) {
         nameTextField.text = nameTextFieldText
         descriptionTextField.text = descriptionTextFieldText
     }
     
+    /*
+     Метод для проверки и получения текста nameTextField
+     
+     Возвращаемое значение - текст nameTextField
+     */
     func unbindProjectName() -> String {
         if let name = nameTextField.text {
             return name
@@ -61,6 +70,11 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         return ""
     }
     
+    /*
+     Метод для проверки и получения текста descriptionTextField
+     
+     Возвращаемое значение - текст descriptionTextField
+     */
     func unbindProjectDescription() -> String {
         if let description = descriptionTextField.text {
             return description
@@ -68,6 +82,9 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         return ""
     }
     
+    /*
+     Target для кнопки done на клавиатуре - переходит на следующий textField, если он последний в списке, то прячет клавиатуру
+     */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {
         case nameTextField:

@@ -3,13 +3,14 @@ import Foundation
 /*
  SettingsStorage - сервис для получения и сохранения настроек пользователя
  */
+
 class SettingsStorage {
     
     private let userDefaults = UserDefaults.standard
     static let settingsKey = "settings" // константа, в которой хранится ключ для UserDefauls, отвечающий за настройки
     
     /*
-     getUserSettings - метод, для получения пользовательских настроек
+     Метод, для получения пользовательских настроек
      
      Возращает значение типа Settings? с сохраненными пользовательскими настройками, в случае возникновения ошибок будет производиться их обработка
      */
@@ -22,7 +23,7 @@ class SettingsStorage {
     }
     
     /*
-     saveUserSettings - метод для сохранения пользовательских настроек в UserDefaults
+     Метод для сохранения пользовательских настроек в UserDefaults
      
      parameter:
      settings - объект типа Settings

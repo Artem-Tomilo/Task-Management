@@ -1,11 +1,11 @@
-//
-//  EmployeeEditingErrors.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 28.12.22.
-//
-
 import Foundation
+
+/*
+ EmployeeEditingErrors - перечисление возможных ошибок для экрана Редактирование сотрудников
+ 
+ parameters:
+ message - текст ошибки, показывающийся в алерте
+ */
 
 enum EmployeeEditingErrors: Error {
     case noSurname, noName, noPatronymic, noPostition

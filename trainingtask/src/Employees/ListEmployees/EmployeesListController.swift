@@ -3,6 +3,7 @@ import UIKit
 /*
  EmployeesListController - экран Список сотрудников, отображает tableView со всеми сотрудниками, хранящимися на сервере
  */
+
 class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
     
     private var tableView = UITableView()
@@ -59,6 +60,8 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
+     Метод привязки значений в ячейку данными сотрудника
+     
      parameters:
      cell - ячейка, в которой отображается сотрудник
      employee - сотрудник, хранящийся в этой ячейке, данными которого она будет заполняться
@@ -70,7 +73,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     getMaxRecordsCount - получение значения максимального количетсва записей из настроек приложения
+     Метод получение значения максимального количества записей из настроек приложения
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         guard let count = try? settingsManager.getSettings().maxRecords else { return 0 }
@@ -134,7 +137,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Удаление и редактирование сотрудника происходит после свайпа влево
+     Удаление и редактирование сотрудника происходит после свайпа влево, в случае ошибки происходит ее обработка
      */
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
@@ -163,9 +166,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Метод получения текущего сотрудника
+     Метод получения текущего сотрудника, в случае ошибки происходит ее обработка
      
-     parameters: indexPath сотрудника
+     parameters:
+     indexPath сотрудника
      Возвращаемое значение - сотрудник
      */
     private func getEmployee(_ indexPath: IndexPath) throws -> Employee {
@@ -177,6 +181,12 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
+    /*
+     Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
+     
+     parameters:
+     error - обрабатываемая ошибка
+     */
     private func handleError(_ error: Error) {
         let employeeError = error as! EmployeeStubErrors
         alertController.showAlertController(message: employeeError.message, viewController: self)
@@ -220,6 +230,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     /*
      Метод перехода на экран Редактирование сотрудника
+     
+     parameters:
+     employee - передаваемый сотрудник для редактирования, если значение = nil, то будет создание нового сотрудника
      */
     private func showEditEmployeeViewController(_ employee: Employee?) {
         let viewController = EmployeeEditViewController()
@@ -231,7 +244,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Метод удаления сотрудника - вызывает метод делагата для удаления сотрудника с сервера, после обновляет данные
+     Метод удаления сотрудника - вызывает метод делагата для удаления сотрудника с сервера, после обновляет данные на главном потоке, в случае ошибки происходит ее обработка
      
      parameters:
      employee - сотрудник для удаления
@@ -247,7 +260,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     addNewEmployee - target на кнопку добавления нового сотрудника:
+     Target на кнопку добавления нового сотрудника:
      переходит на экран Редактирование сотрудника
      */
     @objc func moveToEditEmployeeViewController(_ sender: UIBarButtonItem) {
@@ -255,7 +268,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     refresh - таргет на обновление таблицы через UIRefreshControl
+     Target на обновление таблицы через UIRefreshControl
      */
     @objc func refresh(_ sender: UIRefreshControl) {
         tableView.reloadData()
@@ -263,19 +276,21 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     addEmployeeDidCancel - метод протокола EmployeeEditViewControllerDelegate, который возвращает на экран Список сотрудников после нажатия кнопки Cancel
+     Метод протокола EmployeeEditViewControllerDelegate, который возвращает на экран Список сотрудников после нажатия кнопки Cancel
      
-     Параметр controller - ViewController, на котором вызывается данный метод
+     parameters:
+     controller - ViewController, на котором вызывается данный метод
      */
     func addEmployeeDidCancel(_ controller: EmployeeEditViewController) {
         navigationController?.popViewController(animated: true)
     }
     
     /*
-     addNewEmployee - метод протокола EmployeeEditViewControllerDelegate, который добавляет нового сотрудника в массив на сервере и возвращает на экран Список сотрудников
+     Метод протокола EmployeeEditViewControllerDelegate, который добавляет нового сотрудника в массив на сервере и возвращает на экран Список сотрудников, в случае ошибки происходит ее обработка
      
-     Параметр controller - ViewController, на котором вызывается данный метод
-     Параметр newEmployee - новый сотрудник для добавления
+     parameters:
+     controller - ViewController, на котором вызывается данный метод
+     newEmployee - новый сотрудник для добавления
      */
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
         do {
@@ -289,7 +304,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     editEmployee - метод протокола EmployeeEditViewControllerDelegate, который изменяет данные сотрудника
+     Метод протокола EmployeeEditViewControllerDelegate, который изменяет данные сотрудника, в случае ошибки происходит ее обработка
      
      parameters:
      controller - ViewController, на котором вызывается данный метод

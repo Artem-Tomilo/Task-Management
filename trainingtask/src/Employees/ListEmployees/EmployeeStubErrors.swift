@@ -1,12 +1,11 @@
-//
-//  EmployeeListErrors.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 28.12.22.
-//
-
 import Foundation
 
+/*
+ EmployeeStubErrors - перечисление возможных ошибок для экрана Список сотрудников
+ 
+ parameters:
+ message - текст ошибки, показывающийся в алерте
+ */
 enum EmployeeStubErrors: Error {
     case noSuchEmployee, addEmployeeFailed, editEmployeeFailed, deleteEmployeeFailed
     

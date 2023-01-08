@@ -3,6 +3,7 @@ import UIKit
 /*
  EmployeeEditView - view для отображения на экране Редактирование сотрудника
  */
+
 class EmployeeEditView: UIView, UITextFieldDelegate {
     
     private let surnameTextField: BorderedTextField
@@ -64,7 +65,7 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
     }
     
     /*
-     bind - метод для заполнения текущего view данными
+     Метод для заполнения текущего view данными
      
      parametrs:
      surnameTextFieldText - данные для текста surnameTextField
@@ -80,9 +81,9 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
     }
     
     /*
-     unbind - метод для проверки и получения текста textField'ов
+     Метод для проверки и получения текста surnameTextField
      
-     Возвращаемые значения - текста всех textField'ов
+     Возвращаемое значение - текст surnameTextField
      */
     func unbindSurname() -> String {
         if let surname = surnameTextField.text {
@@ -91,6 +92,11 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         return ""
     }
     
+    /*
+     Метод для проверки и получения текста nameTextField
+     
+     Возвращаемое значение - текст nameTextField
+     */
     func unbindName() -> String {
         if let surname = nameTextField.text {
             return surname
@@ -98,6 +104,11 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         return ""
     }
     
+    /*
+     Метод для проверки и получения текста patronymicTextField
+     
+     Возвращаемое значение - текст patronymicTextField
+     */
     func unbindPatronymic() -> String {
         if let surname = patronymicTextField.text {
             return surname
@@ -105,6 +116,11 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         return ""
     }
     
+    /*
+     Метод для проверки и получения текста positionTextField
+     
+     Возвращаемое значение - текст positionTextField
+     */
     func unbindPosition() -> String {
         if let surname = positionTextField.text {
             return surname
@@ -113,7 +129,7 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
     }
     
     /*
-     таргет для кнопки done на клавиатуре - переходит на следующий textField, если он последний в списке, то прячет клавиатуру
+     Target для кнопки done на клавиатуре - переходит на следующий textField, если он последний в списке, то прячет клавиатуру
      */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switch textField {

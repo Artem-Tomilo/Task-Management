@@ -1,11 +1,8 @@
-//
-//  TaskPickerView.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 13.12.22.
-//
-
 import UIKit
+
+/*
+ TaskPickerView - view для работы с TaskEditView
+ */
 
 class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
@@ -43,10 +40,23 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
         return toolbar
     }
     
+    /*
+     Метод привязки текста textField новыми данными
+     
+     parameters:
+     data - новые данные для textField
+     */
     private func bindNewData(data: String) {
         textField.text = data
     }
     
+    /*
+     Метод отображения pickerView
+     
+     parameters:
+     textField - textField, который вызывает этот метод
+     data - данные, необходимые для отображения pickerView
+     */
     func showPicker(textField: BorderedTextField, data: [String]) {
         pickerViewData = data
         textField.inputAccessoryView = setupToolBar()
@@ -56,11 +66,17 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
         self.textField.tintColor = .clear
     }
     
+    /*
+     Target на кнопку Done - вызывает привязку данных для textField
+     */
     @objc func doneButtonTapped(_ sender: UIBarButtonItem) {
         textField.endEditing(false)
         pickerView.selectRow(0, inComponent: 0, animated: true)
     }
     
+    /*
+     Target на кнопку Cancel - вызывает сброс введенных данных
+     */
     @objc func cancelTapped(_ sender: UIBarButtonItem) {
         textField.text = ""
         textField.endEditing(false)

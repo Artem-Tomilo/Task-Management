@@ -3,6 +3,7 @@ import UIKit
 /*
  SettingsInputView - view для отображения на экране Настройки
  */
+
 class SettingsInputView: UIView, UITextFieldDelegate {
     
     private let label: UILabel

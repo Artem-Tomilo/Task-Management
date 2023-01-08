@@ -1,18 +1,15 @@
-//
-//  ProjectEditViewController.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 9.12.22.
-//
-
 import UIKit
+
+/*
+ ProjectEditViewController - экран Редактирование проекта, отображает необходимые поля для введения нового, либо редактирования существующего проекта
+ */
 
 class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
     private let alertController = Alert()
-    weak var delegate: ProjectEditViewControllerDelegate?
-    var possibleProjectToEdit: Project?
+    weak var delegate: ProjectEditViewControllerDelegate? // объект делегата для ProjectEditViewControllerDelegate
+    var possibleProjectToEdit: Project? // свойство, в которое будет записываться передаваемый проект для редактирования
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +43,11 @@ class ProjectEditViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     
+    /*
+     Метод получает данные из текстФилдов экрана и собирает модель проекта
+     
+     Возвращаемое значение - проект
+     */
     private func bindDataFromView() -> Project {
         let name = projectEditView.unbindProjectName()
         let description = projectEditView.unbindProjectDescription()
@@ -54,6 +56,12 @@ class ProjectEditViewController: UIViewController {
         return project
     }
     
+    /*
+     Метод, который привязывает новые данные для редактируемого проекта
+     
+     parameters:
+     editedProject - редактируемый проект
+     */
     private func editingProject(editedProject: Project) {
         let bindedProject = bindDataFromView()
         
@@ -63,11 +71,17 @@ class ProjectEditViewController: UIViewController {
         delegate?.editProject(self, editedProject: project)
     }
     
+    /*
+     Метод, который создает новый проект
+     */
     private func createNewProject() {
         let newProject = bindDataFromView()
         delegate?.addNewProject(self, newProject: newProject)
     }
     
+    /*
+     Метод проверки введенных значений, если значение не введено - будет выбрасываться соответствующая ошибка
+     */
     private func validationOfEnteredData() throws {
         guard projectEditView.unbindProjectName() != "" else {
             throw ProjectEditingErrors.noName
@@ -77,11 +91,20 @@ class ProjectEditViewController: UIViewController {
         }
     }
     
+    /*
+     Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
+     
+     parameters:
+     error - обрабатываемая ошибка
+     */
     private func handleError(error: Error) {
         let projectError = error as! ProjectEditingErrors
         alertController.showAlertController(message: projectError.message, viewController: self)
     }
     
+    /*
+     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект, в случае ошибки происходит ее обработка
+     */
     private func saveProject() {
         do {
             try validationOfEnteredData()
@@ -96,14 +119,23 @@ class ProjectEditViewController: UIViewController {
         }
     }
     
+    /*
+     Target на кнопку Save - вызывает метод saveProject()
+     */
     @objc func saveProjectButtonTapped(_ sender: UIBarButtonItem) {
         saveProject()
     }
     
+    /*
+     Target на кнопку Cancel - возвращает на предыдущий экран
+     */
     @objc func cancel(_ sender: UIBarButtonItem) {
         delegate?.addProjectDidCancel(self)
     }
     
+    /*
+     Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
+     */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         view.endEditing(false)

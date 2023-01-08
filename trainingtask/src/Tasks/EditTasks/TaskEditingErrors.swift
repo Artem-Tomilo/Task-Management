@@ -1,11 +1,11 @@
-//
-//  TaskEditingErrors.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 28.12.22.
-//
-
 import Foundation
+
+/*
+ TaskEditingErrors - перечисление возможных ошибок для экрана Редактирование задачи
+ 
+ parameters:
+ message - текст ошибки, показывающийся в алерте
+ */
 
 enum TaskEditingErrors: Error {
     case noName, noProject, noEmployee, noStatus, noRequiredNumberOfHours, wrongHours, noStartDate, noEndDate, noSuchStatus, wrongStartDate, wrongEndDate, startDateGreaterEndDate

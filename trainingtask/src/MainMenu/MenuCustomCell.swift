@@ -16,11 +16,6 @@ class MenuCustomCell: UITableViewCell {
         fatalError()
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        text = ""
-    }
-    
     private func setup() {
         label.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(label)
@@ -48,9 +43,13 @@ class MenuCustomCell: UITableViewCell {
         label.textColor = highlighted ? .black : .white
     }
     
-    var text: String = "" {
-        didSet {
-            label.text = text
-        }
+    /*
+     Метод присвоения текста лейблу
+     
+     parameters:
+     text - текст для label
+     */
+    func bindText(text: String) {
+        label.text = text
     }
 }

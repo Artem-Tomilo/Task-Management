@@ -1,11 +1,8 @@
-//
-//  ProjectCell.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 9.12.22.
-//
-
 import UIKit
+
+/*
+ ProjectCell - ячейка для tableView экрана Список проектов
+ */
 
 class ProjectCell: UITableViewCell {
     
@@ -59,6 +56,13 @@ class ProjectCell: UITableViewCell {
         background.backgroundColor = .systemRed
     }
     
+    /*
+     Метод присвоения текста лейблам
+     
+     parameters:
+     nameText - текст для nameLabel
+     descriptionText - текст для descriptionLabel
+     */
     func bindText(nameText: String, descriptionText: String) {
         nameLabel.text = nameText
         descriptionLabel.text = descriptionText

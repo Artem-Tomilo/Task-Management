@@ -1,11 +1,12 @@
-//
-//  TaskStatus.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 12.12.22.
-//
-
 import UIKit
+
+/*
+ TaskStatus - перечисление возможных статусов для задачи
+ 
+ title - задание русского текста для всех элементов перечисления
+ imageView - задание изображения для всех элементов перечисления
+ */
+
 
 enum TaskStatus: String, CaseIterable {
     case notStarted, inProgress, completed, postponed

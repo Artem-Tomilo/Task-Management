@@ -1,11 +1,11 @@
-//
-//  ProjectEditingErrors.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 28.12.22.
-//
-
 import Foundation
+
+/*
+ ProjectEditingErrors - перечисление возможных ошибок для экрана Редактирование проекта
+ 
+ parameters:
+ message - текст ошибки, показывающийся в алерте
+ */
 
 enum ProjectEditingErrors: Error {
     case noName, noDescription

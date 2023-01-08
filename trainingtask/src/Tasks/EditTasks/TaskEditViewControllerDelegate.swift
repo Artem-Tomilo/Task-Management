@@ -1,11 +1,8 @@
-//
-//  TaskEditViewControllerDelegate.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 12.12.22.
-//
-
 import Foundation
+
+/*
+ Протокол TaskEditViewControllerDelegate - интерфейс для взаимодействия с экраном Список задач
+ */
 
 protocol TaskEditViewControllerDelegate: AnyObject {
     func addTaskDidCancel(_ controller: TaskEditViewController)

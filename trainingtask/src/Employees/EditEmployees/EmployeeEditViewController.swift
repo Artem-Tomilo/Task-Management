@@ -3,11 +3,12 @@ import UIKit
 /*
  EmployeeEditViewController - экран Редактирование сотрудника, отображает необходимые поля для введения нового, либо редактирования существующего сотрудника
  */
+
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     private let employeeEditView = EmployeeEditView()
     private let alertController = Alert()
-    weak var delegate: EmployeeEditViewControllerDelegate?
+    weak var delegate: EmployeeEditViewControllerDelegate? // объект делегата для EmployeeEditViewControllerDelegate
     var possibleEmployeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
     
     override func viewDidLoad() {
@@ -42,6 +43,11 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         view.addGestureRecognizer(gesture)
     }
     
+    /*
+     Метод получает данные из текстФилдов экрана и собирает модель сотрудника
+     
+     Возвращаемое значение - сотрудник
+     */
     private func bindDataFromView() -> Employee {
         let surname = employeeEditView.unbindSurname()
         let name = employeeEditView.unbindName()
@@ -53,7 +59,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     editingEmployee - метод, который привязывает новые данные для редактируемого сотрудника
+     Метод, который привязывает новые данные для редактируемого сотрудника
      
      parameters:
      editedEmployee - редактируемый сотрудник
@@ -70,13 +76,16 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     createNewEmployee - метод, который создает нового сотрудника
+     Метод, который создает нового сотрудника
      */
     private func createNewEmployee() {
         let employee = bindDataFromView()
         delegate?.addNewEmployee(self, newEmployee: employee)
     }
     
+    /*
+     Метод проверки введенных значений, если значение не введено - будет выбрасываться соответствующая ошибка
+     */
     private func validationOfEnteredData() throws {
         guard employeeEditView.unbindSurname() != "" else {
             throw EmployeeEditingErrors.noSurname
@@ -92,13 +101,19 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    /*
+     Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
+     
+     parameters:
+     error - обрабатываемая ошибка
+     */
     private func handleError(error: Error) {
         let employeeError = error as! EmployeeEditingErrors
         alertController.showAlertController(message: employeeError.message, viewController: self)
     }
     
     /*
-     saveEmployee - метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника
+     Метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника, в случае ошибки происходит ее обработка
      */
     private func saveEmployee() {
         do {
@@ -115,22 +130,21 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     saveEmployeeButtonTapped - таргет на кнопку Save:
-     вызывает метод saveEmployee()
+     Target на кнопку Save - вызывает метод saveEmployee()
      */
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
         saveEmployee()
     }
     
     /*
-     таргет на кнопку Cancel - возвращает на предыдущий экран
+     Target на кнопку Cancel - возвращает на предыдущий экран
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
         delegate?.addEmployeeDidCancel(self)
     }
     
     /*
-     таргет для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
+     Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
      */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }

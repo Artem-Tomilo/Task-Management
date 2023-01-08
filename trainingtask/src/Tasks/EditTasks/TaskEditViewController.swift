@@ -1,11 +1,8 @@
-//
-//  TaskEditViewController.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 12.12.22.
-//
-
 import UIKit
+
+/*
+ TaskEditViewController - экран Редактирование задачи, отображает необходимые поля для введения новой, либо редактирования существующей задачи
+ */
 
 class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     
@@ -17,10 +14,10 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private let dateFormatter = TaskDateFormatter()
     private let alertController = Alert()
     
-    var possibleTaskToEdit: Task?
-    var project: Project?
+    var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
+    var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
     
-    weak var delegate: TaskEditViewControllerDelegate?
+    weak var delegate: TaskEditViewControllerDelegate? // объект делегата для TaskEditViewControllerDelegate
     private let serverDelegate: Server
     private let settingsManager: SettingsManager
     
@@ -83,6 +80,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         view.addGestureRecognizer(gesture)
     }
     
+    /*
+     Метод получает списов проектов с сервера
+     */
     private func getProjects() {
         serverDelegate.getProjects({ [weak self] projects in
             guard let self = self else { return }
@@ -90,6 +90,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         })
     }
     
+    /*
+     Метод получает списов сотрудников с сервера
+     */
     private func getEmployees() {
         serverDelegate.getEmployees({ [weak self] employees in
             guard let self = self else { return }
@@ -97,6 +100,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         })
     }
     
+    /*
+     Метод привязывает названия проектов в массив для отображения в PickerView
+     */
     private func setDataFromProjects() {
         data.removeAll()
         for i in projects {
@@ -104,6 +110,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    /*
+     Метод привязывает полное ФИО сотрудников в массив для отображения в PickerView
+     */
     private func setDataFromEmployees() {
         data.removeAll()
         for i in employees {
@@ -111,6 +120,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    /*
+     Метод привязывает названия статусов задачи в массив для отображения в PickerView
+     */
     private func setDataFromStatus() {
         data.removeAll()
         for i in TaskStatus.allCases {
@@ -118,11 +130,17 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    /*
+     Метод получение значения количество дней по умолчанию между начальной и конечной датами в задаче из настроек приложения
+     */
     private func getNumberOfDaysBetweenDates() -> Int {
         guard let count = try? settingsManager.getSettings().maxDays else { return 0 }
         return count
     }
     
+    /*
+     Метод проверки введенных значений, если значение не введено - будет выбрасываться соответствующая ошибка
+     */
     private func validationOfEnteredData() throws {
         guard taskEditView.unbindName() != "" else {
             throw TaskEditingErrors.noName
@@ -150,6 +168,11 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    /*
+     Метод получает данные из текстФилдов экрана и проверяет на правильность заполнения и собирает модель задачи, если значение введено неверно - будет выбрасываться соответствующая ошибка, в случае ошибки происходит ее обработка
+     
+     Возвращаемое значение - задача
+     */
     private func bindingAndCheckingValues() throws -> Task? {
         do {
             try validationOfEnteredData()
@@ -191,6 +214,12 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         return nil
     }
     
+    /*
+     Метод, который привязывает новые данные для редактируемой задачи, в случае ошибки происходит ее обработка
+     
+     parameters:
+     editedTask - редактируемая задача
+     */
     private func editingTask(editedTask: Task) {
         do {
             if let task = try bindingAndCheckingValues() {
@@ -210,6 +239,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    /*
+     Метод, который создает новую задачу, в случае ошибки происходит ее обработка
+     */
     private func createNewTask() {
         do {
             if let task = try bindingAndCheckingValues() {
@@ -220,11 +252,20 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    /*
+     Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
+     
+     parameters:
+     error - обрабатываемая ошибка
+     */
     private func handleError(error: Error) {
         let taskError = error as! TaskEditingErrors
         alertController.showAlertController(message: taskError.message, viewController: self)
     }
     
+    /*
+     Метод, который проверяет и сохраняет либо новую, либо отредактированную задачу
+     */
     private func saveTask() {
         if let editedTask = possibleTaskToEdit {
             editingTask(editedTask: editedTask)
@@ -233,19 +274,33 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         }
     }
     
+    /*
+     Target на кнопку Save - вызывает метод saveTask()
+     */
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
         saveTask()
     }
     
+    /*
+     Target на кнопку Cancel - возвращает на предыдущий экран
+     */
     @objc func cancel(_ sender: UIBarButtonItem) {
         delegate?.addTaskDidCancel(self)
     }
     
+    /*
+     Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
+     */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         view.endEditing(false)
     }
     
+    /*
+     Метод протокола TaskEditViewDelegate, который проверяет какие данные нужны и записывает ими массив
+     
+     Возвращаемое значение: массив данных
+     */
     func bindData() -> [String] {
         if taskEditView.isProjectTextField {
             setDataFromProjects()

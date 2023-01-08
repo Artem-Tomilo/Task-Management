@@ -1,11 +1,8 @@
-//
-//  TaskEditView.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 12.12.22.
-//
-
 import UIKit
+
+/*
+ TaskEditView - view для отображения на экране Редактирование задачи
+ */
 
 class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
@@ -24,9 +21,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     weak var delegate: TaskEditViewDelegate?
     
-    var isProjectTextField = false
-    var isEmployeeTextField = false
-    var isStatusTextField = false
+    var isProjectTextField = false // свойство, определяющее был ли нажат projectTextField
+    var isEmployeeTextField = false // свойство, определяющее был ли нажат employeeTextField
+    var isStatusTextField = false // свойство, определяющее был ли нажат statusTextField
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -121,10 +118,19 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.isUserInteractionEnabled = true
     }
     
+    /*
+     Метод вызова FirstResponder при загрузке view
+     */
     func initFirstResponder() {
         nameTextField.becomeFirstResponder()
     }
     
+    /*
+     Метод для заполнения текущего view данными
+     
+     parametrs:
+     task - задача, данными которой будут заполняться текстФилды
+     */
     func bind(task: Task) {
         nameTextField.text = task.name
         projectTextField.text = task.project.name
@@ -135,10 +141,22 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.text = dateFormatter.string(from: task.endDate)
     }
     
+    /*
+     Метод для заполнения projectTextField данными
+     
+     parametrs:
+     project - проект, данными которого будет заполняться projectTextField
+     */
     func bindProjectTextFieldBy(project: Project) {
         projectTextField.text = project.name
     }
     
+    /*
+     Метод для заполнения endDateTextField данными
+     
+     parametrs:
+     days - количество дней из настроек приложения для определения даты окончания выполнения задачи
+     */
     func bindEndDateTextField(days: Int) {
         let date = Date()
         let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
@@ -146,6 +164,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.text = stringDate
     }
     
+    /*
+     Метод для проверки введенных данных в текстФилдах
+     
+     parametrs:
+     textField - проверяемый textField
+     Возвращаемое значение - текст данного textField
+     */
     private func checkValue(in textField: BorderedTextField) -> String {
         let text = textField.text
         if let text  {
@@ -154,51 +179,100 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         return ""
     }
     
+    /*
+     Метод получения текста nameTextField
+     
+     Возвращаемое значение - текст nameTextField
+     */
     func unbindName() -> String {
         let name = checkValue(in: nameTextField)
         return name
     }
     
+    /*
+     Метод получения текста projectTextField
+     
+     Возвращаемое значение - текст projectTextField
+     */
     func unbindProject() -> String {
         let project = checkValue(in: projectTextField)
         return project
     }
     
+    /*
+     Метод получения текста employeeTextField
+     
+     Возвращаемое значение - текст employeeTextField
+     */
     func unbindEmployee() -> String {
         let employee = checkValue(in: employeeTextField)
         return employee
     }
     
+    /*
+     Метод получения текста statusTextField
+     
+     Возвращаемое значение - текст statusTextField
+     */
     func unbindStatus() -> String {
         let status = checkValue(in: statusTextField)
         return status
     }
     
+    /*
+     Метод получения текста requiredNumberOfHoursTextField
+     
+     Возвращаемое значение - текст requiredNumberOfHoursTextField
+     */
     func unbindHours() -> String {
         let hours = checkValue(in: requiredNumberOfHoursTextField)
         return hours
     }
     
+    /*
+     Метод получения текста startDateTextField
+     
+     Возвращаемое значение - текст startDateTextField
+     */
     func unbindStartDate() -> String {
         let startDate = checkValue(in: startDateTextField)
         return startDate
     }
     
+    /*
+     Метод получения текста endDateTextField
+     
+     Возвращаемое значение - текст endDateTextField
+     */
     func unbindEndDate() -> String {
         let endDate = checkValue(in: endDateTextField)
         return endDate
     }
     
+    /*
+     Метод блокировки projectTextField для редактирования
+     */
     func blockProjectTextField() {
         projectTextField.isUserInteractionEnabled = false
     }
     
+    /*
+     Метод получения текущей даты и перевод ее в строку
+     
+     Возвращаемое значение - текущая дата
+     */
     private func currentDate() -> String {
         let date = Date()
         let stringDate = dateFormatter.string(from: date)
         return stringDate
     }
     
+    /*
+     Метод вызова PickerView
+     
+     parameters:
+     textField - textField для которого нужен PickerView
+     */
     private func showPickerView(textField: BorderedTextField) {
         let data = delegate?.bindData()
         if let data {
@@ -207,46 +281,79 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
+    /*
+     Метод вызова DatePicker
+     
+     parameters:
+     textField - textField для которого нужен DatePicker
+     */
     private func showDatePicker(textField: BorderedTextField) {
         datePicker.showDatePicker(textField: textField)
     }
     
+    /*
+     Target на тап projectTextField
+     */
     @objc func projectTapped(_ sender: UITapGestureRecognizer) {
         isProjectTextField = true
         showPickerView(textField: projectTextField)
         isProjectTextField = false
     }
     
+    /*
+     Target на тап employeeTextField
+     */
     @objc func employeeTapped(_ sender: UITapGestureRecognizer) {
         isEmployeeTextField = true
         showPickerView(textField: employeeTextField)
         isEmployeeTextField = false
     }
     
+    /*
+     Target на тап statusTextField
+     */
     @objc func statusTapped(_ sender: UITapGestureRecognizer) {
         isStatusTextField = true
         showPickerView(textField: statusTextField)
         isStatusTextField = false
     }
     
+    /*
+     Target на тап startDateTextField
+     */
     @objc func startDateTapped(_ sender: UITapGestureRecognizer) {
         showDatePicker(textField: startDateTextField)
     }
     
+    /*
+     Target на тап endDateTextField
+     */
     @objc func endDateTapped(_ sender: UITapGestureRecognizer) {
         showDatePicker(textField: endDateTextField)
     }
     
+    /*
+     Target для scrollView при появлении клавиатуры
+     */
     @objc func keyboardFrame(_ notification: NSNotification) {
         let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey]! as! CGRect
         let keyboardSize = frame.height - keyboardFrame.minY
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize + 80, right: 0)
     }
     
+    /*
+     Метод UIGestureRecognizerDelegate
+     */
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
+    /*
+     Метод для создания маски при вводе даты с клавиатуры
+     
+     parameters:
+     date - текст textField
+     */
     private func formatDate(date: String) -> String {
         let cleanDate = date.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
         let mask = "XXXX-XX-XX"
@@ -264,6 +371,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         return result
     }
     
+    /*
+     Метод UITextFieldDelegate для проверки вводимых даннх
+     */
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == requiredNumberOfHoursTextField {
             return string.allSatisfy {

@@ -3,9 +3,10 @@ import UIKit
 /*
  SpinnerView - view, отображающее спиннер при загрузке данных
  */
+
 class SpinnerView: UIView {
     
-    let indicator = UIActivityIndicatorView(style: .whiteLarge)
+    private let indicator = UIActivityIndicatorView(style: .whiteLarge)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -15,6 +16,12 @@ class SpinnerView: UIView {
         super.init(coder: aDecoder)
     }
     
+    /*
+     Метод для отображения SpinnerView
+     
+     parameters:
+     viewController - контроллер, в котором вызывается данный метод
+     */
     func showSpinner(viewController: UIViewController) {
         frame = viewController.view.bounds
         viewController.view.addSubview(self)
@@ -27,6 +34,12 @@ class SpinnerView: UIView {
         viewController.navigationController?.navigationBar.alpha = 0.3
     }
     
+    /*
+     Метод для скрытия SpinnerView
+     
+     parameters:
+     viewController - контроллер, в котором вызывается данный метод
+     */
     func hideSpinner(from viewController: UIViewController) {
         indicator.stopAnimating()
         removeFromSuperview()

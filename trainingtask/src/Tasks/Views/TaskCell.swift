@@ -1,11 +1,8 @@
-//
-//  TaskCell.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 12.12.22.
-//
-
 import UIKit
+
+/*
+ TaskCell - ячейка для tableView экрана Список задач
+ */
 
 class TaskCell: UITableViewCell {
     
@@ -61,15 +58,31 @@ class TaskCell: UITableViewCell {
         projectLabel.alpha = 0.7
     }
     
+    /*
+     Метод присвоения текста лейблам
+     
+     parameters:
+     nameText - текст для nameLabel
+     projectText - текст для projectLabel
+     */
     func bindText(nameText: String, projectText: String) {
         nameLabel.text = nameText
         projectLabel.text = projectText
     }
     
+    /*
+     Метод смены логотипа задачи в соответствии ее статусу
+     
+     parameters:
+     status - статус, данными которого заполняется ячейка
+     */
     func changeImage(status: TaskStatus) {
         image.image = status.imageView
     }
     
+    /*
+     Метод скрытия projectLabel, если переход на экран Список задач был осуществлен из проекта
+     */
     func hideProjectLabel() {
         projectLabel.isHidden = true
     }

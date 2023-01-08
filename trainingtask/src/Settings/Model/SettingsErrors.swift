@@ -1,11 +1,11 @@
-//
-//  SettingsErrors.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 3.01.23.
-//
-
 import Foundation
+
+/*
+ SettingsErrors - перечисление возможных ошибок для экрана Настройки
+ 
+ parameters:
+ message - текст ошибки, показывающийся в алерте
+ */
 
 enum SettingsErrors: Error {
     case noDefaultSettings, noUserSettings, saveUserSettingsError

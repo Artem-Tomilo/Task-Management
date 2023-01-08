@@ -1,11 +1,8 @@
-//
-//  ShowAlertController.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 28.12.22.
-//
-
 import UIKit
+
+/*
+ Alert - класс для вызова алерта при обработке ошибок
+ */
 
 class Alert {
     func showAlertController(message: String, viewController: UIViewController) {

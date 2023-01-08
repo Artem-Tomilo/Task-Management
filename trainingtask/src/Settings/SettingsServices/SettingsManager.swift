@@ -3,6 +3,7 @@ import Foundation
 /*
  Сервис для управления загрузками и сохранениями настроек
  */
+
 class SettingsManager {
     
     private let defaultSettingsStorage = DefaultSettingsStorage()
@@ -14,9 +15,7 @@ class SettingsManager {
     }
     
     /*
-     checkingSavedSettings - метод проверки и загрузки настроек приложения
-     
-     В случает возникновения ошибок производится их обработка
+     Метод проверки и загрузки настроек приложения
      */
     private func loadSettings() throws -> Settings {
         if let settings = try settingsStorage.getUserSettings() {
@@ -27,7 +26,7 @@ class SettingsManager {
     }
     
     /*
-     Метод получения сохранных настроек из settingsStorage
+     Метод получения сохранных настроек из settingsStorage, в случае отсутствия настроек будет производиться бросание ошибки
      */
     func getSettings() throws -> Settings {
         guard let settings = try settingsStorage.getUserSettings() else {
