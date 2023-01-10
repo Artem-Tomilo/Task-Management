@@ -40,7 +40,7 @@ class TaskDatePicker: UIDatePicker {
     private func getDataFromPicker() {
         if !keyboardIsActive {
             let stringDatePickerDate = dateFormatter.string(from: datePicker.date)
-            textField.text = stringDatePickerDate
+            textField.bindText(text: stringDatePickerDate)
         }
     }
     
@@ -66,7 +66,7 @@ class TaskDatePicker: UIDatePicker {
         textField.text?.removeAll()
         if !keyboardIsActive {
             textField.inputView = nil
-            textField.placeholder = "yyyy-MM-dd"
+            textField.bindPlaceholder(text: "yyyy-MM-dd")
             keyboardIsActive = true
             keyboardButton.title = "Сalendar"
         } else {

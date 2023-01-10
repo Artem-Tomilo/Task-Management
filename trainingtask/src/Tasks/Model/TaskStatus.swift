@@ -24,16 +24,16 @@ enum TaskStatus: String, CaseIterable {
         }
     }
     
-    var imageView: UIImage {
+    var imageView: UIImage? {
         switch self {
         case .notStarted:
-            return UIImage(named: "notStarted")!
+            return UIImage(named: "notStarted")
         case .inProgress:
-            return UIImage(named: "inProgress")!
+            return UIImage(named: "inProgress")
         case .completed:
-            return UIImage(named: "completed")!
+            return UIImage(named: "completed")
         case .postponed:
-            return UIImage(named: "postponed")!
+            return UIImage(named: "postponed")
         }
     }
 }

@@ -56,11 +56,16 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         patronymicTextField.delegate = self
         positionTextField.delegate = self
         
-        surnameTextField.placeholder = "Фамилия"
-        nameTextField.placeholder = "Имя"
-        patronymicTextField.placeholder = "Отчество"
-        positionTextField.placeholder = "Должность"
-        
+        surnameTextField.bindPlaceholder(text: "Фамилия")
+        nameTextField.bindPlaceholder(text: "Имя")
+        patronymicTextField.bindPlaceholder(text: "Отчество")
+        positionTextField.bindPlaceholder(text: "Должность")
+    }
+    
+    /*
+     Метод вызова FirstResponder при загрузке view
+     */
+    func initFirstResponder() {
         surnameTextField.becomeFirstResponder()
     }
     
@@ -74,10 +79,10 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      positionTextFieldText - данные для текста positionTextField
      */
     func bind(surnameTextFieldText: String, nameTextFieldText: String, patronymicTextFieldText: String, positionTextFieldText: String) {
-        surnameTextField.text = surnameTextFieldText
-        nameTextField.text = nameTextFieldText
-        patronymicTextField.text = patronymicTextFieldText
-        positionTextField.text = positionTextFieldText
+        surnameTextField.bindText(text: surnameTextFieldText)
+        nameTextField.bindText(text: nameTextFieldText)
+        patronymicTextField.bindText(text: patronymicTextFieldText)
+        positionTextField.bindText(text: positionTextFieldText)
     }
     
     /*
@@ -86,10 +91,7 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст surnameTextField
      */
     func unbindSurname() -> String {
-        if let surname = surnameTextField.text {
-            return surname
-        }
-        return ""
+        return surnameTextField.unbindText()
     }
     
     /*
@@ -98,10 +100,7 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст nameTextField
      */
     func unbindName() -> String {
-        if let surname = nameTextField.text {
-            return surname
-        }
-        return ""
+        return nameTextField.unbindText()
     }
     
     /*
@@ -110,10 +109,7 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст patronymicTextField
      */
     func unbindPatronymic() -> String {
-        if let surname = patronymicTextField.text {
-            return surname
-        }
-        return ""
+        return patronymicTextField.unbindText()
     }
     
     /*
@@ -122,10 +118,7 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст positionTextField
      */
     func unbindPosition() -> String {
-        if let surname = positionTextField.text {
-            return surname
-        }
-        return ""
+        return positionTextField.unbindText()
     }
     
     /*

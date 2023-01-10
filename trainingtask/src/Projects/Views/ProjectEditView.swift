@@ -40,9 +40,14 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         nameTextField.delegate = self
         descriptionTextField.delegate = self
         
-        nameTextField.placeholder = "Название"
-        descriptionTextField.placeholder = "Описание"
-        
+        nameTextField.bindPlaceholder(text: "Название")
+        descriptionTextField.bindPlaceholder(text: "Описание")
+    }
+    
+    /*
+     Метод вызова FirstResponder при загрузке view
+     */
+    func initFirstResponder() {
         nameTextField.becomeFirstResponder()
     }
     
@@ -64,10 +69,7 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст nameTextField
      */
     func unbindProjectName() -> String {
-        if let name = nameTextField.text {
-            return name
-        }
-        return ""
+        return nameTextField.unbindText()
     }
     
     /*
@@ -76,10 +78,7 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст descriptionTextField
      */
     func unbindProjectDescription() -> String {
-        if let description = descriptionTextField.text {
-            return description
-        }
-        return ""
+        return descriptionTextField.unbindText()
     }
     
     /*

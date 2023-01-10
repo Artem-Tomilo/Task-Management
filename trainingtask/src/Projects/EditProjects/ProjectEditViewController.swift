@@ -7,13 +7,18 @@ import UIKit
 class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
-    private let alertController = Alert()
+    private let errorAlertController = ErrorAlert()
     weak var delegate: ProjectEditViewControllerDelegate? // объект делегата для ProjectEditViewControllerDelegate
     var possibleProjectToEdit: Project? // свойство, в которое будет записываться передаваемый проект для редактирования
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        projectEditView.initFirstResponder()
     }
     
     private func setup() {
@@ -99,7 +104,7 @@ class ProjectEditViewController: UIViewController {
      */
     private func handleError(error: Error) {
         let projectError = error as! ProjectEditingErrors
-        alertController.showAlertController(message: projectError.message, viewController: self)
+        errorAlertController.showAlertController(message: projectError.message, viewController: self)
     }
     
     /*

@@ -27,8 +27,8 @@ class SplashViewController: UIViewController {
         
         let delay = DispatchTime.now() + 5
         DispatchQueue.main.asyncAfter(deadline: delay) {
-            let vc = MainMenuViewController(settingsManager: self.settingsManager, stub: self.stub)
-            self.navigationController?.pushViewController(vc, animated: true)
+            let viewController = MainMenuViewController(settingsManager: self.settingsManager, stub: self.stub)
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
     }
     

@@ -1,10 +1,11 @@
 import UIKit
 
 /*
- Alert - класс для вызова алерта при обработке ошибок
+ ErrorAlert - класс для вызова алерта при обработке ошибок
  */
 
-class Alert {
+class ErrorAlert {
+    
     func showAlertController(message: String, viewController: UIViewController) {
         let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ок", style: .destructive, handler: nil))

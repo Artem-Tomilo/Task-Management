@@ -80,13 +80,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         startDateTextField.delegate = self
         endDateTextField.delegate = self
         
-        nameTextField.placeholder = "Название задачи"
-        projectTextField.placeholder = "Проект"
-        employeeTextField.placeholder = "Сотрудник"
-        statusTextField.placeholder = "Статус"
-        requiredNumberOfHoursTextField.placeholder = "Кол-во часов"
-        startDateTextField.placeholder = "Дата начала"
-        endDateTextField.placeholder = "Дата окончания"
+        nameTextField.bindPlaceholder(text: "Название задачи")
+        projectTextField.bindPlaceholder(text: "Проект")
+        employeeTextField.bindPlaceholder(text: "Сотрудник")
+        statusTextField.bindPlaceholder(text: "Статус")
+        requiredNumberOfHoursTextField.bindPlaceholder(text: "Кол-во часов")
+        startDateTextField.bindPlaceholder(text: "Дата начала")
+        endDateTextField.bindPlaceholder(text: "Дата окончания")
         
         requiredNumberOfHoursTextField.keyboardType = .numberPad
         startDateTextField.keyboardType = .numberPad
@@ -132,13 +132,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      task - задача, данными которой будут заполняться текстФилды
      */
     func bind(task: Task) {
-        nameTextField.text = task.name
-        projectTextField.text = task.project.name
-        employeeTextField.text = task.employee.fullName
-        statusTextField.text = task.status.title
-        requiredNumberOfHoursTextField.text = String(task.requiredNumberOfHours)
-        startDateTextField.text = dateFormatter.string(from: task.startDate)
-        endDateTextField.text = dateFormatter.string(from: task.endDate)
+        nameTextField.bindText(text: task.name)
+        projectTextField.bindText(text: task.project.name)
+        employeeTextField.bindText(text: task.employee.fullName)
+        statusTextField.bindText(text: task.status.title)
+        requiredNumberOfHoursTextField.bindText(text: String(task.requiredNumberOfHours))
+        startDateTextField.bindText(text: dateFormatter.string(from: task.startDate))
+        endDateTextField.bindText(text: dateFormatter.string(from: task.endDate))
     }
     
     /*
@@ -148,7 +148,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      project - проект, данными которого будет заполняться projectTextField
      */
     func bindProjectTextFieldBy(project: Project) {
-        projectTextField.text = project.name
+        projectTextField.bindText(text: project.name)
     }
     
     /*
@@ -161,22 +161,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         let date = Date()
         let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
         let stringDate = dateFormatter.string(from: endDate)
-        endDateTextField.text = stringDate
-    }
-    
-    /*
-     Метод для проверки введенных данных в текстФилдах
-     
-     parametrs:
-     textField - проверяемый textField
-     Возвращаемое значение - текст данного textField
-     */
-    private func checkValue(in textField: BorderedTextField) -> String {
-        let text = textField.text
-        if let text  {
-            return text
-        }
-        return ""
+        endDateTextField.bindText(text: stringDate)
     }
     
     /*
@@ -185,8 +170,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст nameTextField
      */
     func unbindName() -> String {
-        let name = checkValue(in: nameTextField)
-        return name
+        return nameTextField.unbindText()
     }
     
     /*
@@ -195,8 +179,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст projectTextField
      */
     func unbindProject() -> String {
-        let project = checkValue(in: projectTextField)
-        return project
+        return projectTextField.unbindText()
     }
     
     /*
@@ -205,8 +188,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст employeeTextField
      */
     func unbindEmployee() -> String {
-        let employee = checkValue(in: employeeTextField)
-        return employee
+        return employeeTextField.unbindText()
     }
     
     /*
@@ -215,8 +197,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст statusTextField
      */
     func unbindStatus() -> String {
-        let status = checkValue(in: statusTextField)
-        return status
+        return statusTextField.unbindText()
     }
     
     /*
@@ -225,8 +206,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст requiredNumberOfHoursTextField
      */
     func unbindHours() -> String {
-        let hours = checkValue(in: requiredNumberOfHoursTextField)
-        return hours
+        return requiredNumberOfHoursTextField.unbindText()
     }
     
     /*
@@ -235,8 +215,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст startDateTextField
      */
     func unbindStartDate() -> String {
-        let startDate = checkValue(in: startDateTextField)
-        return startDate
+        return startDateTextField.unbindText()
     }
     
     /*
@@ -245,8 +224,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст endDateTextField
      */
     func unbindEndDate() -> String {
-        let endDate = checkValue(in: endDateTextField)
-        return endDate
+        return endDateTextField.unbindText()
     }
     
     /*

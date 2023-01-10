@@ -5,6 +5,7 @@ import UIKit
  */
 
 class EmployeeCellLabel: UILabel {
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         translatesAutoresizingMaskIntoConstraints = false
@@ -18,5 +19,15 @@ class EmployeeCellLabel: UILabel {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    /*
+     Метод присвоения текста
+     
+     parameters:
+     text - текст для label
+     */
+    func bindText(text: String) {
+        self.text = text
     }
 }

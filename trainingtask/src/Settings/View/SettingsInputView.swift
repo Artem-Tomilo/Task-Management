@@ -47,33 +47,38 @@ class SettingsInputView: UIView, UITextFieldDelegate {
     }
     
     /*
-     bind - метод для заполнения текущего view данными
+     Метод для заполнения текущего view данными
      
      parametrs:
      labelText - данные для текста лейбла
-     textFieldPlaceholder - данные для плейсхолдера textField
      textFieldText - данные для текста textField
      */
-    func bind(labelText: String, textFieldPlaceholder: String, textFieldText: String) {
+    func bindText(labelText: String, textFieldText: String) {
         label.text = labelText
-        textField.placeholder = textFieldPlaceholder
-        textField.text = textFieldText
+        textField.bindText(text: textFieldText)
     }
     
     /*
-     unbind - метод для проверки и получения текста textField'а
+     Метод для присвоения данных в placeholder
+     
+     parametrs:
+     text - данные для placeholder textField
+     */
+    func bindPlaceholder(text: String) {
+        textField.bindPlaceholder(text: text)
+    }
+    
+    /*
+     Метод для проверки и получения текста textField'а
      
      Возвращаемое значение - сам текст
      */
     func unbind() -> String {
-        if let text = textField.text {
-            return text
-        }
-        return "No data"
+        return textField.unbindText()
     }
     
     /*
-     checkTextFieldForDelegate - метод для проверки текстфилда, если параметр flag == true, то в текстфилд можно вносить только цифры
+     Метод для проверки текстфилда, если параметр flag == true, то в текстфилд можно вносить только цифры
      */
     func checkTextFieldForDelegate(flag: Bool) {
         if flag {

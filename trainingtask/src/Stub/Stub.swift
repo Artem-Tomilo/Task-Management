@@ -29,7 +29,7 @@ class Stub: Server {
     private func createEmployees() {
         let lastNames = ["Томило", "Свиридов", "Котов", "Бобров"]
         let firstNames = ["Артем", "Сергей", "Максим", "Виталий"]
-        let patronymics = ["Игоревич", "Александрович", "Владимирович", "Юрьевич"]
+        let patronymics = ["Игоревич", "Иванович", "Сергеевич", "Юрьевич"]
         let postiton = ["разработчик", "директор", "бухгалтер", "охранник"]
         
         for i in 0..<4 {

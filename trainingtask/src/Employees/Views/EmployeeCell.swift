@@ -68,10 +68,10 @@ class EmployeeCell: UITableViewCell {
      positionText - текст для positionLabel
      */
     func bindText(surnameText: String, nameText: String, patronymicText: String, positionText: String) {
-        surnameLabel.text = surnameText
-        nameLabel.text = nameText
-        patronymicLabel.text = patronymicText
-        positionLabel.text = positionText
+        surnameLabel.bindText(text: surnameText)
+        nameLabel.bindText(text: nameText)
+        patronymicLabel.bindText(text: patronymicText)
+        positionLabel.bindText(text: positionText) 
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

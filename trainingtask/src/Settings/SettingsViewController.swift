@@ -9,7 +9,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
     private var urlView = SettingsInputView()
     private var recordsView = SettingsInputView()
     private var daysView = SettingsInputView()
-    private let alertController = Alert()
+    private let alertController = ErrorAlert()
     
     private let settingsManager: SettingsManager
     
@@ -70,9 +70,12 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         do {
             let settings = try settingsManager.getSettings()
             
-            urlView.bind(labelText: "URL сервера", textFieldPlaceholder: "URL", textFieldText: settings.url)
-            recordsView.bind(labelText: "Максимальное количество записей в списках", textFieldPlaceholder: "Количество записей", textFieldText: String(settings.maxRecords))
-            daysView.bind(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldPlaceholder: "Количество дней", textFieldText: String(settings.maxDays))
+            urlView.bindText(labelText: "URL сервера", textFieldText: settings.url)
+            urlView.bindPlaceholder(text: "URL")
+            recordsView.bindText(labelText: "Максимальное количество записей в списках", textFieldText: String(settings.maxRecords))
+            recordsView.bindPlaceholder(text: "Количество записей")
+            daysView.bindText(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldText: String(settings.maxDays))
+            daysView.bindPlaceholder(text: "Количество дней")
         } catch {
             handleError(error)
         }

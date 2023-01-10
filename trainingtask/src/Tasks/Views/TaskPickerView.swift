@@ -47,7 +47,7 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
      data - новые данные для textField
      */
     private func bindNewData(data: String) {
-        textField.text = data
+        textField.bindText(text: data)
     }
     
     /*
@@ -78,7 +78,7 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
      Target на кнопку Cancel - вызывает сброс введенных данных
      */
     @objc func cancelTapped(_ sender: UIBarButtonItem) {
-        textField.text = ""
+        textField.bindText(text: "")
         textField.endEditing(false)
         pickerView.selectRow(0, inComponent: 0, animated: true)
     }

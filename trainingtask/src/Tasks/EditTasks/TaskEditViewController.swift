@@ -10,9 +10,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private var projects: [Project] = []
     private var employees: [Employee] = []
     private var status = TaskStatus.allCases
-    private var data = [String]()
+    private var pickerViewData = [String]()
     private let dateFormatter = TaskDateFormatter()
-    private let alertController = Alert()
+    private let errorAlertController = ErrorAlert()
     
     var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
     var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
@@ -104,9 +104,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
      Метод привязывает названия проектов в массив для отображения в PickerView
      */
     private func setDataFromProjects() {
-        data.removeAll()
+        pickerViewData.removeAll()
         for i in projects {
-            data.append(i.name)
+            pickerViewData.append(i.name)
         }
     }
     
@@ -114,9 +114,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
      Метод привязывает полное ФИО сотрудников в массив для отображения в PickerView
      */
     private func setDataFromEmployees() {
-        data.removeAll()
+        pickerViewData.removeAll()
         for i in employees {
-            data.append(i.fullName)
+            pickerViewData.append(i.fullName)
         }
     }
     
@@ -124,9 +124,9 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
      Метод привязывает названия статусов задачи в массив для отображения в PickerView
      */
     private func setDataFromStatus() {
-        data.removeAll()
+        pickerViewData.removeAll()
         for i in TaskStatus.allCases {
-            data.append(i.title)
+            pickerViewData.append(i.title)
         }
     }
     
@@ -169,7 +169,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     }
     
     /*
-     Метод получает данные из текстФилдов экрана и проверяет на правильность заполнения и собирает модель задачи, если значение введено неверно - будет выбрасываться соответствующая ошибка, в случае ошибки происходит ее обработка
+     Метод получает данные из текстФилдов экрана, проверяет на правильность заполнения и собирает модель задачи, если значение введено неверно - будет выбрасываться соответствующая ошибка, в случае ошибки происходит ее обработка
      
      Возвращаемое значение - задача
      */
@@ -260,7 +260,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
      */
     private func handleError(error: Error) {
         let taskError = error as! TaskEditingErrors
-        alertController.showAlertController(message: taskError.message, viewController: self)
+        errorAlertController.showAlertController(message: taskError.message, viewController: self)
     }
     
     /*
@@ -313,6 +313,6 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         if taskEditView.isStatusTextField {
             setDataFromStatus()
         }
-        return data
+        return pickerViewData
     }
 }

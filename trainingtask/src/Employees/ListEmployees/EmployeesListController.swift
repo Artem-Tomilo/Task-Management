@@ -11,7 +11,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private var spinnerView = SpinnerView()
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
-    private let alertController = Alert()
+    private let errorAlertController = ErrorAlert()
     
     private var serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
     private let settingsManager: SettingsManager
@@ -189,7 +189,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      */
     private func handleError(_ error: Error) {
         let employeeError = error as! EmployeeStubErrors
-        alertController.showAlertController(message: employeeError.message, viewController: self)
+        errorAlertController.showAlertController(message: employeeError.message, viewController: self)
     }
     
     /*
