@@ -198,7 +198,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
             return tasksArray[indexPath.row]
         }
         else {
-            throw TaskStubErrors.noSuchTask
+            throw BaseError(message: "Не удалось получить задачу")
         }
     }
     
@@ -209,7 +209,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      error - обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
-        let taskError = error as! TaskStubErrors
+        let taskError = error as! BaseError
         errorAlertController.showAlertController(message: taskError.message, viewController: self)
     }
     

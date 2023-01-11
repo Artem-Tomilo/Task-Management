@@ -177,7 +177,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
             return projectsArray[indexPath.row]
         }
         else {
-            throw ProjectStubErrors.noSuchProject
+            throw BaseError(message: "Не удалось получить проект")
         }
     }
     
@@ -188,7 +188,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
      error - обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
-        let projectError = error as! ProjectStubErrors
+        let projectError = error as! BaseError
         errorAlertController.showAlertController(message: projectError.message, viewController: self)
     }
     

@@ -93,16 +93,16 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      */
     private func validationOfEnteredData() throws {
         guard employeeEditView.unbindSurname() != "" else {
-            throw EmployeeEditingErrors.noSurname
+            throw BaseError(message: "Введите фамилию")
         }
         guard employeeEditView.unbindName() != "" else {
-            throw EmployeeEditingErrors.noName
+            throw BaseError(message: "Введите имя")
         }
         guard employeeEditView.unbindPatronymic() != "" else {
-            throw EmployeeEditingErrors.noPatronymic
+            throw BaseError(message: "Введите отчество")
         }
         guard employeeEditView.unbindPosition() != "" else {
-            throw EmployeeEditingErrors.noPostition
+            throw BaseError(message: "Введите должность")
         }
     }
     
@@ -113,7 +113,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      error - обрабатываемая ошибка
      */
     private func handleError(error: Error) {
-        let employeeError = error as! EmployeeEditingErrors
+        let employeeError = error as! BaseError
         errorAlertController.showAlertController(message: employeeError.message, viewController: self)
     }
     

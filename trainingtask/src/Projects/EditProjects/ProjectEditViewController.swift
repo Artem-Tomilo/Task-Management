@@ -89,10 +89,10 @@ class ProjectEditViewController: UIViewController {
      */
     private func validationOfEnteredData() throws {
         guard projectEditView.unbindProjectName() != "" else {
-            throw ProjectEditingErrors.noName
+            throw BaseError(message: "Введите название")
         }
         guard projectEditView.unbindProjectDescription() != "" else {
-            throw ProjectEditingErrors.noDescription
+            throw BaseError(message: "Введите описание")
         }
     }
     
@@ -103,7 +103,7 @@ class ProjectEditViewController: UIViewController {
      error - обрабатываемая ошибка
      */
     private func handleError(error: Error) {
-        let projectError = error as! ProjectEditingErrors
+        let projectError = error as! BaseError
         errorAlertController.showAlertController(message: projectError.message, viewController: self)
     }
     

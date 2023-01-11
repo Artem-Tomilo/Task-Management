@@ -149,28 +149,28 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
      */
     private func validationOfEnteredData() throws {
         guard taskEditView.unbindName() != "" else {
-            throw TaskEditingErrors.noName
+            throw BaseError(message: "Введите название")
         }
         guard taskEditView.unbindProject() != "" else {
-            throw TaskEditingErrors.noProject
+            throw BaseError(message: "Выберите проект")
         }
         guard taskEditView.unbindEmployee() != "" else {
-            throw TaskEditingErrors.noEmployee
+            throw BaseError(message: "Выберите сотрудника")
         }
         guard taskEditView.unbindStatus() != "" else {
-            throw TaskEditingErrors.noStatus
+            throw BaseError(message: "Выберите статус")
         }
         guard taskEditView.unbindHours() != "" else {
-            throw TaskEditingErrors.noRequiredNumberOfHours
+            throw BaseError(message: "Введите количество часов для выполнения задачи")
         }
         guard taskEditView.unbindHours() != "0" else {
-            throw TaskEditingErrors.wrongHours
+            throw BaseError(message: "Введено некорректное количество часов")
         }
         guard taskEditView.unbindStartDate() != "" else {
-            throw TaskEditingErrors.noStartDate
+            throw BaseError(message: "Выберите начальную дату")
         }
         guard taskEditView.unbindEndDate() != "" else {
-            throw TaskEditingErrors.noEndDate
+            throw BaseError(message: "Выберите конечную дату")
         }
     }
     
@@ -191,25 +191,25 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             let endDate = taskEditView.unbindEndDate()
             
             guard let taskProject = projects.first(where: { $0.name == project }) else {
-                throw ProjectStubErrors.noSuchProject
+                throw BaseError(message: "Не удалось получить проект")
             }
             guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
-                throw EmployeeStubErrors.noSuchEmployee
+                throw BaseError(message: "Не удалось получить сотрудника")
             }
             guard let taskStatus = TaskStatus.allCases.first(where: { $0.title == status }) else {
-                throw TaskEditingErrors.noSuchStatus
+                throw BaseError(message: "Не удалось выбрать статус")
             }
             guard let hours = Int(hours) else {
-                throw TaskEditingErrors.wrongHours
+                throw BaseError(message: "Введено некорректное количество часов")
             }
             guard let startDate = dateFormatter.date(from: startDate) else {
-                throw TaskEditingErrors.wrongStartDate
+                throw BaseError(message: "Некоректный ввод начальной даты")
             }
             guard let endDate = dateFormatter.date(from: endDate) else {
-                throw TaskEditingErrors.wrongEndDate
+                throw BaseError(message: "Некоректный ввод конечной даты")
             }
             guard startDate <= endDate else {
-                throw TaskEditingErrors.startDateGreaterEndDate
+                throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
             }
             
             let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
@@ -265,7 +265,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
      error - обрабатываемая ошибка
      */
     private func handleError(error: Error) {
-        let taskError = error as! TaskEditingErrors
+        let taskError = error as! BaseError
         errorAlertController.showAlertController(message: taskError.message, viewController: self)
     }
     

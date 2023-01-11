@@ -180,7 +180,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             return employeeArray[indexPath.row]
         }
         else {
-            throw EmployeeStubErrors.noSuchEmployee
+            throw BaseError(message: "Не удалось получить сотрудника")
         }
     }
     

@@ -52,12 +52,6 @@
 		38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */; };
 		38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */; };
 		38EF1C4F295C2E7400EB5F8E /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */; };
-		38EF1C51295C305000EB5F8E /* EmployeeEditingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C50295C305000EB5F8E /* EmployeeEditingErrors.swift */; };
-		38EF1C53295C3E8E00EB5F8E /* ProjectEditingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C52295C3E8E00EB5F8E /* ProjectEditingErrors.swift */; };
-		38EF1C55295C434300EB5F8E /* TaskEditingErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C54295C434300EB5F8E /* TaskEditingErrors.swift */; };
-		38EF1C57295C880C00EB5F8E /* EmployeeStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */; };
-		38EF1C5B295E2CCF00EB5F8E /* ProjectStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */; };
-		38EF1C5D295F186E00EB5F8E /* TaskStubErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */; };
 		38EF1C5F29648CF500EB5F8E /* SettingsErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C5E29648CF500EB5F8E /* SettingsErrors.swift */; };
 		38EF1C702968B9E700EB5F8E /* 7.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C6B2968B9E700EB5F8E /* 7.png */; };
 		38EF1C792969A97700EB5F8E /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C782969A97700EB5F8E /* 1.png */; };
@@ -124,12 +118,6 @@
 		38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDatePicker.swift; sourceTree = "<group>"; };
 		38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDateFormatter.swift; sourceTree = "<group>"; };
 		38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
-		38EF1C50295C305000EB5F8E /* EmployeeEditingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditingErrors.swift; sourceTree = "<group>"; };
-		38EF1C52295C3E8E00EB5F8E /* ProjectEditingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditingErrors.swift; sourceTree = "<group>"; };
-		38EF1C54295C434300EB5F8E /* TaskEditingErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditingErrors.swift; sourceTree = "<group>"; };
-		38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeStubErrors.swift; sourceTree = "<group>"; };
-		38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectStubErrors.swift; sourceTree = "<group>"; };
-		38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStubErrors.swift; sourceTree = "<group>"; };
 		38EF1C5E29648CF500EB5F8E /* SettingsErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsErrors.swift; sourceTree = "<group>"; };
 		38EF1C6B2968B9E700EB5F8E /* 7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7.png; sourceTree = "<group>"; };
 		38EF1C782969A97700EB5F8E /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
@@ -266,7 +254,6 @@
 			children = (
 				3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */,
 				3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */,
-				38EF1C50295C305000EB5F8E /* EmployeeEditingErrors.swift */,
 			);
 			path = EditEmployees;
 			sourceTree = "<group>";
@@ -275,7 +262,6 @@
 			isa = PBXGroup;
 			children = (
 				3820315C28D9EF74008FAD35 /* EmployeesListController.swift */,
-				38EF1C56295C880C00EB5F8E /* EmployeeStubErrors.swift */,
 			);
 			path = ListEmployees;
 			sourceTree = "<group>";
@@ -382,7 +368,6 @@
 			isa = PBXGroup;
 			children = (
 				38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */,
-				38EF1C5A295E2CCF00EB5F8E /* ProjectStubErrors.swift */,
 			);
 			path = ListProjects;
 			sourceTree = "<group>";
@@ -401,7 +386,6 @@
 			children = (
 				38EF1B52294376E000EB5F8E /* ProjectEditViewController.swift */,
 				38EF1B582943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift */,
-				38EF1C52295C3E8E00EB5F8E /* ProjectEditingErrors.swift */,
 			);
 			path = EditProjects;
 			sourceTree = "<group>";
@@ -441,7 +425,6 @@
 			isa = PBXGroup;
 			children = (
 				38EF1C372947550700EB5F8E /* TasksListController.swift */,
-				38EF1C5C295F186E00EB5F8E /* TaskStubErrors.swift */,
 			);
 			path = ListTasks;
 			sourceTree = "<group>";
@@ -452,7 +435,6 @@
 				38EF1C3B2947BCF900EB5F8E /* TaskEditViewController.swift */,
 				38EF1C3F2947C75200EB5F8E /* TaskEditViewControllerDelegate.swift */,
 				38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */,
-				38EF1C54295C434300EB5F8E /* TaskEditingErrors.swift */,
 			);
 			path = EditTasks;
 			sourceTree = "<group>";
@@ -552,7 +534,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38EF1C51295C305000EB5F8E /* EmployeeEditingErrors.swift in Sources */,
 				385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */,
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
 				3824BF3D28F00CE80027149D /* SettingsInputView.swift in Sources */,
@@ -566,7 +547,6 @@
 				3824BF4628F4A3260027149D /* SettingsManager.swift in Sources */,
 				38EF1C402947C75200EB5F8E /* TaskEditViewControllerDelegate.swift in Sources */,
 				387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */,
-				38EF1C55295C434300EB5F8E /* TaskEditingErrors.swift in Sources */,
 				385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */,
 				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
 				38EF1B55294378F800EB5F8E /* ProjectEditView.swift in Sources */,
@@ -584,7 +564,6 @@
 				38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */,
 				38EF1C5F29648CF500EB5F8E /* SettingsErrors.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
-				38EF1C57295C880C00EB5F8E /* EmployeeStubErrors.swift in Sources */,
 				38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */,
 				3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */,
 				38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */,
@@ -592,15 +571,12 @@
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
 				38EF1B5129436A3700EB5F8E /* ProjectCell.swift in Sources */,
 				3862A3BF28EAE57A00FE0872 /* Server.swift in Sources */,
-				38EF1C5B295E2CCF00EB5F8E /* ProjectStubErrors.swift in Sources */,
 				3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */,
 				38EF1C35294751EF00EB5F8E /* TaskCell.swift in Sources */,
 				3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */,
 				38EF1B53294376E000EB5F8E /* ProjectEditViewController.swift in Sources */,
 				38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */,
-				38EF1C5D295F186E00EB5F8E /* TaskStubErrors.swift in Sources */,
 				38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */,
-				38EF1C53295C3E8E00EB5F8E /* ProjectEditingErrors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
