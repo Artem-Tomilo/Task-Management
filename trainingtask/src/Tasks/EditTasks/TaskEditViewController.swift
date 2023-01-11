@@ -87,7 +87,10 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         serverDelegate.getProjects({ [weak self] projects in
             guard let self = self else { return }
             self.projects = projects
-        })
+        }) { [weak self] error in
+            guard let self = self else { return }
+            self.handleError(error: error)
+        }
     }
     
     /*
@@ -97,7 +100,10 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         serverDelegate.getEmployees({ [weak self] employees in
             guard let self = self else { return }
             self.employees = employees
-        })
+        }) { [weak self] error in
+            guard let self = self else { return }
+            self.handleError(error: error)
+        }
     }
     
     /*

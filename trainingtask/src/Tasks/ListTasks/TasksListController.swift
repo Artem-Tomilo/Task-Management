@@ -87,23 +87,24 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      */
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
-        do {
-            if let project {
-                try serverDelegate.getTasksFor(project: project) { [weak self] tasks in
-                    guard let self else { return }
-                    self.bindTasksAccordingRecordsCounts(tasks)
-                    self.spinnerView.hideSpinner(from: self)
-                }
-            } else {
-                serverDelegate.getTasks() { [weak self] tasks in
-                    guard let self else { return }
-                    self.bindTasksAccordingRecordsCounts(tasks)
-                    self.spinnerView.hideSpinner(from: self)
-                }
+        if let project {
+            serverDelegate.getTasksFor(project: project) { [weak self] tasks in
+                guard let self else { return }
+                self.bindTasksAccordingRecordsCounts(tasks)
+                self.spinnerView.hideSpinner(from: self)
+            } error: { [weak self] error in
+                guard let self else { return }
+                self.handleError(error)
             }
-        } catch {
-            self.spinnerView.hideSpinner(from: self)
-            handleError(error)
+        } else {
+            serverDelegate.getTasks() { [weak self] tasks in
+                guard let self else { return }
+                self.bindTasksAccordingRecordsCounts(tasks)
+                self.spinnerView.hideSpinner(from: self)
+            } error: { [weak self] error in
+                guard let self else { return }
+                self.handleError(error)
+            }
         }
     }
     
@@ -255,12 +256,13 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      task - задача для удаления
      */
     private func deleteTask(task: Task) {
-        do {
-            try serverDelegate.deleteTask(id: task.id) {
+        serverDelegate.deleteTask(id: task.id) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
     
@@ -316,13 +318,14 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      newTask - новая задача для добавления
      */
     func addNewTask(_ controller: TaskEditViewController, newTask: Task) {
-        do {
-            self.navigationController?.popViewController(animated: true)
-            try serverDelegate.addTask(task: newTask) {
+        self.navigationController?.popViewController(animated: true)
+        serverDelegate.addTask(task: newTask) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
     
@@ -334,13 +337,14 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      editedTask - изменяемая задача
      */
     func editTask(_ controller: TaskEditViewController, editedTask: Task) {
-        do {
-            self.navigationController?.popViewController(animated: true)
-            try serverDelegate.editTask(id: editedTask.id, editedTask: editedTask) {
+        self.navigationController?.popViewController(animated: true)
+        serverDelegate.editTask(id: editedTask.id, editedTask: editedTask) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
 }

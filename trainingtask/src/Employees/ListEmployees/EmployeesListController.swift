@@ -93,6 +93,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
                 self.bind(employees)
             }
             self.spinnerView.hideSpinner(from: self)
+        } error: { [weak self] error in
+            guard let self else { return }
+            self.handleError(error)
         }
     }
     
@@ -188,7 +191,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      error - обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
-        let employeeError = error as! EmployeeStubErrors
+        let employeeError = error as! BaseError
         errorAlertController.showAlertController(message: employeeError.message, viewController: self)
     }
     
@@ -250,12 +253,13 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      employee - сотрудник для удаления
      */
     private func deleteEmployee(employee: Employee) {
-        do {
-            try serverDelegate.deleteEmployee(id: employee.id) {
+        serverDelegate.deleteEmployee(id: employee.id) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
     
@@ -293,13 +297,15 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      newEmployee - новый сотрудник для добавления
      */
     func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
-        do {
-            self.navigationController?.popViewController(animated: true)
-            try serverDelegate.addEmployee(employee: newEmployee) {
+        self.navigationController?.popViewController(animated: true)
+        serverDelegate.addEmployee(employee: newEmployee) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
+            
         }
     }
     
@@ -311,13 +317,14 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      editedEmployee - изменяемый сотрудник
      */
     func editEmployee(_ controller: EmployeeEditViewController, editedEmployee: Employee) {
-        do {
-            self.navigationController?.popViewController(animated: true)
-            try serverDelegate.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) {
+        self.navigationController?.popViewController(animated: true)
+        serverDelegate.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
 }

@@ -73,6 +73,7 @@
 		38EF1C8F2969AB5500EB5F8E /* 13.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C8E2969AB5500EB5F8E /* 13.png */; };
 		38EF1C912969AB6200EB5F8E /* 14.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C902969AB6200EB5F8E /* 14.png */; };
 		38EF1C932969AB6F00EB5F8E /* 15.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C922969AB6F00EB5F8E /* 15.png */; };
+		38EF1C95296EDE4600EB5F8E /* BaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C94296EDE4600EB5F8E /* BaseError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,6 +145,7 @@
 		38EF1C8E2969AB5500EB5F8E /* 13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 13.png; sourceTree = "<group>"; };
 		38EF1C902969AB6200EB5F8E /* 14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 14.png; sourceTree = "<group>"; };
 		38EF1C922969AB6F00EB5F8E /* 15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 15.png; sourceTree = "<group>"; };
+		38EF1C94296EDE4600EB5F8E /* BaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -352,6 +354,7 @@
 				38EF1C2C2944E61700EB5F8E /* Tasks */,
 				387AAD8528E36CAA004BE734 /* Settings */,
 				3820316628D9F0EF008FAD35 /* GlobalCustomViews */,
+				38EF1C94296EDE4600EB5F8E /* BaseError.swift */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -576,6 +579,7 @@
 				38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */,
+				38EF1C95296EDE4600EB5F8E /* BaseError.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */,
 				38EF1C5F29648CF500EB5F8E /* SettingsErrors.swift in Sources */,

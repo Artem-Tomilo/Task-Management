@@ -93,6 +93,9 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
                 self.bind(projects)
             }
             self.spinnerView.hideSpinner(from: self)
+        } error: { [weak self] error in
+            guard let self else { return }
+            self.handleError(error)
         }
     }
     
@@ -232,12 +235,13 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
      project - проект для удаления
      */
     private func deleteProject(project: Project) {
-        do {
-            try serverDelegate.deleteProject(id: project.id) {
+        serverDelegate.deleteProject(id: project.id) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
     
@@ -302,13 +306,14 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
      newProject - новый проект для добавления
      */
     func addNewProject(_ controller: ProjectEditViewController, newProject: Project) {
-        do {
-            self.navigationController?.popViewController(animated: true)
-            try serverDelegate.addProject(project: newProject) {
+        self.navigationController?.popViewController(animated: true)
+        serverDelegate.addProject(project: newProject) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
     
@@ -320,13 +325,14 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
      editedProject - изменяемый проект
      */
     func editProject(_ controller: ProjectEditViewController, editedProject: Project) {
-        do {
-            self.navigationController?.popViewController(animated: true)
-            try serverDelegate.editProject(id: editedProject.id, editedProject: editedProject) {
+        self.navigationController?.popViewController(animated: true)
+        serverDelegate.editProject(id: editedProject.id, editedProject: editedProject) { result in
+            switch result {
+            case .success():
                 self.loadData()
+            case .failure(let error):
+                self.handleError(error)
             }
-        } catch {
-            handleError(error)
         }
     }
 }
