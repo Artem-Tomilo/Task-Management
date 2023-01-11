@@ -19,7 +19,7 @@ class DefaultSettingsStorage {
               let url = settingsDictionary.value(forKey: "Url") as? String,
               let records = settingsDictionary.value(forKey: "Records") as? Int,
               let days = settingsDictionary.value(forKey: "Days") as? Int else {
-            throw SettingsErrors.noDefaultSettings
+            throw BaseError(message: "Не удалось получить настройки по умолчанию")
         }
         let defaultSettings = Settings(url: url, maxRecords: records, maxDays: days)
         return defaultSettings

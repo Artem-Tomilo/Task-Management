@@ -100,7 +100,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      error - обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
-        let settingsError = error as! SettingsErrors
+        let settingsError = error as! BaseError
         alertController.showAlertController(message: settingsError.message, viewController: self)
     }
     

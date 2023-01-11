@@ -30,7 +30,7 @@ class SettingsManager {
      */
     func getSettings() throws -> Settings {
         guard let settings = try settingsStorage.getUserSettings() else {
-            throw SettingsErrors.noUserSettings
+            throw BaseError(message: "Не удалось получить настройки пользователя")
         }
         return settings
     }

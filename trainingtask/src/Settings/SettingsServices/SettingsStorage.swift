@@ -16,7 +16,7 @@ class SettingsStorage {
      */
     func getUserSettings() throws -> Settings? {
         guard let data = userDefaults.object(forKey: SettingsStorage.settingsKey) as? Data else {
-            throw SettingsErrors.noUserSettings
+            throw BaseError(message: "Не удалось получить настройки пользователя")
         }
         let settings = try JSONDecoder().decode(Settings.self, from: data)
         return settings
@@ -30,7 +30,7 @@ class SettingsStorage {
      */
     func saveUserSettings(settings: Settings) throws {
         guard let data = try? JSONEncoder().encode(settings) else {
-            throw SettingsErrors.saveUserSettingsError
+            throw BaseError(message: "Не удалось сохранить настройки пользователя")
         }
         userDefaults.set(data, forKey: SettingsStorage.settingsKey)
     }
