@@ -23,7 +23,6 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        displaySettings()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,6 +46,8 @@ class SettingsViewController: UIViewController {
             settingsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
+        bind(settings: settingsManager.getSettings())
+        
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSettings(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
@@ -60,16 +61,10 @@ class SettingsViewController: UIViewController {
     /*
      Метод для отображения настроек в соответствующих полях, в случае обнаружения ошибок будет производиться их обработка
      */
-    private func displaySettings() {
-        do {
-            let settings = try settingsManager.getSettings()
-            
-            settingsView.bindText(urlTextFieldText: settings.url,
-                                  recordsTextFieldText: String(settings.maxRecords),
-                                  daysTextFieldText: String(settings.maxDays))
-        } catch {
-            handleError(error)
-        }
+    private func bind(settings: Settings) {
+        settingsView.bindText(urlTextFieldText: settings.url,
+                              recordsTextFieldText: String(settings.maxRecords),
+                              daysTextFieldText: String(settings.maxDays))
     }
     
     /*

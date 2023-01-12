@@ -18,21 +18,24 @@ class SettingsManager {
      Метод проверки и загрузки настроек приложения
      */
     private func loadSettings() throws -> Settings {
-        if let settings = try settingsStorage.getUserSettings() {
+        do {
+            let settings = try settingsStorage.getUserSettings()
             return settings
-        } else {
-            return try defaultSettingsStorage.getSettings()
+        } catch {
+            let settings = try defaultSettingsStorage.getSettings()
+            return settings
         }
     }
     
     /*
      Метод получения сохранных настроек из settingsStorage, в случае отсутствия настроек будет производиться бросание ошибки
      */
-    func getSettings() throws -> Settings {
-        guard let settings = try settingsStorage.getUserSettings() else {
-            throw BaseError(message: "Не удалось получить настройки пользователя")
+    func getSettings() -> Settings {
+        do {
+            return try settingsStorage.getUserSettings()
+        } catch {
+            fatalError(error.localizedDescription)
         }
-        return settings
     }
     
     /*

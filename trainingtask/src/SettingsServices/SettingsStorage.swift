@@ -14,7 +14,7 @@ class SettingsStorage {
      
      Возращает значение типа Settings? с сохраненными пользовательскими настройками, в случае возникновения ошибок будет производиться их обработка
      */
-    func getUserSettings() throws -> Settings? {
+    func getUserSettings() throws -> Settings {
         guard let data = userDefaults.object(forKey: SettingsStorage.settingsKey) as? Data else {
             throw BaseError(message: "Не удалось получить настройки пользователя")
         }

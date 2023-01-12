@@ -154,7 +154,7 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		3820316628D9F0EF008FAD35 /* GlobalCustomViews */ = {
+		3820316628D9F0EF008FAD35 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */,
@@ -162,7 +162,7 @@
 				3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */,
 				385A04A628DDC54400FD008F /* SpinnerView.swift */,
 			);
-			path = GlobalCustomViews;
+			path = Views;
 			sourceTree = "<group>";
 		};
 		3824BF3B28EF7E970027149D /* Model */ = {
@@ -331,13 +331,8 @@
 				38EF1C94296EDE4600EB5F8E /* BaseError.swift */,
 				385A04A328DDC35400FD008F /* Stub */,
 				3824BF4D28F5F22B0027149D /* SettingsServices */,
-				387AAD9528E6E531004BE734 /* SplashViewController */,
-				387AAD8428E36C55004BE734 /* MainMenu */,
-				387AAD8228E36BB1004BE734 /* Employees */,
-				38EF1A7129435CC600EB5F8E /* Projects */,
-				38EF1C2C2944E61700EB5F8E /* Tasks */,
-				387AAD8528E36CAA004BE734 /* Settings */,
-				3820316628D9F0EF008FAD35 /* GlobalCustomViews */,
+				38EF1CB82970117D00EB5F8E /* Screen */,
+				3820316628D9F0EF008FAD35 /* Views */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -443,6 +438,19 @@
 				38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */,
 			);
 			path = TaskEditView;
+			sourceTree = "<group>";
+		};
+		38EF1CB82970117D00EB5F8E /* Screen */ = {
+			isa = PBXGroup;
+			children = (
+				387AAD9528E6E531004BE734 /* SplashViewController */,
+				387AAD8428E36C55004BE734 /* MainMenu */,
+				387AAD8228E36BB1004BE734 /* Employees */,
+				38EF1A7129435CC600EB5F8E /* Projects */,
+				38EF1C2C2944E61700EB5F8E /* Tasks */,
+				387AAD8528E36CAA004BE734 /* Settings */,
+			);
+			path = Screen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
