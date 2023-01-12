@@ -34,7 +34,10 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         
         if let employeeToEdit = possibleEmployeeToEdit {
             title = "Редактирование сотрудника"
-            employeeEditView.bind(surnameTextFieldText: employeeToEdit.surname, nameTextFieldText: employeeToEdit.name, patronymicTextFieldText: employeeToEdit.patronymic, positionTextFieldText: employeeToEdit.position)
+            employeeEditView.bind(surnameTextFieldText: employeeToEdit.surname,
+                                  nameTextFieldText: employeeToEdit.name,
+                                  patronymicTextFieldText: employeeToEdit.patronymic,
+                                  positionTextFieldText: employeeToEdit.position)
         } else {
             title = "Добавление сотрудника"
         }

@@ -52,7 +52,9 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
         
-        let addNewProjectButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditProjectViewController(_:)))
+        let addNewProjectButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                                  target: self,
+                                                  action: #selector(moveToEditProjectViewController(_:)))
         navigationItem.rightBarButtonItem = addNewProjectButton
         
         tableView.refreshControl = refreshControl
@@ -118,7 +120,8 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProjectsListViewController.projectCellIdentifier, for: indexPath) as? ProjectCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ProjectsListViewController.projectCellIdentifier,
+                                                       for: indexPath) as? ProjectCell else { return UITableViewCell() }
         let project = projectsArray[indexPath.row]
         cell.bindText(nameText: project.name, descriptionText: project.description)
         settingCellText(for: cell, with: project)
@@ -138,7 +141,8 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     /*
      Удаление и редактирование проекта происходит после свайпа влево, в случае ошибки происходит ее обработка
      */
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
             guard let self = self else { return }
             do {

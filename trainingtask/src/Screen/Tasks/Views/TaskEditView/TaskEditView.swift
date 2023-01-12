@@ -85,7 +85,10 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         endDateTextField.keyboardType = .numberPad
         startDateTextField.text = currentDate()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardFrame(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardFrame(_:)),
+                                               name: UIResponder.keyboardWillChangeFrameNotification,
+                                               object: nil)
     }
     
     private func initTapGesture() {
@@ -314,7 +317,8 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     /*
      Метод UIGestureRecognizerDelegate
      */
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
@@ -344,7 +348,8 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     /*
      Метод UITextFieldDelegate для проверки вводимых даннх
      */
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
+                   replacementString string: String) -> Bool {
         if textField == requiredNumberOfHoursTextField {
             return string.allSatisfy {
                 $0.isNumber

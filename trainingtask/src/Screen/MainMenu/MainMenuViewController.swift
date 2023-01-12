@@ -57,7 +57,8 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainMenuViewController.cellIdentifier, for: indexPath) as? MenuCustomCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainMenuViewController.cellIdentifier,
+                                                       for: indexPath) as? MenuCustomCell else { return UITableViewCell() }
         cell.bindText(text: MainMenuList.allCases[indexPath.row].title)
         return cell
     }

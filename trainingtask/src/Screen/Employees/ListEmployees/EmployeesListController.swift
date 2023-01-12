@@ -52,7 +52,9 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
         
-        let addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditEmployeeViewController(_:)))
+        let addNewEmployeeButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                                   target: self,
+                                                   action: #selector(moveToEditEmployeeViewController(_:)))
         navigationItem.rightBarButtonItem = addNewEmployeeButton
         
         tableView.refreshControl = refreshControl
@@ -68,7 +70,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      */
     private func settingCellText(for cell: UITableViewCell, with employee: Employee) {
         if let cell = cell as? EmployeeCell {
-            cell.bindText(surnameText: employee.surname, nameText: employee.name, patronymicText: employee.patronymic, positionText: employee.position)
+            cell.bindText(surnameText: employee.surname,
+                          nameText: employee.name,
+                          patronymicText: employee.patronymic,
+                          positionText: employee.position)
         }
     }
     
@@ -118,7 +123,8 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier, for: indexPath) as? EmployeeCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier,
+                                                       for: indexPath) as? EmployeeCell else { return UITableViewCell() }
         let employee = employeeArray[indexPath.row]
         settingCellText(for: cell, with: employee)
         return cell
@@ -126,7 +132,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = EmployeeCell()
-        cell.bindText(surnameText: EmployeeMenu.surname.title, nameText: EmployeeMenu.name.title, patronymicText: EmployeeMenu.patronymic.title, positionText: EmployeeMenu.position.title)
+        cell.bindText(surnameText: EmployeeMenu.surname.title,
+                      nameText: EmployeeMenu.name.title,
+                      patronymicText: EmployeeMenu.patronymic.title,
+                      positionText: EmployeeMenu.position.title)
         return cell
     }
     
@@ -141,7 +150,8 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     /*
      Удаление и редактирование сотрудника происходит после свайпа влево, в случае ошибки происходит ее обработка
      */
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
             guard let self = self else { return }
             do {

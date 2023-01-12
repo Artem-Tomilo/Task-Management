@@ -69,7 +69,8 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      patronymicTextFieldText - данные для текста patronymicTextField
      positionTextFieldText - данные для текста positionTextField
      */
-    func bind(surnameTextFieldText: String, nameTextFieldText: String, patronymicTextFieldText: String, positionTextFieldText: String) {
+    func bind(surnameTextFieldText: String, nameTextFieldText: String,
+              patronymicTextFieldText: String, positionTextFieldText: String) {
         surnameTextField.bindText(surnameTextFieldText)
         nameTextField.bindText(nameTextFieldText)
         patronymicTextField.bindText(patronymicTextFieldText)

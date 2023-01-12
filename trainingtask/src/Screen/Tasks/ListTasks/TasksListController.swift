@@ -54,7 +54,9 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
         ])
         
-        let addNewTaskButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(moveToEditTaskViewController(_:)))
+        let addNewTaskButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                               target: self,
+                                               action: #selector(moveToEditTaskViewController(_:)))
         navigationItem.rightBarButtonItem = addNewTaskButton
         
         tableView.refreshControl = refreshControl
@@ -141,7 +143,8 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TasksListViewController.taskCellIdentifier, for: indexPath) as? TaskCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TasksListViewController.taskCellIdentifier,
+                                                       for: indexPath) as? TaskCell else { return UITableViewCell() }
         if project != nil {
             cell.hideProjectLabel()
         }
@@ -159,7 +162,8 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     /*
      Удаление и редактирование задачи происходит после свайпа влево, в случае ошибки происходит ее обработка
      */
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let deleteCell = UIContextualAction(style: .destructive, title: "Удалить", handler: { [weak self] _, _, close in
             guard let self = self else { return }
             do {

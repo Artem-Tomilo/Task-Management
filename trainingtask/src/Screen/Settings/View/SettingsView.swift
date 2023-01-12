@@ -147,7 +147,8 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     /*
      Метод UIGestureRecognizerDelegate
      */
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return false
     }
 }

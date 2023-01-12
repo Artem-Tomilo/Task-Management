@@ -211,7 +211,8 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
                 throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
             }
             
-            let task = Task(name: name, project: taskProject, employee: taskEmployee, status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+            let task = Task(name: name, project: taskProject, employee: taskEmployee,
+                            status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
             return task
         } catch {
             handleError(error: error)

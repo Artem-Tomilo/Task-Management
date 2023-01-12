@@ -71,7 +71,9 @@ class SettingsViewController: UIViewController {
      Метод сохранения пользовательских настроек, в случае обнаружения ошибок будет производиться их обработка
      */
     private func saveSettings() {
-        let newSettings = Settings(url: settingsView.unbindUrl(), maxRecords: Int(settingsView.unbindRecords()) ?? 0, maxDays: Int(settingsView.unbindDays()) ?? 0)
+        let newSettings = Settings(url: settingsView.unbindUrl(),
+                                   maxRecords: Int(settingsView.unbindRecords()) ?? 0,
+                                   maxDays: Int(settingsView.unbindDays()) ?? 0)
         do {
             try settingsManager.saveUserSettings(settings: newSettings)
         } catch {
