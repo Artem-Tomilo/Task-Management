@@ -7,7 +7,7 @@ import UIKit
 class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     private let pickerView = UIPickerView(frame: .zero)
-    lazy var textField = BorderedTextField()
+    lazy var textField = BorderedTextField(frame: .zero, placeholder: "")
     private var pickerViewData: [String] = []
     
     override init(frame: CGRect) {
@@ -47,7 +47,7 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
      data - новые данные для textField
      */
     private func bindNewData(data: String) {
-        textField.bindText(text: data)
+        textField.bindText(data)
     }
     
     /*
@@ -78,7 +78,7 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
      Target на кнопку Cancel - вызывает сброс введенных данных
      */
     @objc func cancelTapped(_ sender: UIBarButtonItem) {
-        textField.bindText(text: "")
+        textField.bindText("")
         textField.endEditing(false)
         pickerView.selectRow(0, inComponent: 0, animated: true)
     }

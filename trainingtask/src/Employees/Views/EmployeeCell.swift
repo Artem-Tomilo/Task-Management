@@ -7,10 +7,10 @@ import UIKit
 class EmployeeCell: UITableViewCell {
     
     private let background = UIView(frame: .zero)
-    private let surnameLabel = EmployeeCellLabel(frame: .zero)
-    private let nameLabel = EmployeeCellLabel(frame: .zero)
-    private let patronymicLabel = EmployeeCellLabel(frame: .zero)
-    private let positionLabel = EmployeeCellLabel(frame: .zero)
+    private let surnameLabel = BorderedLabel(frame: .zero)
+    private let nameLabel = BorderedLabel(frame: .zero)
+    private let patronymicLabel = BorderedLabel(frame: .zero)
+    private let positionLabel = BorderedLabel(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -68,10 +68,10 @@ class EmployeeCell: UITableViewCell {
      positionText - текст для positionLabel
      */
     func bindText(surnameText: String, nameText: String, patronymicText: String, positionText: String) {
-        surnameLabel.bindText(text: surnameText)
-        nameLabel.bindText(text: nameText)
-        patronymicLabel.bindText(text: patronymicText)
-        positionLabel.bindText(text: positionText) 
+        surnameLabel.bindText(surnameText)
+        nameLabel.bindText(nameText)
+        patronymicLabel.bindText(patronymicText)
+        positionLabel.bindText(positionText)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

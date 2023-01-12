@@ -28,7 +28,8 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
         NSLayoutConstraint.activate([
             employeeEditView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             employeeEditView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            employeeEditView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15)
+            employeeEditView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
+            employeeEditView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
         if let employeeToEdit = possibleEmployeeToEdit {

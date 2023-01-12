@@ -8,13 +8,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
-    private let nameTextField = BorderedTextField()
-    private let projectTextField = BorderedTextField()
-    private let employeeTextField = BorderedTextField()
-    private let statusTextField = BorderedTextField()
-    private let requiredNumberOfHoursTextField = BorderedTextField()
-    private let startDateTextField = BorderedTextField()
-    private let endDateTextField = BorderedTextField()
+    private let nameTextField = BorderedTextField(frame: .zero, placeholder: "Название задачи")
+    private let projectTextField = BorderedTextField(frame: .zero, placeholder: "Проект")
+    private let employeeTextField = BorderedTextField(frame: .zero, placeholder: "Сотрудник")
+    private let statusTextField = BorderedTextField(frame: .zero, placeholder: "Статус")
+    private let requiredNumberOfHoursTextField = BorderedTextField(frame: .zero, placeholder: "Кол-во часов")
+    private let startDateTextField = BorderedTextField(frame: .zero, placeholder: "Дата начала")
+    private let endDateTextField = BorderedTextField(frame: .zero, placeholder: "Дата окончания")
     private let datePicker = TaskDatePicker()
     lazy var picker = TaskPickerView()
     private let dateFormatter = TaskDateFormatter()
@@ -80,14 +80,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         startDateTextField.delegate = self
         endDateTextField.delegate = self
         
-        nameTextField.bindPlaceholder(text: "Название задачи")
-        projectTextField.bindPlaceholder(text: "Проект")
-        employeeTextField.bindPlaceholder(text: "Сотрудник")
-        statusTextField.bindPlaceholder(text: "Статус")
-        requiredNumberOfHoursTextField.bindPlaceholder(text: "Кол-во часов")
-        startDateTextField.bindPlaceholder(text: "Дата начала")
-        endDateTextField.bindPlaceholder(text: "Дата окончания")
-        
         requiredNumberOfHoursTextField.keyboardType = .numberPad
         startDateTextField.keyboardType = .numberPad
         endDateTextField.keyboardType = .numberPad
@@ -132,13 +124,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      task - задача, данными которой будут заполняться текстФилды
      */
     func bind(task: Task) {
-        nameTextField.bindText(text: task.name)
-        projectTextField.bindText(text: task.project.name)
-        employeeTextField.bindText(text: task.employee.fullName)
-        statusTextField.bindText(text: task.status.title)
-        requiredNumberOfHoursTextField.bindText(text: String(task.requiredNumberOfHours))
-        startDateTextField.bindText(text: dateFormatter.string(from: task.startDate))
-        endDateTextField.bindText(text: dateFormatter.string(from: task.endDate))
+        nameTextField.bindText(task.name)
+        projectTextField.bindText(task.project.name)
+        employeeTextField.bindText(task.employee.fullName)
+        statusTextField.bindText(task.status.title)
+        requiredNumberOfHoursTextField.bindText(String(task.requiredNumberOfHours))
+        startDateTextField.bindText(dateFormatter.string(from: task.startDate))
+        endDateTextField.bindText(dateFormatter.string(from: task.endDate))
     }
     
     /*
@@ -148,7 +140,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      project - проект, данными которого будет заполняться projectTextField
      */
     func bindProjectTextFieldBy(project: Project) {
-        projectTextField.bindText(text: project.name)
+        projectTextField.bindText(project.name)
     }
     
     /*
@@ -161,7 +153,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         let date = Date()
         let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
         let stringDate = dateFormatter.string(from: endDate)
-        endDateTextField.bindText(text: stringDate)
+        endDateTextField.bindText(stringDate)
     }
     
     /*

@@ -12,11 +12,11 @@
 		3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315C28D9EF74008FAD35 /* EmployeesListController.swift */; };
 		3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820315E28D9EF9F008FAD35 /* Employee.swift */; };
 		3820316128D9EFDF008FAD35 /* EmployeeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316028D9EFDF008FAD35 /* EmployeeCell.swift */; };
-		3820316328D9EFF7008FAD35 /* EmployeeCellLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316228D9EFF7008FAD35 /* EmployeeCellLabel.swift */; };
+		3820316328D9EFF7008FAD35 /* BorderedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316228D9EFF7008FAD35 /* BorderedLabel.swift */; };
 		3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */; };
 		3820316E28DB4AF1008FAD35 /* BorderedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */; };
 		3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3928EF7E7C0027149D /* Settings.swift */; };
-		3824BF3D28F00CE80027149D /* SettingsInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3C28F00CE80027149D /* SettingsInputView.swift */; };
+		3824BF3D28F00CE80027149D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3C28F00CE80027149D /* SettingsView.swift */; };
 		3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF3E28F01D520027149D /* DefaultSettingsStorage.swift */; };
 		3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4128F0257A0027149D /* SettingsStorage.swift */; };
 		3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */; };
@@ -75,11 +75,11 @@
 		3820315C28D9EF74008FAD35 /* EmployeesListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeesListController.swift; sourceTree = "<group>"; };
 		3820315E28D9EF9F008FAD35 /* Employee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Employee.swift; sourceTree = "<group>"; };
 		3820316028D9EFDF008FAD35 /* EmployeeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeCell.swift; sourceTree = "<group>"; };
-		3820316228D9EFF7008FAD35 /* EmployeeCellLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeCellLabel.swift; sourceTree = "<group>"; };
+		3820316228D9EFF7008FAD35 /* BorderedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedLabel.swift; sourceTree = "<group>"; };
 		3820316B28DB4962008FAD35 /* EmployeeEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewController.swift; sourceTree = "<group>"; };
 		3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderedTextField.swift; sourceTree = "<group>"; };
 		3824BF3928EF7E7C0027149D /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
-		3824BF3C28F00CE80027149D /* SettingsInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInputView.swift; sourceTree = "<group>"; };
+		3824BF3C28F00CE80027149D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3824BF3E28F01D520027149D /* DefaultSettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultSettingsStorage.swift; sourceTree = "<group>"; };
 		3824BF4128F0257A0027149D /* SettingsStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsStorage.swift; sourceTree = "<group>"; };
 		3824BF4328F41FC70027149D /* EmployeeEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeEditViewControllerDelegate.swift; sourceTree = "<group>"; };
@@ -158,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */,
+				3820316228D9EFF7008FAD35 /* BorderedLabel.swift */,
 				3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */,
 				385A04A628DDC54400FD008F /* SpinnerView.swift */,
 			);
@@ -175,7 +176,7 @@
 		3824BF4028F01D700027149D /* View */ = {
 			isa = PBXGroup;
 			children = (
-				3824BF3C28F00CE80027149D /* SettingsInputView.swift */,
+				3824BF3C28F00CE80027149D /* SettingsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -278,7 +279,6 @@
 			isa = PBXGroup;
 			children = (
 				3820316028D9EFDF008FAD35 /* EmployeeCell.swift */,
-				3820316228D9EFF7008FAD35 /* EmployeeCellLabel.swift */,
 				384FB717290A820B0040FE50 /* EmployeeEditView.swift */,
 			);
 			path = Views;
@@ -299,7 +299,6 @@
 			children = (
 				3824BF3B28EF7E970027149D /* Model */,
 				3824BF4028F01D700027149D /* View */,
-				3824BF4D28F5F22B0027149D /* SettingsServices */,
 				387AAD7E28E30F70004BE734 /* SettingsViewController.swift */,
 			);
 			path = Settings;
@@ -331,6 +330,7 @@
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
 				38EF1C94296EDE4600EB5F8E /* BaseError.swift */,
 				385A04A328DDC35400FD008F /* Stub */,
+				3824BF4D28F5F22B0027149D /* SettingsServices */,
 				387AAD9528E6E531004BE734 /* SplashViewController */,
 				387AAD8428E36C55004BE734 /* MainMenu */,
 				387AAD8228E36BB1004BE734 /* Employees */,
@@ -533,8 +533,8 @@
 			files = (
 				385C566E28D4A98C004AC34A /* SplashViewController.swift in Sources */,
 				385C566A28D4A98C004AC34A /* AppDelegate.swift in Sources */,
-				3824BF3D28F00CE80027149D /* SettingsInputView.swift in Sources */,
-				3820316328D9EFF7008FAD35 /* EmployeeCellLabel.swift in Sources */,
+				3824BF3D28F00CE80027149D /* SettingsView.swift in Sources */,
+				3820316328D9EFF7008FAD35 /* BorderedLabel.swift in Sources */,
 				38EF1C4F295C2E7400EB5F8E /* ErrorAlert.swift in Sources */,
 				3824BF4428F41FC70027149D /* EmployeeEditViewControllerDelegate.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeeCell.swift in Sources */,

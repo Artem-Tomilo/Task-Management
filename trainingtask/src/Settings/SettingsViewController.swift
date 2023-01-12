@@ -4,11 +4,9 @@ import UIKit
  SettingsViewController - экран Настройки, который отображает либо дефолтные, либо пользовательские настройки
  */
 
-class SettingsViewController: UIViewController, UITextFieldDelegate {
+class SettingsViewController: UIViewController {
     
-    private var urlView = SettingsInputView()
-    private var recordsView = SettingsInputView()
-    private var daysView = SettingsInputView()
+    private var settingsView = SettingsView()
     private let alertController = ErrorAlert()
     
     private let settingsManager: SettingsManager
@@ -28,6 +26,11 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         displaySettings()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        settingsView.initFirstResponder()
+    }
+    
     private func setup() {
         navigationController?.isNavigationBarHidden = false
         self.title = "Настройки"
@@ -35,32 +38,23 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         navigationController?.navigationBar.tintColor = .black
         view.backgroundColor = .white
         
-        view.addSubview(urlView)
-        view.addSubview(recordsView)
-        view.addSubview(daysView)
+        view.addSubview(settingsView)
         
         NSLayoutConstraint.activate([
-            urlView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            urlView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            urlView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            recordsView.topAnchor.constraint(equalTo: urlView.bottomAnchor, constant: 50),
-            recordsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            recordsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            daysView.topAnchor.constraint(equalTo: recordsView.bottomAnchor, constant: 50),
-            daysView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            daysView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            settingsView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            settingsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            settingsView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            settingsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
-        recordsView.checkTextFieldForDelegate(flag: true)
-        daysView.checkTextFieldForDelegate(flag: true)
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSettings(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
         navigationItem.leftBarButtonItem = cancelButton
+        
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(tapGestureTapped(_:)))
+        view.addGestureRecognizer(gesture)
     }
     
     /*
@@ -70,12 +64,9 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
         do {
             let settings = try settingsManager.getSettings()
             
-            urlView.bindText(labelText: "URL сервера", textFieldText: settings.url)
-            urlView.bindPlaceholder(text: "URL")
-            recordsView.bindText(labelText: "Максимальное количество записей в списках", textFieldText: String(settings.maxRecords))
-            recordsView.bindPlaceholder(text: "Количество записей")
-            daysView.bindText(labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче", textFieldText: String(settings.maxDays))
-            daysView.bindPlaceholder(text: "Количество дней")
+            settingsView.bindText(urlTextFieldText: settings.url,
+                                  recordsTextFieldText: String(settings.maxRecords),
+                                  daysTextFieldText: String(settings.maxDays))
         } catch {
             handleError(error)
         }
@@ -85,7 +76,7 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      Метод сохранения пользовательских настроек, в случае обнаружения ошибок будет производиться их обработка
      */
     private func saveSettings() {
-        let newSettings = Settings(url: urlView.unbind(), maxRecords: Int(recordsView.unbind()) ?? 0, maxDays: Int(daysView.unbind()) ?? 0)
+        let newSettings = Settings(url: settingsView.unbindUrl(), maxRecords: Int(settingsView.unbindRecords()) ?? 0, maxDays: Int(settingsView.unbindDays()) ?? 0)
         do {
             try settingsManager.saveUserSettings(settings: newSettings)
         } catch {
@@ -117,5 +108,13 @@ class SettingsViewController: UIViewController, UITextFieldDelegate {
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    /*
+     Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
+     */
+    @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
+        guard sender.state == .ended else { return }
+        view.endEditing(false)
     }
 }

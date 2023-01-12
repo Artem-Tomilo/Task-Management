@@ -1,10 +1,10 @@
 import UIKit
 
 /*
- EmployeeCellLabel - label, использующийся в ячейке EmployeeCell
+ BorderedLabel - кастомный label
  */
 
-class EmployeeCellLabel: UILabel {
+class BorderedLabel: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,7 +27,7 @@ class EmployeeCellLabel: UILabel {
      parameters:
      text - текст для label
      */
-    func bindText(text: String) {
+    func bindText(_ text: String) {
         self.text = text
     }
 }

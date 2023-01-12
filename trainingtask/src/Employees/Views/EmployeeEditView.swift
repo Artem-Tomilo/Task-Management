@@ -6,16 +6,12 @@ import UIKit
 
 class EmployeeEditView: UIView, UITextFieldDelegate {
     
-    private let surnameTextField: BorderedTextField
-    private let nameTextField: BorderedTextField
-    private let patronymicTextField: BorderedTextField
-    private let positionTextField: BorderedTextField
+    private let surnameTextField = BorderedTextField(frame: .zero, placeholder: "Фамилия")
+    private let nameTextField = BorderedTextField(frame: .zero, placeholder: "Имя")
+    private let patronymicTextField = BorderedTextField(frame: .zero, placeholder: "Отчество")
+    private let positionTextField = BorderedTextField(frame: .zero, placeholder: "Должность")
     
     override init(frame: CGRect) {
-        self.surnameTextField = BorderedTextField()
-        self.nameTextField = BorderedTextField()
-        self.patronymicTextField = BorderedTextField()
-        self.positionTextField = BorderedTextField()
         
         super.init(frame: frame)
         setup()
@@ -55,11 +51,6 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         nameTextField.delegate = self
         patronymicTextField.delegate = self
         positionTextField.delegate = self
-        
-        surnameTextField.bindPlaceholder(text: "Фамилия")
-        nameTextField.bindPlaceholder(text: "Имя")
-        patronymicTextField.bindPlaceholder(text: "Отчество")
-        positionTextField.bindPlaceholder(text: "Должность")
     }
     
     /*
@@ -79,10 +70,10 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      positionTextFieldText - данные для текста positionTextField
      */
     func bind(surnameTextFieldText: String, nameTextFieldText: String, patronymicTextFieldText: String, positionTextFieldText: String) {
-        surnameTextField.bindText(text: surnameTextFieldText)
-        nameTextField.bindText(text: nameTextFieldText)
-        patronymicTextField.bindText(text: patronymicTextFieldText)
-        positionTextField.bindText(text: positionTextFieldText)
+        surnameTextField.bindText(surnameTextFieldText)
+        nameTextField.bindText(nameTextFieldText)
+        patronymicTextField.bindText(patronymicTextFieldText)
+        positionTextField.bindText(positionTextFieldText)
     }
     
     /*

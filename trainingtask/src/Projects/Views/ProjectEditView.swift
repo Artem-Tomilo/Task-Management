@@ -6,13 +6,10 @@ import UIKit
 
 class ProjectEditView: UIView, UITextFieldDelegate {
     
-    private let nameTextField: BorderedTextField
-    private let descriptionTextField: BorderedTextField
+    private let nameTextField = BorderedTextField(frame: .zero, placeholder: "Название")
+    private let descriptionTextField = BorderedTextField(frame: .zero, placeholder: "Описание")
     
     override init(frame: CGRect) {
-        self.nameTextField = BorderedTextField()
-        self.descriptionTextField = BorderedTextField()
-        
         super.init(frame: frame)
         setup()
     }
@@ -39,9 +36,6 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         
         nameTextField.delegate = self
         descriptionTextField.delegate = self
-        
-        nameTextField.bindPlaceholder(text: "Название")
-        descriptionTextField.bindPlaceholder(text: "Описание")
     }
     
     /*
@@ -59,8 +53,8 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      descriptionTextFieldText - данные для текста descriptionTextField
      */
     func bind(nameTextFieldText: String, descriptionTextFieldText: String) {
-        nameTextField.text = nameTextFieldText
-        descriptionTextField.text = descriptionTextFieldText
+        nameTextField.bindText(nameTextFieldText)
+        descriptionTextField.bindText(descriptionTextFieldText)
     }
     
     /*

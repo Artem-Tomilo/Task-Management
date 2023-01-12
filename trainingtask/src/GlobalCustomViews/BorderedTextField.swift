@@ -6,8 +6,9 @@ import UIKit
 
 class BorderedTextField: UITextField {
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, placeholder: String) {
         super.init(frame: frame)
+        self.placeholder = placeholder
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 5
         layer.borderWidth = 1
@@ -21,7 +22,7 @@ class BorderedTextField: UITextField {
         super.init(coder: aDecoder)
     }
     
-    func bindText(text: String) {
+    func bindText(_ text: String) {
         self.text = text
     }
     
@@ -30,9 +31,5 @@ class BorderedTextField: UITextField {
             return text
         }
         return ""
-    }
-    
-    func bindPlaceholder(text: String) {
-        self.placeholder = text
     }
 }
