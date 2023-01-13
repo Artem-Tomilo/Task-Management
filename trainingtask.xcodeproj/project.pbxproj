@@ -67,6 +67,7 @@
 		38EF1C912969AB6200EB5F8E /* 14.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C902969AB6200EB5F8E /* 14.png */; };
 		38EF1C932969AB6F00EB5F8E /* 15.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C922969AB6F00EB5F8E /* 15.png */; };
 		38EF1C95296EDE4600EB5F8E /* BaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C94296EDE4600EB5F8E /* BaseError.swift */; };
+		38EF1CBA2971EFA300EB5F8E /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1CB92971EFA300EB5F8E /* Validator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -132,6 +133,7 @@
 		38EF1C902969AB6200EB5F8E /* 14.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 14.png; sourceTree = "<group>"; };
 		38EF1C922969AB6F00EB5F8E /* 15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 15.png; sourceTree = "<group>"; };
 		38EF1C94296EDE4600EB5F8E /* BaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseError.swift; sourceTree = "<group>"; };
+		38EF1CB92971EFA300EB5F8E /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 			children = (
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
 				38EF1C94296EDE4600EB5F8E /* BaseError.swift */,
+				38EF1CB92971EFA300EB5F8E /* Validator.swift */,
 				385A04A328DDC35400FD008F /* Stub */,
 				3824BF4D28F5F22B0027149D /* SettingsServices */,
 				38EF1CB82970117D00EB5F8E /* Screen */,
@@ -570,6 +573,7 @@
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */,
 				3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */,
+				38EF1CBA2971EFA300EB5F8E /* Validator.swift in Sources */,
 				38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */,
 				38EF1C2F29473CAF00EB5F8E /* Task.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,

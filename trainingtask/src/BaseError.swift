@@ -1,15 +1,12 @@
-//
-//  BaseError.swift
-//  trainingtask
-//
-//  Created by Артем Томило on 11.01.23.
-//
-
 import Foundation
+
+/*
+ Структура типовой ошибки, обрабатываемой в приложении
+ */
 
 struct BaseError: Error {
     
-    var message: String
+    var message: String // Сообщение этой ошибки, отображаемое в alert
     
     init(message: String) {
         self.message = message

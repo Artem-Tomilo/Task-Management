@@ -77,7 +77,19 @@ class TaskCell: UITableViewCell {
      status - статус, данными которого заполняется ячейка
      */
     func changeImage(status: TaskStatus) {
-        image.image = status.imageView
+        var imageView: UIImage? {
+            switch status {
+            case .notStarted:
+                return UIImage(named: "notStarted")
+            case .inProgress:
+                return UIImage(named: "inProgress")
+            case .completed:
+                return UIImage(named: "completed")
+            case .postponed:
+                return UIImage(named: "postponed")
+            }
+        }
+        image.image = imageView
     }
     
     /*

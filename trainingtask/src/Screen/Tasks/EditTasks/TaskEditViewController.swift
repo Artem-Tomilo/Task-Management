@@ -132,7 +132,8 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private func setDataFromStatus() {
         pickerViewData.removeAll()
         for i in TaskStatus.allCases {
-            pickerViewData.append(i.title)
+            let status = taskEditView.getStatusTitleFrom(i)
+            pickerViewData.append(status)
         }
     }
     
@@ -144,50 +145,20 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     }
     
     /*
-     Метод проверки введенных значений, если значение не введено - будет выбрасываться соответствующая ошибка
-     */
-    private func validationOfEnteredData() throws {
-        guard taskEditView.unbindName() != "" else {
-            throw BaseError(message: "Введите название")
-        }
-        guard taskEditView.unbindProject() != "" else {
-            throw BaseError(message: "Выберите проект")
-        }
-        guard taskEditView.unbindEmployee() != "" else {
-            throw BaseError(message: "Выберите сотрудника")
-        }
-        guard taskEditView.unbindStatus() != "" else {
-            throw BaseError(message: "Выберите статус")
-        }
-        guard taskEditView.unbindHours() != "" else {
-            throw BaseError(message: "Введите количество часов для выполнения задачи")
-        }
-        guard taskEditView.unbindHours() != "0" else {
-            throw BaseError(message: "Введено некорректное количество часов")
-        }
-        guard taskEditView.unbindStartDate() != "" else {
-            throw BaseError(message: "Выберите начальную дату")
-        }
-        guard taskEditView.unbindEndDate() != "" else {
-            throw BaseError(message: "Выберите конечную дату")
-        }
-    }
-    
-    /*
-     Метод получает данные из текстФилдов экрана, проверяет на правильность заполнения и собирает модель задачи, если значение введено неверно - будет выбрасываться соответствующая ошибка, в случае ошибки происходит ее обработка
+     Метод получает данные из текстФилдов экрана, проверяет на правильность заполнения и собирает модель задачи,
+     если значение введено неверно - будет выбрасываться соответствующая ошибка, в случае ошибки происходит ее обработка
      
      Возвращаемое значение - задача
      */
     private func bindingAndCheckingValues() throws -> Task? {
         do {
-            try validationOfEnteredData()
-            let name = taskEditView.unbindName()
-            let project = taskEditView.unbindProject()
-            let employee = taskEditView.unbindEmployee()
-            let status = taskEditView.unbindStatus()
-            let hours = taskEditView.unbindHours()
-            let startDate = taskEditView.unbindStartDate()
-            let endDate = taskEditView.unbindEndDate()
+            let name = try taskEditView.unbindName()
+            let project = try taskEditView.unbindProject()
+            let employee = try taskEditView.unbindEmployee()
+            let status = try taskEditView.unbindStatus()
+            let hours = try taskEditView.unbindHours()
+            let startDate = try taskEditView.unbindStartDate()
+            let endDate = try taskEditView.unbindEndDate()
             
             guard let taskProject = projects.first(where: { $0.name == project }) else {
                 throw BaseError(message: "Не удалось получить проект")
@@ -195,24 +166,12 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
             guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
                 throw BaseError(message: "Не удалось получить сотрудника")
             }
-            guard let taskStatus = TaskStatus.allCases.first(where: { $0.title == status }) else {
-                throw BaseError(message: "Не удалось выбрать статус")
-            }
-            guard let hours = Int(hours) else {
-                throw BaseError(message: "Введено некорректное количество часов")
-            }
-            guard let startDate = dateFormatter.date(from: startDate) else {
-                throw BaseError(message: "Некоректный ввод начальной даты")
-            }
-            guard let endDate = dateFormatter.date(from: endDate) else {
-                throw BaseError(message: "Некоректный ввод конечной даты")
-            }
             guard startDate <= endDate else {
                 throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
             }
             
             let task = Task(name: name, project: taskProject, employee: taskEmployee,
-                            status: taskStatus, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+                            status: status, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
             return task
         } catch {
             handleError(error: error)

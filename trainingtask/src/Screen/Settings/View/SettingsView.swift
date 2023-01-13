@@ -116,35 +116,29 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     }
     
     /*
-     Метод для проверки и получения текста recordsTextField'а
+     Метод получения текста recordsTextField, его проверки и форматирования в числовой формат,
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - сам текст
+     Возвращаемое значение - числовое значение текста recordsTextField
      */
     func unbindRecords() throws -> Int {
-        guard recordsTextField.unbindText() != "" else {
-            throw BaseError(message: "Введите количество записей")
-        }
-        if let text = Int(recordsTextField.unbindText()) {
-            return text
-        } else {
-            throw BaseError(message: "Введено некорректное количество записей")
-        }
+        try Validator.validateTextForMissingValue(text: recordsTextField.unbindText(),
+                                                  message: "Введите количество записей")
+        return try Validator.validateAndReturnTextForIntValue(text: recordsTextField.unbindText(),
+                                                              message: "Введено некорректное количество записей")
     }
     
     /*
-     Метод для проверки и получения текста daysTextField'а
+     Метод получения текста daysTextField, его проверки и форматирования в числовой формат,
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - сам текст
+     Возвращаемое значение - числовое значение текста daysTextField
      */
     func unbindDays() throws -> Int {
-        guard daysTextField.unbindText() != "" else {
-            throw BaseError(message: "Введите количество дней")
-        }
-        if let text = Int(daysTextField.unbindText()) {
-            return text
-        } else {
-            throw BaseError(message: "Введено некорректное количество дней")
-        }
+        try Validator.validateTextForMissingValue(text: daysTextField.unbindText(),
+                                                  message: "Введите количество дней")
+        return try Validator.validateAndReturnTextForIntValue(text: daysTextField.unbindText(),
+                                                              message: "Введено некорректное количество дней")
     }
     
     /*

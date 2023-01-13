@@ -130,7 +130,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         nameTextField.bindText(task.name)
         projectTextField.bindText(task.project.name)
         employeeTextField.bindText(task.employee.fullName)
-        statusTextField.bindText(task.status.title)
+        statusTextField.bindText(getStatusTitleFrom(task.status))
         requiredNumberOfHoursTextField.bindText(String(task.requiredNumberOfHours))
         startDateTextField.bindText(dateFormatter.string(from: task.startDate))
         endDateTextField.bindText(dateFormatter.string(from: task.endDate))
@@ -160,66 +160,105 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     }
     
     /*
-     Метод получения текста nameTextField
+     Метод получения текста nameTextField и его проверки, в случае ошибки происходит ее обработка
      
      Возвращаемое значение - текст nameTextField
      */
-    func unbindName() -> String {
+    func unbindName() throws -> String {
+        try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                  message: "Введите название")
         return nameTextField.unbindText()
     }
     
     /*
-     Метод получения текста projectTextField
+     Метод получения текста projectTextField, в случае ошибки происходит ее обработка
      
      Возвращаемое значение - текст projectTextField
      */
-    func unbindProject() -> String {
+    func unbindProject() throws -> String {
+        try Validator.validateTextForMissingValue(text: projectTextField.unbindText(),
+                                                  message: "Выберите проект")
         return projectTextField.unbindText()
     }
     
     /*
-     Метод получения текста employeeTextField
+     Метод получения текста employeeTextField, в случае ошибки происходит ее обработка
      
      Возвращаемое значение - текст employeeTextField
      */
-    func unbindEmployee() -> String {
+    func unbindEmployee() throws -> String {
+        try Validator.validateTextForMissingValue(text: employeeTextField.unbindText(),
+                                                  message: "Выберите сотрудника")
         return employeeTextField.unbindText()
     }
     
     /*
-     Метод получения текста statusTextField
+     Метод получения текста statusTextField, его проверки и форматирования в тип TaskStatus,
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - текст statusTextField
+     Возвращаемое значение - статус
      */
-    func unbindStatus() -> String {
-        return statusTextField.unbindText()
+    func unbindStatus() throws -> TaskStatus {
+        let text = statusTextField.unbindText()
+        let status = getStatusFrom(text)
+        
+        try Validator.validateTextForMissingValue(text: text,
+                                                  message: "Выберите статус")
+        guard let status = TaskStatus.allCases.first(where: { $0 == status }) else {
+            throw BaseError(message: "Не удалось выбрать статус")
+        }
+        return status
     }
     
     /*
-     Метод получения текста requiredNumberOfHoursTextField
+     Метод получения текста requiredNumberOfHoursTextField, его проверки и форматирования в числовой формат,
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - текст requiredNumberOfHoursTextField
+     Возвращаемое значение - числовое значение текста requiredNumberOfHoursTextField
      */
-    func unbindHours() -> String {
-        return requiredNumberOfHoursTextField.unbindText()
+    func unbindHours() throws -> Int {
+        let text = requiredNumberOfHoursTextField.unbindText()
+        try Validator.validateTextForMissingValue(text: text,
+                                                  message: "Введите количество часов для выполнения задачи")
+        
+        let hours = try Validator.validateAndReturnTextForIntValue(text: text,
+                                                                   message: "Введено некорректное количество часов")
+        guard hours > 0 else {
+            throw BaseError(message: "Количество часов должно быть больше 0")
+        }
+        return hours
     }
     
     /*
-     Метод получения текста startDateTextField
+     Метод получения текста startDateTextField, его проверки и форматирования в формат даты,
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - текст startDateTextField
+     Возвращаемое значение - начальная дата
      */
-    func unbindStartDate() -> String {
-        return startDateTextField.unbindText()
+    func unbindStartDate() throws -> Date {
+        try Validator.validateTextForMissingValue(text: startDateTextField.unbindText(),
+                                                  message: "Введите начальную дату")
+        if let date = dateFormatter.date(from: startDateTextField.unbindText()) {
+            return date
+        } else {
+            throw BaseError(message: "Некоректный ввод начальной даты")
+        }
     }
     
     /*
-     Метод получения текста endDateTextField
+     Метод получения текста endDateTextField, его проверки и форматирования в формат даты,
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - текст endDateTextField
+     Возвращаемое значение - конечная дата
      */
-    func unbindEndDate() -> String {
-        return endDateTextField.unbindText()
+    func unbindEndDate() throws -> Date {
+        try Validator.validateTextForMissingValue(text: endDateTextField.unbindText(),
+                                                  message: "Введите конечную дату")
+        if let date = dateFormatter.date(from: endDateTextField.unbindText()) {
+            return date
+        } else {
+            throw BaseError(message: "Некоректный ввод конечной даты")
+        }
     }
     
     /*
@@ -262,6 +301,48 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      */
     private func showDatePicker(textField: BorderedTextField) {
         datePicker.showDatePicker(textField: textField)
+    }
+    
+    /*
+     Метод получения статуса в строковом варианте
+     
+     parameters:
+     status - статус задачи
+     Возвращаемое значение - строковый вариант статуса
+     */
+    func getStatusTitleFrom(_ status: TaskStatus) -> String {
+        switch status {
+        case .notStarted:
+            return "Не начата"
+        case .inProgress:
+            return "В процессе"
+        case .completed:
+            return "Завершена"
+        case .postponed:
+            return "Отложена"
+        }
+    }
+    
+    /*
+     Метод получения статуса из строки
+     
+     parameters:
+     title - проверяемая строка
+     Возвращаемое значение - статус
+     */
+    private func getStatusFrom(_ title: String) -> TaskStatus? {
+        switch title {
+        case "Не начата":
+            return .notStarted
+        case "В процессе":
+            return .inProgress
+        case "Завершена":
+            return .completed
+        case "Отложена":
+            return .postponed
+        default:
+            return nil
+        }
     }
     
     /*
