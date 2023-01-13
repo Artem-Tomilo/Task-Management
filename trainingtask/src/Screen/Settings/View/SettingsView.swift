@@ -96,10 +96,11 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Метод для заполнения текущего view данными
      
      parametrs:
-     labelText - данные для текста лейбла
-     textFieldText - данные для текста textField
+     urlTextFieldText - данные для поля urlTextFieldText
+     recordsTextFieldText - данные для поля recordsTextFieldText
+     daysTextFieldText- данные для поля daysTextFieldText
      */
-    func bindText(urlTextFieldText: String, recordsTextFieldText: String, daysTextFieldText: String) {
+    func bind(urlTextFieldText: String, recordsTextFieldText: String, daysTextFieldText: String) {
         urlTextField.bindText(urlTextFieldText)
         recordsTextField.bindText(recordsTextFieldText)
         daysTextField.bindText(daysTextFieldText)
@@ -119,8 +120,15 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - сам текст
      */
-    func unbindRecords() -> String {
-        return recordsTextField.unbindText()
+    func unbindRecords() throws -> Int {
+        guard recordsTextField.unbindText() != "" else {
+            throw BaseError(message: "Введите количество записей")
+        }
+        if let text = Int(recordsTextField.unbindText()) {
+            return text
+        } else {
+            throw BaseError(message: "Введено некорректное количество записей")
+        }
     }
     
     /*
@@ -128,8 +136,15 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - сам текст
      */
-    func unbindDays() -> String {
-        return daysTextField.unbindText()
+    func unbindDays() throws -> Int {
+        guard daysTextField.unbindText() != "" else {
+            throw BaseError(message: "Введите количество дней")
+        }
+        if let text = Int(daysTextField.unbindText()) {
+            return text
+        } else {
+            throw BaseError(message: "Введено некорректное количество дней")
+        }
     }
     
     /*

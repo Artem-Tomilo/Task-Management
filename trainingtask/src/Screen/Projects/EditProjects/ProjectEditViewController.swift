@@ -54,7 +54,7 @@ class ProjectEditViewController: UIViewController {
      
      Возвращаемое значение - проект
      */
-    private func bindDataFromView() -> Project {
+    private func unbind() -> Project {
         let name = projectEditView.unbindProjectName()
         let description = projectEditView.unbindProjectDescription()
         
@@ -69,7 +69,7 @@ class ProjectEditViewController: UIViewController {
      editedProject - редактируемый проект
      */
     private func editingProject(editedProject: Project) {
-        let bindedProject = bindDataFromView()
+        let bindedProject = unbind()
         
         var project = editedProject
         project.name = bindedProject.name
@@ -81,7 +81,7 @@ class ProjectEditViewController: UIViewController {
      Метод, который создает новый проект
      */
     private func createNewProject() {
-        let newProject = bindDataFromView()
+        let newProject = unbind()
         delegate?.addNewProject(self, newProject: newProject)
     }
     

@@ -57,7 +57,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      
      Возвращаемое значение - сотрудник
      */
-    private func bindDataFromView() -> Employee {
+    private func unbind() -> Employee {
         let surname = employeeEditView.unbindSurname()
         let name = employeeEditView.unbindName()
         let patronymic = employeeEditView.unbindPatronymic()
@@ -74,7 +74,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      editedEmployee - редактируемый сотрудник
      */
     private func editingEmployee(editedEmployee: Employee) {
-        let bindedEmployee = bindDataFromView()
+        let bindedEmployee = unbind()
         
         var employee = editedEmployee
         employee.surname = bindedEmployee.surname
@@ -88,7 +88,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      Метод, который создает нового сотрудника
      */
     private func createNewEmployee() {
-        let employee = bindDataFromView()
+        let employee = unbind()
         delegate?.addNewEmployee(self, newEmployee: employee)
     }
     

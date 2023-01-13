@@ -62,20 +62,30 @@ class SettingsViewController: UIViewController {
      Метод для отображения настроек в соответствующих полях, в случае обнаружения ошибок будет производиться их обработка
      */
     private func bind(settings: Settings) {
-        settingsView.bindText(urlTextFieldText: settings.url,
-                              recordsTextFieldText: String(settings.maxRecords),
-                              daysTextFieldText: String(settings.maxDays))
+        settingsView.bind(urlTextFieldText: settings.url,
+                          recordsTextFieldText: String(settings.maxRecords),
+                          daysTextFieldText: String(settings.maxDays))
+    }
+    
+    /*
+     Метод получает данные из текстФилдов экрана и собирает модель настроек
+     
+     Возвращаемое значение - настройки
+     */
+    private func unbind() throws -> Settings {
+        let settings = Settings(url: settingsView.unbindUrl(),
+                                maxRecords: try settingsView.unbindRecords(),
+                                maxDays: try settingsView.unbindDays())
+        return settings
     }
     
     /*
      Метод сохранения пользовательских настроек, в случае обнаружения ошибок будет производиться их обработка
      */
     private func saveSettings() {
-        let newSettings = Settings(url: settingsView.unbindUrl(),
-                                   maxRecords: Int(settingsView.unbindRecords()) ?? 0,
-                                   maxDays: Int(settingsView.unbindDays()) ?? 0)
         do {
-            try settingsManager.saveUserSettings(settings: newSettings)
+            let settings = try unbind()
+            try settingsManager.saveUserSettings(settings: settings)
         } catch {
             handleError(error)
         }
