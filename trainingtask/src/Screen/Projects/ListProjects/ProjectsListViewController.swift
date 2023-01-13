@@ -11,7 +11,6 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     private var spinnerView = SpinnerView()
     private static let projectCellIdentifier = "NewCell"
     private var projectsArray: [Project] = []
-    private let errorAlertController = ErrorAlert()
     
     private var serverDelegate: Server
     private let settingsManager: SettingsManager
@@ -192,7 +191,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
      */
     private func handleError(_ error: Error) {
         let projectError = error as! BaseError
-        errorAlertController.showAlertController(message: projectError.message, viewController: self)
+        ErrorAlert.showAlertController(message: projectError.message, viewController: self)
     }
     
     /*

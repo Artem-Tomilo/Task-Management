@@ -266,7 +266,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
      */
     private func handleError(error: Error) {
         let taskError = error as! BaseError
-        errorAlertController.showAlertController(message: taskError.message, viewController: self)
+        ErrorAlert.showAlertController(message: taskError.message, viewController: self)
     }
     
     /*

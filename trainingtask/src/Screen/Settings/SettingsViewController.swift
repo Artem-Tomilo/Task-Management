@@ -7,7 +7,6 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     private var settingsView = SettingsView()
-    private let alertController = ErrorAlert()
     
     private let settingsManager: SettingsManager
     
@@ -99,7 +98,7 @@ class SettingsViewController: UIViewController {
      */
     private func handleError(_ error: Error) {
         let settingsError = error as! BaseError
-        alertController.showAlertController(message: settingsError.message, viewController: self)
+        ErrorAlert.showAlertController(message: settingsError.message, viewController: self)
     }
     
     /*

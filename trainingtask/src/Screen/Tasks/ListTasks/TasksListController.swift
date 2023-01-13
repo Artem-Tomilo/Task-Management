@@ -11,7 +11,6 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private var spinnerView = SpinnerView()
     private static let taskCellIdentifier = "TaskCell"
     private var tasksArray: [Task] = []
-    private let errorAlertController = ErrorAlert()
     
     var project: Project? // если свойство имеет значение, то будут отображаться задачи, принадлежащие этому проекту, если свойство равно nil, будут отображаться все задачи
     
@@ -213,7 +212,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      */
     private func handleError(_ error: Error) {
         let taskError = error as! BaseError
-        errorAlertController.showAlertController(message: taskError.message, viewController: self)
+        ErrorAlert.showAlertController(message: taskError.message, viewController: self)
     }
     
     /*

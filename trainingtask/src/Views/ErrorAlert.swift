@@ -6,7 +6,7 @@ import UIKit
 
 class ErrorAlert {
     
-    func showAlertController(message: String, viewController: UIViewController) {
+    static func showAlertController(message: String, viewController: UIViewController) {
         let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Ок", style: .destructive, handler: nil))
         viewController.present(alert, animated: true, completion: nil)

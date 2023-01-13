@@ -7,7 +7,6 @@ import UIKit
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     private let employeeEditView = EmployeeEditView()
-    private let errorAlertController = ErrorAlert()
     weak var delegate: EmployeeEditViewControllerDelegate? // объект делегата для EmployeeEditViewControllerDelegate
     var possibleEmployeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
     
@@ -118,7 +117,7 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
      */
     private func handleError(error: Error) {
         let employeeError = error as! BaseError
-        errorAlertController.showAlertController(message: employeeError.message, viewController: self)
+        ErrorAlert.showAlertController(message: employeeError.message, viewController: self)
     }
     
     /*

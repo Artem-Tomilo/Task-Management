@@ -7,7 +7,6 @@ import UIKit
 class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
-    private let errorAlertController = ErrorAlert()
     weak var delegate: ProjectEditViewControllerDelegate? // объект делегата для ProjectEditViewControllerDelegate
     var possibleProjectToEdit: Project? // свойство, в которое будет записываться передаваемый проект для редактирования
     
@@ -105,7 +104,7 @@ class ProjectEditViewController: UIViewController {
      */
     private func handleError(error: Error) {
         let projectError = error as! BaseError
-        errorAlertController.showAlertController(message: projectError.message, viewController: self)
+        ErrorAlert.showAlertController(message: projectError.message, viewController: self)
     }
     
     /*
