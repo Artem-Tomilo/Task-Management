@@ -154,7 +154,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      */
     func bindEndDateTextField(days: Int) {
         let date = Date()
-        let endDate = dateFormatter.getEndDateFromNumberOfDaysBetweenDates(date: date, days: days)
+        let endDate = dateFormatter.getEndDateFrom(startDate: date, with: days)
         let stringDate = dateFormatter.string(from: endDate)
         endDateTextField.bindText(stringDate)
     }

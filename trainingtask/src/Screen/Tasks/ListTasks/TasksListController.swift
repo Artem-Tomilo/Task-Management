@@ -4,17 +4,17 @@ import UIKit
  TasksListViewController - экран Список задач, отображает tableView со всеми задачами, хранящимися на сервере
  */
 
-class TasksListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TaskEditViewControllerDelegate {
+class TasksListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private var tableView = UITableView()
+    private let tableView = UITableView()
     private let refreshControl = UIRefreshControl()
-    private var spinnerView = SpinnerView()
+    private let spinnerView = SpinnerView()
     private static let taskCellIdentifier = "TaskCell"
     private var tasksArray: [Task] = []
     
     var project: Project? // если свойство имеет значение, то будут отображаться задачи, принадлежащие этому проекту, если свойство равно nil, будут отображаться все задачи
     
-    private var serverDelegate: Server
+    private let serverDelegate: Server
     private let settingsManager: SettingsManager
     
     init(settingsManager: SettingsManager, serverDelegate: Server) {
@@ -30,6 +30,10 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadData()
     }
     
@@ -63,20 +67,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Метод привязки значений в ячейку данными задачи
-     
-     parameters:
-     cell - ячейка, в которой отображается задача
-     task - задача, хранящийся в этой ячейке, данными которой она будет заполняться
-     */
-    private func settingCellText(for cell: UITableViewCell, with task: Task) {
-        if let cell = cell as? TaskCell {
-            cell.bindText(nameText: task.name, projectText: task.project.name)
-        }
-    }
-    
-    /*
-     Метод получение значения максимального количества записей из настроек приложения
+     Метод получения значения максимального количества записей из настроек приложения
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         return settingsManager.getSettings().maxRecords
@@ -94,6 +85,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.spinnerView.hideSpinner(from: self)
             } error: { [weak self] error in
                 guard let self else { return }
+                self.spinnerView.hideSpinner(from: self)
                 self.handleError(error)
             }
         } else {
@@ -103,6 +95,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.spinnerView.hideSpinner(from: self)
             } error: { [weak self] error in
                 guard let self else { return }
+                self.spinnerView.hideSpinner(from: self)
                 self.handleError(error)
             }
         }
@@ -120,7 +113,8 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Метод проверки значения максимального количества записей из настроек, если значение не равно 0, происходит запись данных согласно значению, если равно 0, запись всех задач
+     Метод проверки значения максимального количества записей из настроек,
+     если значение не равно 0, происходит запись данных согласно значению, если равно 0 - запись всех задач
      
      parameters:
      tasks - приходящий массив данных с сервера
@@ -150,7 +144,6 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         let task = tasksArray[indexPath.row]
         cell.bindText(nameText: task.name, projectText: task.project.name)
         cell.changeImage(status: task.status)
-        settingCellText(for: cell, with: task)
         return cell
     }
     
@@ -189,7 +182,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Метод получения текущей задачи
+     Метод получения текущей задачи, в случае ошибки происходит ее обработка
      
      parameters:
      indexPath задачи
@@ -282,7 +275,6 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         if task != nil {
             viewController.possibleTaskToEdit = task
         }
-        viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -300,53 +292,5 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     @objc func refresh(_ sender: UIRefreshControl) {
         tableView.reloadData()
         sender.endRefreshing()
-    }
-    
-    /*
-     Метод протокола TaskEditViewControllerDelegate, который возвращает на экран Список задач после нажатия кнопки Cancel
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     */
-    func addTaskDidCancel(_ controller: TaskEditViewController) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    /*
-     Метод протокола TaskEditViewControllerDelegate, который добавляет новую задачу в массив на сервере и возвращает на экран Список задач, в случае ошибки происходит ее обработка
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     newTask - новая задача для добавления
-     */
-    func addNewTask(_ controller: TaskEditViewController, newTask: Task) {
-        self.navigationController?.popViewController(animated: true)
-        serverDelegate.addTask(task: newTask) { result in
-            switch result {
-            case .success():
-                self.loadData()
-            case .failure(let error):
-                self.handleError(error)
-            }
-        }
-    }
-    
-    /*
-     Метод протокола TaskEditViewControllerDelegate, который изменяет данные задачи, в случае ошибки происходит ее обработка
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     editedTask - изменяемая задача
-     */
-    func editTask(_ controller: TaskEditViewController, editedTask: Task) {
-        self.navigationController?.popViewController(animated: true)
-        serverDelegate.editTask(id: editedTask.id, editedTask: editedTask) { result in
-            switch result {
-            case .success():
-                self.loadData()
-            case .failure(let error):
-                self.handleError(error)
-            }
-        }
     }
 }

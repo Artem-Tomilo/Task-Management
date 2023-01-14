@@ -23,13 +23,13 @@ class TaskDateFormatter: DateFormatter {
      Метод получения даты окончания выполнения задачи
      
      parameters:
-     date - начальная дата выполнения
+     startDate - начальная дата выполнения
      days - количество дней между датами из настроек
      Возвращаемое значение - дата окончания выполнения задачи
      */
-    func getEndDateFromNumberOfDaysBetweenDates(date: Date, days: Int) -> Date {
+    func getEndDateFrom(startDate: Date, with days: Int) -> Date {
         let timeInterval = initTimeInterval(days: days)
-        let endDate = Date(timeInterval: timeInterval, since: date)
+        let endDate = Date(timeInterval: timeInterval, since: startDate)
         return endDate
     }
 }

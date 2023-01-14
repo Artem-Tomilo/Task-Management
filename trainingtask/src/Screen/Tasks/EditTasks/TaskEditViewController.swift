@@ -7,17 +7,16 @@ import UIKit
 class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     
     private let taskEditView = TaskEditView()
+    private let spinnerView = SpinnerView()
     private var projects: [Project] = []
     private var employees: [Employee] = []
     private var status = TaskStatus.allCases
     private var pickerViewData = [String]()
     private let dateFormatter = TaskDateFormatter()
-    private let errorAlertController = ErrorAlert()
     
     var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
     var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
     
-    weak var delegate: TaskEditViewControllerDelegate? // объект делегата для TaskEditViewControllerDelegate
     private let serverDelegate: Server
     private let settingsManager: SettingsManager
     
@@ -138,82 +137,95 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     }
     
     /*
-     Метод получение значения количество дней по умолчанию между начальной и конечной датами в задаче из настроек приложения
+     Метод получения значения количество дней по умолчанию между начальной и конечной датами в задаче из настроек приложения
      */
     private func getNumberOfDaysBetweenDates() -> Int {
         return settingsManager.getSettings().maxDays
     }
     
     /*
-     Метод получает данные из текстФилдов экрана, проверяет на правильность заполнения и собирает модель задачи,
-     если значение введено неверно - будет выбрасываться соответствующая ошибка, в случае ошибки происходит ее обработка
+     Метод получает данные из текстФилдов экрана, делает валидацию и собирает модель задачи,
+     при редактировании заменяет данные редактирумой задачи новыми данными
      
      Возвращаемое значение - задача
      */
-    private func bindingAndCheckingValues() throws -> Task? {
-        do {
-            let name = try taskEditView.unbindName()
-            let project = try taskEditView.unbindProject()
-            let employee = try taskEditView.unbindEmployee()
-            let status = try taskEditView.unbindStatus()
-            let hours = try taskEditView.unbindHours()
-            let startDate = try taskEditView.unbindStartDate()
-            let endDate = try taskEditView.unbindEndDate()
-            
-            guard let taskProject = projects.first(where: { $0.name == project }) else {
-                throw BaseError(message: "Не удалось получить проект")
-            }
-            guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
-                throw BaseError(message: "Не удалось получить сотрудника")
-            }
-            guard startDate <= endDate else {
-                throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
-            }
-            
-            let task = Task(name: name, project: taskProject, employee: taskEmployee,
-                            status: status, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
-            return task
-        } catch {
-            handleError(error: error)
+    private func unbind() throws -> Task {
+        let name = try taskEditView.unbindName()
+        let project = try taskEditView.unbindProject()
+        let employee = try taskEditView.unbindEmployee()
+        let status = try taskEditView.unbindStatus()
+        let hours = try taskEditView.unbindHours()
+        let startDate = try taskEditView.unbindStartDate()
+        let endDate = try taskEditView.unbindEndDate()
+        
+        guard let taskProject = projects.first(where: { $0.name == project }) else {
+            throw BaseError(message: "Не удалось получить проект")
         }
-        return nil
+        guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
+            throw BaseError(message: "Не удалось получить сотрудника")
+        }
+        guard startDate <= endDate else {
+            throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
+        }
+        
+        var task = Task(name: name, project: taskProject, employee: taskEmployee,
+                        status: status, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+        if let possibleTaskToEdit {
+            task.id = possibleTaskToEdit.id
+        }
+        return task
     }
     
     /*
-     Метод, который привязывает новые данные для редактируемой задачи, в случае ошибки происходит ее обработка
+     Метод добавляет новую задачу в массив на сервере и возвращает на экран Список задач,
+     в случае ошибки происходит ее обработка
      
      parameters:
-     editedTask - редактируемая задача
+     newTask - новая задача для добавления
      */
-    private func editingTask(editedTask: Task) {
-        do {
-            if let task = try bindingAndCheckingValues() {
-                var newTask = editedTask
-                newTask.name = task.name
-                newTask.project = task.project
-                newTask.employee = task.employee
-                newTask.status = task.status
-                newTask.requiredNumberOfHours = task.requiredNumberOfHours
-                newTask.startDate = task.startDate
-                newTask.endDate = task.endDate
-                
-                delegate?.editTask(self, editedTask: newTask)
+    private func addingNewTaskOnServer(_ newTask: Task) {
+        self.spinnerView.showSpinner(viewController: self)
+        serverDelegate.addTask(task: newTask) { result in
+            switch result {
+            case .success():
+                self.spinnerView.hideSpinner(from: self)
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                self.spinnerView.hideSpinner(from: self)
+                self.handleError(error: error)
             }
-        } catch {
-            handleError(error: error)
         }
     }
     
     /*
-     Метод, который создает новую задачу, в случае ошибки происходит ее обработка
+     Метод изменяет данные задачи на сервере, в случае ошибки происходит ее обработка
+     
+     parameters:
+     editedTask - изменяемая задача
      */
-    private func createNewTask() {
-        do {
-            if let task = try bindingAndCheckingValues() {
-                delegate?.addNewTask(self, newTask: task)
+    private func editingTaskOnServer(_ editedTask: Task) {
+        self.spinnerView.showSpinner(viewController: self)
+        serverDelegate.editTask(id: editedTask.id, editedTask: editedTask) { result in
+            switch result {
+            case .success():
+                self.spinnerView.hideSpinner(from: self)
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                self.spinnerView.hideSpinner(from: self)
+                self.handleError(error: error)
             }
-        } catch {
-            handleError(error: error)
+        }
+    }
+    
+    /*
+     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект, в случае ошибки происходит ее обработка
+     */
+    private func saveTask() throws {
+        let bindedTask = try unbind()
+        if possibleTaskToEdit != nil {
+            editingTaskOnServer(bindedTask)
+        } else {
+            addingNewTaskOnServer(bindedTask)
         }
     }
     
@@ -229,28 +241,21 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     }
     
     /*
-     Метод, который проверяет и сохраняет либо новую, либо отредактированную задачу
-     */
-    private func saveTask() {
-        if let editedTask = possibleTaskToEdit {
-            editingTask(editedTask: editedTask)
-        } else {
-            createNewTask()
-        }
-    }
-    
-    /*
      Target на кнопку Save - вызывает метод saveTask()
      */
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
-        saveTask()
+        do {
+            try saveTask()
+        } catch {
+            handleError(error: error)
+        }
     }
     
     /*
      Target на кнопку Cancel - возвращает на предыдущий экран
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
-        delegate?.addTaskDidCancel(self)
+        navigationController?.popViewController(animated: true)
     }
     
     /*

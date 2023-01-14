@@ -13,7 +13,7 @@ struct Task: Equatable {
     var requiredNumberOfHours: Int
     var startDate: Date
     var endDate: Date
-    let id: Int
+    var id: Int
     private static var idCounter = 0
     
     init(name: String, project: Project, employee: Employee, status: TaskStatus, requiredNumberOfHours: Int, startDate: Date, endDate: Date) {
