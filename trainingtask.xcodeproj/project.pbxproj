@@ -38,7 +38,6 @@
 		38EF1B5129436A3700EB5F8E /* ProjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B5029436A3700EB5F8E /* ProjectCell.swift */; };
 		38EF1B53294376E000EB5F8E /* ProjectEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B52294376E000EB5F8E /* ProjectEditViewController.swift */; };
 		38EF1B55294378F800EB5F8E /* ProjectEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B54294378F800EB5F8E /* ProjectEditView.swift */; };
-		38EF1B592943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B582943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift */; };
 		38EF1C2F29473CAF00EB5F8E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C2E29473CAF00EB5F8E /* Task.swift */; };
 		38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C312947435100EB5F8E /* TaskStatus.swift */; };
 		38EF1C35294751EF00EB5F8E /* TaskCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C34294751EF00EB5F8E /* TaskCell.swift */; };
@@ -103,7 +102,6 @@
 		38EF1B5029436A3700EB5F8E /* ProjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectCell.swift; sourceTree = "<group>"; };
 		38EF1B52294376E000EB5F8E /* ProjectEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditViewController.swift; sourceTree = "<group>"; };
 		38EF1B54294378F800EB5F8E /* ProjectEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditView.swift; sourceTree = "<group>"; };
-		38EF1B582943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectEditViewControllerDelegate.swift; sourceTree = "<group>"; };
 		38EF1C2E29473CAF00EB5F8E /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		38EF1C312947435100EB5F8E /* TaskStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskStatus.swift; sourceTree = "<group>"; };
 		38EF1C34294751EF00EB5F8E /* TaskCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCell.swift; sourceTree = "<group>"; };
@@ -377,7 +375,6 @@
 			isa = PBXGroup;
 			children = (
 				38EF1B52294376E000EB5F8E /* ProjectEditViewController.swift */,
-				38EF1B582943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift */,
 			);
 			path = EditProjects;
 			sourceTree = "<group>";
@@ -557,7 +554,6 @@
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
 				38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */,
 				387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */,
-				38EF1B592943858E00EB5F8E /* ProjectEditViewControllerDelegate.swift in Sources */,
 				38EF1C382947550800EB5F8E /* TasksListController.swift in Sources */,
 				3862A3B328E70BD700FE0872 /* Stub.swift in Sources */,
 				38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */,

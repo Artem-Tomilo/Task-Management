@@ -124,7 +124,8 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     Метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника, в случае ошибки происходит ее обработка
+     Метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника,
+     в случае ошибки происходит ее обработка
      */
     private func saveEmployee() throws {
         let bindedEmployee = try unbind()
@@ -147,7 +148,8 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     Target на кнопку Save - вызывает метод saveEmployee()
+     Target на кнопку Save - делает валидацию и вызывает метод saveEmployee(),
+     в случае ошибки происходит ее обработка
      */
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
         do {

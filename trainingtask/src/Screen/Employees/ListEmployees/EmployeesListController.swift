@@ -65,23 +65,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Метод привязки значений в ячейку данными сотрудника
-     
-     parameters:
-     cell - ячейка, в которой отображается сотрудник
-     employee - сотрудник, хранящийся в этой ячейке, данными которого она будет заполняться
-     */
-    private func settingCellText(for cell: UITableViewCell, with employee: Employee) {
-        if let cell = cell as? EmployeeCell {
-            cell.bindText(surnameText: employee.surname,
-                          nameText: employee.name,
-                          patronymicText: employee.patronymic,
-                          positionText: employee.position)
-        }
-    }
-    
-    /*
-     Метод получение значения максимального количества записей из настроек приложения
+     Метод получения значения максимального количества записей из настроек приложения
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         return settingsManager.getSettings().maxRecords
@@ -150,7 +134,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier,
                                                        for: indexPath) as? EmployeeCell else { return UITableViewCell() }
         let employee = employeeArray[indexPath.row]
-        settingCellText(for: cell, with: employee)
+        cell.bindText(surnameText: employee.surname,
+                      nameText: employee.name,
+                      patronymicText: employee.patronymic,
+                      positionText: employee.position)
         return cell
     }
     

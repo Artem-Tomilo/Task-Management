@@ -7,8 +7,19 @@ import UIKit
 class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
-    weak var delegate: ProjectEditViewControllerDelegate? // объект делегата для ProjectEditViewControllerDelegate
+    private let spinnerView = SpinnerView()
+    
     var possibleProjectToEdit: Project? // свойство, в которое будет записываться передаваемый проект для редактирования
+    private let serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
+    
+    init(serverDelegate: Server) {
+        self.serverDelegate = serverDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,50 +60,73 @@ class ProjectEditViewController: UIViewController {
     }
     
     /*
-     Метод получает данные из текстФилдов экрана и собирает модель проекта
+     Метод получает данные из текстФилдов экрана, делает валидацию и собирает модель проекта,
+     при редактировании заменяет данные редактирумого проекта новыми данными
      
      Возвращаемое значение - проект
      */
-    private func unbind() -> Project {
-        let name = projectEditView.unbindProjectName()
-        let description = projectEditView.unbindProjectDescription()
+    private func unbind() throws -> Project {
+        let name = try projectEditView.unbindProjectName()
+        let description = try projectEditView.unbindProjectDescription()
         
-        let project = Project(name: name, description: description)
+        var project = Project(name: name, description: description)
+        
+        if let possibleProjectToEdit {
+            project.id = possibleProjectToEdit.id
+        }
         return project
     }
     
     /*
-     Метод, который привязывает новые данные для редактируемого проекта
+     Метод добавляет новый проект в массив на сервере и возвращает на экран Список проектов,
+     в случае ошибки происходит ее обработка
      
      parameters:
-     editedProject - редактируемый проект
+     newProject - новый проект для добавления
      */
-    private func editingProject(editedProject: Project) {
-        let bindedProject = unbind()
-        
-        var project = editedProject
-        project.name = bindedProject.name
-        project.description = bindedProject.description
-        delegate?.editProject(self, editedProject: project)
-    }
-    
-    /*
-     Метод, который создает новый проект
-     */
-    private func createNewProject() {
-        let newProject = unbind()
-        delegate?.addNewProject(self, newProject: newProject)
-    }
-    
-    /*
-     Метод проверки введенных значений, если значение не введено - будет выбрасываться соответствующая ошибка
-     */
-    private func validationOfEnteredData() throws {
-        guard projectEditView.unbindProjectName() != "" else {
-            throw BaseError(message: "Введите название")
+    private func addingNewProjectOnServer(_ newProject: Project) {
+        self.spinnerView.showSpinner(viewController: self)
+        serverDelegate.addProject(project: newProject) { result in
+            switch result {
+            case .success():
+                self.spinnerView.hideSpinner(from: self)
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                self.spinnerView.hideSpinner(from: self)
+                self.handleError(error: error)
+            }
         }
-        guard projectEditView.unbindProjectDescription() != "" else {
-            throw BaseError(message: "Введите описание")
+    }
+    
+    /*
+     Метод изменяет данные проекта на сервере, в случае ошибки происходит ее обработка
+     
+     parameters:
+     editedProject - изменяемый проект
+     */
+    private func editingProjectOnServer(_ editedProject: Project) {
+        self.spinnerView.showSpinner(viewController: self)
+        serverDelegate.editProject(id: editedProject.id, editedProject: editedProject) { result in
+            switch result {
+            case .success():
+                self.spinnerView.hideSpinner(from: self)
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                self.spinnerView.hideSpinner(from: self)
+                self.handleError(error: error)
+            }
+        }
+    }
+    
+    /*
+     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект, в случае ошибки происходит ее обработка
+     */
+    private func saveProject() throws {
+        let bindedProject = try unbind()
+        if possibleProjectToEdit != nil {
+            editingProjectOnServer(bindedProject)
+        } else {
+            addingNewProjectOnServer(bindedProject)
         }
     }
     
@@ -108,34 +142,22 @@ class ProjectEditViewController: UIViewController {
     }
     
     /*
-     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект, в случае ошибки происходит ее обработка
-     */
-    private func saveProject() {
-        do {
-            try validationOfEnteredData()
-            if let editedProject = possibleProjectToEdit {
-                editingProject(editedProject: editedProject)
-            } else {
-                createNewProject()
-            }
-        }
-        catch {
-            handleError(error: error)
-        }
-    }
-    
-    /*
-     Target на кнопку Save - вызывает метод saveProject()
+     Target на кнопку Save - делает валидацию и вызывает метод saveEmployee(),
+     в случае ошибки происходит ее обработка
      */
     @objc func saveProjectButtonTapped(_ sender: UIBarButtonItem) {
-        saveProject()
+        do {
+            try saveProject()
+        } catch {
+            handleError(error: error)
+        }
     }
     
     /*
      Target на кнопку Cancel - возвращает на предыдущий экран
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
-        delegate?.addProjectDidCancel(self)
+        navigationController?.popViewController(animated: true)
     }
     
     /*

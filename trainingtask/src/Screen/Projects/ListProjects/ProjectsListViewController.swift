@@ -4,15 +4,15 @@ import UIKit
  ProjectsListViewController - экран Список проектов, отображает tableView со всеми проектами, хранящимися на сервере
  */
 
-class ProjectsListViewController: UIViewController, ProjectEditViewControllerDelegate, UITableViewDelegate, UITableViewDataSource {
+class ProjectsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private var tableView = UITableView()
+    private let tableView = UITableView()
     private let refreshControl = UIRefreshControl()
-    private var spinnerView = SpinnerView()
+    private let spinnerView = SpinnerView()
     private static let projectCellIdentifier = "NewCell"
     private var projectsArray: [Project] = []
     
-    private var serverDelegate: Server
+    private let serverDelegate: Server
     private let settingsManager: SettingsManager
     
     init(settingsManager: SettingsManager, serverDelegate: Server) {
@@ -28,6 +28,10 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadData()
     }
     
@@ -61,20 +65,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     }
     
     /*
-     Метод привязки значений в ячейку данными проекта
-     
-     parameters:
-     cell - ячейка, в которой отображается проект
-     project - проект, хранящийся в этой ячейке, данными которого она будет заполняться
-     */
-    private func settingCellText(for cell: UITableViewCell, with project: Project) {
-        if let cell = cell as? ProjectCell {
-            cell.bindText(nameText: project.name, descriptionText: project.description)
-        }
-    }
-    
-    /*
-     Метод получение значения максимального количества записей из настроек приложения
+     Метод получения значения максимального количества записей из настроек приложения
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         return settingsManager.getSettings().maxRecords
@@ -95,6 +86,7 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
             self.spinnerView.hideSpinner(from: self)
         } error: { [weak self] error in
             guard let self else { return }
+            self.spinnerView.hideSpinner(from: self)
             self.handleError(error)
         }
     }
@@ -123,7 +115,6 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
                                                        for: indexPath) as? ProjectCell else { return UITableViewCell() }
         let project = projectsArray[indexPath.row]
         cell.bindText(nameText: project.name, descriptionText: project.description)
-        settingCellText(for: cell, with: project)
         return cell
     }
     
@@ -254,11 +245,10 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
      project - передаваемый проект для редактирования, если значение = nil, то будет создание нового проекта
      */
     private func showEditProjectViewController(_ project: Project?) {
-        let viewController = ProjectEditViewController()
+        let viewController = ProjectEditViewController(serverDelegate: serverDelegate)
         if project != nil {
             viewController.possibleProjectToEdit = project
         }
-        viewController.delegate = self
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -288,53 +278,5 @@ class ProjectsListViewController: UIViewController, ProjectEditViewControllerDel
     @objc func refresh(_ sender: UIRefreshControl) {
         tableView.reloadData()
         sender.endRefreshing()
-    }
-    
-    /*
-     Метод протокола ProjectEditViewControllerDelegate, который возвращает на экран Список проектов после нажатия кнопки Cancel
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     */
-    func addProjectDidCancel(_ controller: ProjectEditViewController) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    /*
-     Метод протокола ProjectEditViewControllerDelegate, который добавляет новый проект в массив на сервере и возвращает на экран Список проектов, в случае ошибки происходит ее обработка
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     newProject - новый проект для добавления
-     */
-    func addNewProject(_ controller: ProjectEditViewController, newProject: Project) {
-        self.navigationController?.popViewController(animated: true)
-        serverDelegate.addProject(project: newProject) { result in
-            switch result {
-            case .success():
-                self.loadData()
-            case .failure(let error):
-                self.handleError(error)
-            }
-        }
-    }
-    
-    /*
-     Метод протокола ProjectEditViewControllerDelegate, который изменяет данные проекта, в случае ошибки происходит ее обработка
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     editedProject - изменяемый проект
-     */
-    func editProject(_ controller: ProjectEditViewController, editedProject: Project) {
-        self.navigationController?.popViewController(animated: true)
-        serverDelegate.editProject(id: editedProject.id, editedProject: editedProject) { result in
-            switch result {
-            case .success():
-                self.loadData()
-            case .failure(let error):
-                self.handleError(error)
-            }
-        }
     }
 }
