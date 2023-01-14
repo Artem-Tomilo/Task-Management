@@ -4,15 +4,15 @@ import UIKit
  EmployeesListController - экран Список сотрудников, отображает tableView со всеми сотрудниками, хранящимися на сервере
  */
 
-class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource, EmployeeEditViewControllerDelegate {
+class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private var tableView = UITableView()
+    private let tableView = UITableView()
     private let refreshControl = UIRefreshControl()
-    private var spinnerView = SpinnerView()
+    private let spinnerView = SpinnerView()
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
     
-    private var serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
+    private let serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
     private let settingsManager: SettingsManager
     
     init(settingsManager: SettingsManager, serverDelegate: Server) {
@@ -28,6 +28,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadData()
     }
     
@@ -98,6 +102,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             self.spinnerView.hideSpinner(from: self)
         } error: { [weak self] error in
             guard let self else { return }
+            self.spinnerView.hideSpinner(from: self)
             self.handleError(error)
         }
     }
@@ -111,6 +116,26 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private func bind(_ employees: [Employee]) {
         employeeArray = employees
         self.tableView.reloadData()
+    }
+    
+    /*
+     Метод получения параметров сотрудника в строковом варианте
+     
+     parameters:
+     menu - список параметров
+     Возвращаемое значение - строковый вариант параметра
+     */
+    private func getEmployeeMenuTitleFrom(_ menu: EmployeeMenu) -> String {
+        switch menu {
+        case .surname:
+            return "Фамилия"
+        case .name:
+            return "Имя"
+        case .patronymic:
+            return "Отчество"
+        case .position:
+            return "Должность"
+        }
     }
     
     private func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -131,10 +156,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = EmployeeCell()
-        cell.bindText(surnameText: EmployeeMenu.surname.title,
-                      nameText: EmployeeMenu.name.title,
-                      patronymicText: EmployeeMenu.patronymic.title,
-                      positionText: EmployeeMenu.position.title)
+        cell.bindText(surnameText: getEmployeeMenuTitleFrom(EmployeeMenu.surname),
+                      nameText: getEmployeeMenuTitleFrom(EmployeeMenu.name),
+                      patronymicText: getEmployeeMenuTitleFrom(EmployeeMenu.patronymic),
+                      positionText: getEmployeeMenuTitleFrom(EmployeeMenu.position))
         return cell
     }
     
@@ -246,8 +271,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      employee - передаваемый сотрудник для редактирования, если значение = nil, то будет создание нового сотрудника
      */
     private func showEditEmployeeViewController(_ employee: Employee?) {
-        let viewController = EmployeeEditViewController()
-        viewController.delegate = self
+        let viewController = EmployeeEditViewController(serverDelegate: serverDelegate)
         if employee != nil {
             viewController.possibleEmployeeToEdit = employee
         }
@@ -285,54 +309,5 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     @objc func refresh(_ sender: UIRefreshControl) {
         tableView.reloadData()
         sender.endRefreshing()
-    }
-    
-    /*
-     Метод протокола EmployeeEditViewControllerDelegate, который возвращает на экран Список сотрудников после нажатия кнопки Cancel
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     */
-    func addEmployeeDidCancel(_ controller: EmployeeEditViewController) {
-        navigationController?.popViewController(animated: true)
-    }
-    
-    /*
-     Метод протокола EmployeeEditViewControllerDelegate, который добавляет нового сотрудника в массив на сервере и возвращает на экран Список сотрудников, в случае ошибки происходит ее обработка
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     newEmployee - новый сотрудник для добавления
-     */
-    func addNewEmployee(_ controller: EmployeeEditViewController, newEmployee: Employee) {
-        self.navigationController?.popViewController(animated: true)
-        serverDelegate.addEmployee(employee: newEmployee) { result in
-            switch result {
-            case .success():
-                self.loadData()
-            case .failure(let error):
-                self.handleError(error)
-            }
-            
-        }
-    }
-    
-    /*
-     Метод протокола EmployeeEditViewControllerDelegate, который изменяет данные сотрудника, в случае ошибки происходит ее обработка
-     
-     parameters:
-     controller - ViewController, на котором вызывается данный метод
-     editedEmployee - изменяемый сотрудник
-     */
-    func editEmployee(_ controller: EmployeeEditViewController, editedEmployee: Employee) {
-        self.navigationController?.popViewController(animated: true)
-        serverDelegate.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) { result in
-            switch result {
-            case .success():
-                self.loadData()
-            case .failure(let error):
-                self.handleError(error)
-            }
-        }
     }
 }

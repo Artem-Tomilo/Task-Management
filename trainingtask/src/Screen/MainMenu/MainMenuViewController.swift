@@ -6,7 +6,7 @@ import UIKit
 
 class MainMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    private var tableView = UITableView()
+    private let tableView = UITableView()
     private static let cellIdentifier = "Cell"
     private let settingsManager: SettingsManager
     private let stub: Stub
@@ -48,6 +48,26 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.backgroundColor = .systemRed
     }
     
+    /*
+     Метод получения списка меню в строковом варианте
+     
+     parameters:
+     list - список элементов меню
+     Возвращаемое значение - строковый вариант списка
+     */
+    private func getMenuListTitleFrom(_ list: MainMenuList) -> String {
+        switch list {
+        case .projects:
+            return "Проекты"
+        case .tasks:
+            return "Задачи"
+        case .employees:
+            return "Сотрудники"
+        case .settings:
+            return "Настройки"
+        }
+    }
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         1
     }
@@ -59,7 +79,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainMenuViewController.cellIdentifier,
                                                        for: indexPath) as? MenuCustomCell else { return UITableViewCell() }
-        cell.bindText(text: MainMenuList.allCases[indexPath.row].title)
+        cell.bindText(text: getMenuListTitleFrom(MainMenuList.allCases[indexPath.row]))
         return cell
     }
     

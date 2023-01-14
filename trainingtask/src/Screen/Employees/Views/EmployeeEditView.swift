@@ -12,7 +12,6 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
     private let positionTextField = BorderedTextField(frame: .zero, placeholder: "Должность")
     
     override init(frame: CGRect) {
-        
         super.init(frame: frame)
         setup()
     }
@@ -82,7 +81,9 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      
      Возвращаемое значение - текст surnameTextField
      */
-    func unbindSurname() -> String {
+    func unbindSurname() throws -> String {
+        try Validator.validateTextForMissingValue(text: surnameTextField.unbindText(),
+                                                  message: "Введите фамилию")
         return surnameTextField.unbindText()
     }
     
@@ -91,7 +92,9 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      
      Возвращаемое значение - текст nameTextField
      */
-    func unbindName() -> String {
+    func unbindName() throws -> String {
+        try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                  message: "Введите имя")
         return nameTextField.unbindText()
     }
     
@@ -100,7 +103,9 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      
      Возвращаемое значение - текст patronymicTextField
      */
-    func unbindPatronymic() -> String {
+    func unbindPatronymic() throws -> String {
+        try Validator.validateTextForMissingValue(text: patronymicTextField.unbindText(),
+                                                  message: "Введите отчество")
         return patronymicTextField.unbindText()
     }
     
@@ -109,7 +114,9 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      
      Возвращаемое значение - текст positionTextField
      */
-    func unbindPosition() -> String {
+    func unbindPosition() throws -> String {
+        try Validator.validateTextForMissingValue(text: positionTextField.unbindText(),
+                                                  message: "Введите должность")
         return positionTextField.unbindText()
     }
     

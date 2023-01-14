@@ -6,8 +6,8 @@ import UIKit
 
 class SplashViewController: UIViewController {
     
-    private var nameLabel = UILabel()
-    private var versionLabel = UILabel()
+    private let nameLabel = UILabel()
+    private let versionLabel = UILabel()
     private let settingsManager: SettingsManager
     private let stub: Stub
     

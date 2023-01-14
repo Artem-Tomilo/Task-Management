@@ -7,8 +7,19 @@ import UIKit
 class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     
     private let employeeEditView = EmployeeEditView()
-    weak var delegate: EmployeeEditViewControllerDelegate? // объект делегата для EmployeeEditViewControllerDelegate
+    private let spinnerView = SpinnerView()
+    
     var possibleEmployeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
+    private let serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
+    
+    init(serverDelegate: Server) {
+        self.serverDelegate = serverDelegate
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,60 +63,75 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     Метод получает данные из текстФилдов экрана и собирает модель сотрудника
+     Метод получает данные из текстФилдов экрана, делает валидацию и собирает модель сотрудника,
+     при редактировании заменяет данные редактирумого сотрудника новыми данными
      
      Возвращаемое значение - сотрудник
      */
-    private func unbind() -> Employee {
-        let surname = employeeEditView.unbindSurname()
-        let name = employeeEditView.unbindName()
-        let patronymic = employeeEditView.unbindPatronymic()
-        let position = employeeEditView.unbindPosition()
+    private func unbind() throws -> Employee {
+        let surname = try employeeEditView.unbindSurname()
+        let name = try employeeEditView.unbindName()
+        let patronymic = try employeeEditView.unbindPatronymic()
+        let position = try employeeEditView.unbindPosition()
         
-        let employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
+        var employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
+        
+        if let possibleEmployeeToEdit {
+            employee.id = possibleEmployeeToEdit.id
+        }
         return employee
     }
     
     /*
-     Метод, который привязывает новые данные для редактируемого сотрудника
+     Метод добавляет нового сотрудника в массив на сервере и возвращает на экран Список сотрудников,
+     в случае ошибки происходит ее обработка
      
      parameters:
-     editedEmployee - редактируемый сотрудник
+     newEmployee - новый сотрудник для добавления
      */
-    private func editingEmployee(editedEmployee: Employee) {
-        let bindedEmployee = unbind()
-        
-        var employee = editedEmployee
-        employee.surname = bindedEmployee.surname
-        employee.name = bindedEmployee.name
-        employee.patronymic = bindedEmployee.patronymic
-        employee.position = bindedEmployee.position
-        delegate?.editEmployee(self, editedEmployee: employee)
+    private func addingNewEmployeeOnServer(_ newEmployee: Employee) {
+        self.spinnerView.showSpinner(viewController: self)
+        serverDelegate.addEmployee(employee: newEmployee) { result in
+            switch result {
+            case .success():
+                self.spinnerView.hideSpinner(from: self)
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                self.spinnerView.hideSpinner(from: self)
+                self.handleError(error: error)
+            }
+        }
     }
     
     /*
-     Метод, который создает нового сотрудника
+     Метод изменяет данные сотрудника на сервере, в случае ошибки происходит ее обработка
+     
+     parameters:
+     editedEmployee - изменяемый сотрудник
      */
-    private func createNewEmployee() {
-        let employee = unbind()
-        delegate?.addNewEmployee(self, newEmployee: employee)
+    private func editingEmployeeOnServer(_ editedEmployee: Employee) {
+        self.spinnerView.showSpinner(viewController: self)
+        serverDelegate.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) { result in
+            switch result {
+            case .success():
+                self.spinnerView.hideSpinner(from: self)
+                self.navigationController?.popViewController(animated: true)
+            case .failure(let error):
+                self.spinnerView.hideSpinner(from: self)
+                self.handleError(error: error)
+            }
+        }
     }
     
     /*
-     Метод проверки введенных значений, если значение не введено - будет выбрасываться соответствующая ошибка
+     Метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника, в случае ошибки происходит ее обработка
      */
-    private func validationOfEnteredData() throws {
-        guard employeeEditView.unbindSurname() != "" else {
-            throw BaseError(message: "Введите фамилию")
-        }
-        guard employeeEditView.unbindName() != "" else {
-            throw BaseError(message: "Введите имя")
-        }
-        guard employeeEditView.unbindPatronymic() != "" else {
-            throw BaseError(message: "Введите отчество")
-        }
-        guard employeeEditView.unbindPosition() != "" else {
-            throw BaseError(message: "Введите должность")
+    private func saveEmployee() throws {
+        let bindedEmployee = try unbind()
+        if possibleEmployeeToEdit != nil {
+            editingEmployeeOnServer(bindedEmployee)
+        } else {
+            addingNewEmployeeOnServer(bindedEmployee)
         }
     }
     
@@ -121,34 +147,21 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
     }
     
     /*
-     Метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника, в случае ошибки происходит ее обработка
-     */
-    private func saveEmployee() {
-        do {
-            try validationOfEnteredData()
-            if let editedEmployee = possibleEmployeeToEdit {
-                editingEmployee(editedEmployee: editedEmployee)
-            } else {
-                createNewEmployee()
-            }
-        }
-        catch {
-            handleError(error: error)
-        }
-    }
-    
-    /*
      Target на кнопку Save - вызывает метод saveEmployee()
      */
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
-        saveEmployee()
+        do {
+            try saveEmployee()
+        } catch {
+            handleError(error: error)
+        }
     }
     
     /*
      Target на кнопку Cancel - возвращает на предыдущий экран
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
-        delegate?.addEmployeeDidCancel(self)
+        navigationController?.popViewController(animated: true)
     }
     
     /*
