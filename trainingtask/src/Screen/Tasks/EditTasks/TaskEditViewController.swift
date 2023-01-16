@@ -137,7 +137,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     }
     
     /*
-     Метод получения значения количество дней по умолчанию между начальной и конечной датами в задаче из настроек приложения
+     Метод получения значения количества дней по умолчанию между начальной и конечной датами в задаче из настроек приложения
      */
     private func getNumberOfDaysBetweenDates() -> Int {
         return settingsManager.getSettings().maxDays

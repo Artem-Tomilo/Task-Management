@@ -22,10 +22,21 @@ class BorderedTextField: UITextField {
         super.init(coder: aDecoder)
     }
     
+    /*
+     Метод присвоения текста
+     
+     parameters:
+     text - текст для textField
+     */
     func bindText(_ text: String) {
         self.text = text
     }
     
+    /*
+     Метод получения текста textField
+     
+     Возвращаемое значение - текст textField
+     */
     func unbindText() -> String {
         if let text {
             return text

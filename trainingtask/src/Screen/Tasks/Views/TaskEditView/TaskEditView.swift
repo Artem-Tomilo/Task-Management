@@ -13,9 +13,8 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let employeeTextField = BorderedTextField(frame: .zero, placeholder: "Сотрудник")
     private let statusTextField = BorderedTextField(frame: .zero, placeholder: "Статус")
     private let requiredNumberOfHoursTextField = BorderedTextField(frame: .zero, placeholder: "Кол-во часов")
-    private let startDateTextField = BorderedTextField(frame: .zero, placeholder: "Дата начала")
-    private let endDateTextField = BorderedTextField(frame: .zero, placeholder: "Дата окончания")
-    private let datePicker = TaskDatePicker()
+    private let startDateTextField = DatePickerView()
+    private let endDateTextField = DatePickerView()
     lazy var picker = TaskPickerView()
     private let dateFormatter = TaskDateFormatter()
     
@@ -77,13 +76,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         employeeTextField.delegate = self
         statusTextField.delegate = self
         requiredNumberOfHoursTextField.delegate = self
-        startDateTextField.delegate = self
-        endDateTextField.delegate = self
         
         requiredNumberOfHoursTextField.keyboardType = .numberPad
-        startDateTextField.keyboardType = .numberPad
-        endDateTextField.keyboardType = .numberPad
-        startDateTextField.text = currentDate()
+        startDateTextField.bindText(getStringCurrentDate())
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardFrame(_:)),
@@ -103,14 +98,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         let statusGesture = UITapGestureRecognizer(target: self, action: #selector(statusTapped(_:)))
         statusTextField.addGestureRecognizer(statusGesture)
         statusTextField.isUserInteractionEnabled = true
-        
-        let startDateGesture = UITapGestureRecognizer(target: self, action: #selector(startDateTapped(_:)))
-        startDateTextField.addGestureRecognizer(startDateGesture)
-        startDateTextField.isUserInteractionEnabled = true
-        
-        let endDateGesture = UITapGestureRecognizer(target: self, action: #selector(endDateTapped(_:)))
-        endDateTextField.addGestureRecognizer(endDateGesture)
-        endDateTextField.isUserInteractionEnabled = true
     }
     
     /*
@@ -273,7 +260,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - текущая дата
      */
-    private func currentDate() -> String {
+    private func getStringCurrentDate() -> String {
         let date = Date()
         let stringDate = dateFormatter.string(from: date)
         return stringDate
@@ -291,16 +278,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
             picker.showPicker(textField: textField, data: data)
             textField.becomeFirstResponder()
         }
-    }
-    
-    /*
-     Метод вызова DatePicker
-     
-     parameters:
-     textField - textField для которого нужен DatePicker
-     */
-    private func showDatePicker(textField: BorderedTextField) {
-        datePicker.showDatePicker(textField: textField)
     }
     
     /*
@@ -373,20 +350,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     }
     
     /*
-     Target на тап startDateTextField
-     */
-    @objc func startDateTapped(_ sender: UITapGestureRecognizer) {
-        showDatePicker(textField: startDateTextField)
-    }
-    
-    /*
-     Target на тап endDateTextField
-     */
-    @objc func endDateTapped(_ sender: UITapGestureRecognizer) {
-        showDatePicker(textField: endDateTextField)
-    }
-    
-    /*
      Target для scrollView при появлении клавиатуры
      */
     @objc func keyboardFrame(_ notification: NSNotification) {
@@ -404,29 +367,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     }
     
     /*
-     Метод для создания маски при вводе даты с клавиатуры
-     
-     parameters:
-     date - текст textField
-     */
-    private func formatDate(date: String) -> String {
-        let cleanDate = date.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-        let mask = "XXXX-XX-XX"
-        var result = ""
-        var index = cleanDate.startIndex
-        
-        for ch in mask where index < cleanDate.endIndex {
-            if ch == "X" {
-                result.append(cleanDate[index])
-                index = cleanDate.index(after: index)
-            } else {
-                result.append(ch)
-            }
-        }
-        return result
-    }
-    
-    /*
      Метод UITextFieldDelegate для проверки вводимых даннх
      */
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
@@ -435,13 +375,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
             return string.allSatisfy {
                 $0.isNumber
             }
-        }
-        
-        if textField == startDateTextField || textField == endDateTextField {
-            guard let text = textField.text else { return false }
-            let newString = (text as NSString).replacingCharacters(in: range, with: string)
-            textField.text = formatDate(date: newString)
-            return false
         }
         return true
     }

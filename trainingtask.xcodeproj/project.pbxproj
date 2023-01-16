@@ -46,7 +46,6 @@
 		38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */; };
 		38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */; };
 		38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */; };
-		38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */; };
 		38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */; };
 		38EF1C4F295C2E7400EB5F8E /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */; };
 		38EF1C702968B9E700EB5F8E /* 7.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C6B2968B9E700EB5F8E /* 7.png */; };
@@ -65,6 +64,7 @@
 		38EF1C932969AB6F00EB5F8E /* 15.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C922969AB6F00EB5F8E /* 15.png */; };
 		38EF1C95296EDE4600EB5F8E /* BaseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C94296EDE4600EB5F8E /* BaseError.swift */; };
 		38EF1CBA2971EFA300EB5F8E /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1CB92971EFA300EB5F8E /* Validator.swift */; };
+		38EF1CBC29757E1700EB5F8E /* DatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1CBB29757E1700EB5F8E /* DatePickerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,7 +109,6 @@
 		38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditView.swift; sourceTree = "<group>"; };
 		38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPickerView.swift; sourceTree = "<group>"; };
 		38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewDelegate.swift; sourceTree = "<group>"; };
-		38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDatePicker.swift; sourceTree = "<group>"; };
 		38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDateFormatter.swift; sourceTree = "<group>"; };
 		38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		38EF1C6B2968B9E700EB5F8E /* 7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7.png; sourceTree = "<group>"; };
@@ -128,6 +127,7 @@
 		38EF1C922969AB6F00EB5F8E /* 15.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 15.png; sourceTree = "<group>"; };
 		38EF1C94296EDE4600EB5F8E /* BaseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseError.swift; sourceTree = "<group>"; };
 		38EF1CB92971EFA300EB5F8E /* Validator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
+		38EF1CBB29757E1700EB5F8E /* DatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +157,7 @@
 				3820316228D9EFF7008FAD35 /* BorderedLabel.swift */,
 				3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */,
 				385A04A628DDC54400FD008F /* SpinnerView.swift */,
+				38EF1CBB29757E1700EB5F8E /* DatePickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -402,7 +403,6 @@
 			children = (
 				38EF1C47294A885700EB5F8E /* TaskEditView */,
 				38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */,
-				38EF1C48294B31F300EB5F8E /* TaskDatePicker.swift */,
 				38EF1C34294751EF00EB5F8E /* TaskCell.swift */,
 			);
 			path = Views;
@@ -548,7 +548,7 @@
 				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
 				38EF1B55294378F800EB5F8E /* ProjectEditView.swift in Sources */,
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
-				38EF1C49294B31F300EB5F8E /* TaskDatePicker.swift in Sources */,
+				38EF1CBC29757E1700EB5F8E /* DatePickerView.swift in Sources */,
 				387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */,
 				38EF1C382947550800EB5F8E /* TasksListController.swift in Sources */,
 				3862A3B328E70BD700FE0872 /* Stub.swift in Sources */,
