@@ -6,8 +6,8 @@ import UIKit
 
 class BorderedTextField: UITextField {
     
-    init(frame: CGRect, placeholder: String) {
-        super.init(frame: frame)
+    init(placeholder: String) {
+        super.init(frame: .zero)
         self.placeholder = placeholder
         translatesAutoresizingMaskIntoConstraints = false
         layer.cornerRadius = 5

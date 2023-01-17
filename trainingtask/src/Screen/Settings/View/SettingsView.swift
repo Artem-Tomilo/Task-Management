@@ -7,11 +7,11 @@ import UIKit
 class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     private let urlLabel = BorderedLabel()
-    private let urlTextField = BorderedTextField(frame: .zero, placeholder: "URL")
+    private let urlTextField = BorderedTextField(placeholder: "URL")
     private let recordsLabel = BorderedLabel()
-    private let recordsTextField = BorderedTextField(frame: .zero, placeholder: "Количество записей")
+    private let recordsTextField = BorderedTextField(placeholder: "Количество записей")
     private let daysLabel = BorderedLabel()
-    private let daysTextField = BorderedTextField(frame: .zero, placeholder: "Количество дней")
+    private let daysTextField = BorderedTextField(placeholder: "Количество дней")
     
     override init(frame: CGRect) {
         super.init(frame: frame)

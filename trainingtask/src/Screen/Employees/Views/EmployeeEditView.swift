@@ -6,10 +6,10 @@ import UIKit
 
 class EmployeeEditView: UIView, UITextFieldDelegate {
     
-    private let surnameTextField = BorderedTextField(frame: .zero, placeholder: "Фамилия")
-    private let nameTextField = BorderedTextField(frame: .zero, placeholder: "Имя")
-    private let patronymicTextField = BorderedTextField(frame: .zero, placeholder: "Отчество")
-    private let positionTextField = BorderedTextField(frame: .zero, placeholder: "Должность")
+    private let surnameTextField = BorderedTextField(placeholder: "Фамилия")
+    private let nameTextField = BorderedTextField(placeholder: "Имя")
+    private let patronymicTextField = BorderedTextField(placeholder: "Отчество")
+    private let positionTextField = BorderedTextField(placeholder: "Должность")
     
     override init(frame: CGRect) {
         super.init(frame: frame)

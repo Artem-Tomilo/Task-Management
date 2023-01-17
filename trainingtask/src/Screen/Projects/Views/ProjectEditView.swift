@@ -6,8 +6,8 @@ import UIKit
 
 class ProjectEditView: UIView, UITextFieldDelegate {
     
-    private let nameTextField = BorderedTextField(frame: .zero, placeholder: "Название")
-    private let descriptionTextField = BorderedTextField(frame: .zero, placeholder: "Описание")
+    private let nameTextField = BorderedTextField(placeholder: "Название")
+    private let descriptionTextField = BorderedTextField(placeholder: "Описание")
     
     override init(frame: CGRect) {
         super.init(frame: frame)

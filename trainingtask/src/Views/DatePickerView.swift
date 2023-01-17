@@ -6,7 +6,7 @@ import UIKit
 
 class DatePickerView: UIView, UITextFieldDelegate {
     
-    private let textField = BorderedTextField(frame: .zero, placeholder: "yyyy-MM-dd")
+    private let textField = BorderedTextField(placeholder: "yyyy-MM-dd")
     private let datePicker = UIDatePicker()
     private let toolbar = UIToolbar()
     private let dateFormatter = TaskDateFormatter()

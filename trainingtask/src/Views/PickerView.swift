@@ -7,12 +7,12 @@ import UIKit
 class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     private let pickerView = UIPickerView()
-    private let textField = BorderedTextField(frame: .zero, placeholder: "")
+    private let textField = BorderedTextField(placeholder: "")
     private var data: [String] = []
     
-    init(frame: CGRect, placeholder: String) {
+    init(placeholder: String) {
+        super.init(frame: .zero)
         self.textField.placeholder = placeholder
-        super.init(frame: frame)
         setupPickerView()
     }
     
