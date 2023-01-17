@@ -1,10 +1,11 @@
 import UIKit
 
 /*
- EmployeeEditViewController - экран Редактирование сотрудника, отображает необходимые поля для введения нового, либо редактирования существующего сотрудника
+ EmployeeEditViewController - экран Редактирование сотрудника, отображает необходимые поля для введения нового,
+ либо редактирования существующего сотрудника
  */
 
-class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
+class EmployeeEditViewController: UIViewController {
     
     private let employeeEditView = EmployeeEditView()
     private let spinnerView = SpinnerView()
@@ -52,7 +53,9 @@ class EmployeeEditViewController: UIViewController, UITextFieldDelegate {
             title = "Добавление сотрудника"
         }
         
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
+                                         target: self,
+                                         action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))

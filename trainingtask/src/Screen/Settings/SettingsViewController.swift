@@ -47,7 +47,9 @@ class SettingsViewController: UIViewController {
         
         bind(settings: settingsManager.getSettings())
         
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveSettings(_:)))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
+                                         target: self,
+                                         action: #selector(saveSettings(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))

@@ -151,7 +151,6 @@
 		3820316628D9F0EF008FAD35 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */,
 				3820316228D9EFF7008FAD35 /* BorderedLabel.swift */,
 				3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */,
 				385A04A628DDC54400FD008F /* SpinnerView.swift */,
@@ -323,12 +322,11 @@
 			isa = PBXGroup;
 			children = (
 				385C566928D4A98C004AC34A /* AppDelegate.swift */,
-				38EF1C94296EDE4600EB5F8E /* BaseError.swift */,
-				38EF1CB92971EFA300EB5F8E /* Validator.swift */,
 				385A04A328DDC35400FD008F /* Stub */,
 				3824BF4D28F5F22B0027149D /* SettingsServices */,
 				38EF1CB82970117D00EB5F8E /* Screen */,
 				3820316628D9F0EF008FAD35 /* Views */,
+				38EF1CBF2976CCBB00EB5F8E /* Services */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -434,6 +432,16 @@
 				387AAD8528E36CAA004BE734 /* Settings */,
 			);
 			path = Screen;
+			sourceTree = "<group>";
+		};
+		38EF1CBF2976CCBB00EB5F8E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				38EF1C94296EDE4600EB5F8E /* BaseError.swift */,
+				38EF1CB92971EFA300EB5F8E /* Validator.swift */,
+				38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

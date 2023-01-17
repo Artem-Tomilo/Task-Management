@@ -1,7 +1,8 @@
 import UIKit
 
 /*
- TaskEditViewController - экран Редактирование задачи, отображает необходимые поля для введения новой, либо редактирования существующей задачи
+ TaskEditViewController - экран Редактирование задачи,
+ отображает необходимые поля для введения новой, либо редактирования существующей задачи
  */
 
 class TaskEditViewController: UIViewController {
@@ -61,7 +62,9 @@ class TaskEditViewController: UIViewController {
             taskEditView.bind(task: nil, projects: nil, employees: nil, project: project, days: nil)
         }
         
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
+                                         target: self,
+                                         action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))
@@ -173,7 +176,8 @@ class TaskEditViewController: UIViewController {
     }
     
     /*
-     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект, в случае ошибки происходит ее обработка
+     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект,
+     в случае ошибки происходит ее обработка
      */
     private func saveTask() throws {
         let bindedTask = try unbind()

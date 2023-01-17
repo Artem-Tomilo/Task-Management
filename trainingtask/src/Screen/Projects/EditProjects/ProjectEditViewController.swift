@@ -49,7 +49,9 @@ class ProjectEditViewController: UIViewController {
             title = "Добавление проекта"
         }
         
-        let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveProjectButtonTapped(_:)))
+        let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
+                                         target: self,
+                                         action: #selector(saveProjectButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
         
         let cancelButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel(_:)))

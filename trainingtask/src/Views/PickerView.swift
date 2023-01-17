@@ -42,10 +42,11 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
     
     private func setupToolBar() -> UIToolbar {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
-        toolbar.setItems([UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped(_:))),
-                          UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
-                          UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(_:)))],
-                         animated: false)
+        toolbar.setItems([
+            UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped(_:))),
+            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil),
+            UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(_:)))
+        ], animated: false)
         return toolbar
     }
     
@@ -111,7 +112,8 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         bindText(data[row])
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        false
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return false
     }
 }

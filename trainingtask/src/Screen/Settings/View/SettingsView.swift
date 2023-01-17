@@ -144,7 +144,8 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     /*
      Метод UITextFieldDelegate для проверки вводимых даннх
      */
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(_ textField: UITextField,
+                   shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if textField == recordsTextField || textField == daysTextField {
             return string.allSatisfy {
                 $0.isNumber

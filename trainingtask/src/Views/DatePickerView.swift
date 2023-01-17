@@ -42,8 +42,13 @@ class DatePickerView: UIView, UITextFieldDelegate {
         
         let size = CGSize(width: 320, height: 44)
         toolbar.frame.size = size
-        let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed(_:)))
-        keyboardButton = UIBarButtonItem(title: "Keyboard", style: .done, target: self, action: #selector(keyboardButtonPressed(_:)))
+        let doneButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                         target: self,
+                                         action: #selector(doneButtonPressed(_:)))
+        keyboardButton = UIBarButtonItem(title: "Keyboard",
+                                         style: .done,
+                                         target: self,
+                                         action: #selector(keyboardButtonPressed(_:)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbar.setItems([keyboardButton, flexSpace, doneButton], animated: false)
     }

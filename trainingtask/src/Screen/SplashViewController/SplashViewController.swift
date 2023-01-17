@@ -53,10 +53,12 @@ class SplashViewController: UIViewController {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
         guard let name = name,
               let version = version else { return }
-        nameLabel.attributedText = NSAttributedString(string: name.capitalized, attributes: [.font: UIFont.systemFont(ofSize: 25)])
+        nameLabel.attributedText = NSAttributedString(string: name.capitalized,
+                                                      attributes: [.font: UIFont.systemFont(ofSize: 25)])
         nameLabel.textAlignment = .center
         
-        versionLabel.attributedText = NSAttributedString(string: "Version: \(version)", attributes: [.font: UIFont.systemFont(ofSize: 20)])
+        versionLabel.attributedText = NSAttributedString(string: "Version: \(version)",
+                                                         attributes: [.font: UIFont.systemFont(ofSize: 20)])
         versionLabel.textAlignment = .center
     }
 }

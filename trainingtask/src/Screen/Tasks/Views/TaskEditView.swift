@@ -9,12 +9,12 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
     private let nameTextField = BorderedTextField(frame: .zero, placeholder: "Название задачи")
-    private let projectTextField = PickerView(frame: .zero, placeholder: "Проект")
-    private let employeeTextField = PickerView(frame: .zero, placeholder: "Сотрудник")
-    private let statusTextField = PickerView(frame: .zero, placeholder: "Статус")
+    private let projectPickerView = PickerView(frame: .zero, placeholder: "Проект")
+    private let employeePickerView = PickerView(frame: .zero, placeholder: "Сотрудник")
+    private let statusPickerView = PickerView(frame: .zero, placeholder: "Статус")
     private let requiredNumberOfHoursTextField = BorderedTextField(frame: .zero, placeholder: "Кол-во часов")
-    private let startDateTextField = DatePickerView()
-    private let endDateTextField = DatePickerView()
+    private let startDatePickerView = DatePickerView()
+    private let endDatePickerView = DatePickerView()
     private let dateFormatter = TaskDateFormatter()
     
     private var projects = [Project]()
@@ -57,12 +57,12 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     private func addingAndSetupSubviews() {
         stackView.addArrangedSubview(nameTextField)
-        stackView.addArrangedSubview(projectTextField)
-        stackView.addArrangedSubview(employeeTextField)
-        stackView.addArrangedSubview(statusTextField)
+        stackView.addArrangedSubview(projectPickerView)
+        stackView.addArrangedSubview(employeePickerView)
+        stackView.addArrangedSubview(statusPickerView)
         stackView.addArrangedSubview(requiredNumberOfHoursTextField)
-        stackView.addArrangedSubview(startDateTextField)
-        stackView.addArrangedSubview(endDateTextField)
+        stackView.addArrangedSubview(startDatePickerView)
+        stackView.addArrangedSubview(endDatePickerView)
         
         translatesAutoresizingMaskIntoConstraints = false
         
@@ -91,18 +91,18 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     func bind(task: Task?, projects: [Project]?, employees: [Employee]?, project: Project?, days: Int?) {
         if let task {
             nameTextField.bindText(task.name)
-            projectTextField.bindText(task.project.name)
-            employeeTextField.bindText(task.employee.fullName)
-            statusTextField.bindText(getStatusTitleFrom(task.status))
+            projectPickerView.bindText(task.project.name)
+            employeePickerView.bindText(task.employee.fullName)
+            statusPickerView.bindText(getStatusTitleFrom(task.status))
             requiredNumberOfHoursTextField.bindText(String(task.requiredNumberOfHours))
-            startDateTextField.bindText(dateFormatter.string(from: task.startDate))
-            endDateTextField.bindText(dateFormatter.string(from: task.endDate))
+            startDatePickerView.bindText(dateFormatter.string(from: task.startDate))
+            endDatePickerView.bindText(dateFormatter.string(from: task.endDate))
         } else {
-            startDateTextField.bindText(getStringCurrentDate())
+            startDatePickerView.bindText(getStringCurrentDate())
         }
         
         if let project {
-            projectTextField.bindText(project.name)
+            projectPickerView.bindText(project.name)
             blockProjectTextField()
         }
         
@@ -110,7 +110,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
             let date = Date()
             let endDate = dateFormatter.getEndDateFrom(startDate: date, with: days)
             let stringDate = dateFormatter.string(from: endDate)
-            endDateTextField.bindText(stringDate)
+            endDatePickerView.bindText(stringDate)
         }
         
         if let projects {
@@ -138,7 +138,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст projectTextField
      */
     func unbindProject() throws -> Project {
-        let project = try Validator.validateTextForMissingValue(text: projectTextField.unbindText(),
+        let project = try Validator.validateTextForMissingValue(text: projectPickerView.unbindText(),
                                                                 message: "Выберите проект")
         guard let taskProject = projects.first(where: { $0.name == project }) else {
             throw BaseError(message: "Не удалось получить проект")
@@ -152,7 +152,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст employeeTextField
      */
     func unbindEmployee() throws -> Employee {
-        let employee = try Validator.validateTextForMissingValue(text: employeeTextField.unbindText(),
+        let employee = try Validator.validateTextForMissingValue(text: employeePickerView.unbindText(),
                                                                  message: "Выберите сотрудника")
         guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
             throw BaseError(message: "Не удалось получить сотрудника")
@@ -167,7 +167,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - статус
      */
     func unbindStatus() throws -> TaskStatus {
-        let text = try Validator.validateTextForMissingValue(text: statusTextField.unbindText(),
+        let text = try Validator.validateTextForMissingValue(text: statusPickerView.unbindText(),
                                                              message: "Выберите статус")
         let status = getStatusFrom(text)
         guard let status = TaskStatus.allCases.first(where: { $0 == status }) else {
@@ -201,7 +201,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - начальная дата
      */
     func unbindStartDate() throws -> Date {
-        let text = try Validator.validateTextForMissingValue(text: startDateTextField.unbindText(),
+        let text = try Validator.validateTextForMissingValue(text: startDatePickerView.unbindText(),
                                                              message: "Введите начальную дату")
         if let date = dateFormatter.date(from: text) {
             return date
@@ -217,7 +217,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - конечная дата
      */
     func unbindEndDate() throws -> Date {
-        let text = try Validator.validateTextForMissingValue(text: endDateTextField.unbindText(),
+        let text = try Validator.validateTextForMissingValue(text: endDatePickerView.unbindText(),
                                                              message: "Введите конечную дату")
         if let date = dateFormatter.date(from: text) {
             return date
@@ -230,7 +230,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Метод блокировки projectTextField для редактирования
      */
     private func blockProjectTextField() {
-        projectTextField.isUserInteractionEnabled = false
+        projectPickerView.isUserInteractionEnabled = false
     }
     
     /*
@@ -253,7 +253,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
             pickerViewData.append(i.name)
         }
         self.projects = projects
-        projectTextField.bind(data: pickerViewData)
+        projectPickerView.bind(data: pickerViewData)
     }
     
     /*
@@ -265,7 +265,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
             pickerViewData.append(i.fullName)
         }
         self.employees = employees
-        employeeTextField.bind(data: pickerViewData)
+        employeePickerView.bind(data: pickerViewData)
     }
     
     /*
@@ -277,7 +277,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
             let status = getStatusTitleFrom(i)
             pickerViewData.append(status)
         }
-        statusTextField.bind(data: pickerViewData)
+        statusPickerView.bind(data: pickerViewData)
     }
     
     /*

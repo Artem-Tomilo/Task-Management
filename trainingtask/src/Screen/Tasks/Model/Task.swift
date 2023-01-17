@@ -2,7 +2,8 @@ import UIKit
 
 /*
  Структура задачи, содержащая поля для заполнения:
- Название, проект, ответственный сотдуник, статус, колчиство часов для выполнения, дата начала выполнения, дата окончания выполнения также содержит уникальный id, который заполняется при создании
+ Название, проект, ответственный сотдуник, статус, колчиство часов для выполнения,
+ дата начала выполнения, дата окончания выполнения также содержит уникальный id, который заполняется при создании
  */
 
 struct Task: Equatable {
@@ -16,7 +17,8 @@ struct Task: Equatable {
     var id: Int
     private static var idCounter = 0
     
-    init(name: String, project: Project, employee: Employee, status: TaskStatus, requiredNumberOfHours: Int, startDate: Date, endDate: Date) {
+    init(name: String, project: Project, employee: Employee, status: TaskStatus,
+         requiredNumberOfHours: Int, startDate: Date, endDate: Date) {
         self.name = name
         self.project = project
         self.employee = employee

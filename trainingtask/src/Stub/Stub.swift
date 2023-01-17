@@ -33,18 +33,24 @@ class Stub: Server {
         let postiton = ["разработчик", "директор", "бухгалтер", "охранник"]
         
         for i in 0..<4 {
-            let employee = Employee(surname: lastNames[i], name: firstNames[i], patronymic: patronymics[i], position: postiton[i])
+            let employee = Employee(surname: lastNames[i],
+                                    name: firstNames[i],
+                                    patronymic: patronymics[i],
+                                    position: postiton[i])
             employeesArray.append(employee)
         }
     }
     
     private func createTasks() {
-        let tasks = ["Становая тяга", "Бег", "Выучить новые слова", "Повторить правило", "Купить продукты", "Купить воды", "Заправить авто", "Помыть авто"]
+        let tasks = ["Становая тяга", "Бег", "Выучить новые слова", "Повторить правило",
+                     "Купить продукты", "Купить воды", "Заправить авто", "Помыть авто"]
         var count = 0
         
         for i in 0..<4 {
             for _ in 0..<2 {
-                let task = Task(name: tasks[count], project: projectsArray[i], employee: employeesArray[i], status: TaskStatus.allCases[i], requiredNumberOfHours: 3, startDate: Date(), endDate: Date())
+                let task = Task(name: tasks[count], project: projectsArray[i],
+                                employee: employeesArray[i], status: TaskStatus.allCases[i],
+                                requiredNumberOfHours: 3, startDate: Date(), endDate: Date())
                 tasksArray.append(task)
                 count += 1
             }
