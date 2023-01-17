@@ -14,10 +14,11 @@ class Validator {
      text - проверяемый текст
      message - текст ошибки в случае отсутствия значения
      */
-    static func validateTextForMissingValue(text: String, message: String) throws {
+    static func validateTextForMissingValue(text: String, message: String) throws -> String {
         guard text != "" else {
             throw BaseError(message: message)
         }
+        return text
     }
     
     /*

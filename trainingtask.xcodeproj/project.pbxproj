@@ -44,8 +44,7 @@
 		38EF1C382947550800EB5F8E /* TasksListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C372947550700EB5F8E /* TasksListController.swift */; };
 		38EF1C3C2947BCF900EB5F8E /* TaskEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C3B2947BCF900EB5F8E /* TaskEditViewController.swift */; };
 		38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */; };
-		38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */; };
-		38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */; };
+		38EF1C422948B47A00EB5F8E /* PickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C412948B47A00EB5F8E /* PickerView.swift */; };
 		38EF1C4B294D225200EB5F8E /* TaskDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */; };
 		38EF1C4F295C2E7400EB5F8E /* ErrorAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */; };
 		38EF1C702968B9E700EB5F8E /* 7.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1C6B2968B9E700EB5F8E /* 7.png */; };
@@ -107,8 +106,7 @@
 		38EF1C372947550700EB5F8E /* TasksListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksListController.swift; sourceTree = "<group>"; };
 		38EF1C3B2947BCF900EB5F8E /* TaskEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewController.swift; sourceTree = "<group>"; };
 		38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditView.swift; sourceTree = "<group>"; };
-		38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPickerView.swift; sourceTree = "<group>"; };
-		38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskEditViewDelegate.swift; sourceTree = "<group>"; };
+		38EF1C412948B47A00EB5F8E /* PickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerView.swift; sourceTree = "<group>"; };
 		38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDateFormatter.swift; sourceTree = "<group>"; };
 		38EF1C4E295C2E7400EB5F8E /* ErrorAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlert.swift; sourceTree = "<group>"; };
 		38EF1C6B2968B9E700EB5F8E /* 7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7.png; sourceTree = "<group>"; };
@@ -158,6 +156,7 @@
 				3820316D28DB4AF1008FAD35 /* BorderedTextField.swift */,
 				385A04A628DDC54400FD008F /* SpinnerView.swift */,
 				38EF1CBB29757E1700EB5F8E /* DatePickerView.swift */,
+				38EF1C412948B47A00EB5F8E /* PickerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -401,8 +400,7 @@
 		38EF1C33294751E000EB5F8E /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				38EF1C47294A885700EB5F8E /* TaskEditView */,
-				38EF1C412948B47A00EB5F8E /* TaskPickerView.swift */,
+				38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */,
 				38EF1C34294751EF00EB5F8E /* TaskCell.swift */,
 			);
 			path = Views;
@@ -423,15 +421,6 @@
 				38EF1C4A294D225200EB5F8E /* TaskDateFormatter.swift */,
 			);
 			path = EditTasks;
-			sourceTree = "<group>";
-		};
-		38EF1C47294A885700EB5F8E /* TaskEditView */ = {
-			isa = PBXGroup;
-			children = (
-				38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */,
-				38EF1C45294A884A00EB5F8E /* TaskEditViewDelegate.swift */,
-			);
-			path = TaskEditView;
 			sourceTree = "<group>";
 		};
 		38EF1CB82970117D00EB5F8E /* Screen */ = {
@@ -557,12 +546,11 @@
 				38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */,
 				38EF1C95296EDE4600EB5F8E /* BaseError.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
-				38EF1C46294A884A00EB5F8E /* TaskEditViewDelegate.swift in Sources */,
 				3820316C28DB4962008FAD35 /* EmployeeEditViewController.swift in Sources */,
 				38EF1C3E2947BE8600EB5F8E /* TaskEditView.swift in Sources */,
 				3824BF3F28F01D520027149D /* DefaultSettingsStorage.swift in Sources */,
 				38EF1CBA2971EFA300EB5F8E /* Validator.swift in Sources */,
-				38EF1C422948B47A00EB5F8E /* TaskPickerView.swift in Sources */,
+				38EF1C422948B47A00EB5F8E /* PickerView.swift in Sources */,
 				38EF1C2F29473CAF00EB5F8E /* Task.swift in Sources */,
 				3820315928D8B2F4008FAD35 /* MainMenuViewController.swift in Sources */,
 				38EF1B5129436A3700EB5F8E /* ProjectCell.swift in Sources */,

@@ -16,6 +16,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
+        showDatePicker()
     }
     
     required init?(coder: NSCoder) {
@@ -39,15 +40,12 @@ class DatePickerView: UIView, UITextFieldDelegate {
         datePicker.datePickerMode = .date
         datePicker.translatesAutoresizingMaskIntoConstraints = false
         
-        let size = toolbar.sizeThatFits(CGSize(width: bounds.width, height: 0))
+        let size = CGSize(width: 320, height: 44)
         toolbar.frame.size = size
         let doneButton = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonPressed(_:)))
         keyboardButton = UIBarButtonItem(title: "Keyboard", style: .done, target: self, action: #selector(keyboardButtonPressed(_:)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbar.setItems([keyboardButton, flexSpace, doneButton], animated: false)
-        
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(textFieldTapped(_:)))
-        textField.addGestureRecognizer(gesture)
     }
     
     /*
@@ -85,7 +83,6 @@ class DatePickerView: UIView, UITextFieldDelegate {
     private func showDatePicker() {
         textField.inputAccessoryView = toolbar
         textField.inputView = datePicker
-        textField.becomeFirstResponder()
         textField.tintColor = .clear
         keyboardIsActive = false
         keyboardButton.title = "Keyboard"
@@ -105,7 +102,6 @@ class DatePickerView: UIView, UITextFieldDelegate {
      */
     private func changeInputView() {
         textField.resignFirstResponder()
-        textField.text?.removeAll()
         if !keyboardIsActive {
             showKeyboard()
         } else {
@@ -127,13 +123,6 @@ class DatePickerView: UIView, UITextFieldDelegate {
      */
     @objc func keyboardButtonPressed(_ sender: UIBarButtonItem) {
         changeInputView()
-    }
-    
-    /*
-     Target на касание textField - показывает DatePicker
-     */
-    @objc func textFieldTapped(_ sender: UITapGestureRecognizer) {
-        showDatePicker()
     }
     
     /*

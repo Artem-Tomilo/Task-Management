@@ -4,15 +4,10 @@ import UIKit
  TaskEditViewController - экран Редактирование задачи, отображает необходимые поля для введения новой, либо редактирования существующей задачи
  */
 
-class TaskEditViewController: UIViewController, TaskEditViewDelegate {
+class TaskEditViewController: UIViewController {
     
     private let taskEditView = TaskEditView()
     private let spinnerView = SpinnerView()
-    private var projects: [Project] = []
-    private var employees: [Employee] = []
-    private var status = TaskStatus.allCases
-    private var pickerViewData = [String]()
-    private let dateFormatter = TaskDateFormatter()
     
     var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
     var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
@@ -55,19 +50,16 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         
         if let taskToEdit = possibleTaskToEdit {
             title = "Редактирование задачи"
-            taskEditView.bind(task: taskToEdit)
+            taskEditView.bind(task: taskToEdit, projects: nil, employees: nil, project: nil, days: nil)
         } else {
             let numbersOfDays = getNumberOfDaysBetweenDates()
-            taskEditView.bindEndDateTextField(days: numbersOfDays)
+            taskEditView.bind(task: nil, projects: nil, employees: nil, project: nil, days: numbersOfDays)
             title = "Добавление задачи"
         }
         
         if let project {
-            taskEditView.bindProjectTextFieldBy(project: project)
-            taskEditView.blockProjectTextField()
+            taskEditView.bind(task: nil, projects: nil, employees: nil, project: project, days: nil)
         }
-        
-        taskEditView.delegate = self
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save, target: self, action: #selector(saveEmployeeButtonTapped(_:)))
         navigationItem.rightBarButtonItem = saveButton
@@ -85,7 +77,7 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private func getProjects() {
         serverDelegate.getProjects({ [weak self] projects in
             guard let self = self else { return }
-            self.projects = projects
+            self.taskEditView.bind(task: nil, projects: projects, employees: nil, project: nil, days: nil)
         }) { [weak self] error in
             guard let self = self else { return }
             self.handleError(error: error)
@@ -98,41 +90,10 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     private func getEmployees() {
         serverDelegate.getEmployees({ [weak self] employees in
             guard let self = self else { return }
-            self.employees = employees
+            self.taskEditView.bind(task: nil, projects: nil, employees: employees, project: nil, days: nil)
         }) { [weak self] error in
             guard let self = self else { return }
             self.handleError(error: error)
-        }
-    }
-    
-    /*
-     Метод привязывает названия проектов в массив для отображения в PickerView
-     */
-    private func setDataFromProjects() {
-        pickerViewData.removeAll()
-        for i in projects {
-            pickerViewData.append(i.name)
-        }
-    }
-    
-    /*
-     Метод привязывает полное ФИО сотрудников в массив для отображения в PickerView
-     */
-    private func setDataFromEmployees() {
-        pickerViewData.removeAll()
-        for i in employees {
-            pickerViewData.append(i.fullName)
-        }
-    }
-    
-    /*
-     Метод привязывает названия статусов задачи в массив для отображения в PickerView
-     */
-    private func setDataFromStatus() {
-        pickerViewData.removeAll()
-        for i in TaskStatus.allCases {
-            let status = taskEditView.getStatusTitleFrom(i)
-            pickerViewData.append(status)
         }
     }
     
@@ -158,17 +119,11 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
         let startDate = try taskEditView.unbindStartDate()
         let endDate = try taskEditView.unbindEndDate()
         
-        guard let taskProject = projects.first(where: { $0.name == project }) else {
-            throw BaseError(message: "Не удалось получить проект")
-        }
-        guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
-            throw BaseError(message: "Не удалось получить сотрудника")
-        }
         guard startDate <= endDate else {
             throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
         }
         
-        var task = Task(name: name, project: taskProject, employee: taskEmployee,
+        var task = Task(name: name, project: project, employee: employee,
                         status: status, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
         if let possibleTaskToEdit {
             task.id = possibleTaskToEdit.id
@@ -264,25 +219,5 @@ class TaskEditViewController: UIViewController, TaskEditViewDelegate {
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         view.endEditing(false)
-    }
-    
-    /*
-     Метод протокола TaskEditViewDelegate, который проверяет какие данные нужны и записывает ими массив
-     
-     Возвращаемое значение: массив данных
-     */
-    func bindData() -> [String] {
-        if taskEditView.isProjectTextField {
-            setDataFromProjects()
-        }
-        
-        if taskEditView.isEmployeeTextField {
-            setDataFromEmployees()
-        }
-        
-        if taskEditView.isStatusTextField {
-            setDataFromStatus()
-        }
-        return pickerViewData
     }
 }

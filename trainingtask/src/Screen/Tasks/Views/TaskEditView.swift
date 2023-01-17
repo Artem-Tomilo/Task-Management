@@ -9,26 +9,21 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
     private let nameTextField = BorderedTextField(frame: .zero, placeholder: "Название задачи")
-    private let projectTextField = BorderedTextField(frame: .zero, placeholder: "Проект")
-    private let employeeTextField = BorderedTextField(frame: .zero, placeholder: "Сотрудник")
-    private let statusTextField = BorderedTextField(frame: .zero, placeholder: "Статус")
+    private let projectTextField = PickerView(frame: .zero, placeholder: "Проект")
+    private let employeeTextField = PickerView(frame: .zero, placeholder: "Сотрудник")
+    private let statusTextField = PickerView(frame: .zero, placeholder: "Статус")
     private let requiredNumberOfHoursTextField = BorderedTextField(frame: .zero, placeholder: "Кол-во часов")
     private let startDateTextField = DatePickerView()
     private let endDateTextField = DatePickerView()
-    lazy var picker = TaskPickerView()
     private let dateFormatter = TaskDateFormatter()
     
-    weak var delegate: TaskEditViewDelegate?
-    
-    var isProjectTextField = false // свойство, определяющее был ли нажат projectTextField
-    var isEmployeeTextField = false // свойство, определяющее был ли нажат employeeTextField
-    var isStatusTextField = false // свойство, определяющее был ли нажат statusTextField
+    private var projects = [Project]()
+    private var employees = [Employee]()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupScrollView()
         addingAndSetupSubviews()
-        initTapGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -71,33 +66,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         
         translatesAutoresizingMaskIntoConstraints = false
         
-        nameTextField.delegate = self
-        projectTextField.delegate = self
-        employeeTextField.delegate = self
-        statusTextField.delegate = self
         requiredNumberOfHoursTextField.delegate = self
-        
         requiredNumberOfHoursTextField.keyboardType = .numberPad
-        startDateTextField.bindText(getStringCurrentDate())
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardFrame(_:)),
                                                name: UIResponder.keyboardWillChangeFrameNotification,
                                                object: nil)
-    }
-    
-    private func initTapGesture() {
-        let projectGesture = UITapGestureRecognizer(target: self, action: #selector(projectTapped(_:)))
-        projectTextField.addGestureRecognizer(projectGesture)
-        projectTextField.isUserInteractionEnabled = true
-        
-        let employeeGesture = UITapGestureRecognizer(target: self, action: #selector(employeeTapped(_:)))
-        employeeTextField.addGestureRecognizer(employeeGesture)
-        employeeTextField.isUserInteractionEnabled = true
-        
-        let statusGesture = UITapGestureRecognizer(target: self, action: #selector(statusTapped(_:)))
-        statusTextField.addGestureRecognizer(statusGesture)
-        statusTextField.isUserInteractionEnabled = true
     }
     
     /*
@@ -113,37 +88,38 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      parametrs:
      task - задача, данными которой будут заполняться текстФилды
      */
-    func bind(task: Task) {
-        nameTextField.bindText(task.name)
-        projectTextField.bindText(task.project.name)
-        employeeTextField.bindText(task.employee.fullName)
-        statusTextField.bindText(getStatusTitleFrom(task.status))
-        requiredNumberOfHoursTextField.bindText(String(task.requiredNumberOfHours))
-        startDateTextField.bindText(dateFormatter.string(from: task.startDate))
-        endDateTextField.bindText(dateFormatter.string(from: task.endDate))
-    }
-    
-    /*
-     Метод для заполнения projectTextField данными
-     
-     parametrs:
-     project - проект, данными которого будет заполняться projectTextField
-     */
-    func bindProjectTextFieldBy(project: Project) {
-        projectTextField.bindText(project.name)
-    }
-    
-    /*
-     Метод для заполнения endDateTextField данными
-     
-     parametrs:
-     days - количество дней из настроек приложения для определения даты окончания выполнения задачи
-     */
-    func bindEndDateTextField(days: Int) {
-        let date = Date()
-        let endDate = dateFormatter.getEndDateFrom(startDate: date, with: days)
-        let stringDate = dateFormatter.string(from: endDate)
-        endDateTextField.bindText(stringDate)
+    func bind(task: Task?, projects: [Project]?, employees: [Employee]?, project: Project?, days: Int?) {
+        if let task {
+            nameTextField.bindText(task.name)
+            projectTextField.bindText(task.project.name)
+            employeeTextField.bindText(task.employee.fullName)
+            statusTextField.bindText(getStatusTitleFrom(task.status))
+            requiredNumberOfHoursTextField.bindText(String(task.requiredNumberOfHours))
+            startDateTextField.bindText(dateFormatter.string(from: task.startDate))
+            endDateTextField.bindText(dateFormatter.string(from: task.endDate))
+        } else {
+            startDateTextField.bindText(getStringCurrentDate())
+        }
+        
+        if let project {
+            projectTextField.bindText(project.name)
+            blockProjectTextField()
+        }
+        
+        if let days {
+            let date = Date()
+            let endDate = dateFormatter.getEndDateFrom(startDate: date, with: days)
+            let stringDate = dateFormatter.string(from: endDate)
+            endDateTextField.bindText(stringDate)
+        }
+        
+        if let projects {
+            setDataFrom(projects: projects)
+        }
+        if let employees {
+            setDataFrom(employees: employees)
+        }
+        setDataFrom(status: TaskStatus.allCases)
     }
     
     /*
@@ -152,9 +128,8 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - текст nameTextField
      */
     func unbindName() throws -> String {
-        try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
-                                                  message: "Введите название")
-        return nameTextField.unbindText()
+        return try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                         message: "Введите название")
     }
     
     /*
@@ -162,10 +137,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - текст projectTextField
      */
-    func unbindProject() throws -> String {
-        try Validator.validateTextForMissingValue(text: projectTextField.unbindText(),
-                                                  message: "Выберите проект")
-        return projectTextField.unbindText()
+    func unbindProject() throws -> Project {
+        let project = try Validator.validateTextForMissingValue(text: projectTextField.unbindText(),
+                                                                message: "Выберите проект")
+        guard let taskProject = projects.first(where: { $0.name == project }) else {
+            throw BaseError(message: "Не удалось получить проект")
+        }
+        return taskProject
     }
     
     /*
@@ -173,10 +151,13 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - текст employeeTextField
      */
-    func unbindEmployee() throws -> String {
-        try Validator.validateTextForMissingValue(text: employeeTextField.unbindText(),
-                                                  message: "Выберите сотрудника")
-        return employeeTextField.unbindText()
+    func unbindEmployee() throws -> Employee {
+        let employee = try Validator.validateTextForMissingValue(text: employeeTextField.unbindText(),
+                                                                 message: "Выберите сотрудника")
+        guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
+            throw BaseError(message: "Не удалось получить сотрудника")
+        }
+        return taskEmployee
     }
     
     /*
@@ -186,11 +167,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - статус
      */
     func unbindStatus() throws -> TaskStatus {
-        let text = statusTextField.unbindText()
+        let text = try Validator.validateTextForMissingValue(text: statusTextField.unbindText(),
+                                                             message: "Выберите статус")
         let status = getStatusFrom(text)
-        
-        try Validator.validateTextForMissingValue(text: text,
-                                                  message: "Выберите статус")
         guard let status = TaskStatus.allCases.first(where: { $0 == status }) else {
             throw BaseError(message: "Не удалось выбрать статус")
         }
@@ -204,9 +183,8 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - числовое значение текста requiredNumberOfHoursTextField
      */
     func unbindHours() throws -> Int {
-        let text = requiredNumberOfHoursTextField.unbindText()
-        try Validator.validateTextForMissingValue(text: text,
-                                                  message: "Введите количество часов для выполнения задачи")
+        let text = try Validator.validateTextForMissingValue(text: requiredNumberOfHoursTextField.unbindText(),
+                                                             message: "Введите количество часов для выполнения задачи")
         
         let hours = try Validator.validateAndReturnTextForIntValue(text: text,
                                                                    message: "Введено некорректное количество часов")
@@ -223,9 +201,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - начальная дата
      */
     func unbindStartDate() throws -> Date {
-        try Validator.validateTextForMissingValue(text: startDateTextField.unbindText(),
-                                                  message: "Введите начальную дату")
-        if let date = dateFormatter.date(from: startDateTextField.unbindText()) {
+        let text = try Validator.validateTextForMissingValue(text: startDateTextField.unbindText(),
+                                                             message: "Введите начальную дату")
+        if let date = dateFormatter.date(from: text) {
             return date
         } else {
             throw BaseError(message: "Некоректный ввод начальной даты")
@@ -239,9 +217,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - конечная дата
      */
     func unbindEndDate() throws -> Date {
-        try Validator.validateTextForMissingValue(text: endDateTextField.unbindText(),
-                                                  message: "Введите конечную дату")
-        if let date = dateFormatter.date(from: endDateTextField.unbindText()) {
+        let text = try Validator.validateTextForMissingValue(text: endDateTextField.unbindText(),
+                                                             message: "Введите конечную дату")
+        if let date = dateFormatter.date(from: text) {
             return date
         } else {
             throw BaseError(message: "Некоректный ввод конечной даты")
@@ -251,7 +229,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     /*
      Метод блокировки projectTextField для редактирования
      */
-    func blockProjectTextField() {
+    private func blockProjectTextField() {
         projectTextField.isUserInteractionEnabled = false
     }
     
@@ -267,17 +245,39 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     }
     
     /*
-     Метод вызова PickerView
-     
-     parameters:
-     textField - textField для которого нужен PickerView
+     Метод привязывает названия проектов в массив для отображения в PickerView
      */
-    private func showPickerView(textField: BorderedTextField) {
-        let data = delegate?.bindData()
-        if let data {
-            picker.showPicker(textField: textField, data: data)
-            textField.becomeFirstResponder()
+    private func setDataFrom(projects: [Project]) {
+        var pickerViewData = [String]()
+        for i in projects {
+            pickerViewData.append(i.name)
         }
+        self.projects = projects
+        projectTextField.bind(data: pickerViewData)
+    }
+    
+    /*
+     Метод привязывает полное ФИО сотрудников в массив для отображения в PickerView
+     */
+    private func setDataFrom(employees: [Employee]) {
+        var pickerViewData = [String]()
+        for i in employees {
+            pickerViewData.append(i.fullName)
+        }
+        self.employees = employees
+        employeeTextField.bind(data: pickerViewData)
+    }
+    
+    /*
+     Метод привязывает названия статусов задачи в массив для отображения в PickerView
+     */
+    private func setDataFrom(status: TaskStatus.AllCases) {
+        var pickerViewData = [String]()
+        for i in status {
+            let status = getStatusTitleFrom(i)
+            pickerViewData.append(status)
+        }
+        statusTextField.bind(data: pickerViewData)
     }
     
     /*
@@ -287,7 +287,7 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      status - статус задачи
      Возвращаемое значение - строковый вариант статуса
      */
-    func getStatusTitleFrom(_ status: TaskStatus) -> String {
+    private func getStatusTitleFrom(_ status: TaskStatus) -> String {
         switch status {
         case .notStarted:
             return "Не начата"
@@ -320,33 +320,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         default:
             return nil
         }
-    }
-    
-    /*
-     Target на тап projectTextField
-     */
-    @objc func projectTapped(_ sender: UITapGestureRecognizer) {
-        isProjectTextField = true
-        showPickerView(textField: projectTextField)
-        isProjectTextField = false
-    }
-    
-    /*
-     Target на тап employeeTextField
-     */
-    @objc func employeeTapped(_ sender: UITapGestureRecognizer) {
-        isEmployeeTextField = true
-        showPickerView(textField: employeeTextField)
-        isEmployeeTextField = false
-    }
-    
-    /*
-     Target на тап statusTextField
-     */
-    @objc func statusTapped(_ sender: UITapGestureRecognizer) {
-        isStatusTextField = true
-        showPickerView(textField: statusTextField)
-        isStatusTextField = false
     }
     
     /*

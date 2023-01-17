@@ -82,9 +82,8 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст surnameTextField
      */
     func unbindSurname() throws -> String {
-        try Validator.validateTextForMissingValue(text: surnameTextField.unbindText(),
-                                                  message: "Введите фамилию")
-        return surnameTextField.unbindText()
+        return try Validator.validateTextForMissingValue(text: surnameTextField.unbindText(),
+                                                         message: "Введите фамилию")
     }
     
     /*
@@ -93,9 +92,8 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст nameTextField
      */
     func unbindName() throws -> String {
-        try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
-                                                  message: "Введите имя")
-        return nameTextField.unbindText()
+        return try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                         message: "Введите имя")
     }
     
     /*
@@ -104,9 +102,8 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст patronymicTextField
      */
     func unbindPatronymic() throws -> String {
-        try Validator.validateTextForMissingValue(text: patronymicTextField.unbindText(),
-                                                  message: "Введите отчество")
-        return patronymicTextField.unbindText()
+        return try Validator.validateTextForMissingValue(text: patronymicTextField.unbindText(),
+                                                         message: "Введите отчество")
     }
     
     /*
@@ -115,9 +112,8 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст positionTextField
      */
     func unbindPosition() throws -> String {
-        try Validator.validateTextForMissingValue(text: positionTextField.unbindText(),
-                                                  message: "Введите должность")
-        return positionTextField.unbindText()
+        return try Validator.validateTextForMissingValue(text: positionTextField.unbindText(),
+                                                         message: "Введите должность")
     }
     
     /*

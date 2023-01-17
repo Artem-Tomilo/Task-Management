@@ -63,9 +63,8 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст nameTextField
      */
     func unbindProjectName() throws -> String {
-        try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
-                                                  message: "Введите название")
-        return nameTextField.unbindText()
+        return try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                         message: "Введите название")
     }
     
     /*
@@ -74,9 +73,8 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - текст descriptionTextField
      */
     func unbindProjectDescription() throws -> String {
-        try Validator.validateTextForMissingValue(text: descriptionTextField.unbindText(),
-                                                  message: "Введите описание")
-        return descriptionTextField.unbindText()
+        return try Validator.validateTextForMissingValue(text: descriptionTextField.unbindText(),
+                                                         message: "Введите описание")
     }
     
     /*

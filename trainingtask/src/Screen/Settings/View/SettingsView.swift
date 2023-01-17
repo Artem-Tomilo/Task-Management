@@ -122,9 +122,9 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - числовое значение текста recordsTextField
      */
     func unbindRecords() throws -> Int {
-        try Validator.validateTextForMissingValue(text: recordsTextField.unbindText(),
-                                                  message: "Введите количество записей")
-        return try Validator.validateAndReturnTextForIntValue(text: recordsTextField.unbindText(),
+        let text = try Validator.validateTextForMissingValue(text: recordsTextField.unbindText(),
+                                                             message: "Введите количество записей")
+        return try Validator.validateAndReturnTextForIntValue(text: text,
                                                               message: "Введено некорректное количество записей")
     }
     
@@ -135,9 +135,9 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - числовое значение текста daysTextField
      */
     func unbindDays() throws -> Int {
-        try Validator.validateTextForMissingValue(text: daysTextField.unbindText(),
-                                                  message: "Введите количество дней")
-        return try Validator.validateAndReturnTextForIntValue(text: daysTextField.unbindText(),
+        let text = try Validator.validateTextForMissingValue(text: daysTextField.unbindText(),
+                                                             message: "Введите количество дней")
+        return try Validator.validateAndReturnTextForIntValue(text: text,
                                                               message: "Введено некорректное количество дней")
     }
     

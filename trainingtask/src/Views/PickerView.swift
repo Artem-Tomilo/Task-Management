@@ -1,16 +1,17 @@
 import UIKit
 
 /*
- TaskPickerView - view для работы с TaskEditView
+ PickerView - кастомное view для работы с UIPickerView
  */
 
-class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
-    private let pickerView = UIPickerView(frame: .zero)
-    lazy var textField = BorderedTextField(frame: .zero, placeholder: "")
-    private var pickerViewData: [String] = []
+    private let pickerView = UIPickerView()
+    private let textField = BorderedTextField(frame: .zero, placeholder: "")
+    private var data: [String] = []
     
-    override init(frame: CGRect) {
+    init(frame: CGRect, placeholder: String) {
+        self.textField.placeholder = placeholder
         super.init(frame: frame)
         setupPickerView()
     }
@@ -20,13 +21,21 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
     }
     
     private func setupPickerView() {
-        addSubview(pickerView)
-        
         translatesAutoresizingMaskIntoConstraints = false
-        pickerView.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(textField)
         
-        let pickerSize = pickerView.sizeThatFits(CGSize(width: bounds.width, height: 0))
-        pickerView.frame.size = pickerSize
+        NSLayoutConstraint.activate([
+            textField.topAnchor.constraint(equalTo: topAnchor),
+            textField.bottomAnchor.constraint(equalTo: bottomAnchor),
+            textField.leadingAnchor.constraint(equalTo: leadingAnchor),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor)
+        ])
+        
+        textField.inputAccessoryView = setupToolBar()
+        textField.inputView = pickerView
+        textField.delegate = self
+        textField.tintColor = .clear
+        
         pickerView.delegate = self
         pickerView.dataSource = self
     }
@@ -41,29 +50,32 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
     }
     
     /*
+     Метод присвоения данных для pickerView
+     
+     parameters:
+     data - данные, необходимые для отображения pickerView
+     */
+    func bind(data: [String]) {
+        self.data = data
+    }
+    
+    /*
      Метод привязки текста textField новыми данными
      
      parameters:
      data - новые данные для textField
      */
-    private func bindNewData(data: String) {
-        textField.bindText(data)
+    func bindText(_ text: String) {
+        textField.bindText(text)
     }
     
     /*
-     Метод отображения pickerView
+     Метод получения текста textField
      
-     parameters:
-     textField - textField, который вызывает этот метод
-     data - данные, необходимые для отображения pickerView
+     Возвращаемое значение - текст textField
      */
-    func showPicker(textField: BorderedTextField, data: [String]) {
-        pickerViewData = data
-        textField.inputAccessoryView = setupToolBar()
-        textField.inputView = pickerView
-        textField.delegate = self
-        self.textField = textField
-        self.textField.tintColor = .clear
+    func unbindText() -> String {
+        return textField.unbindText()
     }
     
     /*
@@ -88,15 +100,15 @@ class TaskPickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPicke
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return pickerViewData.count
+        return data.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return pickerViewData[row]
+        return data[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        bindNewData(data: pickerViewData[row])
+        bindText(data[row])
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
