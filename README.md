@@ -44,7 +44,7 @@ Splash экран и экран Главное меню:
 
 <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/7.png" width="300">
 
-Есть возможность отредактировать или удалить задачу свайпом влево, при изменеии переход на экран Редактирование задачи с заполненными данными:
+Есть возможность отредактировать или удалить задачу свайпом влево, при изменении - переход на экран Редактирование задачи с заполненными данными:
 
 <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/6.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/8.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/9.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/10.png" width="300"> <img src="https://github.com/Artem-Tomilo/Training-Project-Task-Management/blob/main/trainingtask/res/screens/11.png" width="300">
 
