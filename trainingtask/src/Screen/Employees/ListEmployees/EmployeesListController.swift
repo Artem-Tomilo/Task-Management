@@ -84,10 +84,10 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
             } else {
                 self.bind(employees)
             }
-            self.spinnerView.hideSpinner(from: self)
+            self.spinnerView.hideSpinner()
         } error: { [weak self] error in
             guard let self else { return }
-            self.spinnerView.hideSpinner(from: self)
+            self.spinnerView.hideSpinner()
             self.handleError(error)
         }
     }

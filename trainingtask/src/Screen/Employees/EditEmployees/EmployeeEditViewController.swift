@@ -97,10 +97,10 @@ class EmployeeEditViewController: UIViewController {
         serverDelegate.addEmployee(employee: newEmployee) { result in
             switch result {
             case .success():
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error: error)
             }
         }
@@ -117,10 +117,10 @@ class EmployeeEditViewController: UIViewController {
         serverDelegate.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) { result in
             switch result {
             case .success():
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error: error)
             }
         }

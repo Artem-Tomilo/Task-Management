@@ -91,10 +91,10 @@ class ProjectEditViewController: UIViewController {
         serverDelegate.addProject(project: newProject) { result in
             switch result {
             case .success():
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error: error)
             }
         }
@@ -111,10 +111,10 @@ class ProjectEditViewController: UIViewController {
         serverDelegate.editProject(id: editedProject.id, editedProject: editedProject) { result in
             switch result {
             case .success():
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error: error)
             }
         }

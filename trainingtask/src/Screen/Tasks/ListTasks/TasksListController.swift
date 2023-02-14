@@ -90,20 +90,20 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
             serverDelegate.getTasksFor(project: project) { [weak self] tasks in
                 guard let self else { return }
                 self.bindTasksAccordingRecordsCounts(tasks)
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
             } error: { [weak self] error in
                 guard let self else { return }
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error)
             }
         } else {
             serverDelegate.getTasks() { [weak self] tasks in
                 guard let self else { return }
                 self.bindTasksAccordingRecordsCounts(tasks)
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
             } error: { [weak self] error in
                 guard let self else { return }
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error)
             }
         }

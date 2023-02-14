@@ -84,10 +84,10 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
             } else {
                 self.bind(projects)
             }
-            self.spinnerView.hideSpinner(from: self)
+            self.spinnerView.hideSpinner()
         } error: { [weak self] error in
             guard let self else { return }
-            self.spinnerView.hideSpinner(from: self)
+            self.spinnerView.hideSpinner()
             self.handleError(error)
         }
     }

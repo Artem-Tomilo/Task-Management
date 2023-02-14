@@ -16,6 +16,19 @@ class SpinnerView: UIView {
         super.init(coder: aDecoder)
     }
     
+    private func setup(view: UIView) {
+        translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            heightAnchor.constraint(equalToConstant: 80),
+            widthAnchor.constraint(equalToConstant: 80)
+        ])
+        backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
+        layer.cornerRadius = 10
+    }
+    
     /*
      Метод для отображения SpinnerView
      
@@ -23,26 +36,24 @@ class SpinnerView: UIView {
      viewController - контроллер, в котором вызывается данный метод
      */
     func showSpinner(viewController: UIViewController) {
-        frame = viewController.view.bounds
         viewController.view.addSubview(self)
+        setup(view: viewController.view)
         
         addSubview(indicator)
-        backgroundColor = UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 0.5)
-        indicator.center = center
-        indicator.startAnimating()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            indicator.centerXAnchor.constraint(equalTo: centerXAnchor),
+            indicator.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
         
-        viewController.navigationController?.navigationBar.alpha = 0.3
+        indicator.startAnimating()
     }
     
     /*
      Метод для скрытия SpinnerView
-     
-     parameters:
-     viewController - контроллер, в котором вызывается данный метод
      */
-    func hideSpinner(from viewController: UIViewController) {
+    func hideSpinner() {
         indicator.stopAnimating()
         removeFromSuperview()
-        viewController.navigationController?.navigationBar.alpha = 1
     }
 }

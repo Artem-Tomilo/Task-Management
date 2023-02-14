@@ -146,10 +146,10 @@ class TaskEditViewController: UIViewController {
         serverDelegate.addTask(task: newTask) { result in
             switch result {
             case .success():
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error: error)
             }
         }
@@ -166,10 +166,10 @@ class TaskEditViewController: UIViewController {
         serverDelegate.editTask(id: editedTask.id, editedTask: editedTask) { result in
             switch result {
             case .success():
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
-                self.spinnerView.hideSpinner(from: self)
+                self.spinnerView.hideSpinner()
                 self.handleError(error: error)
             }
         }
