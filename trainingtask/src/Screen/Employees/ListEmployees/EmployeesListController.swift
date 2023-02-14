@@ -12,12 +12,12 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private static let newCellIdentifier = "NewCell"
     private var employeeArray: [Employee] = []
     
-    private let serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
+    private let server: Server
     private let settingsManager: SettingsManager
     
-    init(settingsManager: SettingsManager, serverDelegate: Server) {
+    init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
-        self.serverDelegate = serverDelegate
+        self.server = server
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -77,7 +77,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      */
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
-        serverDelegate.getEmployees { [weak self] employees in
+        server.getEmployees { [weak self] employees in
             guard let self else { return }
             if self.getMaxRecordsCountFromSettings() != 0 {
                 self.bind(Array(employees.prefix(self.getMaxRecordsCountFromSettings())))
@@ -259,10 +259,11 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      employee - передаваемый сотрудник для редактирования, если значение = nil, то будет создание нового сотрудника
      */
     private func showEditEmployeeViewController(_ employee: Employee?) {
-        let viewController = EmployeeEditViewController(serverDelegate: serverDelegate)
+        var possibleEmployeeToEdit: Employee?
         if employee != nil {
-            viewController.possibleEmployeeToEdit = employee
+            possibleEmployeeToEdit = employee
         }
+        let viewController = EmployeeEditViewController(server: server, possibleEmployeeToEdit: possibleEmployeeToEdit)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -274,7 +275,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      employee - сотрудник для удаления
      */
     private func deleteEmployee(employee: Employee) {
-        serverDelegate.deleteEmployee(id: employee.id) { result in
+        server.deleteEmployee(id: employee.id) { result in
             switch result {
             case .success():
                 self.loadData()

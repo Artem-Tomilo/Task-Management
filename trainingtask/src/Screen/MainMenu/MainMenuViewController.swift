@@ -9,11 +9,11 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     private let tableView = UITableView()
     private static let cellIdentifier = "Cell"
     private let settingsManager: SettingsManager
-    private let stub: Stub
+    private let server: Server
     
-    init(settingsManager: SettingsManager, stub: Stub) {
+    init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
-        self.stub = stub
+        self.server = server
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,15 +87,15 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         switch indexPath.row {
         case 0:
             let projectsListViewController = ProjectsListViewController(settingsManager: settingsManager,
-                                                                        serverDelegate: stub)
+                                                                        server: server)
             navigationController?.pushViewController(projectsListViewController, animated: true)
         case 1:
             let tasksListViewController = TasksListViewController(settingsManager: settingsManager,
-                                                                  serverDelegate: stub)
+                                                                  server: server, project: nil)
             navigationController?.pushViewController(tasksListViewController, animated: true)
         case 2:
             let employeesListController = EmployeesListController(settingsManager: settingsManager,
-                                                                  serverDelegate: stub)
+                                                                  server: server)
             navigationController?.pushViewController(employeesListController, animated: true)
         case 3:
             let settingsViewController = SettingsViewController(settingsManager: settingsManager)

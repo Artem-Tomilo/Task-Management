@@ -10,11 +10,12 @@ class EmployeeEditViewController: UIViewController {
     private let employeeEditView = EmployeeEditView()
     private let spinnerView = SpinnerView()
     
-    var possibleEmployeeToEdit: Employee? // свойство, в которое будет записываться передаваемый сотрудник для редактирования
-    private let serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
+    private var possibleEmployeeToEdit: Employee?
+    private let server: Server
     
-    init(serverDelegate: Server) {
-        self.serverDelegate = serverDelegate
+    init(server: Server, possibleEmployeeToEdit: Employee?) {
+        self.server = server
+        self.possibleEmployeeToEdit = possibleEmployeeToEdit
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -94,7 +95,7 @@ class EmployeeEditViewController: UIViewController {
      */
     private func addingNewEmployeeOnServer(_ newEmployee: Employee) {
         self.spinnerView.showSpinner(viewController: self)
-        serverDelegate.addEmployee(employee: newEmployee) { result in
+        server.addEmployee(employee: newEmployee) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()
@@ -114,7 +115,7 @@ class EmployeeEditViewController: UIViewController {
      */
     private func editingEmployeeOnServer(_ editedEmployee: Employee) {
         self.spinnerView.showSpinner(viewController: self)
-        serverDelegate.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) { result in
+        server.editEmployee(id: editedEmployee.id, editedEmployee: editedEmployee) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()

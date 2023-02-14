@@ -9,11 +9,11 @@ class SplashViewController: UIViewController {
     private let nameLabel = UILabel()
     private let versionLabel = UILabel()
     private let settingsManager: SettingsManager
-    private let stub: Stub
+    private let server: Server
     
-    init(settingsManager: SettingsManager, stub: Stub) {
+    init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
-        self.stub = stub
+        self.server = server
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,7 +27,7 @@ class SplashViewController: UIViewController {
         
         let delay = DispatchTime.now() + 5
         DispatchQueue.main.asyncAfter(deadline: delay) {
-            let viewController = MainMenuViewController(settingsManager: self.settingsManager, stub: self.stub)
+            let viewController = MainMenuViewController(settingsManager: self.settingsManager, server: self.server)
             self.navigationController?.pushViewController(viewController, animated: true)
         }
     }

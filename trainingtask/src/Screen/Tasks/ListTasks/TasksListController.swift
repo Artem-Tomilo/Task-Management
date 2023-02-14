@@ -16,14 +16,15 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      Если свойство имеет значение, то будут отображаться задачи, принадлежащие этому проекту,
      если свойство равно nil, будут отображаться все задачи
      */
-    var project: Project?
+    private var project: Project?
     
-    private let serverDelegate: Server
+    private let server: Server
     private let settingsManager: SettingsManager
     
-    init(settingsManager: SettingsManager, serverDelegate: Server) {
+    init(settingsManager: SettingsManager, server: Server, project: Project?) {
         self.settingsManager = settingsManager
-        self.serverDelegate = serverDelegate
+        self.server = server
+        self.project = project
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -87,7 +88,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
         if let project {
-            serverDelegate.getTasksFor(project: project) { [weak self] tasks in
+            server.getTasksFor(project: project) { [weak self] tasks in
                 guard let self else { return }
                 self.bindTasksAccordingRecordsCounts(tasks)
                 self.spinnerView.hideSpinner()
@@ -97,7 +98,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
                 self.handleError(error)
             }
         } else {
-            serverDelegate.getTasks() { [weak self] tasks in
+            server.getTasks() { [weak self] tasks in
                 guard let self else { return }
                 self.bindTasksAccordingRecordsCounts(tasks)
                 self.spinnerView.hideSpinner()
@@ -260,7 +261,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      task - задача для удаления
      */
     private func deleteTask(task: Task) {
-        serverDelegate.deleteTask(id: task.id) { result in
+        server.deleteTask(id: task.id) { result in
             switch result {
             case .success():
                 self.loadData()
@@ -277,13 +278,17 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      task - передаваемая задача для редактирования, если значение = nil, то будет создание новой задачи
      */
     private func showEditTaskViewController(_ task: Task?) {
-        let viewController = TaskEditViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
-        if project != nil {
-            viewController.project = project
+        var project: Project?
+        var possibleTaskToEdit: Task?
+        
+        if self.project != nil {
+            project = self.project
         }
         if task != nil {
-            viewController.possibleTaskToEdit = task
+            possibleTaskToEdit = task
         }
+        let viewController = TaskEditViewController(settingsManager: settingsManager, server: server,
+                                                    possibleTaskToEdit: possibleTaskToEdit, project: project)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     

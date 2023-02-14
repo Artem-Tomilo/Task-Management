@@ -10,11 +10,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         do {
             let settingsManager = try SettingsManager()
-            let stub = Stub()
-            let navVC = UINavigationController()
-            let splash = SplashViewController(settingsManager: settingsManager, stub: stub)
-            navVC.pushViewController(splash, animated: true)
-            window?.rootViewController = navVC
+            let server = Stub()
+            let navigationViewController = UINavigationController()
+            let splashViewController = SplashViewController(settingsManager: settingsManager, server: server)
+            navigationViewController.pushViewController(splashViewController, animated: true)
+            window?.rootViewController = navigationViewController
             window?.makeKeyAndVisible()
         } catch {
             fatalError(error.localizedDescription)

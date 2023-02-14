@@ -9,11 +9,12 @@ class ProjectEditViewController: UIViewController {
     private let projectEditView = ProjectEditView()
     private let spinnerView = SpinnerView()
     
-    var possibleProjectToEdit: Project? // свойство, в которое будет записываться передаваемый проект для редактирования
-    private let serverDelegate: Server // делегат, вызывающий методы обработки сотрудников на сервере
+    private let server: Server
+    private var possibleProjectToEdit: Project?
     
-    init(serverDelegate: Server) {
-        self.serverDelegate = serverDelegate
+    init(server: Server, possibleProjectToEdit: Project?) {
+        self.server = server
+        self.possibleProjectToEdit = possibleProjectToEdit
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -88,7 +89,7 @@ class ProjectEditViewController: UIViewController {
      */
     private func addingNewProjectOnServer(_ newProject: Project) {
         self.spinnerView.showSpinner(viewController: self)
-        serverDelegate.addProject(project: newProject) { result in
+        server.addProject(project: newProject) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()
@@ -108,7 +109,7 @@ class ProjectEditViewController: UIViewController {
      */
     private func editingProjectOnServer(_ editedProject: Project) {
         self.spinnerView.showSpinner(viewController: self)
-        serverDelegate.editProject(id: editedProject.id, editedProject: editedProject) { result in
+        server.editProject(id: editedProject.id, editedProject: editedProject) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()

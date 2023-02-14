@@ -10,15 +10,17 @@ class TaskEditViewController: UIViewController {
     private let taskEditView = TaskEditView()
     private let spinnerView = SpinnerView()
     
-    var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
-    var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
+    private var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
+    private var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
     
-    private let serverDelegate: Server
+    private let server: Server
     private let settingsManager: SettingsManager
     
-    init(settingsManager: SettingsManager, serverDelegate: Server) {
+    init(settingsManager: SettingsManager, server: Server, possibleTaskToEdit: Task?, project: Project?) {
         self.settingsManager = settingsManager
-        self.serverDelegate = serverDelegate
+        self.server = server
+        self.possibleTaskToEdit = possibleTaskToEdit
+        self.project = project
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -78,7 +80,7 @@ class TaskEditViewController: UIViewController {
      Метод получает списов проектов с сервера
      */
     private func getProjects() {
-        serverDelegate.getProjects({ [weak self] projects in
+        server.getProjects({ [weak self] projects in
             guard let self = self else { return }
             self.taskEditView.bind(task: nil, projects: projects, employees: nil, project: nil, days: nil)
         }) { [weak self] error in
@@ -91,7 +93,7 @@ class TaskEditViewController: UIViewController {
      Метод получает списов сотрудников с сервера
      */
     private func getEmployees() {
-        serverDelegate.getEmployees({ [weak self] employees in
+        server.getEmployees({ [weak self] employees in
             guard let self = self else { return }
             self.taskEditView.bind(task: nil, projects: nil, employees: employees, project: nil, days: nil)
         }) { [weak self] error in
@@ -143,7 +145,7 @@ class TaskEditViewController: UIViewController {
      */
     private func addingNewTaskOnServer(_ newTask: Task) {
         self.spinnerView.showSpinner(viewController: self)
-        serverDelegate.addTask(task: newTask) { result in
+        server.addTask(task: newTask) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()
@@ -163,7 +165,7 @@ class TaskEditViewController: UIViewController {
      */
     private func editingTaskOnServer(_ editedTask: Task) {
         self.spinnerView.showSpinner(viewController: self)
-        serverDelegate.editTask(id: editedTask.id, editedTask: editedTask) { result in
+        server.editTask(id: editedTask.id, editedTask: editedTask) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()

@@ -12,12 +12,12 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
     private static let projectCellIdentifier = "NewCell"
     private var projectsArray: [Project] = []
     
-    private let serverDelegate: Server
+    private let server: Server
     private let settingsManager: SettingsManager
     
-    init(settingsManager: SettingsManager, serverDelegate: Server) {
+    init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
-        self.serverDelegate = serverDelegate
+        self.server = server
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -77,7 +77,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
      */
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
-        serverDelegate.getProjects() { [weak self] projects in
+        server.getProjects() { [weak self] projects in
             guard let self else { return }
             if self.getMaxRecordsCountFromSettings() != 0 {
                 self.bind(Array(projects.prefix(self.getMaxRecordsCountFromSettings())))
@@ -230,7 +230,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
      project - проект для удаления
      */
     private func deleteProject(project: Project) {
-        serverDelegate.deleteProject(id: project.id) { result in
+        server.deleteProject(id: project.id) { result in
             switch result {
             case .success():
                 self.loadData()
@@ -247,10 +247,11 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
      project - передаваемый проект для редактирования, если значение = nil, то будет создание нового проекта
      */
     private func showEditProjectViewController(_ project: Project?) {
-        let viewController = ProjectEditViewController(serverDelegate: serverDelegate)
+        var possibleProjectToEdit: Project?
         if project != nil {
-            viewController.possibleProjectToEdit = project
+            possibleProjectToEdit = project
         }
+        let viewController = ProjectEditViewController(server: server, possibleProjectToEdit: possibleProjectToEdit)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
@@ -261,8 +262,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
      project - передаваемый проект для отображения его задач
      */
     private func showTaskViewController(_ project: Project) {
-        let viewController = TasksListViewController(settingsManager: settingsManager, serverDelegate: serverDelegate)
-        viewController.project = project
+        let viewController = TasksListViewController(settingsManager: settingsManager, server: server, project: project)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
