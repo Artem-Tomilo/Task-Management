@@ -4,7 +4,7 @@ import UIKit
  TaskEditView - view для отображения на экране Редактирование задачи
  */
 
-class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
+class TaskEditView: UIView, UIGestureRecognizerDelegate {
     
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
@@ -12,10 +12,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let projectPickerView = ProjectPicker(placeholder: "Проект")
     private let employeePickerView = EmployeePicker(placeholder: "Сотрудник")
     private let statusPickerView = StatusPicker(placeholder: "Статус")
-    private let requiredNumberOfHoursTextField = BorderedTextField(placeholder: "Кол-во часов")
+    private let requiredNumberOfHoursTextField = TaskHoursTextField(placeholder: "Кол-во часов")
     private let startDatePickerView = DatePickerView()
-    private let endDatePickerView = DatePickerView()
-    private let dateFormatter = TaskDateFormatter()
+    private let endDatePickerView = EndDatePicker()
     
     private var projects = [Project]()
     private var employees = [Employee]()
@@ -66,9 +65,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         
         translatesAutoresizingMaskIntoConstraints = false
         
-        requiredNumberOfHoursTextField.delegate = self
-        requiredNumberOfHoursTextField.keyboardType = .numberPad
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardFrame(_:)),
                                                name: UIResponder.keyboardWillChangeFrameNotification,
@@ -96,10 +92,10 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         let statusItems = statusPickerView.setData()
         
         if let task = taskDetails.task {
-            nameTextField.bindText(task.name)
-            requiredNumberOfHoursTextField.bindText(String(task.requiredNumberOfHours))
-            startDatePickerView.bindText(dateFormatter.string(from: task.startDate))
-            endDatePickerView.bindText(dateFormatter.string(from: task.endDate))
+            nameTextField.bind(task.name)
+            requiredNumberOfHoursTextField.bind(String(task.requiredNumberOfHours))
+            startDatePickerView.bind(task.startDate)
+            endDatePickerView.bind(task.endDate)
             
             let selectedProject = projectItems.first(where: { $0.id == task.project.id })
             projectPickerView.bind(data: projectItems, selectedItem: selectedProject)
@@ -110,12 +106,11 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
             let selectedStatus = statusItems.first(where: { $0.id == task.status.hashValue })
             statusPickerView.bind(data: statusItems, selectedItem: selectedStatus)
         } else {
-            startDatePickerView.bindText(getStringCurrentDate())
-            
-            let date = Date()
-            let endDate = dateFormatter.getEndDateFrom(startDate: date, with: taskDetails.daysBetweenDates ?? 0)
-            let stringDate = dateFormatter.string(from: endDate)
-            endDatePickerView.bindText(stringDate)
+            let currentDate = Date()
+            let endDate = endDatePickerView.getEndDateFrom(startDate: currentDate,
+                                                           with: taskDetails.daysBetweenDates ?? 0)
+            startDatePickerView.bind(Date())
+            endDatePickerView.bind(endDate)
             
             projectPickerView.bind(data: projectItems, selectedItem: nil)
             employeePickerView.bind(data: employeeItems, selectedItem: nil)
@@ -127,66 +122,28 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
-    func unbind() throws {
-        let taskName = try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+    /*
+     Метод собирает значения из текстФилдов, проверяет их и собирает задачу
+     в случае ошибки происходит ее обработка
+     
+     Возвращаемое значение - собранная модель задачи
+     */
+    func unbind() throws -> Task {
+        let taskName = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
                                                                  message: "Введите название")
         let project = try projectPickerView.unbindProject()
-        print(project)
         let employee = try employeePickerView.unbindEmployee()
-        print(employee)
         let status = try statusPickerView.unbindStatus()
-        print(status)
+        let hours = try requiredNumberOfHoursTextField.unbindIntValue()
+        let startDate = try startDatePickerView.unbind()
+        let endDate = try endDatePickerView.unbind()
         
-    }
-    
-    /*
-     Метод получения текста requiredNumberOfHoursTextField, его проверки и форматирования в числовой формат,
-     в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - числовое значение текста requiredNumberOfHoursTextField
-     */
-    func unbindHours() throws -> Int {
-        let text = try Validator.validateTextForMissingValue(text: requiredNumberOfHoursTextField.unbindText(),
-                                                             message: "Введите количество часов для выполнения задачи")
-        
-        let hours = try Validator.validateAndReturnTextForIntValue(text: text,
-                                                                   message: "Введено некорректное количество часов")
-        guard hours > 0 else {
-            throw BaseError(message: "Количество часов должно быть больше 0")
+        guard startDate <= endDate else {
+            throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
         }
-        return hours
-    }
-    
-    /*
-     Метод получения текста startDateTextField, его проверки и форматирования в формат даты,
-     в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - начальная дата
-     */
-    func unbindStartDate() throws -> Date {
-        let text = try Validator.validateTextForMissingValue(text: startDatePickerView.unbindText(),
-                                                             message: "Введите начальную дату")
-        if let date = dateFormatter.date(from: text) {
-            return date
-        } else {
-            throw BaseError(message: "Некоректный ввод начальной даты")
-        }
-    }
-    
-    /*
-     Метод получения текста endDateTextField, его проверки и форматирования в формат даты,
-     в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - конечная дата
-     */
-    func unbindEndDate() throws -> Date {
-        let text = try Validator.validateTextForMissingValue(text: endDatePickerView.unbindText(),
-                                                             message: "Введите конечную дату")
-        if let date = dateFormatter.date(from: text) {
-            return date
-        } else {
-            throw BaseError(message: "Некоректный ввод конечной даты")
-        }
+        let task = Task(name: taskName, project: project, employee: employee, status: status,
+                        requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+        return task
     }
     
     /*
@@ -194,17 +151,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      */
     private func blockProjectTextField() {
         projectPickerView.isUserInteractionEnabled = false
-    }
-    
-    /*
-     Метод получения текущей даты и перевод ее в строку
-     
-     Возвращаемое значение - текущая дата
-     */
-    private func getStringCurrentDate() -> String {
-        let date = Date()
-        let stringDate = dateFormatter.string(from: date)
-        return stringDate
     }
     
     /*
@@ -221,19 +167,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      */
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
                            shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
-    /*
-     Метод UITextFieldDelegate для проверки вводимых даннх
-     */
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
-                   replacementString string: String) -> Bool {
-        if textField == requiredNumberOfHoursTextField {
-            return string.allSatisfy {
-                $0.isNumber
-            }
-        }
         return true
     }
 }

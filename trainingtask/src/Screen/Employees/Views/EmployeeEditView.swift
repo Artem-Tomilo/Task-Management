@@ -66,10 +66,10 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      employeeDetails - значения редактируемого сотрудника, собранные в виде модели редактируемых данных сотрудника
      */
     func bind(_ employeeDetails: EmployeeDetails) {
-        surnameTextField.bindText(employeeDetails.surname)
-        nameTextField.bindText(employeeDetails.name)
-        patronymicTextField.bindText(employeeDetails.patronymic)
-        positionTextField.bindText(employeeDetails.position)
+        surnameTextField.bind(employeeDetails.surname)
+        nameTextField.bind(employeeDetails.name)
+        patronymicTextField.bind(employeeDetails.patronymic)
+        positionTextField.bind(employeeDetails.position)
     }
     
     /*
@@ -78,13 +78,13 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - модель редактируемых данных
      */
     func unbind() throws -> EmployeeDetails {
-        let surname = try Validator.validateTextForMissingValue(text: surnameTextField.unbindText(),
+        let surname = try Validator.validateTextForMissingValue(text: surnameTextField.unbind(),
                                                                 message: "Введите фамилию")
-        let name = try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+        let name = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
                                                              message: "Введите имя")
-        let patronymic = try Validator.validateTextForMissingValue(text: patronymicTextField.unbindText(),
+        let patronymic = try Validator.validateTextForMissingValue(text: patronymicTextField.unbind(),
                                                                    message: "Введите отчество")
-        let position = try Validator.validateTextForMissingValue(text: positionTextField.unbindText(),
+        let position = try Validator.validateTextForMissingValue(text: positionTextField.unbind(),
                                                                  message: "Введите должность")
         let employeeDetails = EmployeeDetails(surname: surname,
                                               name: name,

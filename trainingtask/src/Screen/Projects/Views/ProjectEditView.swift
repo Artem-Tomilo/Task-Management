@@ -52,8 +52,8 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      projectDetails - значения редактируемого проекта, собранные в виде модели редактируемых данных проекта
      */
     func bind(_ projectDetails: ProjectDetails) {
-        nameTextField.bindText(projectDetails.title)
-        descriptionTextField.bindText(projectDetails.description)
+        nameTextField.bind(projectDetails.title)
+        descriptionTextField.bind(projectDetails.description)
     }
     
     /*
@@ -62,9 +62,9 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      Возвращаемое значение - модель редактируемых данных
      */
     func unbind() throws -> ProjectDetails {
-        let title = try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+        let title = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
                                                               message: "Введите название")
-        let description = try Validator.validateTextForMissingValue(text: descriptionTextField.unbindText(),
+        let description = try Validator.validateTextForMissingValue(text: descriptionTextField.unbind(),
                                                                     message: "Введите описание")
         let projectDetails = ProjectDetails(title: title, description: description)
         return projectDetails

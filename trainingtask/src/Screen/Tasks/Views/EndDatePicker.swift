@@ -1,17 +1,12 @@
 import Foundation
 
-/*
- TaskDateFormatter - класс наследник DateFormatter с дополнительными свойствами и методами
- */
-
-class TaskDateFormatter: DateFormatter {
+class EndDatePicker: DatePickerView {
     
-    override init() {
-        super.init()
-        dateFormat = "yyyy-MM-dd"
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
@@ -31,5 +26,15 @@ class TaskDateFormatter: DateFormatter {
         let timeInterval = initTimeInterval(days: days)
         let endDate = Date(timeInterval: timeInterval, since: startDate)
         return endDate
+    }
+    
+    override func unbind() throws -> Date {
+        let text = try Validator.validateTextForMissingValue(text: textField.unbind(),
+                                                             message: "Введите конечную дату")
+        if let date = dateFormatter.date(from: text) {
+            return date
+        } else {
+            throw BaseError(message: "Некоректный ввод конечной даты")
+        }
     }
 }

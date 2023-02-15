@@ -53,7 +53,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
     
     private func displayValue() {
         if let selectedItem {
-            textField.bindText(selectedItem.title)
+            textField.bind(selectedItem.title)
         }
     }
     
@@ -67,7 +67,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         pickerViewData = data
         if let selectedItem {
             self.selectedItem = selectedItem
-            textField.bindText(selectedItem.title)
+            textField.bind(selectedItem.title)
         }
     }
     
@@ -95,7 +95,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
      Target на кнопку Cancel - вызывает сброс введенных данных
      */
     @objc func cancelTapped(_ sender: UIBarButtonItem) {
-        textField.bindText("")
+        textField.bind("")
         textField.endEditing(false)
         pickerView.selectRow(0, inComponent: 0, animated: true)
     }

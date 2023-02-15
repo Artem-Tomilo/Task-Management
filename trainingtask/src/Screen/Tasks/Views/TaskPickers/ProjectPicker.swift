@@ -22,7 +22,7 @@ class ProjectPicker: PickerView {
     }
     
     func unbindProject() throws -> Project {
-        let value = try Validator.validateTextForMissingValue(text: textField.unbindText(),
+        let value = try Validator.validateTextForMissingValue(text: textField.unbind(),
                                                               message: "Выберите проект")
         guard selectedItem?.title == value,
               let taskProject = projectData.first(where: { $0.id == selectedItem?.id }) else {

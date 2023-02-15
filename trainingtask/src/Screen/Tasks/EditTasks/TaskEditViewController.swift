@@ -32,7 +32,7 @@ class TaskEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        getValuesFromServer()
+        updateData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,7 +105,7 @@ class TaskEditViewController: UIViewController {
         }
     }
     
-    private func getValuesFromServer() {
+    private func updateData() {
         let group = DispatchGroup()
         
         group.enter()
@@ -132,31 +132,18 @@ class TaskEditViewController: UIViewController {
     }
     
     /*
-     Метод получает данные из текстФилдов экрана, делает валидацию и собирает модель задачи,
+     Метод получает модель задачи, собрануую из значений текстФилдов экрана и делает валидацию,
      при редактировании заменяет данные редактирумой задачи новыми данными
      
      Возвращаемое значение - задача
      */
-//    private func unbind() throws -> Task {
-//        let name = try taskEditView.unbindName()
-//        let project = try taskEditView.unbindProject()
-//        let employee = try taskEditView.unbindEmployee()
-//        let status = try taskEditView.unbindStatus()
-//        let hours = try taskEditView.unbindHours()
-//        let startDate = try taskEditView.unbindStartDate()
-//        let endDate = try taskEditView.unbindEndDate()
-//
-//        guard startDate <= endDate else {
-//            throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
-//        }
-//
-//        var task = Task(name: name, project: project, employee: employee,
-//                        status: status, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
-//        if let possibleTaskToEdit {
-//            task.id = possibleTaskToEdit.id
-//        }
-//        return task
-//    }
+    private func unbind() throws -> Task {
+        var task = try taskEditView.unbind()
+        if let possibleTaskToEdit {
+            task.id = possibleTaskToEdit.id
+        }
+        return task
+    }
     
     /*
      Метод добавляет новую задачу в массив на сервере и возвращает на экран Список задач,
@@ -200,17 +187,16 @@ class TaskEditViewController: UIViewController {
     }
     
     /*
-     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект,
+     Метод, который проверяет и сохраняет либо новую, либо отредактированную задачу,
      в случае ошибки происходит ее обработка
      */
     private func saveTask() throws {
-//        let bindedTask = try unbind()
-//        if possibleTaskToEdit != nil {
-//            editingTaskOnServer(bindedTask)
-//        } else {
-//            addingNewTaskOnServer(bindedTask)
-//        }
-        try taskEditView.unbind()
+        let bindedTask = try unbind()
+        if possibleTaskToEdit != nil {
+            editingTaskOnServer(bindedTask)
+        } else {
+            addingNewTaskOnServer(bindedTask)
+        }
     }
     
     /*

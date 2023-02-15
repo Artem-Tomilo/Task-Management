@@ -28,7 +28,7 @@ class BorderedTextField: UITextField {
      parameters:
      text - текст для textField
      */
-    func bindText(_ text: String) {
+    func bind(_ text: String) {
         self.text = text
     }
     
@@ -37,7 +37,7 @@ class BorderedTextField: UITextField {
      
      Возвращаемое значение - текст textField
      */
-    func unbindText() -> String {
+    func unbind() -> String {
         if let text {
             return text
         }

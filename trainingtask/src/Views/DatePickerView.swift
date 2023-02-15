@@ -6,10 +6,10 @@ import UIKit
 
 class DatePickerView: UIView, UITextFieldDelegate {
     
-    private let textField = BorderedTextField(placeholder: "yyyy-MM-dd")
+    let textField = BorderedTextField(placeholder: "yyyy-MM-dd")
+    let dateFormatter = DateFormatter()
     private let datePicker = UIDatePicker()
     private let toolbar = UIToolbar()
-    private let dateFormatter = TaskDateFormatter()
     private var keyboardButton = UIBarButtonItem()
     private var keyboardIsActive = false
     
@@ -51,25 +51,34 @@ class DatePickerView: UIView, UITextFieldDelegate {
                                          action: #selector(keyboardButtonPressed(_:)))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         toolbar.setItems([keyboardButton, flexSpace, doneButton], animated: false)
+        dateFormatter.dateFormat = "yyyy-MM-dd"
     }
     
     /*
      Метод присвоения текста для textField
      
      parameters:
-     text - текст для textField
+     date - дата для отображения в textField
      */
-    func bindText(_ text: String) {
-        textField.bindText(text)
+    func bind(_ date: Date) {
+        let stringDate = dateFormatter.string(from: date)
+        textField.bind(stringDate)
     }
     
     /*
-     Метод получения текста textField
+     Метод получения текста textField, его проверки и форматирования в формат даты,
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - текст textField
+     Возвращаемое значение - начальная дата
      */
-    func unbindText() -> String {
-        return textField.unbindText()
+    func unbind() throws -> Date {
+        let text = try Validator.validateTextForMissingValue(text: textField.unbind(),
+                                                             message: "Введите начальную дату")
+        if let date = dateFormatter.date(from: text) {
+            return date
+        } else {
+            throw BaseError(message: "Некоректный ввод начальной даты")
+        }
     }
     
     /*
@@ -78,7 +87,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
     private func getDataFromPicker() {
         if !keyboardIsActive {
             let stringDatePickerDate = dateFormatter.string(from: datePicker.date)
-            textField.bindText(stringDatePickerDate)
+            textField.bind(stringDatePickerDate)
         }
     }
     

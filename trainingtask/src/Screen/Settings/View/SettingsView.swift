@@ -101,9 +101,9 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      daysTextFieldText- данные для поля daysTextFieldText
      */
     func bind(urlTextFieldText: String, recordsTextFieldText: String, daysTextFieldText: String) {
-        urlTextField.bindText(urlTextFieldText)
-        recordsTextField.bindText(recordsTextFieldText)
-        daysTextField.bindText(daysTextFieldText)
+        urlTextField.bind(urlTextFieldText)
+        recordsTextField.bind(recordsTextFieldText)
+        daysTextField.bind(daysTextFieldText)
     }
     
     /*
@@ -112,7 +112,7 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - сам текст
      */
     func unbindUrl() -> String {
-        return urlTextField.unbindText()
+        return urlTextField.unbind()
     }
     
     /*
@@ -122,7 +122,7 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - числовое значение текста recordsTextField
      */
     func unbindRecords() throws -> Int {
-        let text = try Validator.validateTextForMissingValue(text: recordsTextField.unbindText(),
+        let text = try Validator.validateTextForMissingValue(text: recordsTextField.unbind(),
                                                              message: "Введите количество записей")
         return try Validator.validateAndReturnTextForIntValue(text: text,
                                                               message: "Введено некорректное количество записей")
@@ -135,7 +135,7 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - числовое значение текста daysTextField
      */
     func unbindDays() throws -> Int {
-        let text = try Validator.validateTextForMissingValue(text: daysTextField.unbindText(),
+        let text = try Validator.validateTextForMissingValue(text: daysTextField.unbind(),
                                                              message: "Введите количество дней")
         return try Validator.validateAndReturnTextForIntValue(text: text,
                                                               message: "Введено некорректное количество дней")

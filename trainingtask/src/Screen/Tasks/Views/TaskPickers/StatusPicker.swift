@@ -69,7 +69,7 @@ class StatusPicker: PickerView {
      Возвращаемое значение - статус
      */
     func unbindStatus() throws -> TaskStatus {
-        let value = try Validator.validateTextForMissingValue(text: textField.unbindText(),
+        let value = try Validator.validateTextForMissingValue(text: textField.unbind(),
                                                               message: "Выберите статус")
         let status = getStatusFrom(value)
         guard let status = TaskStatus.allCases.first(where: { $0 == status }) else {

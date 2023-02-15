@@ -22,7 +22,7 @@ class EmployeePicker: PickerView {
     }
     
     func unbindEmployee() throws -> Employee {
-        let value = try Validator.validateTextForMissingValue(text: textField.unbindText(),
+        let value = try Validator.validateTextForMissingValue(text: textField.unbind(),
                                                               message: "Выберите сотрудника")
         guard selectedItem?.title == value,
               let taskEmployee = employeeData.first(where: { $0.id == selectedItem?.id }) else {
