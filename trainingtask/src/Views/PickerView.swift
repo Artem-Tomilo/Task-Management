@@ -8,7 +8,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
     
     private let pickerView = UIPickerView()
     private let textField = BorderedTextField(placeholder: "")
-    private var data: [String] = []
+    private var data: [PickerViewItem] = []
     
     init(placeholder: String) {
         super.init(frame: .zero)
@@ -56,17 +56,12 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
      parameters:
      data - данные, необходимые для отображения pickerView
      */
-    func bind(data: [String]) {
+    func bind(data: [PickerViewItem], selectedItem: PickerViewItem?) {
         self.data = data
+        textField.bindText(selectedItem?.title ?? "")
     }
     
-    /*
-     Метод привязки текста textField новыми данными
-     
-     parameters:
-     data - новые данные для textField
-     */
-    func bindText(_ text: String) {
+    private func displayValue(_ text: String) {
         textField.bindText(text)
     }
     
@@ -105,11 +100,11 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return data[row]
+        return data[row].title
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        bindText(data[row])
+        displayValue(data[row].title)
     }
     
     func textField(_ textField: UITextField,

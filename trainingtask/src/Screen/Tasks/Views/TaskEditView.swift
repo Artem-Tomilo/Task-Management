@@ -88,38 +88,43 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      parametrs:
      task - задача, данными которой будут заполняться текстФилды
      */
-    func bind(task: Task?, projects: [Project]?, employees: [Employee]?, project: Project?, days: Int?) {
-        if let task {
+    func bind(taskDetails: TaskDetails) {
+        projects = taskDetails.listProjects ?? []
+        employees = taskDetails.listEmployees ?? []
+        let projectItems = setData(projects)
+        let employeeItems = setData(employees)
+        let statusItems = setData(TaskStatus.allCases)
+        
+        if let task = taskDetails.task {
             nameTextField.bindText(task.name)
-            projectPickerView.bindText(task.project.name)
-            employeePickerView.bindText(task.employee.fullName)
-            statusPickerView.bindText(getStatusTitleFrom(task.status))
             requiredNumberOfHoursTextField.bindText(String(task.requiredNumberOfHours))
             startDatePickerView.bindText(dateFormatter.string(from: task.startDate))
             endDatePickerView.bindText(dateFormatter.string(from: task.endDate))
+            
+            let selectedProject = projectItems.first(where: { $0.id == task.project.id })
+            projectPickerView.bind(data: projectItems, selectedItem: selectedProject)
+            
+            let selectedEmployee = employeeItems.first(where: { $0.id == task.employee.id })
+            employeePickerView.bind(data: employeeItems, selectedItem: selectedEmployee)
+            
+            let selectedStatus = statusItems.first(where: { $0.id == task.status.hashValue })
+            statusPickerView.bind(data: statusItems, selectedItem: selectedStatus)
         } else {
             startDatePickerView.bindText(getStringCurrentDate())
-        }
-        
-        if let project {
-            projectPickerView.bindText(project.name)
-            blockProjectTextField()
-        }
-        
-        if let days {
+            
             let date = Date()
-            let endDate = dateFormatter.getEndDateFrom(startDate: date, with: days)
+            let endDate = dateFormatter.getEndDateFrom(startDate: date, with: taskDetails.daysBetweenDates ?? 0)
             let stringDate = dateFormatter.string(from: endDate)
             endDatePickerView.bindText(stringDate)
+            
+            projectPickerView.bind(data: projectItems, selectedItem: nil)
+            employeePickerView.bind(data: employeeItems, selectedItem: nil)
+            statusPickerView.bind(data: statusItems, selectedItem: nil)
         }
         
-        if let projects {
-            setDataFrom(projects: projects)
+        if taskDetails.project != nil {
+            blockProjectTextField()
         }
-        if let employees {
-            setDataFrom(employees: employees)
-        }
-        setDataFrom(status: TaskStatus.allCases)
     }
     
     /*
@@ -247,37 +252,28 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     /*
      Метод привязывает названия проектов в массив для отображения в PickerView
      */
-    private func setDataFrom(projects: [Project]) {
-        var pickerViewData = [String]()
-        for i in projects {
-            pickerViewData.append(i.name)
+    private func setData(_ data: [Any]) -> [PickerViewItem] {
+        var pickerViewData = [PickerViewItem]()
+        if data is [Project] {
+            for i in data {
+                let project = i as! Project
+                let item = PickerViewItem(id: project.id, title: project.name)
+                pickerViewData.append(item)
+            }
+        } else if data is [Employee] {
+            for i in data {
+                let employee = i as! Employee
+                let item = PickerViewItem(id: employee.id, title: employee.fullName)
+                pickerViewData.append(item)
+            }
+        } else if data is TaskStatus.AllCases {
+            for i in data {
+                let status = i as! TaskStatus
+                let item = PickerViewItem(id: status.hashValue, title: getStatusTitleFrom(status))
+                pickerViewData.append(item)
+            }
         }
-        self.projects = projects
-        projectPickerView.bind(data: pickerViewData)
-    }
-    
-    /*
-     Метод привязывает полное ФИО сотрудников в массив для отображения в PickerView
-     */
-    private func setDataFrom(employees: [Employee]) {
-        var pickerViewData = [String]()
-        for i in employees {
-            pickerViewData.append(i.fullName)
-        }
-        self.employees = employees
-        employeePickerView.bind(data: pickerViewData)
-    }
-    
-    /*
-     Метод привязывает названия статусов задачи в массив для отображения в PickerView
-     */
-    private func setDataFrom(status: TaskStatus.AllCases) {
-        var pickerViewData = [String]()
-        for i in status {
-            let status = getStatusTitleFrom(i)
-            pickerViewData.append(status)
-        }
-        statusPickerView.bind(data: pickerViewData)
+        return pickerViewData
     }
     
     /*

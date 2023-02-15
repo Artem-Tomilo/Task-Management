@@ -9,6 +9,7 @@ class TaskEditViewController: UIViewController {
     
     private let taskEditView = TaskEditView()
     private let spinnerView = SpinnerView()
+    private var taskDetails = TaskDetails()
     
     private var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
     private var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
@@ -31,8 +32,7 @@ class TaskEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        getProjects()
-        getEmployees()
+        getValuesFromServer()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -43,6 +43,7 @@ class TaskEditViewController: UIViewController {
     private func setup() {
         view.backgroundColor = .systemRed
         view.addSubview(taskEditView)
+        spinnerView.showSpinner(viewController: self)
         
         NSLayoutConstraint.activate([
             taskEditView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
@@ -53,15 +54,15 @@ class TaskEditViewController: UIViewController {
         
         if let taskToEdit = possibleTaskToEdit {
             title = "Редактирование задачи"
-            taskEditView.bind(task: taskToEdit, projects: nil, employees: nil, project: nil, days: nil)
+            taskDetails.task = taskToEdit
         } else {
             let numbersOfDays = getNumberOfDaysBetweenDates()
-            taskEditView.bind(task: nil, projects: nil, employees: nil, project: nil, days: numbersOfDays)
+            taskDetails.daysBetweenDates = numbersOfDays
             title = "Добавление задачи"
         }
         
         if let project {
-            taskEditView.bind(task: nil, projects: nil, employees: nil, project: project, days: nil)
+            taskDetails.project = project
         }
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
@@ -79,10 +80,11 @@ class TaskEditViewController: UIViewController {
     /*
      Метод получает списов проектов с сервера
      */
-    private func getProjects() {
+    private func getProjects(_ completion: @escaping () -> Void) {
         server.getProjects({ [weak self] projects in
             guard let self = self else { return }
-            self.taskEditView.bind(task: nil, projects: projects, employees: nil, project: nil, days: nil)
+            self.taskDetails.listProjects = projects
+            completion()
         }) { [weak self] error in
             guard let self = self else { return }
             self.handleError(error: error)
@@ -92,13 +94,33 @@ class TaskEditViewController: UIViewController {
     /*
      Метод получает списов сотрудников с сервера
      */
-    private func getEmployees() {
+    private func getEmployees(_ completion: @escaping () -> Void) {
         server.getEmployees({ [weak self] employees in
             guard let self = self else { return }
-            self.taskEditView.bind(task: nil, projects: nil, employees: employees, project: nil, days: nil)
+            self.taskDetails.listEmployees = employees
+            completion()
         }) { [weak self] error in
             guard let self = self else { return }
             self.handleError(error: error)
+        }
+    }
+    
+    private func getValuesFromServer() {
+        let group = DispatchGroup()
+        
+        group.enter()
+        getProjects {
+            group.leave()
+        }
+        
+        group.enter()
+        getEmployees {
+            group.leave()
+        }
+        
+        group.notify(queue: .main) {
+            self.taskEditView.bind(taskDetails: self.taskDetails)
+            self.spinnerView.hideSpinner()
         }
     }
     
