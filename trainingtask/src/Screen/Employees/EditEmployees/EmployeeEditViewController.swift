@@ -46,10 +46,10 @@ class EmployeeEditViewController: UIViewController {
         
         if let employeeToEdit = possibleEmployeeToEdit {
             title = "Редактирование сотрудника"
-            employeeEditView.bind(surnameTextFieldText: employeeToEdit.surname,
-                                  nameTextFieldText: employeeToEdit.name,
-                                  patronymicTextFieldText: employeeToEdit.patronymic,
-                                  positionTextFieldText: employeeToEdit.position)
+            employeeEditView.bind(EmployeeDetails(surname: employeeToEdit.surname,
+                                                  name: employeeToEdit.name,
+                                                  patronymic: employeeToEdit.patronymic,
+                                                  position: employeeToEdit.position))
         } else {
             title = "Добавление сотрудника"
         }
@@ -67,18 +67,17 @@ class EmployeeEditViewController: UIViewController {
     }
     
     /*
-     Метод получает данные из текстФилдов экрана, делает валидацию и собирает модель сотрудника,
+     Метод получает данные из текстФилдов экрана в виде редактируемой модели, делает валидацию и собирает модель сотрудника,
      при редактировании заменяет данные редактирумого сотрудника новыми данными
      
      Возвращаемое значение - сотрудник
      */
     private func unbind() throws -> Employee {
-        let surname = try employeeEditView.unbindSurname()
-        let name = try employeeEditView.unbindName()
-        let patronymic = try employeeEditView.unbindPatronymic()
-        let position = try employeeEditView.unbindPosition()
-        
-        var employee = Employee(surname: surname, name: name, patronymic: patronymic, position: position)
+        let employeeDetails = try employeeEditView.unbind()
+        var employee = Employee(surname: employeeDetails.surname,
+                                name: employeeDetails.name,
+                                patronymic: employeeDetails.patronymic,
+                                position: employeeDetails.position)
         
         if let possibleEmployeeToEdit {
             employee.id = possibleEmployeeToEdit.id

@@ -63,57 +63,34 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
      Метод для заполнения текущего view данными
      
      parametrs:
-     surnameTextFieldText - данные для текста surnameTextField
-     nameTextFieldText - данные для текста nameTextField
-     patronymicTextFieldText - данные для текста patronymicTextField
-     positionTextFieldText - данные для текста positionTextField
+     employeeDetails - значения редактируемого сотрудника, собранные в виде модели редактируемых данных сотрудника
      */
-    func bind(surnameTextFieldText: String, nameTextFieldText: String,
-              patronymicTextFieldText: String, positionTextFieldText: String) {
-        surnameTextField.bindText(surnameTextFieldText)
-        nameTextField.bindText(nameTextFieldText)
-        patronymicTextField.bindText(patronymicTextFieldText)
-        positionTextField.bindText(positionTextFieldText)
+    func bind(_ employeeDetails: EmployeeDetails) {
+        surnameTextField.bindText(employeeDetails.surname)
+        nameTextField.bindText(employeeDetails.name)
+        patronymicTextField.bindText(employeeDetails.patronymic)
+        positionTextField.bindText(employeeDetails.position)
     }
     
     /*
-     Метод для проверки и получения текста surnameTextField
-     
-     Возвращаемое значение - текст surnameTextField
+     Метод для проверки и получения данных из текстФилдов экрана,
+     после проверки данные собираются в модель редактируемых данных сотрудника и отправляются на экран Список сотрудников
+     Возвращаемое значение - модель редактируемых данных
      */
-    func unbindSurname() throws -> String {
-        return try Validator.validateTextForMissingValue(text: surnameTextField.unbindText(),
-                                                         message: "Введите фамилию")
-    }
-    
-    /*
-     Метод для проверки и получения текста nameTextField
-     
-     Возвращаемое значение - текст nameTextField
-     */
-    func unbindName() throws -> String {
-        return try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
-                                                         message: "Введите имя")
-    }
-    
-    /*
-     Метод для проверки и получения текста patronymicTextField
-     
-     Возвращаемое значение - текст patronymicTextField
-     */
-    func unbindPatronymic() throws -> String {
-        return try Validator.validateTextForMissingValue(text: patronymicTextField.unbindText(),
-                                                         message: "Введите отчество")
-    }
-    
-    /*
-     Метод для проверки и получения текста positionTextField
-     
-     Возвращаемое значение - текст positionTextField
-     */
-    func unbindPosition() throws -> String {
-        return try Validator.validateTextForMissingValue(text: positionTextField.unbindText(),
-                                                         message: "Введите должность")
+    func unbind() throws -> EmployeeDetails {
+        let surname = try Validator.validateTextForMissingValue(text: surnameTextField.unbindText(),
+                                                                message: "Введите фамилию")
+        let name = try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                             message: "Введите имя")
+        let patronymic = try Validator.validateTextForMissingValue(text: patronymicTextField.unbindText(),
+                                                                   message: "Введите отчество")
+        let position = try Validator.validateTextForMissingValue(text: positionTextField.unbindText(),
+                                                                 message: "Введите должность")
+        let employeeDetails = EmployeeDetails(surname: surname,
+                                              name: name,
+                                              patronymic: patronymic,
+                                              position: position)
+        return employeeDetails
     }
     
     /*
