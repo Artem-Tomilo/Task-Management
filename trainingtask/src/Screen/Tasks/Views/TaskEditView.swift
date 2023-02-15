@@ -9,9 +9,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     private let scrollView = UIScrollView()
     private let stackView = UIStackView()
     private let nameTextField = BorderedTextField(placeholder: "Название задачи")
-    private let projectPickerView = PickerView(placeholder: "Проект")
-    private let employeePickerView = PickerView(placeholder: "Сотрудник")
-    private let statusPickerView = PickerView(placeholder: "Статус")
+    private let projectPickerView = ProjectPicker(placeholder: "Проект")
+    private let employeePickerView = EmployeePicker(placeholder: "Сотрудник")
+    private let statusPickerView = StatusPicker(placeholder: "Статус")
     private let requiredNumberOfHoursTextField = BorderedTextField(placeholder: "Кол-во часов")
     private let startDatePickerView = DatePickerView()
     private let endDatePickerView = DatePickerView()
@@ -91,9 +91,9 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     func bind(taskDetails: TaskDetails) {
         projects = taskDetails.listProjects ?? []
         employees = taskDetails.listEmployees ?? []
-        let projectItems = setData(projects)
-        let employeeItems = setData(employees)
-        let statusItems = setData(TaskStatus.allCases)
+        let projectItems = projectPickerView.setData(projects)
+        let employeeItems = employeePickerView.setData(employees)
+        let statusItems = statusPickerView.setData()
         
         if let task = taskDetails.task {
             nameTextField.bindText(task.name)
@@ -127,58 +127,16 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         }
     }
     
-    /*
-     Метод получения текста nameTextField и его проверки, в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - текст nameTextField
-     */
-    func unbindName() throws -> String {
-        return try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
-                                                         message: "Введите название")
-    }
-    
-    /*
-     Метод получения текста projectTextField, в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - текст projectTextField
-     */
-    func unbindProject() throws -> Project {
-        let project = try Validator.validateTextForMissingValue(text: projectPickerView.unbindText(),
-                                                                message: "Выберите проект")
-        guard let taskProject = projects.first(where: { $0.name == project }) else {
-            throw BaseError(message: "Не удалось получить проект")
-        }
-        return taskProject
-    }
-    
-    /*
-     Метод получения текста employeeTextField, в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - текст employeeTextField
-     */
-    func unbindEmployee() throws -> Employee {
-        let employee = try Validator.validateTextForMissingValue(text: employeePickerView.unbindText(),
-                                                                 message: "Выберите сотрудника")
-        guard let taskEmployee = employees.first(where: { $0.fullName == employee }) else {
-            throw BaseError(message: "Не удалось получить сотрудника")
-        }
-        return taskEmployee
-    }
-    
-    /*
-     Метод получения текста statusTextField, его проверки и форматирования в тип TaskStatus,
-     в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - статус
-     */
-    func unbindStatus() throws -> TaskStatus {
-        let text = try Validator.validateTextForMissingValue(text: statusPickerView.unbindText(),
-                                                             message: "Выберите статус")
-        let status = getStatusFrom(text)
-        guard let status = TaskStatus.allCases.first(where: { $0 == status }) else {
-            throw BaseError(message: "Не удалось выбрать статус")
-        }
-        return status
+    func unbind() throws {
+        let taskName = try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                                 message: "Введите название")
+        let project = try projectPickerView.unbindProject()
+        print(project)
+        let employee = try employeePickerView.unbindEmployee()
+        print(employee)
+        let status = try statusPickerView.unbindStatus()
+        print(status)
+        
     }
     
     /*
@@ -247,75 +205,6 @@ class TaskEditView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         let date = Date()
         let stringDate = dateFormatter.string(from: date)
         return stringDate
-    }
-    
-    /*
-     Метод привязывает названия проектов в массив для отображения в PickerView
-     */
-    private func setData(_ data: [Any]) -> [PickerViewItem] {
-        var pickerViewData = [PickerViewItem]()
-        if data is [Project] {
-            for i in data {
-                let project = i as! Project
-                let item = PickerViewItem(id: project.id, title: project.name)
-                pickerViewData.append(item)
-            }
-        } else if data is [Employee] {
-            for i in data {
-                let employee = i as! Employee
-                let item = PickerViewItem(id: employee.id, title: employee.fullName)
-                pickerViewData.append(item)
-            }
-        } else if data is TaskStatus.AllCases {
-            for i in data {
-                let status = i as! TaskStatus
-                let item = PickerViewItem(id: status.hashValue, title: getStatusTitleFrom(status))
-                pickerViewData.append(item)
-            }
-        }
-        return pickerViewData
-    }
-    
-    /*
-     Метод получения статуса в строковом варианте
-     
-     parameters:
-     status - статус задачи
-     Возвращаемое значение - строковый вариант статуса
-     */
-    private func getStatusTitleFrom(_ status: TaskStatus) -> String {
-        switch status {
-        case .notStarted:
-            return "Не начата"
-        case .inProgress:
-            return "В процессе"
-        case .completed:
-            return "Завершена"
-        case .postponed:
-            return "Отложена"
-        }
-    }
-    
-    /*
-     Метод получения статуса из строки
-     
-     parameters:
-     title - проверяемая строка
-     Возвращаемое значение - статус
-     */
-    private func getStatusFrom(_ title: String) -> TaskStatus? {
-        switch title {
-        case "Не начата":
-            return .notStarted
-        case "В процессе":
-            return .inProgress
-        case "Завершена":
-            return .completed
-        case "Отложена":
-            return .postponed
-        default:
-            return nil
-        }
     }
     
     /*

@@ -7,8 +7,9 @@ import UIKit
 class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     private let pickerView = UIPickerView()
-    private let textField = BorderedTextField(placeholder: "")
-    private var data: [PickerViewItem] = []
+    let textField = BorderedTextField(placeholder: "")
+    var pickerViewData: [PickerViewItem] = []
+    var selectedItem: PickerViewItem?
     
     init(placeholder: String) {
         super.init(frame: .zero)
@@ -50,6 +51,12 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         return toolbar
     }
     
+    private func displayValue() {
+        if let selectedItem {
+            textField.bindText(selectedItem.title)
+        }
+    }
+    
     /*
      Метод присвоения данных для pickerView
      
@@ -57,12 +64,11 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
      data - данные, необходимые для отображения pickerView
      */
     func bind(data: [PickerViewItem], selectedItem: PickerViewItem?) {
-        self.data = data
-        textField.bindText(selectedItem?.title ?? "")
-    }
-    
-    private func displayValue(_ text: String) {
-        textField.bindText(text)
+        pickerViewData = data
+        if let selectedItem {
+            self.selectedItem = selectedItem
+            textField.bindText(selectedItem.title)
+        }
     }
     
     /*
@@ -70,8 +76,11 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
      
      Возвращаемое значение - текст textField
      */
-    func unbindText() -> String {
-        return textField.unbindText()
+    func unbind() throws -> PickerViewItem {
+        guard let selectedItem else {
+            throw BaseError(message: "Не удалось получить значение")
+        }
+        return selectedItem
     }
     
     /*
@@ -96,15 +105,16 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return data.count
+        return pickerViewData.count
     }
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return data[row].title
+        return pickerViewData[row].title
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        displayValue(data[row].title)
+        selectedItem = pickerViewData[row]
+        displayValue()
     }
     
     func textField(_ textField: UITextField,

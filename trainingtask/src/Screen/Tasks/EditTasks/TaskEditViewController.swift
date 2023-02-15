@@ -137,26 +137,26 @@ class TaskEditViewController: UIViewController {
      
      Возвращаемое значение - задача
      */
-    private func unbind() throws -> Task {
-        let name = try taskEditView.unbindName()
-        let project = try taskEditView.unbindProject()
-        let employee = try taskEditView.unbindEmployee()
-        let status = try taskEditView.unbindStatus()
-        let hours = try taskEditView.unbindHours()
-        let startDate = try taskEditView.unbindStartDate()
-        let endDate = try taskEditView.unbindEndDate()
-        
-        guard startDate <= endDate else {
-            throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
-        }
-        
-        var task = Task(name: name, project: project, employee: employee,
-                        status: status, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
-        if let possibleTaskToEdit {
-            task.id = possibleTaskToEdit.id
-        }
-        return task
-    }
+//    private func unbind() throws -> Task {
+//        let name = try taskEditView.unbindName()
+//        let project = try taskEditView.unbindProject()
+//        let employee = try taskEditView.unbindEmployee()
+//        let status = try taskEditView.unbindStatus()
+//        let hours = try taskEditView.unbindHours()
+//        let startDate = try taskEditView.unbindStartDate()
+//        let endDate = try taskEditView.unbindEndDate()
+//
+//        guard startDate <= endDate else {
+//            throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
+//        }
+//
+//        var task = Task(name: name, project: project, employee: employee,
+//                        status: status, requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+//        if let possibleTaskToEdit {
+//            task.id = possibleTaskToEdit.id
+//        }
+//        return task
+//    }
     
     /*
      Метод добавляет новую задачу в массив на сервере и возвращает на экран Список задач,
@@ -204,12 +204,13 @@ class TaskEditViewController: UIViewController {
      в случае ошибки происходит ее обработка
      */
     private func saveTask() throws {
-        let bindedTask = try unbind()
-        if possibleTaskToEdit != nil {
-            editingTaskOnServer(bindedTask)
-        } else {
-            addingNewTaskOnServer(bindedTask)
-        }
+//        let bindedTask = try unbind()
+//        if possibleTaskToEdit != nil {
+//            editingTaskOnServer(bindedTask)
+//        } else {
+//            addingNewTaskOnServer(bindedTask)
+//        }
+        try taskEditView.unbind()
     }
     
     /*

@@ -36,6 +36,9 @@
 		38C61564299BEA7D004FD7A3 /* TaskDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61563299BEA7D004FD7A3 /* TaskDetails.swift */; };
 		38C61566299CD3B9004FD7A3 /* EmployeeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61565299CD3B9004FD7A3 /* EmployeeDetails.swift */; };
 		38C61568299CD8A1004FD7A3 /* ProjectDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61567299CD8A1004FD7A3 /* ProjectDetails.swift */; };
+		38C6156A299D037B004FD7A3 /* ProjectPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61569299D037B004FD7A3 /* ProjectPicker.swift */; };
+		38C6156C299D0439004FD7A3 /* EmployeePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6156B299D0439004FD7A3 /* EmployeePicker.swift */; };
+		38C6156E299D0821004FD7A3 /* StatusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6156D299D0821004FD7A3 /* StatusPicker.swift */; };
 		38EF1A6A2935F79D00EB5F8E /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A622935F79D00EB5F8E /* 3.png */; };
 		38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A7229435CDD00EB5F8E /* Project.swift */; };
 		38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */; };
@@ -102,6 +105,9 @@
 		38C61563299BEA7D004FD7A3 /* TaskDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetails.swift; sourceTree = "<group>"; };
 		38C61565299CD3B9004FD7A3 /* EmployeeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDetails.swift; sourceTree = "<group>"; };
 		38C61567299CD8A1004FD7A3 /* ProjectDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetails.swift; sourceTree = "<group>"; };
+		38C61569299D037B004FD7A3 /* ProjectPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPicker.swift; sourceTree = "<group>"; };
+		38C6156B299D0439004FD7A3 /* EmployeePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePicker.swift; sourceTree = "<group>"; };
+		38C6156D299D0821004FD7A3 /* StatusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPicker.swift; sourceTree = "<group>"; };
 		38EF1A622935F79D00EB5F8E /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
 		38EF1A7229435CDD00EB5F8E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListViewController.swift; sourceTree = "<group>"; };
@@ -412,6 +418,9 @@
 			children = (
 				38EF1C3D2947BE8600EB5F8E /* TaskEditView.swift */,
 				38EF1C34294751EF00EB5F8E /* TaskCell.swift */,
+				38C61569299D037B004FD7A3 /* ProjectPicker.swift */,
+				38C6156B299D0439004FD7A3 /* EmployeePicker.swift */,
+				38C6156D299D0821004FD7A3 /* StatusPicker.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -549,12 +558,15 @@
 				38EF1C4F295C2E7400EB5F8E /* ErrorAlert.swift in Sources */,
 				3820316128D9EFDF008FAD35 /* EmployeeCell.swift in Sources */,
 				38C61566299CD3B9004FD7A3 /* EmployeeDetails.swift in Sources */,
+				38C6156A299D037B004FD7A3 /* ProjectPicker.swift in Sources */,
 				3820316E28DB4AF1008FAD35 /* BorderedTextField.swift in Sources */,
+				38C6156C299D0439004FD7A3 /* EmployeePicker.swift in Sources */,
 				38C61562299B99FE004FD7A3 /* PickerViewItem.swift in Sources */,
 				38EF1C3C2947BCF900EB5F8E /* TaskEditViewController.swift in Sources */,
 				384FB718290A820B0040FE50 /* EmployeeEditView.swift in Sources */,
 				3824BF4628F4A3260027149D /* SettingsManager.swift in Sources */,
 				387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */,
+				38C6156E299D0821004FD7A3 /* StatusPicker.swift in Sources */,
 				385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */,
 				38C61568299CD8A1004FD7A3 /* ProjectDetails.swift in Sources */,
 				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
