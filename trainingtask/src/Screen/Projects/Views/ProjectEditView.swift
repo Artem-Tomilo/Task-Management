@@ -49,32 +49,25 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      Метод для заполнения текущего view данными
      
      parametrs:
-     nameTextFieldText - данные для текста nameTextField
-     descriptionTextFieldText - данные для текста descriptionTextField
+     projectDetails - значения редактируемого проекта, собранные в виде модели редактируемых данных проекта
      */
-    func bind(nameTextFieldText: String, descriptionTextFieldText: String) {
-        nameTextField.bindText(nameTextFieldText)
-        descriptionTextField.bindText(descriptionTextFieldText)
+    func bind(_ projectDetails: ProjectDetails) {
+        nameTextField.bindText(projectDetails.title)
+        descriptionTextField.bindText(projectDetails.description)
     }
     
     /*
-     Метод для проверки и получения текста nameTextField
-     
-     Возвращаемое значение - текст nameTextField
+     Метод для проверки и получения данных из текстФилдов экрана,
+     после проверки данные собираются в модель редактируемых данных проекта и отправляются на экран Список проектов
+     Возвращаемое значение - модель редактируемых данных
      */
-    func unbindProjectName() throws -> String {
-        return try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
-                                                         message: "Введите название")
-    }
-    
-    /*
-     Метод для проверки и получения текста descriptionTextField
-     
-     Возвращаемое значение - текст descriptionTextField
-     */
-    func unbindProjectDescription() throws -> String {
-        return try Validator.validateTextForMissingValue(text: descriptionTextField.unbindText(),
-                                                         message: "Введите описание")
+    func unbind() throws -> ProjectDetails {
+        let title = try Validator.validateTextForMissingValue(text: nameTextField.unbindText(),
+                                                              message: "Введите название")
+        let description = try Validator.validateTextForMissingValue(text: descriptionTextField.unbindText(),
+                                                                    message: "Введите описание")
+        let projectDetails = ProjectDetails(title: title, description: description)
+        return projectDetails
     }
     
     /*

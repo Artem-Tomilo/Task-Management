@@ -45,7 +45,7 @@ class ProjectEditViewController: UIViewController {
         
         if let projectToEdit = possibleProjectToEdit {
             title = "Редактирование проекта"
-            projectEditView.bind(nameTextFieldText: projectToEdit.name, descriptionTextFieldText: projectToEdit.description)
+            projectEditView.bind(ProjectDetails(title: projectToEdit.name, description: projectToEdit.description))
         } else {
             title = "Добавление проекта"
         }
@@ -69,10 +69,8 @@ class ProjectEditViewController: UIViewController {
      Возвращаемое значение - проект
      */
     private func unbind() throws -> Project {
-        let name = try projectEditView.unbindProjectName()
-        let description = try projectEditView.unbindProjectDescription()
-        
-        var project = Project(name: name, description: description)
+        let projectDetails = try projectEditView.unbind()
+        var project = Project(name: projectDetails.title, description: projectDetails.description)
         
         if let possibleProjectToEdit {
             project.id = possibleProjectToEdit.id
