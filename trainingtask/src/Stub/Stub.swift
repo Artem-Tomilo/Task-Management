@@ -9,6 +9,10 @@ class Stub: Server {
     private var projectsArray: [Project] = []
     private var tasksArray: [Task] = []
     
+    private var employeeIdCounter = 0
+    private var projectIdCounter = 0
+    private var taskIdCounter = 0
+    
     init() {
         createProjects()
         createEmployees()
@@ -35,8 +39,10 @@ class Stub: Server {
             let employee = Employee(surname: lastNames[i],
                                     name: firstNames[i],
                                     patronymic: patronymics[i],
-                                    position: postiton[i])
+                                    position: postiton[i],
+                                    id: employeeIdCounter)
             employeesArray.append(employee)
+            employeeIdCounter += 1
         }
     }
     
@@ -77,10 +83,16 @@ class Stub: Server {
      employee - новый сотрудник для добавления в массив и последующего сохранения
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    func addEmployee(employee: Employee, _ completion: @escaping (Result<Void, BaseError>) -> Void) {
+    func addEmployee(employeeDetails: EmployeeDetails, _ completion: @escaping (Result<Void, BaseError>) -> Void) {
         delay() {
-            self.employeesArray.append(employee)
-            if self.employeesArray.contains(where: { $0 == employee }) {
+            let newEmployee = Employee(surname: employeeDetails.surname,
+                                       name: employeeDetails.name,
+                                       patronymic: employeeDetails.patronymic,
+                                       position: employeeDetails.position,
+                                       id: self.employeeIdCounter)
+            self.employeesArray.append(newEmployee)
+            self.employeeIdCounter += 1
+            if self.employeesArray.contains(where: { $0 == newEmployee }) {
                 completion(.success(()))
             } else {
                 completion(.failure(BaseError(message: "Не удалось добавить сотрудника")))

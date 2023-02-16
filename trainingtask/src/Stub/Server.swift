@@ -4,7 +4,7 @@ import Foundation
  Protocol Server - интерфейс взаимодействия с сервером
  */
 protocol Server: AnyObject {
-    func addEmployee(employee: Employee, _ completion: @escaping (Result<Void, BaseError>) -> Void)
+    func addEmployee(employeeDetails: EmployeeDetails, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func deleteEmployee(id: Int, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func editEmployee(id: Int, editedEmployee: Employee, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func getEmployees(_ completion: @escaping (Result<[Employee], BaseError>) -> Void)

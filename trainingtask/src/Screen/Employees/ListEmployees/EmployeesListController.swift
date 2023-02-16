@@ -146,7 +146,8 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         let employee = Employee(surname: getEmployeeMenuTitleFrom(EmployeeMenu.surname),
                                 name: getEmployeeMenuTitleFrom(EmployeeMenu.name),
                                 patronymic: getEmployeeMenuTitleFrom(EmployeeMenu.patronymic),
-                                position: getEmployeeMenuTitleFrom(EmployeeMenu.position))
+                                position: getEmployeeMenuTitleFrom(EmployeeMenu.position),
+                                id: 0)
         cell.bind(employee)
         return cell
     }

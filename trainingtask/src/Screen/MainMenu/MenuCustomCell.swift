@@ -21,6 +21,7 @@ class MenuCustomCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 163),
             titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -20.0),

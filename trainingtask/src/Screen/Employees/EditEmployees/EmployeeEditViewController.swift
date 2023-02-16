@@ -61,22 +61,12 @@ class EmployeeEditViewController: UIViewController {
     }
     
     /*
-     Метод получает данные из текстФилдов экрана в виде редактируемой модели, делает валидацию и собирает модель сотрудника,
-     при редактировании заменяет данные редактирумого сотрудника новыми данными
+     Метод получает данные из текстФилдов экрана в виде редактируемой модели, делает валидацию и передает ее дальше
      
-     Возвращаемое значение - сотрудник
+     Возвращаемое значение - редактируемая модель сотрудника
      */
-    private func unbind() throws -> Employee {
-        let employeeDetails = try employeeEditView.unbind()
-        var employee = Employee(surname: employeeDetails.surname,
-                                name: employeeDetails.name,
-                                patronymic: employeeDetails.patronymic,
-                                position: employeeDetails.position)
-        
-        if let possibleEmployeeToEdit {
-            employee.id = possibleEmployeeToEdit.id
-        }
-        return employee
+    private func unbind() throws -> EmployeeDetails {
+        return try employeeEditView.unbind()
     }
     
     /*
@@ -84,11 +74,11 @@ class EmployeeEditViewController: UIViewController {
      в случае ошибки происходит ее обработка
      
      parameters:
-     newEmployee - новый сотрудник для добавления
+     newEmployee - редактируемая модель сотрудника для добавления
      */
-    private func addingNewEmployeeOnServer(_ newEmployee: Employee) {
+    private func addingNewEmployeeOnServer(_ newEmployee: EmployeeDetails) {
         self.spinnerView.showSpinner(viewController: self)
-        server.addEmployee(employee: newEmployee) { result in
+        server.addEmployee(employeeDetails: newEmployee) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()
@@ -126,8 +116,12 @@ class EmployeeEditViewController: UIViewController {
      */
     private func saveEmployee() throws {
         let bindedEmployee = try unbind()
-        if possibleEmployeeToEdit != nil {
-            editingEmployeeOnServer(bindedEmployee)
+        if let possibleEmployeeToEdit {
+            let employee = Employee(surname: bindedEmployee.surname,
+                                    name: bindedEmployee.name,
+                                    patronymic: bindedEmployee.patronymic,
+                                    position: bindedEmployee.position, id: possibleEmployeeToEdit.id)
+            editingEmployeeOnServer(employee)
         } else {
             addingNewEmployeeOnServer(bindedEmployee)
         }

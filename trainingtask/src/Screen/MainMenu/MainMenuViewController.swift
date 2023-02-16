@@ -105,8 +105,4 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return tableView.frame.size.height / CGFloat(MainMenuList.allCases.count)
-    }
 }
