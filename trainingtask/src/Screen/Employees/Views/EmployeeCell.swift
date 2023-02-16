@@ -6,10 +6,10 @@ import UIKit
 class EmployeeCell: UITableViewCell {
     
     private let backgroundUIView = UIView(frame: .zero)
-    private let surnameLabel = BorderedLabel(frame: .zero)
-    private let nameLabel = BorderedLabel(frame: .zero)
-    private let patronymicLabel = BorderedLabel(frame: .zero)
-    private let positionLabel = BorderedLabel(frame: .zero)
+    private let surnameLabel = TitleLabel(frame: .zero)
+    private let nameLabel = TitleLabel(frame: .zero)
+    private let patronymicLabel = TitleLabel(frame: .zero)
+    private let positionLabel = TitleLabel(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

@@ -1,16 +1,16 @@
 import UIKit
 
 /*
- SettingsInputView - view для отображения на экране Настройки
+ Данное view комплектуется более мелкими view, собирает и отображает их данные, а также отображается на экране Настройки
  */
 class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
-    private let urlLabel = BorderedLabel()
-    private let urlTextField = BorderedTextField(placeholder: "URL")
-    private let recordsLabel = BorderedLabel()
-    private let recordsTextField = BorderedTextField(placeholder: "Количество записей")
-    private let daysLabel = BorderedLabel()
-    private let daysTextField = BorderedTextField(placeholder: "Количество дней")
+    private let urlView = SettingsInputView(textField: BorderedTextField(placeholder: "URL"),
+                                            labelText: "URL сервера")
+    private let recordsView = IntSettingsInputView(textField: BorderedTextField(placeholder: "Количество записей"),
+                                                   labelText: "Максимальное количество записей в списках")
+    private let daysView = IntSettingsInputView(textField: BorderedTextField(placeholder: "Количество дней"),
+                                                labelText: "Количество дней по умолчанию между начальной и конечной датами в задаче")
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -22,66 +22,25 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     }
     
     private func configureUI() {
-        addSubview(urlLabel)
-        addSubview(urlTextField)
-        addSubview(recordsLabel)
-        addSubview(recordsTextField)
-        addSubview(daysLabel)
-        addSubview(daysTextField)
+        addSubview(urlView)
+        addSubview(recordsView)
+        addSubview(daysView)
         
         translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            urlLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
-            urlLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            urlLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            urlLabel.heightAnchor.constraint(equalToConstant: 50),
+            urlView.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            urlView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            urlView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            urlTextField.topAnchor.constraint(equalTo: urlLabel.bottomAnchor, constant: 10),
-            urlTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            urlTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            recordsView.topAnchor.constraint(equalTo: urlView.bottomAnchor, constant: 50),
+            recordsView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            recordsView.trailingAnchor.constraint(equalTo: trailingAnchor),
             
-            recordsLabel.topAnchor.constraint(equalTo: urlTextField.bottomAnchor, constant: 50),
-            recordsLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            recordsLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            recordsLabel.heightAnchor.constraint(equalToConstant: 50),
-            
-            recordsTextField.topAnchor.constraint(equalTo: recordsLabel.bottomAnchor, constant: 10),
-            recordsTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            recordsTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
-            
-            daysLabel.topAnchor.constraint(equalTo: recordsTextField.bottomAnchor, constant: 50),
-            daysLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            daysLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            daysLabel.heightAnchor.constraint(equalToConstant: 50),
-            
-            daysTextField.topAnchor.constraint(equalTo: daysLabel.bottomAnchor, constant: 10),
-            daysTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            daysTextField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            daysView.topAnchor.constraint(equalTo: recordsView.bottomAnchor, constant: 50),
+            daysView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            daysView.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
-        
-        urlLabel.textColor = .white
-        urlLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        urlLabel.backgroundColor = .systemRed
-        
-        recordsLabel.textColor = .white
-        recordsLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        recordsLabel.backgroundColor = .systemRed
-        
-        daysLabel.textColor = .white
-        daysLabel.font = UIFont.boldSystemFont(ofSize: 16)
-        daysLabel.backgroundColor = .systemRed
-        
-        urlTextField.delegate = self
-        recordsTextField.delegate = self
-        daysTextField.delegate = self
-        
-        recordsTextField.keyboardType = .numberPad
-        daysTextField.keyboardType = .numberPad
-        
-        urlLabel.bind("URL сервера")
-        recordsLabel.bind("Максимальное количество записей в списках")
-        daysLabel.bind("Количество дней по умолчанию между начальной и конечной датами в задаче")
     }
     
     /*
@@ -91,9 +50,9 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      settings - модель настроек для заполнения полей данными
      */
     func bind(_ settings: Settings) {
-        urlTextField.bind(settings.url)
-        recordsTextField.bind(String(settings.maxRecords))
-        daysTextField.bind(String(settings.maxDays))
+        urlView.bind(settings.url)
+        recordsView.bindIntValue(settings.maxRecords)
+        daysView.bindIntValue(settings.maxDays)
     }
     
     /*
@@ -103,50 +62,13 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      Возвращаемое значение - настройки
      */
     func unbind() throws -> Settings {
-        let url = urlTextField.unbind()
-        let maxRecords = try validateRecords()
-        let maxDays = try validateDays()
+        let url = urlView.unbind()
+        let maxRecords = try recordsView.validateValue(missingValueErrorMessage: "Введите количество записей",
+                                                       intValueErrorMessage: "Введено некорректное количество записей")
+        let maxDays = try daysView.validateValue(missingValueErrorMessage: "Введите количество дней",
+                                                 intValueErrorMessage: "Введено некорректное количество дней")
         let settings = Settings(url: url, maxRecords: maxRecords, maxDays: maxDays)
         return settings
-    }
-    
-    /*
-     Метод получения текста recordsTextField, его проверки и форматирования в числовой формат,
-     в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - числовое значение текста recordsTextField
-     */
-    private func validateRecords() throws -> Int {
-        let text = try Validator.validateTextForMissingValue(text: recordsTextField.unbind(),
-                                                             message: "Введите количество записей")
-        return try Validator.validateAndReturnTextForIntValue(text: text,
-                                                              message: "Введено некорректное количество записей")
-    }
-    
-    /*
-     Метод получения текста daysTextField, его проверки и форматирования в числовой формат,
-     в случае ошибки происходит ее обработка
-     
-     Возвращаемое значение - числовое значение текста daysTextField
-     */
-    private func validateDays() throws -> Int {
-        let text = try Validator.validateTextForMissingValue(text: daysTextField.unbind(),
-                                                             message: "Введите количество дней")
-        return try Validator.validateAndReturnTextForIntValue(text: text,
-                                                              message: "Введено некорректное количество дней")
-    }
-    
-    /*
-     Метод UITextFieldDelegate для проверки вводимых даннх
-     */
-    func textField(_ textField: UITextField,
-                   shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == recordsTextField || textField == daysTextField {
-            return string.allSatisfy {
-                $0.isNumber
-            }
-        }
-        return true
     }
     
     /*

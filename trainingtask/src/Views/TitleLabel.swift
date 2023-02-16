@@ -3,7 +3,7 @@ import UIKit
 /*
  BorderedLabel - кастомный label
  */
-class BorderedLabel: UILabel {
+class TitleLabel: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
