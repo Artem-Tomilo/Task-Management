@@ -1,9 +1,9 @@
 import Foundation
 
 /*
- DefaultSettingsStorage - сервис для получения настроек по умолчанию
+ SettingsLoader - сервис для получения настроек по умолчанию
  */
-class DefaultSettingsStorage {
+class SettingsLoader {
     
     /*
      Метод получения настроек по умолчанию
@@ -11,16 +11,15 @@ class DefaultSettingsStorage {
      Возвращаемое значение Settings - настройки по умолчанию
      Будет производиться обработка ошибочной ситуации в случае неполучения данных
      */
-    func getSettings() throws -> Settings {
-        guard let path = Bundle.main.path(forResource: "Settings", ofType: ".plist"),
-              let dictionary = NSDictionary(contentsOfFile: path),
+    func loadSettings(path: String) throws -> Settings {
+        guard let dictionary = NSDictionary(contentsOfFile: path),
               let settingsDictionary = dictionary.object(forKey: "Settings") as? NSDictionary,
               let url = settingsDictionary.value(forKey: "Url") as? String,
               let records = settingsDictionary.value(forKey: "Records") as? Int,
               let days = settingsDictionary.value(forKey: "Days") as? Int else {
             throw BaseError(message: "Не удалось получить настройки по умолчанию")
         }
-        let defaultSettings = Settings(url: url, maxRecords: records, maxDays: days)
-        return defaultSettings
+        let settings = Settings(url: url, maxRecords: records, maxDays: days)
+        return settings
     }
 }

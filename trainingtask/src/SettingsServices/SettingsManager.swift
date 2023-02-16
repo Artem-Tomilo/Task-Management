@@ -5,42 +5,43 @@ import Foundation
  */
 class SettingsManager {
     
-    private let defaultSettingsStorage = DefaultSettingsStorage()
-    private let settingsStorage = SettingsStorage()
+    private static let settingsLoader = SettingsLoader()
+    private static let settingsStorage = SettingsStorage()
+    
+    private var settings: Settings
     
     public init() throws {
-        let settings = try self.loadSettings()
+        self.settings = try Self.loadSettings()
         try self.saveUserSettings(settings: settings)
     }
     
     /*
      Метод проверки и загрузки настроек приложения
      */
-    private func loadSettings() throws -> Settings {
+    private static func loadSettings() throws -> Settings {
         do {
-            let settings = try settingsStorage.getUserSettings()
-            return settings
+            return try Self.settingsStorage.getUserSettings()
         } catch {
-            let settings = try defaultSettingsStorage.getSettings()
-            return settings
+            guard let defaultSettingsPath = Bundle.main.path(forResource: "Settings", ofType: ".plist") else {
+                throw BaseError(message: "Не удалось получить настройки по умолчанию")
+            }
+            return try Self.settingsLoader.loadSettings(path: defaultSettingsPath)
         }
     }
     
     /*
-     Метод получения сохранных настроек из settingsStorage, в случае отсутствия настроек будет производиться бросание ошибки
+     Метод получения сохранных настроек из settingsStorage,
+     в случае ошибки происходит ее обработка
      */
     func getSettings() -> Settings {
-        do {
-            return try settingsStorage.getUserSettings()
-        } catch {
-            fatalError(error.localizedDescription)
-        }
+        return settings
     }
     
     /*
      Метод сохранения пользовательских настроек
      */
     func saveUserSettings(settings: Settings) throws {
-        try settingsStorage.saveUserSettings(settings: settings)
+        try Self.settingsStorage.saveUserSettings(settings: settings)
+        self.settings = settings
     }
 }
