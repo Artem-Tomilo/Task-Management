@@ -3,7 +3,6 @@ import UIKit
 /*
  ErrorAlert - класс для вызова алерта при обработке ошибок
  */
-
 class ErrorAlert {
     
     static func showAlertController(message: String, viewController: UIViewController) {

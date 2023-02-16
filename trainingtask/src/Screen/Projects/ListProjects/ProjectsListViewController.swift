@@ -3,7 +3,6 @@ import UIKit
 /*
  ProjectsListViewController - экран Список проектов, отображает tableView со всеми проектами, хранящимися на сервере
  */
-
 class ProjectsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private let tableView = UITableView()
@@ -27,7 +26,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +34,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         loadData()
     }
     
-    private func setup() {
+    private func configureUI() {
         navigationController?.isNavigationBarHidden = false
         self.title = "Проекты"
         navigationController?.navigationBar.backgroundColor = .white
@@ -115,12 +114,8 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ProjectsListViewController.projectCellIdentifier,
                                                        for: indexPath) as? ProjectCell else { return UITableViewCell() }
         let project = projectsArray[indexPath.row]
-        cell.bindText(nameText: project.name, descriptionText: project.description)
+        cell.bind(project)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -247,12 +242,13 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
      project - передаваемый проект для редактирования, если значение = nil, то будет создание нового проекта
      */
     private func showEditProjectViewController(_ project: Project?) {
-        var possibleProjectToEdit: Project?
-        if project != nil {
-            possibleProjectToEdit = project
+        if let project {
+            let viewController = ProjectEditViewController(server: server, possibleProjectToEdit: project)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            let viewController = ProjectEditViewController(server: server, possibleProjectToEdit: nil)
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
-        let viewController = ProjectEditViewController(server: server, possibleProjectToEdit: possibleProjectToEdit)
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     /*

@@ -1,5 +1,8 @@
 import Foundation
 
+/*
+ 
+ */
 class ProjectPicker: PickerView {
     
     private var projectData = [Project]()
@@ -12,6 +15,9 @@ class ProjectPicker: PickerView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /*
+     
+     */
     func setData(_ data: [Project]) -> [PickerViewItem] {
         projectData = data
         for i in data {
@@ -21,6 +27,9 @@ class ProjectPicker: PickerView {
         return pickerViewData
     }
     
+    /*
+     
+     */
     func unbindProject() throws -> Project {
         let value = try Validator.validateTextForMissingValue(text: textField.unbind(),
                                                               message: "Выберите проект")

@@ -3,7 +3,6 @@ import UIKit
 /*
  TasksListViewController - экран Список задач, отображает tableView со всеми задачами, хранящимися на сервере
  */
-
 class TasksListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private let tableView = UITableView()
@@ -17,7 +16,6 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
      если свойство равно nil, будут отображаться все задачи
      */
     private var project: Project?
-    
     private let server: Server
     private let settingsManager: SettingsManager
     
@@ -34,7 +32,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,7 +40,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         loadData()
     }
     
-    private func setup() {
+    private func configureUI() {
         navigationController?.isNavigationBarHidden = false
         self.title = "Задачи"
         navigationController?.navigationBar.backgroundColor = .white
@@ -151,13 +149,9 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.hideProjectLabel()
         }
         let task = tasksArray[indexPath.row]
-        cell.bindText(nameText: task.name, projectText: task.project.name)
-        cell.changeImage(status: task.status)
+        let taskCellItem = TaskCellItem(name: task.name, project: task.project.name, status: task.status)
+        cell.bind(taskCellItem)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        75
     }
     
     /*

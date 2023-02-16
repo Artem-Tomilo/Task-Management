@@ -3,7 +3,6 @@ import UIKit
 /*
  BorderedLabel - кастомный label
  */
-
 class BorderedLabel: UILabel {
     
     override init(frame: CGRect) {
@@ -27,7 +26,7 @@ class BorderedLabel: UILabel {
      parameters:
      text - текст для label
      */
-    func bindText(_ text: String) {
+    func bind(_ text: String) {
         self.text = text
     }
 }

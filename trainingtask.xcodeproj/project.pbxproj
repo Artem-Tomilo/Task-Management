@@ -35,12 +35,12 @@
 		38C61562299B99FE004FD7A3 /* PickerViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61561299B99FE004FD7A3 /* PickerViewItem.swift */; };
 		38C61564299BEA7D004FD7A3 /* TaskDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61563299BEA7D004FD7A3 /* TaskDetails.swift */; };
 		38C61566299CD3B9004FD7A3 /* EmployeeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61565299CD3B9004FD7A3 /* EmployeeDetails.swift */; };
-		38C61568299CD8A1004FD7A3 /* ProjectDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61567299CD8A1004FD7A3 /* ProjectDetails.swift */; };
 		38C6156A299D037B004FD7A3 /* ProjectPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61569299D037B004FD7A3 /* ProjectPicker.swift */; };
 		38C6156C299D0439004FD7A3 /* EmployeePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6156B299D0439004FD7A3 /* EmployeePicker.swift */; };
 		38C6156E299D0821004FD7A3 /* StatusPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6156D299D0821004FD7A3 /* StatusPicker.swift */; };
 		38C61574299D2DFB004FD7A3 /* EndDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61573299D2DFB004FD7A3 /* EndDatePicker.swift */; };
 		38C61576299D6CC3004FD7A3 /* TaskHoursTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61575299D6CC3004FD7A3 /* TaskHoursTextField.swift */; };
+		38C61578299E26CC004FD7A3 /* TaskCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61577299E26CC004FD7A3 /* TaskCellItem.swift */; };
 		38EF1A6A2935F79D00EB5F8E /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A622935F79D00EB5F8E /* 3.png */; };
 		38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A7229435CDD00EB5F8E /* Project.swift */; };
 		38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */; };
@@ -105,12 +105,12 @@
 		38C61561299B99FE004FD7A3 /* PickerViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewItem.swift; sourceTree = "<group>"; };
 		38C61563299BEA7D004FD7A3 /* TaskDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetails.swift; sourceTree = "<group>"; };
 		38C61565299CD3B9004FD7A3 /* EmployeeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDetails.swift; sourceTree = "<group>"; };
-		38C61567299CD8A1004FD7A3 /* ProjectDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetails.swift; sourceTree = "<group>"; };
 		38C61569299D037B004FD7A3 /* ProjectPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPicker.swift; sourceTree = "<group>"; };
 		38C6156B299D0439004FD7A3 /* EmployeePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePicker.swift; sourceTree = "<group>"; };
 		38C6156D299D0821004FD7A3 /* StatusPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusPicker.swift; sourceTree = "<group>"; };
 		38C61573299D2DFB004FD7A3 /* EndDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndDatePicker.swift; sourceTree = "<group>"; };
 		38C61575299D6CC3004FD7A3 /* TaskHoursTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskHoursTextField.swift; sourceTree = "<group>"; };
+		38C61577299E26CC004FD7A3 /* TaskCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellItem.swift; sourceTree = "<group>"; };
 		38EF1A622935F79D00EB5F8E /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
 		38EF1A7229435CDD00EB5F8E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListViewController.swift; sourceTree = "<group>"; };
@@ -373,7 +373,6 @@
 			isa = PBXGroup;
 			children = (
 				38EF1A7229435CDD00EB5F8E /* Project.swift */,
-				38C61567299CD8A1004FD7A3 /* ProjectDetails.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -421,6 +420,7 @@
 				38EF1C312947435100EB5F8E /* TaskStatus.swift */,
 				38C61561299B99FE004FD7A3 /* PickerViewItem.swift */,
 				38C61563299BEA7D004FD7A3 /* TaskDetails.swift */,
+				38C61577299E26CC004FD7A3 /* TaskCellItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -580,7 +580,6 @@
 				387AAD7F28E30F70004BE734 /* SettingsViewController.swift in Sources */,
 				38C6156E299D0821004FD7A3 /* StatusPicker.swift in Sources */,
 				385A04A728DDC54400FD008F /* SpinnerView.swift in Sources */,
-				38C61568299CD8A1004FD7A3 /* ProjectDetails.swift in Sources */,
 				3820315D28D9EF74008FAD35 /* EmployeesListController.swift in Sources */,
 				38EF1B55294378F800EB5F8E /* ProjectEditView.swift in Sources */,
 				3820315F28D9EF9F008FAD35 /* Employee.swift in Sources */,
@@ -591,6 +590,7 @@
 				38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */,
+				38C61578299E26CC004FD7A3 /* TaskCellItem.swift in Sources */,
 				38EF1C95296EDE4600EB5F8E /* BaseError.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,
 				38C61576299D6CC3004FD7A3 /* TaskHoursTextField.swift in Sources */,

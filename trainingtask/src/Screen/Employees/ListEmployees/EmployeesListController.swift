@@ -3,7 +3,6 @@ import UIKit
 /*
  EmployeesListController - экран Список сотрудников, отображает tableView со всеми сотрудниками, хранящимися на сервере
  */
-
 class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private let tableView = UITableView()
@@ -27,7 +26,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -35,7 +34,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         loadData()
     }
     
-    private func setup() {
+    private func configureUI() {
         navigationController?.isNavigationBarHidden = false
         self.title = "Сотрудники"
         navigationController?.navigationBar.backgroundColor = .white
@@ -135,28 +134,18 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         guard let cell = tableView.dequeueReusableCell(withIdentifier: EmployeesListController.newCellIdentifier,
                                                        for: indexPath) as? EmployeeCell else { return UITableViewCell() }
         let employee = employeeArray[indexPath.row]
-        cell.bindText(surnameText: employee.surname,
-                      nameText: employee.name,
-                      patronymicText: employee.patronymic,
-                      positionText: employee.position)
+        cell.bind(employee)
         return cell
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let cell = EmployeeCell()
-        cell.bindText(surnameText: getEmployeeMenuTitleFrom(EmployeeMenu.surname),
-                      nameText: getEmployeeMenuTitleFrom(EmployeeMenu.name),
-                      patronymicText: getEmployeeMenuTitleFrom(EmployeeMenu.patronymic),
-                      positionText: getEmployeeMenuTitleFrom(EmployeeMenu.position))
+        let employee = Employee(surname: getEmployeeMenuTitleFrom(EmployeeMenu.surname),
+                                name: getEmployeeMenuTitleFrom(EmployeeMenu.name),
+                                patronymic: getEmployeeMenuTitleFrom(EmployeeMenu.patronymic),
+                                position: getEmployeeMenuTitleFrom(EmployeeMenu.position))
+        cell.bind(employee)
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        35
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        35
     }
     
     /*
@@ -244,7 +233,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
         let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
             guard let self else { return }
-            self.deleteEmployee(employee: employee)
+            self.deleteEmployee(employee)
         }
         let cancelAction = UIAlertAction(title: "Отменить", style: .cancel)
         alert.addAction(deleteAction)
@@ -259,12 +248,13 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      employee - передаваемый сотрудник для редактирования, если значение = nil, то будет создание нового сотрудника
      */
     private func showEditEmployeeViewController(_ employee: Employee?) {
-        var possibleEmployeeToEdit: Employee?
-        if employee != nil {
-            possibleEmployeeToEdit = employee
+        if let employee {
+            let viewController = EmployeeEditViewController(server: server, possibleEmployeeToEdit: employee)
+            self.navigationController?.pushViewController(viewController, animated: true)
+        } else {
+            let viewController = EmployeeEditViewController(server: server, possibleEmployeeToEdit: nil)
+            self.navigationController?.pushViewController(viewController, animated: true)
         }
-        let viewController = EmployeeEditViewController(server: server, possibleEmployeeToEdit: possibleEmployeeToEdit)
-        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     /*
@@ -274,7 +264,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
      parameters:
      employee - сотрудник для удаления
      */
-    private func deleteEmployee(employee: Employee) {
+    private func deleteEmployee(_ employee: Employee) {
         server.deleteEmployee(id: employee.id) { result in
             switch result {
             case .success():

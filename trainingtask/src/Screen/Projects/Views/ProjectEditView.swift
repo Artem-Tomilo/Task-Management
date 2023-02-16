@@ -3,7 +3,6 @@ import UIKit
 /*
  ProjectEditView - view для отображения на экране Редактирование проекта
  */
-
 class ProjectEditView: UIView, UITextFieldDelegate {
     
     private let nameTextField = BorderedTextField(placeholder: "Название")
@@ -11,14 +10,14 @@ class ProjectEditView: UIView, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    private func configureUI() {
         addSubview(nameTextField)
         addSubview(descriptionTextField)
         
@@ -39,35 +38,28 @@ class ProjectEditView: UIView, UITextFieldDelegate {
     }
     
     /*
-     Метод вызова FirstResponder при загрузке view
-     */
-    func initFirstResponder() {
-        nameTextField.becomeFirstResponder()
-    }
-    
-    /*
      Метод для заполнения текущего view данными
      
      parametrs:
-     projectDetails - значения редактируемого проекта, собранные в виде модели редактируемых данных проекта
+     project - проект, данными которого будут заполняться поля
      */
-    func bind(_ projectDetails: ProjectDetails) {
-        nameTextField.bind(projectDetails.title)
-        descriptionTextField.bind(projectDetails.description)
+    func bind(_ project: Project) {
+        nameTextField.bind(project.name)
+        descriptionTextField.bind(project.description)
     }
     
     /*
      Метод для проверки и получения данных из текстФилдов экрана,
-     после проверки данные собираются в модель редактируемых данных проекта и отправляются на экран Список проектов
+     после проверки данные собираются в модель данных проекта и отправляются на экран Список проектов
      Возвращаемое значение - модель редактируемых данных
      */
-    func unbind() throws -> ProjectDetails {
+    func unbind() throws -> Project {
         let title = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
                                                               message: "Введите название")
         let description = try Validator.validateTextForMissingValue(text: descriptionTextField.unbind(),
                                                                     message: "Введите описание")
-        let projectDetails = ProjectDetails(title: title, description: description)
-        return projectDetails
+        let project = Project(name: title, description: description)
+        return project
     }
     
     /*

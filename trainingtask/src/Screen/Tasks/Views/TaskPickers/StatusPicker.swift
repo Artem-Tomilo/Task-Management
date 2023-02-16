@@ -1,5 +1,8 @@
 import Foundation
 
+/*
+ 
+ */
 class StatusPicker: PickerView {
     
     private var statusData = TaskStatus.allCases
@@ -54,6 +57,9 @@ class StatusPicker: PickerView {
         }
     }
     
+    /*
+     
+     */
     func setData() -> [PickerViewItem] {
         for i in statusData {
             let item = PickerViewItem(id: i.hashValue, title: getStatusTitleFrom(i))

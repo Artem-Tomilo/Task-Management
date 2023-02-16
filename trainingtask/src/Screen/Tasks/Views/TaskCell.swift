@@ -3,82 +3,73 @@ import UIKit
 /*
  TaskCell - ячейка для tableView экрана Список задач
  */
-
 class TaskCell: UITableViewCell {
     
-    private let background = UIView(frame: .zero)
+    private let backgroundUIView = UIView(frame: .zero)
     private let nameLabel = UILabel(frame: .zero)
     private let projectLabel = UILabel(frame: .zero)
-    private let image = UIImageView()
+    private let taskLogoImage = UIImageView()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private func setup() {
-        background.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(background)
+    private func configureUI() {
+        backgroundUIView.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(backgroundUIView)
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         projectLabel.translatesAutoresizingMaskIntoConstraints = false
-        image.translatesAutoresizingMaskIntoConstraints = false
+        taskLogoImage.translatesAutoresizingMaskIntoConstraints = false
         
-        background.addSubview(nameLabel)
-        background.addSubview(projectLabel)
-        background.addSubview(image)
+        backgroundUIView.addSubview(nameLabel)
+        backgroundUIView.addSubview(projectLabel)
+        backgroundUIView.addSubview(taskLogoImage)
         
         NSLayoutConstraint.activate([
-            background.heightAnchor.constraint(equalTo: contentView.heightAnchor),
-            background.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            contentView.heightAnchor.constraint(greaterThanOrEqualToConstant: 75),
+            backgroundUIView.heightAnchor.constraint(equalTo: contentView.heightAnchor),
+            backgroundUIView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
             
-            nameLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 10),
-            nameLabel.topAnchor.constraint(equalTo: background.topAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -50),
+            nameLabel.leadingAnchor.constraint(equalTo: backgroundUIView.leadingAnchor, constant: 10),
+            nameLabel.topAnchor.constraint(equalTo: backgroundUIView.topAnchor),
+            nameLabel.trailingAnchor.constraint(equalTo: backgroundUIView.trailingAnchor, constant: -50),
             nameLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
             
-            projectLabel.leadingAnchor.constraint(equalTo: background.leadingAnchor, constant: 10),
-            projectLabel.bottomAnchor.constraint(equalTo: background.bottomAnchor),
-            projectLabel.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -50),
+            projectLabel.leadingAnchor.constraint(equalTo: backgroundUIView.leadingAnchor, constant: 10),
+            projectLabel.bottomAnchor.constraint(equalTo: backgroundUIView.bottomAnchor),
+            projectLabel.trailingAnchor.constraint(equalTo: backgroundUIView.trailingAnchor, constant: -50),
             projectLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.5),
             
-            image.trailingAnchor.constraint(equalTo: background.trailingAnchor, constant: -10),
-            image.widthAnchor.constraint(equalToConstant: 40),
-            image.heightAnchor.constraint(equalToConstant: 40),
-            image.centerYAnchor.constraint(equalTo: background.centerYAnchor),
+            taskLogoImage.trailingAnchor.constraint(equalTo: backgroundUIView.trailingAnchor, constant: -10),
+            taskLogoImage.widthAnchor.constraint(equalToConstant: 40),
+            taskLogoImage.heightAnchor.constraint(equalToConstant: 40),
+            taskLogoImage.centerYAnchor.constraint(equalTo: backgroundUIView.centerYAnchor),
         ])
         
-        background.backgroundColor = .clear
-        image.contentMode = .scaleAspectFit
+        backgroundUIView.backgroundColor = .clear
+        taskLogoImage.contentMode = .scaleAspectFit
         nameLabel.font = UIFont.systemFont(ofSize: 18)
         projectLabel.alpha = 0.7
     }
     
     /*
-     Метод присвоения текста лейблам
+     Метод присвоения значений для всех полей
      
      parameters:
-     nameText - текст для nameLabel
-     projectText - текст для projectLabel
+     taskCellItem - модель данных для заполнения полей ячейки
      */
-    func bindText(nameText: String, projectText: String) {
-        nameLabel.text = nameText
-        projectLabel.text = projectText
-    }
-    
-    /*
-     Метод смены логотипа задачи в соответствии ее статусу
-     
-     parameters:
-     status - статус, данными которого заполняется ячейка
-     */
-    func changeImage(status: TaskStatus) {
-        var imageView: UIImage? {
-            switch status {
+    func bind(_ taskCellItem: TaskCellItem) {
+        nameLabel.text = taskCellItem.name
+        projectLabel.text = taskCellItem.project
+        
+        var logoImage: UIImage? {
+            switch taskCellItem.status {
             case .notStarted:
                 return UIImage(named: "notStarted")
             case .inProgress:
@@ -89,7 +80,7 @@ class TaskCell: UITableViewCell {
                 return UIImage(named: "postponed")
             }
         }
-        image.image = imageView
+        taskLogoImage.image = logoImage
     }
     
     /*
@@ -102,11 +93,11 @@ class TaskCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         if selected {
-            background.backgroundColor =  .gray
+            backgroundUIView.backgroundColor =  .gray
             nameLabel.textColor = .white
             projectLabel.textColor = .white
         } else {
-            background.backgroundColor =  .white
+            backgroundUIView.backgroundColor =  .white
             nameLabel.textColor = .black
             projectLabel.textColor = .black
         }

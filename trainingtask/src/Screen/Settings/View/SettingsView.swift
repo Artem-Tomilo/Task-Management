@@ -3,7 +3,6 @@ import UIKit
 /*
  SettingsInputView - view для отображения на экране Настройки
  */
-
 class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     private let urlLabel = BorderedLabel()
@@ -15,14 +14,14 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    private func configureUI() {
         addSubview(urlLabel)
         addSubview(urlTextField)
         addSubview(recordsLabel)
@@ -80,39 +79,35 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         recordsTextField.keyboardType = .numberPad
         daysTextField.keyboardType = .numberPad
         
-        urlLabel.bindText("URL сервера")
-        recordsLabel.bindText("Максимальное количество записей в списках")
-        daysLabel.bindText("Количество дней по умолчанию между начальной и конечной датами в задаче")
-    }
-    
-    /*
-     Метод вызова FirstResponder при загрузке view
-     */
-    func initFirstResponder() {
-        urlTextField.becomeFirstResponder()
+        urlLabel.bind("URL сервера")
+        recordsLabel.bind("Максимальное количество записей в списках")
+        daysLabel.bind("Количество дней по умолчанию между начальной и конечной датами в задаче")
     }
     
     /*
      Метод для заполнения текущего view данными
      
      parametrs:
-     urlTextFieldText - данные для поля urlTextFieldText
-     recordsTextFieldText - данные для поля recordsTextFieldText
-     daysTextFieldText- данные для поля daysTextFieldText
+     settings - модель настроек для заполнения полей данными
      */
-    func bind(urlTextFieldText: String, recordsTextFieldText: String, daysTextFieldText: String) {
-        urlTextField.bind(urlTextFieldText)
-        recordsTextField.bind(recordsTextFieldText)
-        daysTextField.bind(daysTextFieldText)
+    func bind(_ settings: Settings) {
+        urlTextField.bind(settings.url)
+        recordsTextField.bind(String(settings.maxRecords))
+        daysTextField.bind(String(settings.maxDays))
     }
     
     /*
-     Метод для проверки и получения текста urlTextField'а
+     Метод собирает значения из полей, проверяет их и собирает модель настроек
+     в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - сам текст
+     Возвращаемое значение - настройки
      */
-    func unbindUrl() -> String {
-        return urlTextField.unbind()
+    func unbind() throws -> Settings {
+        let url = urlTextField.unbind()
+        let maxRecords = try validateRecords()
+        let maxDays = try validateDays()
+        let settings = Settings(url: url, maxRecords: maxRecords, maxDays: maxDays)
+        return settings
     }
     
     /*
@@ -121,7 +116,7 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - числовое значение текста recordsTextField
      */
-    func unbindRecords() throws -> Int {
+    private func validateRecords() throws -> Int {
         let text = try Validator.validateTextForMissingValue(text: recordsTextField.unbind(),
                                                              message: "Введите количество записей")
         return try Validator.validateAndReturnTextForIntValue(text: text,
@@ -134,7 +129,7 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - числовое значение текста daysTextField
      */
-    func unbindDays() throws -> Int {
+    private func validateDays() throws -> Int {
         let text = try Validator.validateTextForMissingValue(text: daysTextField.unbind(),
                                                              message: "Введите количество дней")
         return try Validator.validateAndReturnTextForIntValue(text: text,

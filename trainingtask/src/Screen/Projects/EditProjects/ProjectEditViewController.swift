@@ -3,7 +3,6 @@ import UIKit
 /*
  ProjectEditViewController - экран Редактирование проекта, отображает необходимые поля для введения нового, либо редактирования существующего проекта
  */
-
 class ProjectEditViewController: UIViewController {
     
     private let projectEditView = ProjectEditView()
@@ -24,15 +23,10 @@ class ProjectEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        projectEditView.initFirstResponder()
-    }
-    
-    private func setup() {
+    private func configureUI() {
         view.backgroundColor = .systemRed
         view.addSubview(projectEditView)
         
@@ -43,9 +37,9 @@ class ProjectEditViewController: UIViewController {
             projectEditView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        if let projectToEdit = possibleProjectToEdit {
+        if let possibleProjectToEdit {
             title = "Редактирование проекта"
-            projectEditView.bind(ProjectDetails(title: projectToEdit.name, description: projectToEdit.description))
+            projectEditView.bind(possibleProjectToEdit)
         } else {
             title = "Добавление проекта"
         }
@@ -69,9 +63,7 @@ class ProjectEditViewController: UIViewController {
      Возвращаемое значение - проект
      */
     private func unbind() throws -> Project {
-        let projectDetails = try projectEditView.unbind()
-        var project = Project(name: projectDetails.title, description: projectDetails.description)
-        
+        var project = try projectEditView.unbind()
         if let possibleProjectToEdit {
             project.id = possibleProjectToEdit.id
         }
@@ -94,7 +86,7 @@ class ProjectEditViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 self.spinnerView.hideSpinner()
-                self.handleError(error: error)
+                self.handleError(error)
             }
         }
     }
@@ -114,7 +106,7 @@ class ProjectEditViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 self.spinnerView.hideSpinner()
-                self.handleError(error: error)
+                self.handleError(error)
             }
         }
     }
@@ -137,7 +129,7 @@ class ProjectEditViewController: UIViewController {
      parameters:
      error - обрабатываемая ошибка
      */
-    private func handleError(error: Error) {
+    private func handleError(_ error: Error) {
         let projectError = error as! BaseError
         ErrorAlert.showAlertController(message: projectError.message, viewController: self)
     }
@@ -150,7 +142,7 @@ class ProjectEditViewController: UIViewController {
         do {
             try saveProject()
         } catch {
-            handleError(error: error)
+            handleError(error)
         }
     }
     

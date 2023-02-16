@@ -3,7 +3,6 @@ import Foundation
 /*
  DefaultSettingsStorage - сервис для получения настроек по умолчанию
  */
-
 class DefaultSettingsStorage {
     
     /*

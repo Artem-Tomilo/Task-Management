@@ -3,7 +3,6 @@ import UIKit
 /*
  SettingsViewController - экран Настройки, который отображает либо дефолтные, либо пользовательские настройки
  */
-
 class SettingsViewController: UIViewController {
     
     private var settingsView = SettingsView()
@@ -21,15 +20,10 @@ class SettingsViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        settingsView.initFirstResponder()
-    }
-    
-    private func setup() {
+    private func configureUI() {
         navigationController?.isNavigationBarHidden = false
         self.title = "Настройки"
         navigationController?.navigationBar.backgroundColor = .white
@@ -45,7 +39,7 @@ class SettingsViewController: UIViewController {
             settingsView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        bind(settings: settingsManager.getSettings())
+        bind(settingsManager.getSettings())
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
                                          target: self,
@@ -62,10 +56,8 @@ class SettingsViewController: UIViewController {
     /*
      Метод для отображения настроек в соответствующих полях, в случае обнаружения ошибок будет производиться их обработка
      */
-    private func bind(settings: Settings) {
-        settingsView.bind(urlTextFieldText: settings.url,
-                          recordsTextFieldText: String(settings.maxRecords),
-                          daysTextFieldText: String(settings.maxDays))
+    private func bind(_ settings: Settings) {
+        settingsView.bind(settings)
     }
     
     /*
@@ -74,9 +66,7 @@ class SettingsViewController: UIViewController {
      Возвращаемое значение - настройки
      */
     private func unbind() throws -> Settings {
-        let settings = Settings(url: settingsView.unbindUrl(),
-                                maxRecords: try settingsView.unbindRecords(),
-                                maxDays: try settingsView.unbindDays())
+        let settings = try settingsView.unbind()
         return settings
     }
     

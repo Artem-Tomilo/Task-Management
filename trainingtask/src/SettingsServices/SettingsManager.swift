@@ -3,7 +3,6 @@ import Foundation
 /*
  Сервис для управления загрузками и сохранениями настроек
  */
-
 class SettingsManager {
     
     private let defaultSettingsStorage = DefaultSettingsStorage()

@@ -1,5 +1,8 @@
 import Foundation
 
+/*
+ 
+ */
 class EmployeePicker: PickerView {
     
     private var employeeData = [Employee]()
@@ -12,6 +15,9 @@ class EmployeePicker: PickerView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    /*
+     
+     */
     func setData(_ data: [Employee]) -> [PickerViewItem] {
         employeeData = data
         for i in data {
@@ -21,6 +27,9 @@ class EmployeePicker: PickerView {
         return pickerViewData
     }
     
+    /*
+     
+     */
     func unbindEmployee() throws -> Employee {
         let value = try Validator.validateTextForMissingValue(text: textField.unbind(),
                                                               message: "Выберите сотрудника")

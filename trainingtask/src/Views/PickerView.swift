@@ -3,7 +3,6 @@ import UIKit
 /*
  PickerView - кастомное view для работы с UIPickerView
  */
-
 class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     private let pickerView = UIPickerView()
@@ -14,14 +13,14 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
     init(placeholder: String) {
         super.init(frame: .zero)
         self.textField.placeholder = placeholder
-        setupPickerView()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupPickerView() {
+    private func configureUI() {
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(textField)
         
@@ -32,7 +31,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
             textField.trailingAnchor.constraint(equalTo: trailingAnchor)
         ])
         
-        textField.inputAccessoryView = setupToolBar()
+        textField.inputAccessoryView = configureToolBar()
         textField.inputView = pickerView
         textField.delegate = self
         textField.tintColor = .clear
@@ -41,7 +40,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         pickerView.dataSource = self
     }
     
-    private func setupToolBar() -> UIToolbar {
+    private func configureToolBar() -> UIToolbar {
         let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 320, height: 44))
         toolbar.setItems([
             UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancelTapped(_:))),
@@ -63,7 +62,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
      parameters:
      data - данные, необходимые для отображения pickerView
      */
-    func bind(data: [PickerViewItem], selectedItem: PickerViewItem?) {
+    func bind(_ data: [PickerViewItem], _ selectedItem: PickerViewItem?) {
         pickerViewData = data
         if let selectedItem {
             self.selectedItem = selectedItem

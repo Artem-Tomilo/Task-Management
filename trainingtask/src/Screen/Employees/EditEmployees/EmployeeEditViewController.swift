@@ -4,7 +4,6 @@ import UIKit
  EmployeeEditViewController - экран Редактирование сотрудника, отображает необходимые поля для введения нового,
  либо редактирования существующего сотрудника
  */
-
 class EmployeeEditViewController: UIViewController {
     
     private let employeeEditView = EmployeeEditView()
@@ -25,15 +24,10 @@ class EmployeeEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        employeeEditView.initFirstResponder()
-    }
-    
-    private func setup() {
+    private func configureUI() {
         view.backgroundColor = .systemRed
         view.addSubview(employeeEditView)
         
@@ -101,7 +95,7 @@ class EmployeeEditViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 self.spinnerView.hideSpinner()
-                self.handleError(error: error)
+                self.handleError(error)
             }
         }
     }
@@ -121,7 +115,7 @@ class EmployeeEditViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 self.spinnerView.hideSpinner()
-                self.handleError(error: error)
+                self.handleError(error)
             }
         }
     }
@@ -145,7 +139,7 @@ class EmployeeEditViewController: UIViewController {
      parameters:
      error - обрабатываемая ошибка
      */
-    private func handleError(error: Error) {
+    private func handleError(_ error: Error) {
         let employeeError = error as! BaseError
         ErrorAlert.showAlertController(message: employeeError.message, viewController: self)
     }
@@ -158,7 +152,7 @@ class EmployeeEditViewController: UIViewController {
         do {
             try saveEmployee()
         } catch {
-            handleError(error: error)
+            handleError(error)
         }
     }
     

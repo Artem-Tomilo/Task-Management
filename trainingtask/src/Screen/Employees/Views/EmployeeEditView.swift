@@ -3,7 +3,6 @@ import UIKit
 /*
  EmployeeEditView - view для отображения на экране Редактирование сотрудника
  */
-
 class EmployeeEditView: UIView, UITextFieldDelegate {
     
     private let surnameTextField = BorderedTextField(placeholder: "Фамилия")
@@ -13,14 +12,14 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    private func configureUI() {
         addSubview(surnameTextField)
         addSubview(nameTextField)
         addSubview(patronymicTextField)
@@ -53,17 +52,10 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
     }
     
     /*
-     Метод вызова FirstResponder при загрузке view
-     */
-    func initFirstResponder() {
-        surnameTextField.becomeFirstResponder()
-    }
-    
-    /*
      Метод для заполнения текущего view данными
      
      parametrs:
-     employeeDetails - значения редактируемого сотрудника, собранные в виде модели редактируемых данных сотрудника
+     employeeDetails - значения редактируемого сотрудника, собранные в виде модели редактируемых данных
      */
     func bind(_ employeeDetails: EmployeeDetails) {
         surnameTextField.bind(employeeDetails.surname)

@@ -4,7 +4,6 @@ import UIKit
  TaskEditViewController - экран Редактирование задачи,
  отображает необходимые поля для введения новой, либо редактирования существующей задачи
  */
-
 class TaskEditViewController: UIViewController {
     
     private let taskEditView = TaskEditView()
@@ -31,16 +30,11 @@ class TaskEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
         updateData()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        taskEditView.initFirstResponder()
-    }
-    
-    private func setup() {
+    private func configureUI() {
         view.backgroundColor = .systemRed
         view.addSubview(taskEditView)
         spinnerView.showSpinner(viewController: self)
@@ -87,7 +81,7 @@ class TaskEditViewController: UIViewController {
             completion()
         }) { [weak self] error in
             guard let self = self else { return }
-            self.handleError(error: error)
+            self.handleError(error)
         }
     }
     
@@ -101,7 +95,7 @@ class TaskEditViewController: UIViewController {
             completion()
         }) { [weak self] error in
             guard let self = self else { return }
-            self.handleError(error: error)
+            self.handleError(error)
         }
     }
     
@@ -161,7 +155,7 @@ class TaskEditViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 self.spinnerView.hideSpinner()
-                self.handleError(error: error)
+                self.handleError(error)
             }
         }
     }
@@ -181,7 +175,7 @@ class TaskEditViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             case .failure(let error):
                 self.spinnerView.hideSpinner()
-                self.handleError(error: error)
+                self.handleError(error)
             }
         }
     }
@@ -205,7 +199,7 @@ class TaskEditViewController: UIViewController {
      parameters:
      error - обрабатываемая ошибка
      */
-    private func handleError(error: Error) {
+    private func handleError(_ error: Error) {
         let taskError = error as! BaseError
         ErrorAlert.showAlertController(message: taskError.message, viewController: self)
     }
@@ -217,7 +211,7 @@ class TaskEditViewController: UIViewController {
         do {
             try saveTask()
         } catch {
-            handleError(error: error)
+            handleError(error)
         }
     }
     

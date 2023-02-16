@@ -3,7 +3,6 @@ import Foundation
 /*
  SettingsStorage - сервис для получения и сохранения настроек пользователя
  */
-
 class SettingsStorage {
     
     private let userDefaults = UserDefaults.standard

@@ -3,7 +3,6 @@ import UIKit
 /*
  SpinnerView - view, отображающее спиннер при загрузке данных
  */
-
 class SpinnerView: UIView {
     
     private let indicator = UIActivityIndicatorView(style: .whiteLarge)
@@ -16,7 +15,7 @@ class SpinnerView: UIView {
         super.init(coder: aDecoder)
     }
     
-    private func setup(view: UIView) {
+    private func configureUI(view: UIView) {
         translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -37,7 +36,7 @@ class SpinnerView: UIView {
      */
     func showSpinner(viewController: UIViewController) {
         viewController.view.addSubview(self)
-        setup(view: viewController.view)
+        configureUI(view: viewController.view)
         
         addSubview(indicator)
         indicator.translatesAutoresizingMaskIntoConstraints = false

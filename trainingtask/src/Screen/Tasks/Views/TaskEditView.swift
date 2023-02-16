@@ -3,7 +3,6 @@ import UIKit
 /*
  TaskEditView - view для отображения на экране Редактирование задачи
  */
-
 class TaskEditView: UIView, UIGestureRecognizerDelegate {
     
     private let scrollView = UIScrollView()
@@ -12,7 +11,10 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
     private let projectPickerView = ProjectPicker(placeholder: "Проект")
     private let employeePickerView = EmployeePicker(placeholder: "Сотрудник")
     private let statusPickerView = StatusPicker(placeholder: "Статус")
-    private let requiredNumberOfHoursTextField = TaskHoursTextField(placeholder: "Кол-во часов")
+    /*
+     TextField для заполнения значением с требуемым количеством часов для работы, который берется из настроек
+     */
+    private let requiredHoursTextField = TaskHoursTextField(placeholder: "Кол-во часов")
     private let startDatePickerView = DatePickerView()
     private let endDatePickerView = EndDatePicker()
     
@@ -21,8 +23,7 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupScrollView()
-        addingAndSetupSubviews()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
@@ -59,7 +60,7 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         stackView.addArrangedSubview(projectPickerView)
         stackView.addArrangedSubview(employeePickerView)
         stackView.addArrangedSubview(statusPickerView)
-        stackView.addArrangedSubview(requiredNumberOfHoursTextField)
+        stackView.addArrangedSubview(requiredHoursTextField)
         stackView.addArrangedSubview(startDatePickerView)
         stackView.addArrangedSubview(endDatePickerView)
         
@@ -71,11 +72,9 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
                                                object: nil)
     }
     
-    /*
-     Метод вызова FirstResponder при загрузке view
-     */
-    func initFirstResponder() {
-        nameTextField.becomeFirstResponder()
+    private func configureUI() {
+        setupScrollView()
+        addingAndSetupSubviews()
     }
     
     /*
@@ -93,18 +92,18 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         
         if let task = taskDetails.task {
             nameTextField.bind(task.name)
-            requiredNumberOfHoursTextField.bind(String(task.requiredNumberOfHours))
+            requiredHoursTextField.bind(String(task.requiredNumberOfHours))
             startDatePickerView.bind(task.startDate)
             endDatePickerView.bind(task.endDate)
             
             let selectedProject = projectItems.first(where: { $0.id == task.project.id })
-            projectPickerView.bind(data: projectItems, selectedItem: selectedProject)
+            projectPickerView.bind(projectItems, selectedProject)
             
             let selectedEmployee = employeeItems.first(where: { $0.id == task.employee.id })
-            employeePickerView.bind(data: employeeItems, selectedItem: selectedEmployee)
+            employeePickerView.bind(employeeItems, selectedEmployee)
             
             let selectedStatus = statusItems.first(where: { $0.id == task.status.hashValue })
-            statusPickerView.bind(data: statusItems, selectedItem: selectedStatus)
+            statusPickerView.bind(statusItems, selectedStatus)
         } else {
             let currentDate = Date()
             let endDate = endDatePickerView.getEndDateFrom(startDate: currentDate,
@@ -112,9 +111,9 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
             startDatePickerView.bind(Date())
             endDatePickerView.bind(endDate)
             
-            projectPickerView.bind(data: projectItems, selectedItem: nil)
-            employeePickerView.bind(data: employeeItems, selectedItem: nil)
-            statusPickerView.bind(data: statusItems, selectedItem: nil)
+            projectPickerView.bind(projectItems, nil)
+            employeePickerView.bind(employeeItems, nil)
+            statusPickerView.bind(statusItems, nil)
         }
         
         if taskDetails.project != nil {
@@ -134,7 +133,7 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         let project = try projectPickerView.unbindProject()
         let employee = try employeePickerView.unbindEmployee()
         let status = try statusPickerView.unbindStatus()
-        let hours = try requiredNumberOfHoursTextField.unbindIntValue()
+        let hours = try requiredHoursTextField.unbindIntValue()
         let startDate = try startDatePickerView.unbind()
         let endDate = try endDatePickerView.unbind()
         

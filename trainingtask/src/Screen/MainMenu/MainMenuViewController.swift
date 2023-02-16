@@ -3,7 +3,6 @@ import UIKit
 /*
  MainMenuViewController - экран Главное меню, отображает tableView с возможными вариантами перехода на другие экраны
  */
-
 class MainMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     private let tableView = UITableView()
@@ -23,7 +22,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -31,7 +30,7 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         navigationController?.isNavigationBarHidden = true
     }
     
-    private func setup() {
+    private func configureUI() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(MenuCustomCell.self, forCellReuseIdentifier: MainMenuViewController.cellIdentifier)
@@ -69,17 +68,17 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        1
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        MainMenuList.allCases.count
+        return MainMenuList.allCases.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainMenuViewController.cellIdentifier,
                                                        for: indexPath) as? MenuCustomCell else { return UITableViewCell() }
-        cell.bindText(text: getMenuListTitleFrom(MainMenuList.allCases[indexPath.row]))
+        cell.bind(getMenuListTitleFrom(MainMenuList.allCases[indexPath.row]))
         return cell
     }
     

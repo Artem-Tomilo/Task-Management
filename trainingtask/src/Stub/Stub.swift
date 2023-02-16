@@ -3,7 +3,6 @@ import Foundation
 /*
  Класс Stub является стаб-реализацией интерфейса сервера
  */
-
 class Stub: Server {
     
     private var employeesArray: [Employee] = []

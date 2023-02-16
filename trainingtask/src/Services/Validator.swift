@@ -3,7 +3,6 @@ import Foundation
 /*
  Класс, осуществляющий проверки текста textField на соответствие нужным значениям
  */
-
 class Validator {
     
     /*

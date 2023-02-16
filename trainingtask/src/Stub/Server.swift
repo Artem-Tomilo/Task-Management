@@ -3,7 +3,6 @@ import Foundation
 /*
  Protocol Server - интерфейс взаимодействия с сервером
  */
-
 protocol Server: AnyObject {
     func addEmployee(employee: Employee, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func deleteEmployee(id: Int, _ completion: @escaping (Result<Void, BaseError>) -> Void)

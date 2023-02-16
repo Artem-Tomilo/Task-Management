@@ -4,7 +4,6 @@ import UIKit
  Структура сотрудника, содержащая поля для заполнения:
  Фамилия, имя, отчество, должность, также содержит уникальный id, который заполняется при создании и полное ФИО
  */
-
 struct Employee: Codable, Equatable {
     var surname: String
     var name: String

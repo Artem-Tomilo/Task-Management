@@ -3,7 +3,6 @@ import UIKit
 /*
  BorderedTextField - кастомный TextField
  */
-
 class BorderedTextField: UITextField {
     
     init(placeholder: String) {

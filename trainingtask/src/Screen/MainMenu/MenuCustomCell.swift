@@ -3,45 +3,44 @@ import UIKit
 /*
  MenuCustomCell - кастомная ячейка для tableView экрана Главное меню
  */
-
 class MenuCustomCell: UITableViewCell {
     
-    private let label = UILabel(frame: .zero)
+    private let titleLabel = UILabel(frame: .zero)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setup()
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    private func setup() {
-        label.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(label)
+    private func configureUI() {
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(titleLabel)
         
         NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            label.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -20.0),
-            label.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
+            titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            titleLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, constant: -20.0),
+            titleLabel.widthAnchor.constraint(lessThanOrEqualTo: contentView.widthAnchor, constant: -20.0),
         ])
         backgroundColor = .systemRed
-        label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        titleLabel.textColor = .white
+        titleLabel.font = UIFont.boldSystemFont(ofSize: 20)
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         backgroundColor = selected ? .lightText : .systemRed
-        label.textColor = selected ? .black : .white
+        titleLabel.textColor = selected ? .black : .white
     }
     
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: true)
         backgroundColor = highlighted ? .lightText : .systemRed
-        label.textColor = highlighted ? .black : .white
+        titleLabel.textColor = highlighted ? .black : .white
     }
     
     /*
@@ -50,7 +49,7 @@ class MenuCustomCell: UITableViewCell {
      parameters:
      text - текст для label
      */
-    func bindText(text: String) {
-        label.text = text
+    func bind(_ text: String) {
+        titleLabel.text = text
     }
 }

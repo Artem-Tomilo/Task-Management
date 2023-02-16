@@ -4,7 +4,6 @@ import Foundation
  Структура проекта, содержащая поля для заполнения:
  Название, описание, также содержит уникальный id, который заполняется при создании
  */
-
 struct Project: Codable, Equatable {
     var name: String
     var description: String

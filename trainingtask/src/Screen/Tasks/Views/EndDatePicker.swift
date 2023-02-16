@@ -1,5 +1,8 @@
 import Foundation
 
+/*
+ 
+ */
 class EndDatePicker: DatePickerView {
     
     override init(frame: CGRect) {
@@ -28,6 +31,9 @@ class EndDatePicker: DatePickerView {
         return endDate
     }
     
+    /*
+     
+     */
     override func unbind() throws -> Date {
         let text = try Validator.validateTextForMissingValue(text: textField.unbind(),
                                                              message: "Введите конечную дату")

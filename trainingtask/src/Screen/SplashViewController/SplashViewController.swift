@@ -3,7 +3,6 @@ import UIKit
 /*
  SplashViewController является начальным экраном, держится 5 секунд и осуществляет переход на экран Главное меню
  */
-
 class SplashViewController: UIViewController {
     
     private let nameLabel = UILabel()
@@ -23,7 +22,7 @@ class SplashViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setup()
+        configureUI()
         
         let delay = DispatchTime.now() + 5
         DispatchQueue.main.asyncAfter(deadline: delay) {
@@ -32,7 +31,7 @@ class SplashViewController: UIViewController {
         }
     }
     
-    private func setup() {
+    private func configureUI() {
         view.backgroundColor = .white
         view.addSubview(nameLabel)
         view.addSubview(versionLabel)

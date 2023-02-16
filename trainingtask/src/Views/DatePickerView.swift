@@ -3,7 +3,6 @@ import UIKit
 /*
  DatePickerView - view для выбора даты
  */
-
 class DatePickerView: UIView, UITextFieldDelegate {
     
     let textField = BorderedTextField(placeholder: "yyyy-MM-dd")
@@ -15,7 +14,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setup()
+        configureUI()
         showDatePicker()
     }
     
@@ -23,7 +22,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
+    private func configureUI() {
         translatesAutoresizingMaskIntoConstraints = false
         addSubview(textField)
         
