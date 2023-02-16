@@ -14,10 +14,9 @@ struct Task: Equatable {
     var startDate: Date
     var endDate: Date
     var id: Int
-    private static var idCounter = 0
     
     init(name: String, project: Project, employee: Employee, status: TaskStatus,
-         requiredNumberOfHours: Int, startDate: Date, endDate: Date) {
+         requiredNumberOfHours: Int, startDate: Date, endDate: Date, id: Int) {
         self.name = name
         self.project = project
         self.employee = employee
@@ -25,7 +24,6 @@ struct Task: Equatable {
         self.requiredNumberOfHours = requiredNumberOfHours
         self.startDate = startDate
         self.endDate = endDate
-        self.id = Task.idCounter
-        Task.idCounter += 1
+        self.id = id
     }
 }

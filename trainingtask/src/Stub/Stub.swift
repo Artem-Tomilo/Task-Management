@@ -56,8 +56,9 @@ class Stub: Server {
             for _ in 0..<2 {
                 let task = Task(name: tasks[count], project: projectsArray[i],
                                 employee: employeesArray[i], status: TaskStatus.allCases[i],
-                                requiredNumberOfHours: 3, startDate: Date(), endDate: Date())
+                                requiredNumberOfHours: 3, startDate: Date(), endDate: Date(), id: taskIdCounter)
                 tasksArray.append(task)
+                taskIdCounter += 1
                 count += 1
             }
         }
@@ -243,16 +244,26 @@ class Stub: Server {
      Метод добавления новой задачи в массив
      
      parameters:
-     task - новая задача для добавления в массив и последующего сохранения
+     taskDetails - модель задачи для добавления в массив и последующего сохранения
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    func addTask(task: Task, _ completion: @escaping (Result<Void, BaseError>) -> Void) {
+    func addTask(taskDetails: TaskDetails, _ completion: @escaping (Result<Void, BaseError>) -> Void) {
         delay() {
-            self.tasksArray.append(task)
-            if self.tasksArray.contains(where: { $0 == task }) {
+            let newTask = Task(name: taskDetails.name,
+                               project: taskDetails.project,
+                               employee: taskDetails.employee,
+                               status: taskDetails.status,
+                               requiredNumberOfHours: taskDetails.requiredNumberOfHours,
+                               startDate: taskDetails.startDate,
+                               endDate: taskDetails.endDate,
+                               id: self.taskIdCounter)
+            self.tasksArray.append(newTask)
+            self.taskIdCounter += 1
+            if self.tasksArray.contains(where: { $0 == newTask }) {
                 completion(.success(()))
             } else {
                 completion(.failure(BaseError(message: "Не удалось добавить задачу")))
+                
             }
         }
     }

@@ -67,7 +67,8 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
     /*
      Метод для проверки и получения данных из текстФилдов экрана,
      после проверки данные собираются в модель редактируемых данных сотрудника и отправляются на экран Список сотрудников
-     Возвращаемое значение - модель редактируемых данных
+     
+     Возвращаемое значение - модель редактируемых данных сотрудника
      */
     func unbind() throws -> EmployeeDetails {
         let surname = try Validator.validateTextForMissingValue(text: surnameTextField.unbind(),

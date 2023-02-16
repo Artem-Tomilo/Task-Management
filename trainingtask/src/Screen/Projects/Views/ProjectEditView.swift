@@ -51,7 +51,8 @@ class ProjectEditView: UIView, UITextFieldDelegate {
     /*
      Метод для проверки и получения данных из текстФилдов экрана,
      после проверки данные собираются в модель данных проекта и отправляются на экран Список проектов
-     Возвращаемое значение - модель редактируемых данных
+     
+     Возвращаемое значение - модель редактируемых данных проекта
      */
     func unbind() throws -> ProjectDetails {
         let title = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),

@@ -8,7 +8,7 @@ class TaskEditViewController: UIViewController {
     
     private let taskEditView = TaskEditView()
     private let spinnerView = SpinnerView()
-    private var taskDetails = TaskDetails()
+    private var taskBindModel = TaskBindModel()
     
     private var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
     private var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
@@ -48,15 +48,15 @@ class TaskEditViewController: UIViewController {
         
         if let taskToEdit = possibleTaskToEdit {
             title = "Редактирование задачи"
-            taskDetails.task = taskToEdit
+            taskBindModel.task = taskToEdit
         } else {
             let numbersOfDays = getNumberOfDaysBetweenDates()
-            taskDetails.daysBetweenDates = numbersOfDays
+            taskBindModel.daysBetweenDates = numbersOfDays
             title = "Добавление задачи"
         }
         
         if let project {
-            taskDetails.project = project
+            taskBindModel.project = project
         }
         
         let saveButton = UIBarButtonItem(barButtonSystemItem: .save,
@@ -80,7 +80,7 @@ class TaskEditViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let projects):
-                self.taskDetails.listProjects = projects
+                self.taskBindModel.listProjects = projects
                 completion()
             case .failure(let error):
                 self.handleError(error)
@@ -97,7 +97,7 @@ class TaskEditViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .success(let employees):
-                self.taskDetails.listEmployees = employees
+                self.taskBindModel.listEmployees = employees
                 completion()
             case .failure(let error):
                 self.handleError(error)
@@ -122,7 +122,7 @@ class TaskEditViewController: UIViewController {
         }
         
         group.notify(queue: .main) {
-            self.taskEditView.bind(taskDetails: self.taskDetails)
+            self.taskEditView.bind(self.taskBindModel)
             self.spinnerView.hideSpinner()
         }
     }
@@ -140,12 +140,8 @@ class TaskEditViewController: UIViewController {
      
      Возвращаемое значение - задача
      */
-    private func unbind() throws -> Task {
-        var task = try taskEditView.unbind()
-        if let possibleTaskToEdit {
-            task.id = possibleTaskToEdit.id
-        }
-        return task
+    private func unbind() throws -> TaskDetails {
+        return try taskEditView.unbind()
     }
     
     /*
@@ -155,9 +151,9 @@ class TaskEditViewController: UIViewController {
      parameters:
      newTask - новая задача для добавления
      */
-    private func addingNewTaskOnServer(_ newTask: Task) {
+    private func addingNewTaskOnServer(_ newTask: TaskDetails) {
         self.spinnerView.showSpinner(viewController: self)
-        server.addTask(task: newTask) { result in
+        server.addTask(taskDetails: newTask) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()
@@ -195,8 +191,16 @@ class TaskEditViewController: UIViewController {
      */
     private func saveTask() throws {
         let bindedTask = try unbind()
-        if possibleTaskToEdit != nil {
-            editingTaskOnServer(bindedTask)
+        if let possibleTaskToEdit {
+            let task = Task(name: bindedTask.name,
+                            project: bindedTask.project,
+                            employee: bindedTask.employee,
+                            status: bindedTask.status,
+                            requiredNumberOfHours: bindedTask.requiredNumberOfHours,
+                            startDate: bindedTask.startDate,
+                            endDate: bindedTask.endDate,
+                            id: possibleTaskToEdit.id)
+            editingTaskOnServer(task)
         } else {
             addingNewTaskOnServer(bindedTask)
         }

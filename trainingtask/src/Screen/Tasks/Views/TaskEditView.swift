@@ -80,17 +80,17 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
     /*
      Метод для заполнения текущего view данными
      
-     parametrs:
+     parameters:
      task - задача, данными которой будут заполняться текстФилды
      */
-    func bind(taskDetails: TaskDetails) {
-        projects = taskDetails.listProjects ?? []
-        employees = taskDetails.listEmployees ?? []
+    func bind(_ taskBindModel: TaskBindModel) {
+        projects = taskBindModel.listProjects ?? []
+        employees = taskBindModel.listEmployees ?? []
         let projectItems = projectPickerView.setData(projects)
         let employeeItems = employeePickerView.setData(employees)
         let statusItems = statusPickerView.setData()
         
-        if let task = taskDetails.task {
+        if let task = taskBindModel.task {
             nameTextField.bind(task.name)
             requiredHoursTextField.bind(String(task.requiredNumberOfHours))
             startDatePickerView.bind(task.startDate)
@@ -104,20 +104,26 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
             
             let selectedStatus = statusItems.first(where: { $0.id == task.status.hashValue })
             statusPickerView.bind(statusItems, selectedStatus)
+            
+            if taskBindModel.project != nil {
+                blockProjectTextField()
+            }
         } else {
             let currentDate = Date()
             let endDate = endDatePickerView.getEndDateFrom(startDate: currentDate,
-                                                           with: taskDetails.daysBetweenDates ?? 0)
+                                                           with: taskBindModel.daysBetweenDates ?? 0)
             startDatePickerView.bind(Date())
             endDatePickerView.bind(endDate)
             
-            projectPickerView.bind(projectItems, nil)
+            if let project = taskBindModel.project {
+                let selectedProject = projectItems.first(where: { $0.id == project.id })
+                projectPickerView.bind(projectItems, selectedProject)
+                blockProjectTextField()
+            } else {
+                projectPickerView.bind(projectItems, nil)
+            }
             employeePickerView.bind(employeeItems, nil)
             statusPickerView.bind(statusItems, nil)
-        }
-        
-        if taskDetails.project != nil {
-            blockProjectTextField()
         }
     }
     
@@ -127,7 +133,7 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
      
      Возвращаемое значение - собранная модель задачи
      */
-    func unbind() throws -> Task {
+    func unbind() throws -> TaskDetails {
         let taskName = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
                                                                  message: "Введите название")
         let project = try projectPickerView.unbindProject()
@@ -140,9 +146,9 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         guard startDate <= endDate else {
             throw BaseError(message: "Начальная дата не должна быть больше конечной даты")
         }
-        let task = Task(name: taskName, project: project, employee: employee, status: status,
-                        requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
-        return task
+        let taskDetails = TaskDetails(name: taskName, project: project, employee: employee, status: status,
+                                      requiredNumberOfHours: hours, startDate: startDate, endDate: endDate)
+        return taskDetails
     }
     
     /*

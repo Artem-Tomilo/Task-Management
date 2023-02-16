@@ -33,7 +33,7 @@
 		387AAD8928E4345F004BE734 /* EmployeeMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387AAD8828E4345F004BE734 /* EmployeeMenu.swift */; };
 		387AAD8B28E467E5004BE734 /* Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 387AAD8A28E467E5004BE734 /* Settings.plist */; };
 		38C61562299B99FE004FD7A3 /* PickerViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61561299B99FE004FD7A3 /* PickerViewItem.swift */; };
-		38C61564299BEA7D004FD7A3 /* TaskDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61563299BEA7D004FD7A3 /* TaskDetails.swift */; };
+		38C61564299BEA7D004FD7A3 /* TaskBindModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61563299BEA7D004FD7A3 /* TaskBindModel.swift */; };
 		38C61566299CD3B9004FD7A3 /* EmployeeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61565299CD3B9004FD7A3 /* EmployeeDetails.swift */; };
 		38C6156A299D037B004FD7A3 /* ProjectPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61569299D037B004FD7A3 /* ProjectPicker.swift */; };
 		38C6156C299D0439004FD7A3 /* EmployeePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6156B299D0439004FD7A3 /* EmployeePicker.swift */; };
@@ -44,6 +44,7 @@
 		38C6157A299E3F84004FD7A3 /* SettingsInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61579299E3F84004FD7A3 /* SettingsInputView.swift */; };
 		38C6157C299E48BF004FD7A3 /* IntSettingsInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6157B299E48BF004FD7A3 /* IntSettingsInputView.swift */; };
 		38C6157E299ECD77004FD7A3 /* ProjectDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6157D299ECD76004FD7A3 /* ProjectDetails.swift */; };
+		38C61580299ED35E004FD7A3 /* TaskDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6157F299ED35E004FD7A3 /* TaskDetails.swift */; };
 		38EF1A6A2935F79D00EB5F8E /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A622935F79D00EB5F8E /* 3.png */; };
 		38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A7229435CDD00EB5F8E /* Project.swift */; };
 		38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */; };
@@ -106,7 +107,7 @@
 		387AAD8828E4345F004BE734 /* EmployeeMenu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeMenu.swift; sourceTree = "<group>"; };
 		387AAD8A28E467E5004BE734 /* Settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Settings.plist; sourceTree = "<group>"; };
 		38C61561299B99FE004FD7A3 /* PickerViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewItem.swift; sourceTree = "<group>"; };
-		38C61563299BEA7D004FD7A3 /* TaskDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetails.swift; sourceTree = "<group>"; };
+		38C61563299BEA7D004FD7A3 /* TaskBindModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskBindModel.swift; sourceTree = "<group>"; };
 		38C61565299CD3B9004FD7A3 /* EmployeeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeeDetails.swift; sourceTree = "<group>"; };
 		38C61569299D037B004FD7A3 /* ProjectPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectPicker.swift; sourceTree = "<group>"; };
 		38C6156B299D0439004FD7A3 /* EmployeePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmployeePicker.swift; sourceTree = "<group>"; };
@@ -117,6 +118,7 @@
 		38C61579299E3F84004FD7A3 /* SettingsInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInputView.swift; sourceTree = "<group>"; };
 		38C6157B299E48BF004FD7A3 /* IntSettingsInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntSettingsInputView.swift; sourceTree = "<group>"; };
 		38C6157D299ECD76004FD7A3 /* ProjectDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetails.swift; sourceTree = "<group>"; };
+		38C6157F299ED35E004FD7A3 /* TaskDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskDetails.swift; sourceTree = "<group>"; };
 		38EF1A622935F79D00EB5F8E /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
 		38EF1A7229435CDD00EB5F8E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListViewController.swift; sourceTree = "<group>"; };
@@ -428,8 +430,9 @@
 				38EF1C2E29473CAF00EB5F8E /* Task.swift */,
 				38EF1C312947435100EB5F8E /* TaskStatus.swift */,
 				38C61561299B99FE004FD7A3 /* PickerViewItem.swift */,
-				38C61563299BEA7D004FD7A3 /* TaskDetails.swift */,
+				38C61563299BEA7D004FD7A3 /* TaskBindModel.swift */,
 				38C61577299E26CC004FD7A3 /* TaskCellItem.swift */,
+				38C6157F299ED35E004FD7A3 /* TaskDetails.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -617,7 +620,8 @@
 				3824BF3A28EF7E7C0027149D /* Settings.swift in Sources */,
 				38EF1C35294751EF00EB5F8E /* TaskCell.swift in Sources */,
 				3824BF4228F0257A0027149D /* SettingsStorage.swift in Sources */,
-				38C61564299BEA7D004FD7A3 /* TaskDetails.swift in Sources */,
+				38C61564299BEA7D004FD7A3 /* TaskBindModel.swift in Sources */,
+				38C61580299ED35E004FD7A3 /* TaskDetails.swift in Sources */,
 				38C6157A299E3F84004FD7A3 /* SettingsInputView.swift in Sources */,
 				38EF1B53294376E000EB5F8E /* ProjectEditViewController.swift in Sources */,
 				38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */,

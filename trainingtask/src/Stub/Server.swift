@@ -14,7 +14,7 @@ protocol Server: AnyObject {
     func editProject(id: Int, editedProject: Project, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func getProjects(_ completion: @escaping (Result<[Project], BaseError>) -> Void)
     
-    func addTask(task: Task, _ completion: @escaping (Result<Void, BaseError>) -> Void)
+    func addTask(taskDetails: TaskDetails, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func deleteTask(id: Int, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func editTask(id: Int, editedTask: Task, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func getTasks(_ completion: @escaping (Result<[Task], BaseError>) -> Void)
