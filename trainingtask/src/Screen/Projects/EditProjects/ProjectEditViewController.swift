@@ -57,17 +57,12 @@ class ProjectEditViewController: UIViewController {
     }
     
     /*
-     Метод получает данные из текстФилдов экрана, делает валидацию и собирает модель проекта,
-     при редактировании заменяет данные редактирумого проекта новыми данными
+     Метод получает данные из текстФилдов экрана в виде редактируемой модели, делает валидацию и передает ее дальше
      
-     Возвращаемое значение - проект
+     Возвращаемое значение - редактируемая модель проекта
      */
-    private func unbind() throws -> Project {
-        var project = try projectEditView.unbind()
-        if let possibleProjectToEdit {
-            project.id = possibleProjectToEdit.id
-        }
-        return project
+    private func unbind() throws -> ProjectDetails {
+        return try projectEditView.unbind()
     }
     
     /*
@@ -75,11 +70,11 @@ class ProjectEditViewController: UIViewController {
      в случае ошибки происходит ее обработка
      
      parameters:
-     newProject - новый проект для добавления
+     newProject - редактируемая модель проекта для добавления
      */
-    private func addingNewProjectOnServer(_ newProject: Project) {
+    private func addingNewProjectOnServer(_ newProject: ProjectDetails) {
         self.spinnerView.showSpinner(viewController: self)
-        server.addProject(project: newProject) { result in
+        server.addProject(projectDetails: newProject) { result in
             switch result {
             case .success():
                 self.spinnerView.hideSpinner()
@@ -116,8 +111,11 @@ class ProjectEditViewController: UIViewController {
      */
     private func saveProject() throws {
         let bindedProject = try unbind()
-        if possibleProjectToEdit != nil {
-            editingProjectOnServer(bindedProject)
+        if let possibleProjectToEdit {
+            let project = Project(name: bindedProject.name,
+                                  description: bindedProject.description,
+                                  id: possibleProjectToEdit.id)
+            editingProjectOnServer(project)
         } else {
             addingNewProjectOnServer(bindedProject)
         }

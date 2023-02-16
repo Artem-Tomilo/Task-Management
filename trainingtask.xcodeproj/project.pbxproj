@@ -43,6 +43,7 @@
 		38C61578299E26CC004FD7A3 /* TaskCellItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61577299E26CC004FD7A3 /* TaskCellItem.swift */; };
 		38C6157A299E3F84004FD7A3 /* SettingsInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C61579299E3F84004FD7A3 /* SettingsInputView.swift */; };
 		38C6157C299E48BF004FD7A3 /* IntSettingsInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6157B299E48BF004FD7A3 /* IntSettingsInputView.swift */; };
+		38C6157E299ECD77004FD7A3 /* ProjectDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38C6157D299ECD76004FD7A3 /* ProjectDetails.swift */; };
 		38EF1A6A2935F79D00EB5F8E /* 3.png in Resources */ = {isa = PBXBuildFile; fileRef = 38EF1A622935F79D00EB5F8E /* 3.png */; };
 		38EF1A7329435CDD00EB5F8E /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1A7229435CDD00EB5F8E /* Project.swift */; };
 		38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */; };
@@ -115,6 +116,7 @@
 		38C61577299E26CC004FD7A3 /* TaskCellItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskCellItem.swift; sourceTree = "<group>"; };
 		38C61579299E3F84004FD7A3 /* SettingsInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsInputView.swift; sourceTree = "<group>"; };
 		38C6157B299E48BF004FD7A3 /* IntSettingsInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntSettingsInputView.swift; sourceTree = "<group>"; };
+		38C6157D299ECD76004FD7A3 /* ProjectDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetails.swift; sourceTree = "<group>"; };
 		38EF1A622935F79D00EB5F8E /* 3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3.png; sourceTree = "<group>"; };
 		38EF1A7229435CDD00EB5F8E /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
 		38EF1B4E294366D700EB5F8E /* ProjectsListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListViewController.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 			isa = PBXGroup;
 			children = (
 				38EF1A7229435CDD00EB5F8E /* Project.swift */,
+				38C6157D299ECD76004FD7A3 /* ProjectDetails.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -596,6 +599,7 @@
 				38EF1B4F294366D700EB5F8E /* ProjectsListViewController.swift in Sources */,
 				387AAD8728E4338E004BE734 /* MainMenuList.swift in Sources */,
 				38EF1C322947435100EB5F8E /* TaskStatus.swift in Sources */,
+				38C6157E299ECD77004FD7A3 /* ProjectDetails.swift in Sources */,
 				38C61578299E26CC004FD7A3 /* TaskCellItem.swift in Sources */,
 				38EF1C95296EDE4600EB5F8E /* BaseError.swift in Sources */,
 				3820315B28D8B319008FAD35 /* MenuCustomCell.swift in Sources */,

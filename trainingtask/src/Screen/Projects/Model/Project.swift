@@ -8,12 +8,10 @@ struct Project: Codable, Equatable {
     var name: String
     var description: String
     var id: Int
-    private static var idCounter = 0
     
-    init(name: String, description: String) {
+    init(name: String, description: String, id: Int) {
         self.name = name
         self.description = description
-        self.id = Project.idCounter
-        Project.idCounter += 1
+        self.id = id
     }
 }

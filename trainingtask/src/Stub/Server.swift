@@ -9,7 +9,7 @@ protocol Server: AnyObject {
     func editEmployee(id: Int, editedEmployee: Employee, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func getEmployees(_ completion: @escaping (Result<[Employee], BaseError>) -> Void)
     
-    func addProject(project: Project, _ completion: @escaping (Result<Void, BaseError>) -> Void)
+    func addProject(projectDetails: ProjectDetails, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func deleteProject(id: Int, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func editProject(id: Int, editedProject: Project, _ completion: @escaping (Result<Void, BaseError>) -> Void)
     func getProjects(_ completion: @escaping (Result<[Project], BaseError>) -> Void)

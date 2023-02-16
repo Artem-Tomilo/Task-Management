@@ -53,13 +53,13 @@ class ProjectEditView: UIView, UITextFieldDelegate {
      после проверки данные собираются в модель данных проекта и отправляются на экран Список проектов
      Возвращаемое значение - модель редактируемых данных
      */
-    func unbind() throws -> Project {
+    func unbind() throws -> ProjectDetails {
         let title = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
                                                               message: "Введите название")
         let description = try Validator.validateTextForMissingValue(text: descriptionTextField.unbind(),
                                                                     message: "Введите описание")
-        let project = Project(name: title, description: description)
-        return project
+        let projectdetails = ProjectDetails(name: title, description: description)
+        return projectdetails
     }
     
     /*

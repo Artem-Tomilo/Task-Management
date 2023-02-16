@@ -24,8 +24,9 @@ class Stub: Server {
         let descriptions = ["Тренажерный зал", "Английский язык", "Магазин", "Авто"]
         
         for i in 0..<4 {
-            let project = Project(name: projectsNames[i], description: descriptions[i])
+            let project = Project(name: projectsNames[i], description: descriptions[i], id: projectIdCounter)
             projectsArray.append(project)
+            projectIdCounter += 1
         }
     }
     
@@ -80,7 +81,7 @@ class Stub: Server {
      Метод добавления нового сотрудника в массив
      
      parameters:
-     employee - новый сотрудник для добавления в массив и последующего сохранения
+     employeeDetails - модель сотрудника для добавления в массив и последующего сохранения
      completion - отдельный блок, который будет выполняться на главном потоке
      */
     func addEmployee(employeeDetails: EmployeeDetails, _ completion: @escaping (Result<Void, BaseError>) -> Void) {
@@ -162,13 +163,17 @@ class Stub: Server {
      Метод добавления нового проекта в массив
      
      parameters:
-     project - новый проект для добавления в массив и последующего сохранения
+     projectDetails - модель проекта для добавления в массив и последующего сохранения
      completion - отдельный блок, который будет выполняться на главном потоке
      */
-    func addProject(project: Project, _ completion: @escaping (Result<Void, BaseError>) -> Void) {
+    func addProject(projectDetails: ProjectDetails, _ completion: @escaping (Result<Void, BaseError>) -> Void) {
         delay() {
-            self.projectsArray.append(project)
-            if self.projectsArray.contains(where: { $0 == project }) {
+            let newProject = Project(name: projectDetails.name,
+                                     description: projectDetails.description,
+                                     id: self.projectIdCounter)
+            self.projectsArray.append(newProject)
+            self.projectIdCounter += 1
+            if self.projectsArray.contains(where: { $0 == newProject }) {
                 completion(.success(()))
             } else {
                 completion(.failure(BaseError(message: "Не удалось добавить проект")))
