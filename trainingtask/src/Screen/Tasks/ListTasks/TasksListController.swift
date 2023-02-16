@@ -78,32 +78,36 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     /*
      Метод загрузки данных - происходит запуск спиннера и проверка проекта на значение,
-     если значение есть - вызов метода делегата на получение задач для этого проекта,
+     если значение есть - вызов метода сервера на получение задач для этого проекта,
      если значения нет, вызов метода для получения всех задач,
-     в completion блоке вызывается метод привязки данных и скрытие спиннера,
+     в completion блоке вызывается метод привязки данных согласно количеству записей из настроек и скрытие спиннера,
      в случае возникновения ошибки происходит ее обработка
      */
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
         if let project {
-            server.getTasksFor(project: project) { [weak self] tasks in
+            server.getTasksFor(project: project) { [weak self] result in
                 guard let self else { return }
-                self.bindTasksAccordingRecordsCounts(tasks)
-                self.spinnerView.hideSpinner()
-            } error: { [weak self] error in
-                guard let self else { return }
-                self.spinnerView.hideSpinner()
-                self.handleError(error)
+                switch result {
+                case .success(let tasks):
+                    self.bindTasksAccordingRecordsCounts(tasks)
+                    self.spinnerView.hideSpinner()
+                case .failure(let error):
+                    self.spinnerView.hideSpinner()
+                    self.handleError(error)
+                }
             }
         } else {
-            server.getTasks() { [weak self] tasks in
+            server.getTasks { [weak self] result in
                 guard let self else { return }
-                self.bindTasksAccordingRecordsCounts(tasks)
-                self.spinnerView.hideSpinner()
-            } error: { [weak self] error in
-                guard let self else { return }
-                self.spinnerView.hideSpinner()
-                self.handleError(error)
+                switch result {
+                case .success(let tasks):
+                    self.bindTasksAccordingRecordsCounts(tasks)
+                    self.spinnerView.hideSpinner()
+                case .failure(let error):
+                    self.spinnerView.hideSpinner()
+                    self.handleError(error)
+                }
             }
         }
     }

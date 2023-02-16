@@ -136,9 +136,13 @@ class Stub: Server {
      parameters:
      completion - блок, в котором передается массив сотрудников
      */
-    func getEmployees(_ completion: @escaping ([Employee]) -> Void, error: @escaping (BaseError) -> Void) {
+    func getEmployees(_ completion: @escaping (Result<[Employee], BaseError>) -> Void) {
         delay() {
-            completion(self.employeesArray)
+            if self.employeesArray.count > 0 {
+                completion(.success(self.employeesArray))
+            } else {
+                completion(.failure(BaseError(message: "Отсутствуют сохраненные сотрудники")))
+            }
         }
     }
     
@@ -208,9 +212,13 @@ class Stub: Server {
      parameters:
      completion - блок, в котором передается массив проектов
      */
-    func getProjects(_ completion: @escaping ([Project]) -> Void, error: @escaping (BaseError) -> Void) {
+    func getProjects(_ completion: @escaping (Result<[Project], BaseError>) -> Void) {
         delay() {
-            completion(self.projectsArray)
+            if self.projectsArray.count > 0 {
+                completion(.success(self.projectsArray))
+            } else {
+                completion(.failure(BaseError(message: "Отсутствуют сохраненные проекты")))
+            }
         }
     }
     
@@ -280,9 +288,13 @@ class Stub: Server {
      parameters:
      completion - блок, в котором передается массив задач
      */
-    func getTasks(_ completion: @escaping ([Task]) -> Void, error: @escaping (BaseError) -> Void) {
+    func getTasks(_ completion: @escaping (Result<[Task], BaseError>) -> Void) {
         delay() {
-            completion(self.tasksArray)
+            if self.tasksArray.count > 0 {
+                completion(.success(self.tasksArray))
+            } else {
+                completion(.failure(BaseError(message: "Отсутствуют сохраненные задачи")))
+            }
         }
     }
     
@@ -291,17 +303,18 @@ class Stub: Server {
      
      parameters:
      project - проект, для которого необходимо получить задачи
-     completion - блок, в котором передается массив задач
+     completion - блок, в котором происходит обработка запроса,
+     в случае успеха передается массив задач, в случае неудачи обработка ошибки
      */
-    func getTasksFor(project: Project, _ completion: @escaping ([Task]) -> Void, error: @escaping (BaseError) -> Void) {
+    func getTasksFor(project: Project, _ completion: @escaping (Result<[Task], BaseError>) -> Void) {
         delay() {
             var tasksForProject = [Task]()
             if let project = self.projectsArray.first(where: { $0 == project }) {
                 tasksForProject = self.tasksArray.filter({ $0.project == project })
             } else {
-                error(BaseError(message: "Не удалось получить список задач"))
+                completion(.failure(BaseError(message: "Не удалось получить список задач")))
             }
-            completion(tasksForProject)
+            completion(.success(tasksForProject))
         }
     }
 }

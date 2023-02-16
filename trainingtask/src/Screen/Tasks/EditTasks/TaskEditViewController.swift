@@ -72,33 +72,42 @@ class TaskEditViewController: UIViewController {
     }
     
     /*
-     Метод получает списов проектов с сервера
+     Метод получает списов проектов с сервера и привязывает к модели данных задачи,
+     которая будет используется в TaskEditView
      */
     private func getProjects(_ completion: @escaping () -> Void) {
-        server.getProjects({ [weak self] projects in
+        server.getProjects({ [weak self] result in
             guard let self = self else { return }
-            self.taskDetails.listProjects = projects
-            completion()
-        }) { [weak self] error in
-            guard let self = self else { return }
-            self.handleError(error)
-        }
+            switch result {
+            case .success(let projects):
+                self.taskDetails.listProjects = projects
+                completion()
+            case .failure(let error):
+                self.handleError(error)
+            }
+        })
     }
     
     /*
-     Метод получает списов сотрудников с сервера
+     Метод получает списов сотрудников с сервера и привязывает к модели данных задачи,
+     которая будет используется в TaskEditView
      */
     private func getEmployees(_ completion: @escaping () -> Void) {
-        server.getEmployees({ [weak self] employees in
+        server.getEmployees({ [weak self] result in
             guard let self = self else { return }
-            self.taskDetails.listEmployees = employees
-            completion()
-        }) { [weak self] error in
-            guard let self = self else { return }
-            self.handleError(error)
-        }
+            switch result {
+            case .success(let employees):
+                self.taskDetails.listEmployees = employees
+                completion()
+            case .failure(let error):
+                self.handleError(error)
+            }
+        })
     }
     
+    /*
+     
+     */
     private func updateData() {
         let group = DispatchGroup()
         

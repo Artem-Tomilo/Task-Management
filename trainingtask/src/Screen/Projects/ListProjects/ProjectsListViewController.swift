@@ -71,23 +71,26 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     /*
-     Метод загрузки данных - происходит запуск спиннера и вызов метода делегата:
-     в completion блоке вызывается метод привязки данных и скрытие спиннера
+     Метод загрузки данных - происходит запуск спиннера и вызов метода сервера:
+     в completion блоке вызывается метод привязки данных согласно количеству записей из настроек и скрытие спиннера,
+     в случае ошибки происходит ее обработка
      */
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
-        server.getProjects() { [weak self] projects in
+        server.getProjects() { [weak self] result in
             guard let self else { return }
-            if self.getMaxRecordsCountFromSettings() != 0 {
-                self.bind(Array(projects.prefix(self.getMaxRecordsCountFromSettings())))
-            } else {
-                self.bind(projects)
+            switch result {
+            case .success(let projects):
+                if self.getMaxRecordsCountFromSettings() != 0 {
+                    self.bind(Array(projects.prefix(self.getMaxRecordsCountFromSettings())))
+                } else {
+                    self.bind(projects)
+                }
+                self.spinnerView.hideSpinner()
+            case .failure(let error):
+                self.spinnerView.hideSpinner()
+                self.handleError(error)
             }
-            self.spinnerView.hideSpinner()
-        } error: { [weak self] error in
-            guard let self else { return }
-            self.spinnerView.hideSpinner()
-            self.handleError(error)
         }
     }
     

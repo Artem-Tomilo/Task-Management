@@ -71,23 +71,26 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     /*
-     Метод загрузки данных - происходит запуск спиннера и вызов метода делегата:
-     в completion блоке вызывается метод привязки данных и скрытие спиннера
+     Метод загрузки данных - происходит запуск спиннера и вызов метода сервера:
+     в completion блоке вызывается метод привязки данных согласно количеству записей из настроек и скрытие спиннера,
+     в случае ошибки происходит ее обработка
      */
     private func loadData() {
         spinnerView.showSpinner(viewController: self)
-        server.getEmployees { [weak self] employees in
+        server.getEmployees { [weak self] result in
             guard let self else { return }
-            if self.getMaxRecordsCountFromSettings() != 0 {
-                self.bind(Array(employees.prefix(self.getMaxRecordsCountFromSettings())))
-            } else {
-                self.bind(employees)
+            switch result {
+            case .success(let employees):
+                if self.getMaxRecordsCountFromSettings() != 0 {
+                    self.bind(Array(employees.prefix(self.getMaxRecordsCountFromSettings())))
+                } else {
+                    self.bind(employees)
+                }
+                self.spinnerView.hideSpinner()
+            case .failure(let error):
+                self.spinnerView.hideSpinner()
+                self.handleError(error)
             }
-            self.spinnerView.hideSpinner()
-        } error: { [weak self] error in
-            guard let self else { return }
-            self.spinnerView.hideSpinner()
-            self.handleError(error)
         }
     }
     
