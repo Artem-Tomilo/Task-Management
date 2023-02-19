@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- EmployeeCell - ячейка для tableView экрана Список сотрудников
+/**
+ Ячейка для экрана Список сотрудников
  */
 class EmployeeCell: UITableViewCell {
     
@@ -58,11 +58,11 @@ class EmployeeCell: UITableViewCell {
         backgroundUIView.backgroundColor = .systemRed
     }
     
-    /*
+    /**
      Метод присвоения текста лейблам
      
-     parameters:
-     employee - модель сотрудника, содержащая данные для заполнения
+     - parameters:
+        - employee: модель сотрудника, содержащая данные для заполнения
      */
     func bind(_ employee: Employee) {
         surnameLabel.bind(employee.surname)

@@ -1,7 +1,8 @@
 import UIKit
 
-/*
- Данное view комплектуется более мелкими view, собирает и отображает их данные, а также отображается на экране Настройки
+/**
+ View для отображения на экране Настройки
+ Комплектуется более мелкими view, собирает и отображает их данные
  */
 class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
@@ -43,11 +44,11 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         ])
     }
     
-    /*
+    /**
      Метод для заполнения текущего view данными
      
-     parametrs:
-     settings - модель настроек для заполнения полей данными
+     - parameters:
+        - settings: модель настроек для заполнения полей данными
      */
     func bind(_ settings: Settings) {
         urlView.bind(settings.url)
@@ -55,11 +56,12 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         daysView.bindIntValue(settings.maxDays)
     }
     
-    /*
+    /**
      Метод собирает значения из полей, проверяет их и собирает модель настроек
      в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - настройки
+     - returns:
+     Настройки
      */
     func unbind() throws -> Settings {
         let url = urlView.unbind()
@@ -71,7 +73,7 @@ class SettingsView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
         return settings
     }
     
-    /*
+    /**
      Метод UIGestureRecognizerDelegate
      */
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,

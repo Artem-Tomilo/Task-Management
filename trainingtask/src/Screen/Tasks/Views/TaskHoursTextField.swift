@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- 
+/**
+ TextField для работы с полем ввода требуемых часов на выполнения задачи в TaskEditView
  */
 class TaskHoursTextField: BorderedTextField, UITextFieldDelegate {
     
@@ -15,11 +15,12 @@ class TaskHoursTextField: BorderedTextField, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /*
-     Метод получения текста requiredNumberOfHoursTextField, его проверки и форматирования в числовой формат,
+    /**
+     Метод проверки текста и форматирования в числовой формат,
      в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - числовое значение текста requiredNumberOfHoursTextField
+     - returns:
+     Числовое значение текста текстФилда
      */
     private func taskHoursValidation() throws -> Int {
         let text = try Validator.validateTextForMissingValue(text: unbind(),
@@ -33,15 +34,19 @@ class TaskHoursTextField: BorderedTextField, UITextFieldDelegate {
         return hours
     }
     
-    /*
+    /**
+     Метод получения текста в числовом формате,
+     в случае ошибки происходит ее обработка
      
+     - returns:
+     Числовое значение текста
      */
     func unbindIntValue() throws -> Int {
         return try taskHoursValidation()
     }
     
-    /*
-     Метод UITextFieldDelegate для проверки вводимых данных
+    /**
+     Метод UITextFieldDelegate для проверки вводимых данных на соответствие числовому формату
      */
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,
                    replacementString string: String) -> Bool {

@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- SpinnerView - view, отображающее спиннер при загрузке данных
+/**
+ View, отображающее спиннер при загрузке данных
  */
 class SpinnerView: UIView {
     
@@ -28,11 +28,11 @@ class SpinnerView: UIView {
         layer.cornerRadius = 10
     }
     
-    /*
+    /**
      Метод для отображения SpinnerView
      
-     parameters:
-     viewController - контроллер, в котором вызывается данный метод
+     - parameters:
+        - viewController: контроллер, в котором вызывается данный метод
      */
     func showSpinner(viewController: UIViewController) {
         viewController.view.addSubview(self)
@@ -48,7 +48,7 @@ class SpinnerView: UIView {
         indicator.startAnimating()
     }
     
-    /*
+    /**
      Метод для скрытия SpinnerView
      */
     func hideSpinner() {

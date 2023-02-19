@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- EmployeeEditViewController - экран Редактирование сотрудника, отображает необходимые поля для введения нового,
+/**
+ Экран Редактирование сотрудника:  отображает необходимые поля для введения нового,
  либо редактирования существующего сотрудника
  */
 class EmployeeEditViewController: UIViewController {
@@ -12,6 +12,13 @@ class EmployeeEditViewController: UIViewController {
     private var possibleEmployeeToEdit: Employee?
     private let server: Server
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - server: экземпляр сервера
+        - possibleEmployeeToEdit: сотрудник для редактирования, если значение = nil, то происходит создание нового сотрудника
+     */
     init(server: Server, possibleEmployeeToEdit: Employee?) {
         self.server = server
         self.possibleEmployeeToEdit = possibleEmployeeToEdit
@@ -60,21 +67,22 @@ class EmployeeEditViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     
-    /*
-     Метод получает данные из текстФилдов экрана в виде редактируемой модели, делает валидацию и передает ее дальше
+    /**
+     Метод получает данные из текстФилдов экрана в виде модели сотрудника и передает ее дальше
      
-     Возвращаемое значение - редактируемая модель сотрудника
+     - returns:
+     Модель сотрудника
      */
     private func unbind() throws -> EmployeeDetails {
         return try employeeEditView.unbind()
     }
     
-    /*
+    /**
      Метод добавляет нового сотрудника в массив на сервере и возвращает на экран Список сотрудников,
      в случае ошибки происходит ее обработка
      
-     parameters:
-     newEmployee - редактируемая модель сотрудника для добавления
+     - parameters:
+        - newEmployee: редактируемая модель сотрудника для добавления
      */
     private func addingNewEmployeeOnServer(_ newEmployee: EmployeeDetails) {
         self.spinnerView.showSpinner(viewController: self)
@@ -90,11 +98,11 @@ class EmployeeEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод изменяет данные сотрудника на сервере, в случае ошибки происходит ее обработка
      
-     parameters:
-     editedEmployee - изменяемый сотрудник
+     - parameters:
+        - editedEmployee: изменяемый сотрудник
      */
     private func editingEmployeeOnServer(_ editedEmployee: Employee) {
         self.spinnerView.showSpinner(viewController: self)
@@ -110,8 +118,8 @@ class EmployeeEditViewController: UIViewController {
         }
     }
     
-    /*
-     Метод, который проверяет и сохраняет либо нового, либо отредактированного сотрудника,
+    /**
+     Метод, который получает собранные данные и сохраняет либо как нового, либо как отредактированного сотрудника,
      в случае ошибки происходит ее обработка
      */
     private func saveEmployee() throws {
@@ -127,19 +135,19 @@ class EmployeeEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
      
-     parameters:
-     error - обрабатываемая ошибка
+     - parameters:
+        - error: обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
         let employeeError = error as! BaseError
         ErrorAlert.showAlertController(message: employeeError.message, viewController: self)
     }
     
-    /*
-     Target на кнопку Save - делает валидацию и вызывает метод saveEmployee(),
+    /**
+     Target на кнопку Save - делает валидацию и вызывает метод saveEmployee,
      в случае ошибки происходит ее обработка
      */
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
@@ -150,14 +158,14 @@ class EmployeeEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Target на кнопку Cancel - возвращает на предыдущий экран
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
     
-    /*
+    /**
      Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
      */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {

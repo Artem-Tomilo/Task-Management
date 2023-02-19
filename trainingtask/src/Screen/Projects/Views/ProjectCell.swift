@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- ProjectCell - ячейка для tableView экрана Список проектов
+/**
+ Ячейка для  экрана Список проектов
  */
 class ProjectCell: UITableViewCell {
     
@@ -56,11 +56,11 @@ class ProjectCell: UITableViewCell {
         backgroundUIView.backgroundColor = .systemRed
     }
     
-    /*
+    /**
      Метод присвоения текста лейблам
      
-     parameters:
-     project - модель проекта, содержащая данные для заполнения
+     - parameters:
+        - project: модель проекта, содержащая данные для заполнения
      */
     func bind(_ project: Project) {
         nameLabel.text = project.name

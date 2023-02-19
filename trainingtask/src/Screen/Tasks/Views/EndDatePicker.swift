@@ -1,7 +1,7 @@
 import Foundation
 
-/*
- 
+/**
+ Picker для работы с датой окончания выполнения задачи
  */
 class EndDatePicker: DatePickerView {
     
@@ -17,13 +17,15 @@ class EndDatePicker: DatePickerView {
         return TimeInterval(days*24*60*60)
     }
     
-    /*
+    /**
      Метод получения даты окончания выполнения задачи
      
-     parameters:
-     startDate - начальная дата выполнения
-     days - количество дней между датами из настроек
-     Возвращаемое значение - дата окончания выполнения задачи
+     - parameters:
+        - startDate: начальная дата выполнения
+        - days: количество дней между датами из настроек
+     
+     - returns:
+     Дата окончания выполнения задачи
      */
     func getEndDateFrom(startDate: Date, with days: Int) -> Date {
         let timeInterval = initTimeInterval(days: days)
@@ -31,8 +33,12 @@ class EndDatePicker: DatePickerView {
         return endDate
     }
     
-    /*
+    /**
+     Метод получения даты окончания выполнения задачи
+     в случае ошибки происходит ее обработка
      
+     - returns:
+     Дата окончания
      */
     override func unbind() throws -> Date {
         let text = try Validator.validateTextForMissingValue(text: textField.unbind(),

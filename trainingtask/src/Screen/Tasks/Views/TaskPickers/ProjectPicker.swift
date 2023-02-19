@@ -1,7 +1,7 @@
 import Foundation
 
-/*
- 
+/**
+ Picker для работы с полем выбора проекта в TaskEditView
  */
 class ProjectPicker: PickerView {
     
@@ -15,8 +15,14 @@ class ProjectPicker: PickerView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /*
+    /**
+     Метод привязки данных и их перевода в PickerViewItem для работы с базовым Picker'ом
      
+     - parameters:
+        - data: проекты для отображения в пикере
+     
+     - returns:
+     Конвертирумый массив проектов в тип PickerViewItem
      */
     func setData(_ data: [Project]) -> [PickerViewItem] {
         projectData = data
@@ -27,8 +33,11 @@ class ProjectPicker: PickerView {
         return pickerViewData
     }
     
-    /*
+    /**
+     Метод получения выбранного проекта
      
+     - returns:
+     Выбранный проект
      */
     func unbindProject() throws -> Project {
         let value = try Validator.validateTextForMissingValue(text: textField.unbind(),

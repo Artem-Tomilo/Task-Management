@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- TaskEditView - view для отображения на экране Редактирование задачи
+/**
+ View для отображения на экране Редактирование задачи
  */
 class TaskEditView: UIView, UIGestureRecognizerDelegate {
     
@@ -11,7 +11,8 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
     private let projectPickerView = ProjectPicker(placeholder: "Проект")
     private let employeePickerView = EmployeePicker(placeholder: "Сотрудник")
     private let statusPickerView = StatusPicker(placeholder: "Статус")
-    /*
+    
+    /**
      TextField для заполнения значением с требуемым количеством часов для работы, который берется из настроек
      */
     private let requiredHoursTextField = TaskHoursTextField(placeholder: "Кол-во часов")
@@ -77,11 +78,11 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         addingAndSetupSubviews()
     }
     
-    /*
+    /**
      Метод для заполнения текущего view данными
      
-     parameters:
-     task - задача, данными которой будут заполняться текстФилды
+     - parameters:
+        - task: модель задачи, данными которой будут заполняться текстФилды
      */
     func bind(_ taskBindModel: TaskBindModel) {
         projects = taskBindModel.listProjects ?? []
@@ -90,6 +91,9 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         let employeeItems = employeePickerView.setData(employees)
         let statusItems = statusPickerView.setData()
         
+        /**
+         task - редактируемая задача, пришедшая на экран
+         */
         if let task = taskBindModel.task {
             nameTextField.bind(task.name)
             requiredHoursTextField.bind(String(task.requiredNumberOfHours))
@@ -105,6 +109,9 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
             let selectedStatus = statusItems.first(where: { $0.id == task.status.hashValue })
             statusPickerView.bind(statusItems, selectedStatus)
             
+            /**
+             project - проект, с экрана которого был осуществлен переход на экран задач
+             */
             if taskBindModel.project != nil {
                 blockProjectTextField()
             }
@@ -115,6 +122,9 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
             startDatePickerView.bind(Date())
             endDatePickerView.bind(endDate)
             
+            /**
+             project - проект, с экрана которого был осуществлен переход на экран задач
+             */
             if let project = taskBindModel.project {
                 let selectedProject = projectItems.first(where: { $0.id == project.id })
                 projectPickerView.bind(projectItems, selectedProject)
@@ -127,11 +137,12 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         }
     }
     
-    /*
-     Метод собирает значения из текстФилдов, проверяет их и собирает задачу
-     в случае ошибки происходит ее обработка
+    /**
+     Метод для проверки и получения данных из текстФилдов экрана,
+     после проверки данные собираются в модель редактируемых данных задачи и отправляются на экран Редактирование задачи
      
-     Возвращаемое значение - собранная модель задачи
+     - returns:
+     Модель редактируемых данных задачи
      */
     func unbind() throws -> TaskDetails {
         let taskName = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
@@ -151,14 +162,16 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         return taskDetails
     }
     
-    /*
+    /**
      Метод блокировки projectTextField для редактирования
+     В случае, если переход на экран редактирования задачи осуществлен из проекта,
+     то поле ввода проекта будет недоступно
      */
     private func blockProjectTextField() {
         projectPickerView.isUserInteractionEnabled = false
     }
     
-    /*
+    /**
      Target для scrollView при появлении клавиатуры
      */
     @objc func keyboardFrame(_ notification: NSNotification) {
@@ -167,7 +180,7 @@ class TaskEditView: UIView, UIGestureRecognizerDelegate {
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardSize + 80, right: 0)
     }
     
-    /*
+    /**
      Метод UIGestureRecognizerDelegate
      */
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,

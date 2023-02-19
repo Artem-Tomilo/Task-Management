@@ -1,15 +1,33 @@
 import UIKit
 
-/*
- PickerView - кастомное view для работы с UIPickerView
+/**
+ View для работы с UIPickerView
  */
 class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
     
     private let pickerView = UIPickerView()
+    
+    /**
+     textField для отображения выбранного в пикере значения
+     */
     let textField = BorderedTextField(placeholder: "")
+    
+    /**
+     Массив данных, отображаемых в пикере, конвертируемый в тип PickerViewItem
+     */
     var pickerViewData: [PickerViewItem] = []
+    
+    /**
+     Выбранное значение в пикере
+     */
     var selectedItem: PickerViewItem?
     
+    /**
+     Инициализатор пикера
+     
+     - parameters:
+        - placeholder: placeholder для textField
+     */
     init(placeholder: String) {
         super.init(frame: .zero)
         self.textField.placeholder = placeholder
@@ -56,11 +74,11 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         }
     }
     
-    /*
+    /**
      Метод присвоения данных для pickerView
      
-     parameters:
-     data - данные, необходимые для отображения pickerView
+     - parameters:
+        - data: данные, необходимые для отображения pickerView
      */
     func bind(_ data: [PickerViewItem], _ selectedItem: PickerViewItem?) {
         pickerViewData = data
@@ -70,10 +88,11 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         }
     }
     
-    /*
-     Метод получения текста textField
+    /**
+     Метод получения выбранного в пикере значения, в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - текст textField
+     - returns:
+     Выбранное значение
      */
     func unbind() throws -> PickerViewItem {
         guard let selectedItem else {
@@ -82,7 +101,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         return selectedItem
     }
     
-    /*
+    /**
      Target на кнопку Done - вызывает привязку данных для textField
      */
     @objc func doneButtonTapped(_ sender: UIBarButtonItem) {
@@ -90,7 +109,7 @@ class PickerView: UIView, UITextFieldDelegate, UIPickerViewDelegate, UIPickerVie
         pickerView.selectRow(0, inComponent: 0, animated: true)
     }
     
-    /*
+    /**
      Target на кнопку Cancel - вызывает сброс введенных данных
      */
     @objc func cancelTapped(_ sender: UIBarButtonItem) {

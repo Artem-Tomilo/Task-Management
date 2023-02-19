@@ -1,8 +1,27 @@
 import UIKit
 
-/*
- EmployeeMenu - перечисления параметров сотрудника для отображения в tableView
+/**
+ Перечисления параметров сотрудника
  */
 enum EmployeeMenu: String, CaseIterable {
-    case surname, name, patronymic, position
+    
+    /**
+     Фамилия
+     */
+    case surname
+    
+    /**
+     Имя
+     */
+    case name
+    
+    /**
+     Отчество
+     */
+    case patronymic
+    
+    /**
+     Должность
+     */
+    case position
 }

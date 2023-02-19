@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- BorderedTextField - кастомный TextField
+/**
+ TextField с предустановленными значениями для использования на разных экранах
  */
 class BorderedTextField: UITextField {
     
@@ -21,20 +21,21 @@ class BorderedTextField: UITextField {
         super.init(coder: aDecoder)
     }
     
-    /*
+    /**
      Метод присвоения текста
      
-     parameters:
-     text - текст для textField
+     - parameters:
+        - text: текст для textField
      */
     func bind(_ text: String) {
         self.text = text
     }
     
-    /*
-     Метод получения текста textField
+    /**
+     Метод получения текста textField, в случает отсутствия текста будет возвращена пустая строка
      
-     Возвращаемое значение - текст textField
+     - returns:
+     Текст textField
      */
     func unbind() -> String {
         if let text {

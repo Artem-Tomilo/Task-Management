@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- TaskCell - ячейка для tableView экрана Список задач
+/**
+ Ячейка для экрана Список задач
  */
 class TaskCell: UITableViewCell {
     
@@ -58,11 +58,11 @@ class TaskCell: UITableViewCell {
         projectLabel.alpha = 0.7
     }
     
-    /*
+    /**
      Метод присвоения значений для всех полей
      
-     parameters:
-     taskCellItem - модель данных для заполнения полей ячейки
+     - parameters:
+        - taskCellItem: модель данных для заполнения полей ячейки
      */
     func bind(_ taskCellItem: TaskCellItem) {
         nameLabel.text = taskCellItem.name
@@ -83,7 +83,7 @@ class TaskCell: UITableViewCell {
         taskLogoImage.image = logoImage
     }
     
-    /*
+    /**
      Метод скрытия projectLabel, если переход на экран Список задач был осуществлен из проекта
      */
     func hideProjectLabel() {

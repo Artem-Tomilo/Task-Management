@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- SplashViewController является начальным экраном, держится 5 секунд и осуществляет переход на экран Главное меню
+/**
+ Начальный экран, который держится 5 секунд и осуществляет переход на экран Главное меню
  */
 class SplashViewController: UIViewController {
     
@@ -10,6 +10,13 @@ class SplashViewController: UIViewController {
     private let settingsManager: SettingsManager
     private let server: Server
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - settingsManager: экремпляр менеджера настроек для передачи на следующий экран
+        - server: экземпляр сервера для передачи на следующий экран
+     */
     init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
         self.server = server

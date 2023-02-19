@@ -1,17 +1,22 @@
 import Foundation
 
-/*
- SettingsStorage - сервис для получения и сохранения настроек пользователя
+/**
+ Сервис для получения и сохранения настроек пользователя
  */
 class SettingsStorage {
     
     private let userDefaults = UserDefaults.standard
-    static let settingsKey = "settings" // константа, в которой хранится ключ для UserDefauls, отвечающий за настройки
     
-    /*
-     Метод, для получения пользовательских настроек
+    /**
+     Значение, в котором хранится ключ для UserDefauls, отвечающий за настройки
+     */
+    private static let settingsKey = "settings"
+    
+    /**
+     Метод  для получения пользовательских настроек, в случае возникновения ошибок будет производиться их обработка
      
-     Возращает значение типа Settings? с сохраненными пользовательскими настройками, в случае возникновения ошибок будет производиться их обработка
+     - returns:
+        Сохраненные настройки пользователя
      */
     func getUserSettings() throws -> Settings {
         guard let data = userDefaults.object(forKey: SettingsStorage.settingsKey) as? Data else {
@@ -21,11 +26,11 @@ class SettingsStorage {
         return settings
     }
     
-    /*
-     Метод для сохранения пользовательских настроек в UserDefaults
+    /**
+     Метод для сохранения пользовательских настроек в UserDefaults, в случае возникновения ошибок будет производиться их обработка
      
-     parameter:
-     settings - объект типа Settings
+     - parameters:
+        - settings: настройки для сохранения
      */
     func saveUserSettings(settings: Settings) throws {
         guard let data = try? JSONEncoder().encode(settings) else {

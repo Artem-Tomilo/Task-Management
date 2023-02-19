@@ -1,7 +1,7 @@
 import Foundation
 
-/*
- 
+/**
+ Picker для работы с полем выбора статус в TaskEditView
  */
 class StatusPicker: PickerView {
     
@@ -15,12 +15,14 @@ class StatusPicker: PickerView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /*
+    /**
      Метод получения статуса в строковом варианте
      
-     parameters:
-     status - статус задачи
-     Возвращаемое значение - строковый вариант статуса
+     - parameters:
+        - status: статус задачи
+     
+     - returns:
+     Строковый вариант статуса
      */
     private func getStatusTitleFrom(_ status: TaskStatus) -> String {
         switch status {
@@ -35,12 +37,14 @@ class StatusPicker: PickerView {
         }
     }
     
-    /*
+    /**
      Метод получения статуса из строки
      
-     parameters:
-     title - проверяемая строка
-     Возвращаемое значение - статус
+     - parameters:
+        - title: проверяемая строка
+     
+     - returns:
+     Статус
      */
     private func getStatusFrom(_ title: String) -> TaskStatus? {
         switch title {
@@ -57,8 +61,11 @@ class StatusPicker: PickerView {
         }
     }
     
-    /*
+    /**
+     Метод перевода данных в PickerViewItem для работы с базовым Picker'ом
      
+     - returns:
+     Конвертирумый статусы задачи в тип PickerViewItem
      */
     func setData() -> [PickerViewItem] {
         for i in statusData {
@@ -68,11 +75,12 @@ class StatusPicker: PickerView {
         return pickerViewData
     }
     
-    /*
-     Метод получения текста statusTextField, его проверки и форматирования в тип TaskStatus,
+    /**
+     Метод получения значения текущего поля, его проверки и форматирования в тип TaskStatus,
      в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - статус
+     - returns:
+     Cтатус
      */
     func unbindStatus() throws -> TaskStatus {
         let value = try Validator.validateTextForMissingValue(text: textField.unbind(),

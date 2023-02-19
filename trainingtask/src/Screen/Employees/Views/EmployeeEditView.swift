@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- EmployeeEditView - view для отображения на экране Редактирование сотрудника
+/**
+ View для отображения на экране Редактирование сотрудника
  */
 class EmployeeEditView: UIView, UITextFieldDelegate {
     
@@ -51,11 +51,11 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         positionTextField.delegate = self
     }
     
-    /*
+    /**
      Метод для заполнения текущего view данными
      
-     parametrs:
-     employeeDetails - значения редактируемого сотрудника, собранные в виде модели редактируемых данных
+     - parameters:
+        - employeeDetails: значения сотрудника, собранные в виде модели редактируемых данных, которыми будут заполнены поля
      */
     func bind(_ employeeDetails: EmployeeDetails) {
         surnameTextField.bind(employeeDetails.surname)
@@ -64,11 +64,12 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         positionTextField.bind(employeeDetails.position)
     }
     
-    /*
-     Метод для проверки и получения данных из текстФилдов экрана,
-     после проверки данные собираются в модель редактируемых данных сотрудника и отправляются на экран Список сотрудников
+    /**
+     Метод для получения и проверки  данных из текстФилдов экрана,
+     после проверки данные собираются в модель редактируемых данных сотрудника и отправляются на экран Редактирование сотрудника
      
-     Возвращаемое значение - модель редактируемых данных сотрудника
+     - returns:
+     Модель редактируемых данных сотрудника
      */
     func unbind() throws -> EmployeeDetails {
         let surname = try Validator.validateTextForMissingValue(text: surnameTextField.unbind(),
@@ -86,7 +87,7 @@ class EmployeeEditView: UIView, UITextFieldDelegate {
         return employeeDetails
     }
     
-    /*
+    /**
      Target для кнопки done на клавиатуре - переходит на следующий textField, если он последний в списке, то прячет клавиатуру
      */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

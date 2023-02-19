@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- MainMenuViewController - экран Главное меню, отображает tableView с возможными вариантами перехода на другие экраны
+/**
+ Экран Главное меню, отображает tableView с возможными вариантами перехода на другие экраны
  */
 class MainMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -10,6 +10,13 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
     private let settingsManager: SettingsManager
     private let server: Server
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - settingsManager: экремпляр менеджера настроек для передачи на следующий экран
+        - server: экземпляр сервера для передачи на следующий экран
+     */
     init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
         self.server = server
@@ -47,12 +54,14 @@ class MainMenuViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.backgroundColor = .systemRed
     }
     
-    /*
+    /**
      Метод получения списка меню в строковом варианте
      
-     parameters:
-     list - список элементов меню
-     Возвращаемое значение - строковый вариант списка
+     - parameters:
+        - list: список элементов меню
+     
+     - returns:
+        Cтроковый вариант списка
      */
     private func getMenuListTitleFrom(_ list: MainMenuList) -> String {
         switch list {

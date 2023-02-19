@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- ProjectsListViewController - экран Список проектов, отображает tableView со всеми проектами, хранящимися на сервере
+/**
+ Экран Список проектов, отображает tableView со всеми проектами, хранящимися на сервере
  */
 class ProjectsListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -14,6 +14,13 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
     private let server: Server
     private let settingsManager: SettingsManager
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - settingsManager: экземпляр менеджера настроек
+        - server: экземпляр сервера
+     */
     init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
         self.server = server
@@ -63,15 +70,20 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
-    /*
+    /**
      Метод получения значения максимального количества записей из настроек приложения
+     
+     - returns:
+        Максимальное количество записей из настроек
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         return settingsManager.getSettings().maxRecords
     }
     
-    /*
-     Метод загрузки данных - происходит запуск спиннера и вызов метода сервера:
+    /**
+     Метод загрузки данных с сервера
+     
+     Происходит запуск спиннера и вызов метода сервера получения проектов:
      в completion блоке вызывается метод привязки данных согласно количеству записей из настроек и скрытие спиннера,
      в случае ошибки происходит ее обработка
      */
@@ -94,11 +106,11 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    /*
+    /**
      Метод привязки данных - приходящие данные с сервера сохраняются в массив и происходит обновление таблицы
      
-     parameters:
-     projects - приходящий массив данных с сервера
+     - parameters:
+        - projects:  приходящий массив данных с сервера
      */
     private func bind(_ projects: [Project]) {
         projectsArray = projects
@@ -127,7 +139,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         tableView.deselectRow(at: indexPath, animated: true)
     }
     
-    /*
+    /**
      Удаление и редактирование проекта происходит после свайпа влево, в случае ошибки происходит ее обработка
      */
     func tableView(_ tableView: UITableView,
@@ -157,12 +169,14 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         ])
     }
     
-    /*
-     Метод получения текущего проекта, в случае ошибки происходит ее обработка
+    /**
+     Метод получения проекта по indexPath в tableView, в случае ошибки происходит ее обработка
      
-     parameters:
-     indexPath проекта
-     Возвращаемое значение - проект
+     - parameters:
+        - indexPath: indexPath проекта
+     
+     - returns:
+     Проект
      */
     private func getProject(_ indexPath: IndexPath) throws -> Project {
         if projectsArray.count > indexPath.row {
@@ -173,22 +187,22 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    /*
+    /**
      Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
      
-     parameters:
-     error - обрабатываемая ошибка
+     - parameters:
+        - error: обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
         let projectError = error as! BaseError
         ErrorAlert.showAlertController(message: projectError.message, viewController: self)
     }
     
-    /*
+    /**
      Метод вызова алерта для редактирования проекта и перехода на экран Редактирование проекта
      
-     parameters:
-     project - передаваемый проект для редактирования
+     - parameters:
+        - project: передаваемый проект для редактирования
      */
     private func showEditProjectAlert(_ project: Project) {
         let alert = UIAlertController(title: "Хотите изменить этот проект?", message: "", preferredStyle: .actionSheet)
@@ -202,11 +216,11 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         self.present(alert, animated: true)
     }
     
-    /*
-     Метод вызова алерта для удаления проекта и последующего вызова метода удаления проекта
+    /**
+     Метод вызова алерта удаления проекта и последующего вызова метода удаления проекта
      
-     parameters:
-     project - передаваемый проект для удаления
+     - parameters:
+        - project: передаваемый проект для удаления
      */
     private func showDeleteProjectAlert(_ project: Project) {
         let alert = UIAlertController(title: "Хотите удалить этот проект?", message: "", preferredStyle: .actionSheet)
@@ -220,12 +234,12 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         self.present(alert, animated: true)
     }
     
-    /*
-     Метод удаления проекта - вызывает метод делагата для удаления проекта с сервера,
+    /**
+     Метод удаления проекта - вызывает метод удаления проекта с сервера,
      после обновляет данные на главном потоке, в случае ошибки происходит ее обработка
      
-     parameters:
-     project - проект для удаления
+     - parameters:
+        - project: проект для удаления
      */
     private func deleteProject(project: Project) {
         server.deleteProject(id: project.id) { result in
@@ -238,11 +252,11 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    /*
+    /**
      Метод перехода на экран Редактирование проекта
      
-     parameters:
-     project - передаваемый проект для редактирования, если значение = nil, то будет создание нового проекта
+     - parameters:
+        - project: передаваемый проект для редактирования, если значение = nil, то будет создание нового проекта
      */
     private func showEditProjectViewController(_ project: Project?) {
         if let project {
@@ -254,18 +268,18 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    /*
+    /**
      Метод перехода на экран Список задач, будут отображаться только те задачи, которые принадлежат данному проекту
      
-     parameters:
-     project - передаваемый проект для отображения его задач
+     - parameters:
+        - project: передаваемый проект для отображения его задач
      */
     private func showTaskViewController(_ project: Project) {
         let viewController = TasksListViewController(settingsManager: settingsManager, server: server, project: project)
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
-    /*
+    /**
      Target на кнопку добавления нового проекта:
      переходит на экран Редактирование проекта
      */
@@ -273,7 +287,7 @@ class ProjectsListViewController: UIViewController, UITableViewDelegate, UITable
         showEditProjectViewController(nil)
     }
     
-    /*
+    /**
      Target на обновление таблицы через UIRefreshControl
      */
     @objc func refresh(_ sender: UIRefreshControl) {

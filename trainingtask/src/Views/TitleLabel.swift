@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- BorderedLabel - кастомный label
+/**
+Label с предустановленными значениями для использования на разных экранах
  */
 class TitleLabel: UILabel {
     
@@ -20,11 +20,11 @@ class TitleLabel: UILabel {
         super.init(coder: aDecoder)
     }
     
-    /*
+    /**
      Метод присвоения текста
      
-     parameters:
-     text - текст для label
+     - parameters:
+        - text: текст для label
      */
     func bind(_ text: String) {
         self.text = text

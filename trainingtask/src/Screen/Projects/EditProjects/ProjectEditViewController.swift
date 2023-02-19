@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- ProjectEditViewController - экран Редактирование проекта, отображает необходимые поля для введения нового, либо редактирования существующего проекта
+/**
+ Экран Редактирование проекта, отображает необходимые поля для введения нового, либо редактирования существующего проекта
  */
 class ProjectEditViewController: UIViewController {
     
@@ -11,6 +11,13 @@ class ProjectEditViewController: UIViewController {
     private let server: Server
     private var possibleProjectToEdit: Project?
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - server: экземпляр сервера
+        - possibleProjectToEdit: проект для редактирования, если значение = nil, то происходит создание нового проекта
+     */
     init(server: Server, possibleProjectToEdit: Project?) {
         self.server = server
         self.possibleProjectToEdit = possibleProjectToEdit
@@ -39,7 +46,8 @@ class ProjectEditViewController: UIViewController {
         
         if let possibleProjectToEdit {
             title = "Редактирование проекта"
-            projectEditView.bind(possibleProjectToEdit)
+            projectEditView.bind(ProjectDetails(name: possibleProjectToEdit.name,
+                                                description: possibleProjectToEdit.description))
         } else {
             title = "Добавление проекта"
         }
@@ -56,21 +64,22 @@ class ProjectEditViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     
-    /*
-     Метод получает данные из текстФилдов экрана в виде редактируемой модели, делает валидацию и передает ее дальше
+    /**
+     Метод получает данные из текстФилдов экрана в виде модели проекта и передает ее дальше
      
-     Возвращаемое значение - редактируемая модель проекта
+     - returns:
+     Модель проекта
      */
     private func unbind() throws -> ProjectDetails {
         return try projectEditView.unbind()
     }
     
-    /*
+    /**
      Метод добавляет новый проект в массив на сервере и возвращает на экран Список проектов,
      в случае ошибки происходит ее обработка
      
-     parameters:
-     newProject - редактируемая модель проекта для добавления
+     - parameters:
+        - newProject: редактируемая модель проекта для добавления
      */
     private func addingNewProjectOnServer(_ newProject: ProjectDetails) {
         self.spinnerView.showSpinner(viewController: self)
@@ -86,11 +95,11 @@ class ProjectEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод изменяет данные проекта на сервере, в случае ошибки происходит ее обработка
      
-     parameters:
-     editedProject - изменяемый проект
+     - parameters:
+        - editedProject: изменяемый проект
      */
     private func editingProjectOnServer(_ editedProject: Project) {
         self.spinnerView.showSpinner(viewController: self)
@@ -106,8 +115,9 @@ class ProjectEditViewController: UIViewController {
         }
     }
     
-    /*
-     Метод, который проверяет и сохраняет либо новый, либо отредактированный проект, в случае ошибки происходит ее обработка
+    /**
+     Метод, который получает собранные данные и сохраняет либо как новый, либо как отредактированный проект,
+     в случае ошибки происходит ее обработка
      */
     private func saveProject() throws {
         let bindedProject = try unbind()
@@ -121,19 +131,19 @@ class ProjectEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
      
-     parameters:
-     error - обрабатываемая ошибка
+     - parameters:
+        - error: обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
         let projectError = error as! BaseError
         ErrorAlert.showAlertController(message: projectError.message, viewController: self)
     }
     
-    /*
-     Target на кнопку Save - делает валидацию и вызывает метод saveEmployee(),
+    /**
+     Target на кнопку Save - делает валидацию и вызывает метод saveProject,
      в случае ошибки происходит ее обработка
      */
     @objc func saveProjectButtonTapped(_ sender: UIBarButtonItem) {
@@ -144,14 +154,14 @@ class ProjectEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Target на кнопку Cancel - возвращает на предыдущий экран
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
     
-    /*
+    /**
      Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
      */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {

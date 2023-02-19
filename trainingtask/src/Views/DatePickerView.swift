@@ -1,11 +1,18 @@
 import UIKit
 
-/*
- DatePickerView - view для выбора даты
+/**
+ View для выбора даты
  */
 class DatePickerView: UIView, UITextFieldDelegate {
     
+    /**
+     textField для отображения или ввода даты
+     */
     let textField = BorderedTextField(placeholder: "yyyy-MM-dd")
+    
+    /**
+     DateFormatter для перевод даты в строку и обратно
+     */
     let dateFormatter = DateFormatter()
     private let datePicker = UIDatePicker()
     private let toolbar = UIToolbar()
@@ -53,22 +60,23 @@ class DatePickerView: UIView, UITextFieldDelegate {
         dateFormatter.dateFormat = "yyyy-MM-dd"
     }
     
-    /*
+    /**
      Метод присвоения текста для textField
      
-     parameters:
-     date - дата для отображения в textField
+     - parameters:
+        - date: дата для отображения в textField
      */
     func bind(_ date: Date) {
         let stringDate = dateFormatter.string(from: date)
         textField.bind(stringDate)
     }
     
-    /*
+    /**
      Метод получения текста textField, его проверки и форматирования в формат даты,
      в случае ошибки происходит ее обработка
      
-     Возвращаемое значение - начальная дата
+     - returns:
+     Начальная дата
      */
     func unbind() throws -> Date {
         let text = try Validator.validateTextForMissingValue(text: textField.unbind(),
@@ -80,7 +88,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
         }
     }
     
-    /*
+    /**
      Метод получения данных из DatePicker и прявязки их в textField
      */
     private func getDataFromPicker() {
@@ -90,7 +98,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
         }
     }
     
-    /*
+    /**
      Метод отображения datePicker
      */
     private func showDatePicker() {
@@ -101,7 +109,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
         keyboardButton.title = "Keyboard"
     }
     
-    /*
+    /**
      Метод отображения клавиатуры
      */
     private func showKeyboard() {
@@ -110,7 +118,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
         keyboardButton.title = "Сalendar"
     }
     
-    /*
+    /**
      Метод смены клавиатуры на календарь и обратно для ввода даты
      */
     private func changeInputView() {
@@ -123,7 +131,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
         textField.becomeFirstResponder()
     }
     
-    /*
+    /**
      Target на кнопку Done - вызывает привязку данных для textField
      */
     @objc func doneButtonPressed(_ sender: UIBarButtonItem) {
@@ -131,18 +139,18 @@ class DatePickerView: UIView, UITextFieldDelegate {
         textField.endEditing(false)
     }
     
-    /*
+    /**
      Target на кнопку Keyboard - вызывает смену вводимого поля
      */
     @objc func keyboardButtonPressed(_ sender: UIBarButtonItem) {
         changeInputView()
     }
     
-    /*
+    /**
      Метод для создания маски при вводе даты с клавиатуры
      
-     parameters:
-     date - текст textField
+     - parameters:
+        - date: текст textField
      */
     private func formatDate(date: String) -> String {
         let cleanDate = date.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
@@ -161,7 +169,7 @@ class DatePickerView: UIView, UITextFieldDelegate {
         return result
     }
     
-    /*
+    /**
      Метод UITextFieldDelegate для проверки вводимых даннх
      */
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange,

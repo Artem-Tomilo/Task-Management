@@ -1,8 +1,27 @@
 import UIKit
 
-/*
- TaskStatus - перечисление возможных статусов для задачи
+/**
+ Перечисление возможных статусов для задачи
  */
 enum TaskStatus: String, CaseIterable {
-    case notStarted, inProgress, completed, postponed
+    
+    /**
+     Не начата
+     */
+    case notStarted
+    
+    /**
+     В процессе
+     */
+    case inProgress
+    
+    /**
+     Завершена
+     */
+    case completed
+    
+    /**
+     Отложена
+     */
+    case postponed
 }

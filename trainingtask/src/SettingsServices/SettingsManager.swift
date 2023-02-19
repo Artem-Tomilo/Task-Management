@@ -1,6 +1,6 @@
 import Foundation
 
-/*
+/**
  Сервис для управления загрузками и сохранениями настроек
  */
 class SettingsManager {
@@ -12,11 +12,13 @@ class SettingsManager {
     
     public init() throws {
         self.settings = try Self.loadSettings()
-        try self.saveUserSettings(settings: settings)
     }
     
-    /*
-     Метод проверки и загрузки настроек приложения
+    /**
+     Метод проверки и загрузки настроек приложения, в случае возникновения ошибок происходит их обработка
+     
+     - returns:
+        Настройки, который будут загружены
      */
     private static func loadSettings() throws -> Settings {
         do {
@@ -29,16 +31,21 @@ class SettingsManager {
         }
     }
     
-    /*
-     Метод получения сохранных настроек из settingsStorage,
-     в случае ошибки происходит ее обработка
+    /**
+     Метод получения сохранных настроек
+     
+     - returns:
+        Сохраненные настройки
      */
     func getSettings() -> Settings {
         return settings
     }
     
-    /*
-     Метод сохранения пользовательских настроек
+    /**
+     Метод сохранения пользовательских настроек, в случае ошибки происходит ее обработка
+     
+     - parameters:
+        - settings: настройки, которые необходимо сохранить
      */
     func saveUserSettings(settings: Settings) throws {
         try Self.settingsStorage.saveUserSettings(settings: settings)

@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- SettingsViewController - экран Настройки, который отображает либо дефолтные, либо пользовательские настройки
+/**
+ Экран Настройки, который отображает либо дефолтные, либо пользовательские настройки
  */
 class SettingsViewController: UIViewController {
     
@@ -9,6 +9,12 @@ class SettingsViewController: UIViewController {
     
     private let settingsManager: SettingsManager
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - settingsManager: экземпляр менеджера настроек
+     */
     init(settingsManager: SettingsManager) {
         self.settingsManager = settingsManager
         super.init(nibName: nil, bundle: nil)
@@ -53,24 +59,29 @@ class SettingsViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     
-    /*
-     Метод для отображения настроек в соответствующих полях, в случае обнаружения ошибок будет производиться их обработка
+    /**
+     Метод для отображения настроек в соответствующих полях,
+     
+     - parameters:
+        - settings: настройки для отображения
      */
     private func bind(_ settings: Settings) {
         settingsView.bind(settings)
     }
     
-    /*
+    /**
      Метод получает данные из текстФилдов экрана и собирает модель настроек
+     в случае ошибки будет производиться ее обработка
      
-     Возвращаемое значение - настройки
+     - returns:
+     Настройки
      */
     private func unbind() throws -> Settings {
         let settings = try settingsView.unbind()
         return settings
     }
     
-    /*
+    /**
      Метод сохранения пользовательских настроек, в случае обнаружения ошибок будет производиться их обработка
      */
     private func saveSettings() {
@@ -82,18 +93,18 @@ class SettingsViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
      
-     parameters:
-     error - обрабатываемая ошибка
+     - parameters:
+        - error: обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
         let settingsError = error as! BaseError
         ErrorAlert.showAlertController(message: settingsError.message, viewController: self)
     }
     
-    /*
+    /**
      Target на кнопку Save - вызывает метод сохранения пользовательских настроек и возвращает на экран Главное меню
      */
     @objc func saveSettings(_ sender: UIBarButtonItem) {
@@ -101,14 +112,14 @@ class SettingsViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    /*
+    /**
      Target на кнопку Cancel - возвращает на экран Главное меню
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
     
-    /*
+    /**
      Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
      */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {

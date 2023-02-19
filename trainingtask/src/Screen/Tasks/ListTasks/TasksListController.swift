@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- TasksListViewController - экран Список задач, отображает tableView со всеми задачами, хранящимися на сервере
+/**
+ Экран Список задач, отображает tableView со всеми задачами, хранящимися на сервере
  */
 class TasksListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -11,14 +11,23 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
     private static let taskCellIdentifier = "TaskCell"
     private var tasksArray: [Task] = []
     
-    /*
-     Если свойство имеет значение, то будут отображаться задачи, принадлежащие этому проекту,
+    /**
+     Свойство, хранящее значение проекта, с которого был осуществлен переход на экран
+     Если имеет значение, то будут отображаться задачи, принадлежащие этому проекту,
      если свойство равно nil, будут отображаться все задачи
      */
     private var project: Project?
     private let server: Server
     private let settingsManager: SettingsManager
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - settingsManager: экземпляр менеджера настроек
+        - server: экземпляр сервера
+        - project: проект, с которого был осуществлен переход на экран
+     */
     init(settingsManager: SettingsManager, server: Server, project: Project?) {
         self.settingsManager = settingsManager
         self.server = server
@@ -69,15 +78,20 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
-    /*
+    /**
      Метод получения значения максимального количества записей из настроек приложения
+     
+     - returns:
+        Максимальное количество записей из настроек
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         return settingsManager.getSettings().maxRecords
     }
     
-    /*
-     Метод загрузки данных - происходит запуск спиннера и проверка проекта на значение,
+    /**
+     Метод загрузки данных c сервера
+     
+     Происходит запуск спиннера и проверка проекта на значение,
      если значение есть - вызов метода сервера на получение задач для этого проекта,
      если значения нет, вызов метода для получения всех задач,
      в completion блоке вызывается метод привязки данных согласно количеству записей из настроек и скрытие спиннера,
@@ -112,23 +126,23 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /*
+    /**
      Метод привязки данных - приходящие данные с сервера сохраняются в массив и происходит обновление таблицы
      
-     parameters:
-     tasks - приходящий массив данных с сервера
+     - parameters:
+        - tasks: приходящий массив данных с сервера
      */
     private func bind(_ tasks: [Task]) {
         tasksArray = tasks
         self.tableView.reloadData()
     }
     
-    /*
+    /**
      Метод проверки значения максимального количества записей из настроек,
      если значение не равно 0, происходит запись данных согласно значению, если равно 0 - запись всех задач
      
-     parameters:
-     tasks - приходящий массив данных с сервера
+     - parameters:
+        - tasks: приходящий массив данных с сервера
      */
     private func bindTasksAccordingRecordsCounts(_ tasks: [Task]) {
         if self.getMaxRecordsCountFromSettings() != 0 {
@@ -158,7 +172,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         return cell
     }
     
-    /*
+    /**
      Удаление и редактирование задачи происходит после свайпа влево, в случае ошибки происходит ее обработка
      */
     func tableView(_ tableView: UITableView,
@@ -188,12 +202,14 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         ])
     }
     
-    /*
-     Метод получения текущей задачи, в случае ошибки происходит ее обработка
+    /**
+     Метод получения задачи по indexPath в tableView, в случае ошибки происходит ее обработка
      
-     parameters:
-     indexPath задачи
-     Возвращаемое значение - задача
+     - parameters:
+        - indexPath: indexPath проекта
+     
+     - returns:
+     Задача
      */
     private func getTask(_ indexPath: IndexPath) throws -> Task {
         if tasksArray.count > indexPath.row {
@@ -204,22 +220,22 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /*
+    /**
      Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
      
-     parameters:
-     error - обрабатываемая ошибка
+     - parameters:
+        - error: обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
         let taskError = error as! BaseError
         ErrorAlert.showAlertController(message: taskError.message, viewController: self)
     }
     
-    /*
+    /**
      Метод вызова алерта для редактирования задачи и перехода на экран Редактирование задачи
      
-     parameters:
-     task - передаваемая задача для редактирования
+     - parameters:
+        - task: передаваемая задача для редактирования
      */
     private func showEditTaskAlert(_ task: Task) {
         let alert = UIAlertController(title: "Хотите изменить эту задачу?", message: "", preferredStyle: .actionSheet)
@@ -233,11 +249,11 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true)
     }
     
-    /*
-     Метод вызова алерта для удаления задачи и последующего вызова метода удаления задачи
+    /**
+     Метод вызова алерта удаления задачи и последующего вызова метода удаления задачи
      
-     parameters:
-     task - передаваемый задача для удаления
+     - parameters:
+        - task: передаваемый задача для удаления
      */
     private func showDeleteTaskAlert(_ task: Task) {
         let alert = UIAlertController(title: "Хотите удалить эту задачу?", message: "", preferredStyle: .actionSheet)
@@ -251,12 +267,12 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true)
     }
     
-    /*
-     Метод удаления задачи - вызывает метод делагата для удаления задачи с сервера,
+    /**
+     Метод удаления задачи - вызывает метод удаления задачи с сервера,
      после обновляет данные на главном потоке, в случае ошибки происходит ее обработка
      
-     parameters:
-     task - задача для удаления
+     - parameters:
+        - task: задача для удаления
      */
     private func deleteTask(task: Task) {
         server.deleteTask(id: task.id) { result in
@@ -269,11 +285,11 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /*
+    /**
      Метод перехода на экран Редактирование задачи
      
-     parameters:
-     task - передаваемая задача для редактирования, если значение = nil, то будет создание новой задачи
+     - parameters:
+        - task: передаваемая задача для редактирования, если значение = nil, то будет создание новой задачи
      */
     private func showEditTaskViewController(_ task: Task?) {
         var project: Project?
@@ -290,7 +306,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.navigationController?.pushViewController(viewController, animated: true)
     }
     
-    /*
+    /**
      Target на кнопку добавления новой задачи:
      переходит на экран Редактирование задачи
      */
@@ -298,7 +314,7 @@ class TasksListViewController: UIViewController, UITableViewDelegate, UITableVie
         showEditTaskViewController(nil)
     }
     
-    /*
+    /**
      Target на обновление таблицы через UIRefreshControl
      */
     @objc func refresh(_ sender: UIRefreshControl) {

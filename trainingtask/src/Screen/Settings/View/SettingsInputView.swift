@@ -1,6 +1,6 @@
 import UIKit
 
-/*
+/**
  View для отображения и заполнения данных на экране настройки,
  предполагается для работы со строковыми значениями
  */
@@ -9,6 +9,13 @@ class SettingsInputView: UIView, UITextFieldDelegate {
     private let label = TitleLabel()
     private let textField: BorderedTextField
     
+    /**
+     Инициализация текущей view
+     
+     - parameters:
+        - textField: отображаемый текстФилд
+        - labelText: текст для отображения в лейбле
+     */
     init(textField: BorderedTextField, labelText: String) {
         self.textField = textField
         self.label.bind(labelText)
@@ -42,24 +49,27 @@ class SettingsInputView: UIView, UITextFieldDelegate {
         label.backgroundColor = .systemRed
     }
     
-    /*
+    /**
      Метод для заполнения textField данными
      
-     parametrs:
-     text - данные для заполнения textField
+     - parameters:
+        - text: данные для заполнения textField
      */
     func bind(_ text: String) {
         textField.bind(text)
     }
     
-    /*
+    /**
      Метод возвращает текст textField
+     
+     - returns:
+     Текст textField
      */
     func unbind() -> String {
         return textField.unbind()
     }
     
-    /*
+    /**
      Метод вызывается в том случае, если надо установить textField делегатом UITextFieldDelegate
      */
     func setTextFieldDelegate() {

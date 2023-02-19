@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- MenuCustomCell - кастомная ячейка для tableView экрана Главное меню
+/**
+ Ячейка для экрана Главное меню
  */
 class MenuCustomCell: UITableViewCell {
     
@@ -44,11 +44,11 @@ class MenuCustomCell: UITableViewCell {
         titleLabel.textColor = highlighted ? .black : .white
     }
     
-    /*
+    /**
      Метод присвоения текста лейблу
      
-     parameters:
-     text - текст для label
+     - parameters:
+        - text: текст для label
      */
     func bind(_ text: String) {
         titleLabel.text = text

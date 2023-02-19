@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- ProjectEditView - view для отображения на экране Редактирование проекта
+/**
+ View для отображения на экране Редактирование проекта
  */
 class ProjectEditView: UIView, UITextFieldDelegate {
     
@@ -37,22 +37,23 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         descriptionTextField.delegate = self
     }
     
-    /*
+    /**
      Метод для заполнения текущего view данными
      
-     parametrs:
-     project - проект, данными которого будут заполняться поля
+     - parameters:
+        - project: значения проекта, собранные в виде модели редактируемых данных, которыми будет заполняться view
      */
-    func bind(_ project: Project) {
-        nameTextField.bind(project.name)
-        descriptionTextField.bind(project.description)
+    func bind(_ projectDetails: ProjectDetails) {
+        nameTextField.bind(projectDetails.name)
+        descriptionTextField.bind(projectDetails.description)
     }
     
-    /*
+    /**
      Метод для проверки и получения данных из текстФилдов экрана,
-     после проверки данные собираются в модель данных проекта и отправляются на экран Список проектов
+     после проверки данные собираются в модель редактируемых данных проекта и отправляются на экран Редактирование проекта
      
-     Возвращаемое значение - модель редактируемых данных проекта
+     - returns:
+     Модель редактируемых данных проекта
      */
     func unbind() throws -> ProjectDetails {
         let title = try Validator.validateTextForMissingValue(text: nameTextField.unbind(),
@@ -63,7 +64,7 @@ class ProjectEditView: UIView, UITextFieldDelegate {
         return projectdetails
     }
     
-    /*
+    /**
      Target для кнопки done на клавиатуре - переходит на следующий textField, если он последний в списке, то прячет клавиатуру
      */
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

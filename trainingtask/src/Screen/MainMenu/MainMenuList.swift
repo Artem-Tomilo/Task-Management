@@ -1,8 +1,27 @@
 import UIKit
 
-/*
- MainMenuList - перечисление названий экранов, на которые можно перейти из Главного меню
+/**
+ Перечисление названий экранов, на которые можно перейти из Главного меню
  */
 enum MainMenuList: String, CaseIterable {
-    case projects, tasks, employees, settings
+    
+    /**
+     Проекты
+     */
+    case projects
+    
+    /**
+     Задачи
+     */
+    case tasks
+    
+    /**
+     Сотрудники
+     */
+    case employees
+    
+    /**
+     Настройки
+     */
+    case settings
 }

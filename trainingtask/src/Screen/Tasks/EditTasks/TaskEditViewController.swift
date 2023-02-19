@@ -1,21 +1,41 @@
 import UIKit
 
-/*
- TaskEditViewController - экран Редактирование задачи,
- отображает необходимые поля для введения новой, либо редактирования существующей задачи
+/**
+ Экран Редактирование задачи, отображает необходимые поля для введения новой, либо редактирования существующей задачи
  */
 class TaskEditViewController: UIViewController {
     
     private let taskEditView = TaskEditView()
     private let spinnerView = SpinnerView()
+    
+    /**
+     Модель, в которую будут записываться данные для TaskEditView
+     */
     private var taskBindModel = TaskBindModel()
     
-    private var possibleTaskToEdit: Task? // свойство, в которое будет записываться передаваемая задача для редактирования
-    private var project: Project? // если свойство имеет значение, то текстФилд с проектом будет недоступен для редактирования
+    /**
+     Свойство, в которое будет записываться передаваемая задача для редактирования
+     */
+    private var possibleTaskToEdit: Task?
+    
+    /**
+     Свойство, в котором хранится проект, с которого был осуществлен переход на экран
+     Если оно имеет значение, то текстФилд с проектом будет недоступен для редактирования
+     */
+    private var project: Project?
     
     private let server: Server
     private let settingsManager: SettingsManager
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - settingsManager: экземпляр менеджера настроек
+        - server: экземпляр сервера
+        - possibleTaskToEdit: задача для редактирования, если значение = nil, то происходит создание новой задачи
+        - project: проект, с которого был осуществлен переход на экран
+     */
     init(settingsManager: SettingsManager, server: Server, possibleTaskToEdit: Task?, project: Project?) {
         self.settingsManager = settingsManager
         self.server = server
@@ -71,9 +91,12 @@ class TaskEditViewController: UIViewController {
         view.addGestureRecognizer(gesture)
     }
     
-    /*
-     Метод получает списов проектов с сервера и привязывает к модели данных задачи,
+    /**
+     Метод получает список проектов с сервера и привязывает к модели данных задачи,
      которая будет используется в TaskEditView
+     
+     - parameters:
+        - completion: блок, который будет выполняться после успешного выполнения метода
      */
     private func getProjects(_ completion: @escaping () -> Void) {
         server.getProjects({ [weak self] result in
@@ -88,9 +111,12 @@ class TaskEditViewController: UIViewController {
         })
     }
     
-    /*
+    /**
      Метод получает списов сотрудников с сервера и привязывает к модели данных задачи,
      которая будет используется в TaskEditView
+     
+     - parameters:
+        - completion: блок, который будет выполняться после успешного выполнения метода
      */
     private func getEmployees(_ completion: @escaping () -> Void) {
         server.getEmployees({ [weak self] result in
@@ -105,8 +131,9 @@ class TaskEditViewController: UIViewController {
         })
     }
     
-    /*
-     
+    /**
+     Метод для группового вызова методов получения проектов и сотрудников с сервера
+     После происходит привязка значений для taskEditView
      */
     private func updateData() {
         let group = DispatchGroup()
@@ -127,29 +154,32 @@ class TaskEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод получения значения количества дней по умолчанию между начальной и конечной датами в задаче из настроек приложения
+     
+     - returns:
+        Максимальное количество дней для выполнения из настроек
      */
     private func getNumberOfDaysBetweenDates() -> Int {
         return settingsManager.getSettings().maxDays
     }
     
-    /*
-     Метод получает модель задачи, собрануую из значений текстФилдов экрана и делает валидацию,
-     при редактировании заменяет данные редактирумой задачи новыми данными
+    /**
+     Метод получает данные из текстФилдов экрана в виде модели задачи и передает ее дальше
      
-     Возвращаемое значение - задача
+     - returns:
+     Модель задачи
      */
     private func unbind() throws -> TaskDetails {
         return try taskEditView.unbind()
     }
     
-    /*
+    /**
      Метод добавляет новую задачу в массив на сервере и возвращает на экран Список задач,
      в случае ошибки происходит ее обработка
      
-     parameters:
-     newTask - новая задача для добавления
+     - parameters:
+        - newTask: редактируемая модель задачи для добавления
      */
     private func addingNewTaskOnServer(_ newTask: TaskDetails) {
         self.spinnerView.showSpinner(viewController: self)
@@ -165,11 +195,11 @@ class TaskEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод изменяет данные задачи на сервере, в случае ошибки происходит ее обработка
      
-     parameters:
-     editedTask - изменяемая задача
+     - parameters:
+        - editedTask: изменяемая задача
      */
     private func editingTaskOnServer(_ editedTask: Task) {
         self.spinnerView.showSpinner(viewController: self)
@@ -185,8 +215,8 @@ class TaskEditViewController: UIViewController {
         }
     }
     
-    /*
-     Метод, который проверяет и сохраняет либо новую, либо отредактированную задачу,
+    /**
+     Метод, который получает собранные данные и сохраняет либо как новую, либо как отредактированную задачу,
      в случае ошибки происходит ее обработка
      */
     private func saveTask() throws {
@@ -206,19 +236,20 @@ class TaskEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
      
-     parameters:
-     error - обрабатываемая ошибка
+     - parameters:
+        - error: обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
         let taskError = error as! BaseError
         ErrorAlert.showAlertController(message: taskError.message, viewController: self)
     }
     
-    /*
-     Target на кнопку Save - вызывает метод saveTask()
+    /**
+     Target на кнопку Save - делает валидацию и вызывает метод saveTask,
+     в случае ошибки происходит ее обработка
      */
     @objc func saveEmployeeButtonTapped(_ sender: UIBarButtonItem) {
         do {
@@ -228,14 +259,14 @@ class TaskEditViewController: UIViewController {
         }
     }
     
-    /*
+    /**
      Target на кнопку Cancel - возвращает на предыдущий экран
      */
     @objc func cancel(_ sender: UIBarButtonItem) {
         navigationController?.popViewController(animated: true)
     }
     
-    /*
+    /**
      Target для UITapGestureRecognizer, который скрывает клавиатуру при нажатии на сводобное пространство на экране
      */
     @objc func tapGestureTapped(_ sender: UITapGestureRecognizer) {

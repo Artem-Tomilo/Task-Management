@@ -1,7 +1,7 @@
 import UIKit
 
-/*
- EmployeesListController - экран Список сотрудников, отображает tableView со всеми сотрудниками, хранящимися на сервере
+/**
+ Экран Список сотрудников, отображает tableView со всеми сотрудниками, хранящимися на сервере
  */
 class EmployeesListController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -14,6 +14,13 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
     private let server: Server
     private let settingsManager: SettingsManager
     
+    /**
+     Инициализатор экрана
+     
+     - parameters:
+        - settingsManager: экземпляр менеджера настроек
+        - server: экземпляр сервера
+     */
     init(settingsManager: SettingsManager, server: Server) {
         self.settingsManager = settingsManager
         self.server = server
@@ -63,15 +70,20 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         refreshControl.addTarget(self, action: #selector(refresh(_:)), for: .primaryActionTriggered)
     }
     
-    /*
+    /**
      Метод получения значения максимального количества записей из настроек приложения
+     
+     - returns:
+        Максимальное количество записей из настроек
      */
     private func getMaxRecordsCountFromSettings() -> Int {
         return settingsManager.getSettings().maxRecords
     }
     
-    /*
-     Метод загрузки данных - происходит запуск спиннера и вызов метода сервера:
+    /**
+     Метод загрузки данных с сервера
+     
+     Происходит запуск спиннера и вызов метода сервера получения сотрудников:
      в completion блоке вызывается метод привязки данных согласно количеству записей из настроек и скрытие спиннера,
      в случае ошибки происходит ее обработка
      */
@@ -94,23 +106,25 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /*
+    /**
      Метод привязки данных - приходящие данные с сервера сохраняются в массив и происходит обновление таблицы
      
-     parameters:
-     employees - приходящий массив данных с сервера
+     - parameters:
+        - employees: приходящий массив данных с сервера
      */
     private func bind(_ employees: [Employee]) {
         employeeArray = employees
         self.tableView.reloadData()
     }
     
-    /*
+    /**
      Метод получения параметров сотрудника в строковом варианте
      
-     parameters:
-     menu - список параметров
-     Возвращаемое значение - строковый вариант параметра
+     - parameters:
+        - menu: список параметров
+     
+     - returns:
+        Строковый вариант параметра
      */
     private func getEmployeeMenuTitleFrom(_ menu: EmployeeMenu) -> String {
         switch menu {
@@ -152,7 +166,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         return cell
     }
     
-    /*
+    /**
      Удаление и редактирование сотрудника происходит после свайпа влево, в случае ошибки происходит ее обработка
      */
     func tableView(_ tableView: UITableView,
@@ -182,12 +196,14 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         ])
     }
     
-    /*
-     Метод получения текущего сотрудника, в случае ошибки происходит ее обработка
+    /**
+     Метод получения текущего сотрудника по indexPath в tableView, в случае ошибки происходит ее обработка
      
-     parameters:
-     indexPath сотрудника
-     Возвращаемое значение - сотрудник
+     - parameters:
+        - indexPath: indexPath сотрудника
+     
+     - returns:
+     Cотрудник
      */
     private func getEmployee(_ indexPath: IndexPath) throws -> Employee {
         if employeeArray.count > indexPath.row {
@@ -198,22 +214,22 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /*
+    /**
      Метод обработки ошибки - ошибка обрабатывается и вызывается алерт с предупреждением
      
-     parameters:
-     error - обрабатываемая ошибка
+     - parameters:
+        - error: обрабатываемая ошибка
      */
     private func handleError(_ error: Error) {
         let employeeError = error as! BaseError
         ErrorAlert.showAlertController(message: employeeError.message, viewController: self)
     }
     
-    /*
+    /**
      Метод вызова алерта для редактирования сотрудника и перехода на экран Редактирование сотрудника
      
-     parameters:
-     employee - передаваемый сотрудник для редактирования
+     - parameters:
+        - employee: передаваемый сотрудник для редактирования
      */
     private func showEditEmployeeAlert(_ employee: Employee) {
         let alert = UIAlertController(title: "Хотите изменить этого сотрудника?", message: "", preferredStyle: .actionSheet)
@@ -227,11 +243,11 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true)
     }
     
-    /*
-     Метод вызова алерта для удаления сотрудника и последующего вызова метода удаления сотрудника
+    /**
+     Метод вызова алерта удаления сотрудника и последующего вызова метода удаления сотрудника
      
-     parameters:
-     employee - передаваемый сотрудник для удаления
+     - parameters:
+        - employee: передаваемый сотрудник для удаления
      */
     private func showDeleteEmployeeAlert(_ employee: Employee) {
         let alert = UIAlertController(title: "Хотите удалить этого сотрудника?", message: "", preferredStyle: .actionSheet)
@@ -245,11 +261,11 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         self.present(alert, animated: true)
     }
     
-    /*
+    /**
      Метод перехода на экран Редактирование сотрудника
      
-     parameters:
-     employee - передаваемый сотрудник для редактирования, если значение = nil, то будет создание нового сотрудника
+     - parameters:
+        - employee: передаваемый сотрудник для редактирования, если значение = nil, то происходит создание нового сотрудника
      */
     private func showEditEmployeeViewController(_ employee: Employee?) {
         if let employee {
@@ -261,12 +277,12 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /*
-     Метод удаления сотрудника - вызывает метод делагата для удаления сотрудника с сервера,
+    /**
+     Метод удаления сотрудника - вызывает метод удаления сотрудника с сервера,
      после обновляет данные на главном потоке, в случае ошибки происходит ее обработка
      
-     parameters:
-     employee - сотрудник для удаления
+     - parameters:
+        - employee: сотрудник для удаления
      */
     private func deleteEmployee(_ employee: Employee) {
         server.deleteEmployee(id: employee.id) { result in
@@ -279,7 +295,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         }
     }
     
-    /*
+    /**
      Target на кнопку добавления нового сотрудника:
      переходит на экран Редактирование сотрудника
      */
@@ -287,7 +303,7 @@ class EmployeesListController: UIViewController, UITableViewDelegate, UITableVie
         showEditEmployeeViewController(nil)
     }
     
-    /*
+    /**
      Target на обновление таблицы через UIRefreshControl
      */
     @objc func refresh(_ sender: UIRefreshControl) {

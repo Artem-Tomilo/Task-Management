@@ -1,7 +1,7 @@
 import Foundation
 
-/*
- 
+/**
+ Picker для работы с полем выбора сотрудника в TaskEditView
  */
 class EmployeePicker: PickerView {
     
@@ -15,8 +15,14 @@ class EmployeePicker: PickerView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    /*
+    /**
+     Метод привязки данных и их перевода в PickerViewItem для работы с базовым Picker'ом
      
+     - parameters:
+        - data: сотрудники для отображения в пикере
+     
+     - returns:
+     Конвертирумый массив сотрудников в тип PickerViewItem
      */
     func setData(_ data: [Employee]) -> [PickerViewItem] {
         employeeData = data
@@ -27,8 +33,11 @@ class EmployeePicker: PickerView {
         return pickerViewData
     }
     
-    /*
+    /**
+     Метод получения выбранного сотрудника
      
+     - returns:
+     Выбранный сотрудник
      */
     func unbindEmployee() throws -> Employee {
         let value = try Validator.validateTextForMissingValue(text: textField.unbind(),
