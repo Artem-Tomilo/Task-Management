@@ -337,8 +337,8 @@ class Stub: Server {
     func getTasksFor(project: Project, _ completion: @escaping (Result<[Task], BaseError>) -> Void) {
         delay() {
             var tasksForProject = [Task]()
-            if let project = self.projectsArray.first(where: { $0 == project }) {
-                tasksForProject = self.tasksArray.filter({ $0.project == project })
+            if let project = self.projectsArray.first(where: { $0.id == project.id }) {
+                tasksForProject = self.tasksArray.filter({ $0.project.id == project.id })
             } else {
                 completion(.failure(BaseError(message: "Не удалось получить список задач")))
             }
